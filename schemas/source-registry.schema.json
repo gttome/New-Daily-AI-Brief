@@ -1,0 +1,6 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://daily-ai-brief.local/schemas/source-registry.schema.json",
+  "title":"source-registry","type":"object","required":["schema_version","policy","sources"],
+  "properties":{"schema_version":{"const":"1.0.0"},"policy":{"type":"object"},"sources":{"type":"array"}}
+}

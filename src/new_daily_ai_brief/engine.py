@@ -15,6 +15,7 @@ from .contracts import (
     FailureInjection,
 )
 from .store import CanonicalStore, ContractError, digest, utc_now
+from .editorial import DiscoveryEditorialPipeline, EditorialCandidateFailure, EditorialFailureInjection
 
 
 class IllegalTransition(ContractError):
@@ -37,6 +38,8 @@ class RunEngine:
         mode: str = "synthetic",
         owner: str = "orchestrator",
         failure_injection: FailureInjection | None = None,
+        editorial_fixture_root: Path | str | None = None,
+        editorial_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -47,6 +50,13 @@ class RunEngine:
         self.owner = owner
         self.failure_injection = failure_injection
         self._injection_fired = False
+        self.editorial_only = editorial_only
+        if editorial_fixture_root is not None:
+            self.editorial_fixture_root = Path(editorial_fixture_root)
+        elif mode in {"synthetic", "shadow"}:
+            self.editorial_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration2"
+        else:
+            self.editorial_fixture_root = None
 
     def _new_run(self) -> dict[str, Any]:
         now = utc_now()
@@ -130,6 +140,29 @@ class RunEngine:
             run["anti_rework"]["artifact_rebuilds"] += 1
         self.store.write_run(run)
         return artifact
+
+    def _editorial_pipeline(self) -> DiscoveryEditorialPipeline:
+        if self.editorial_fixture_root is None:
+            raise ContractError(
+                "production discovery is intentionally unconfigured in Iteration 2; "
+                "use synthetic/shadow fixtures until a later approved cutover iteration"
+            )
+        injection = None
+        if (
+            self.failure_injection
+            and self.failure_injection.stage == "Acquiring"
+            and self.failure_injection.candidate_id
+        ):
+            injection = EditorialFailureInjection(
+                candidate_id=self.failure_injection.candidate_id,
+                failure_class=self.failure_injection.failure_class,
+            )
+        return DiscoveryEditorialPipeline(
+            self.store,
+            self.edition_date,
+            self.editorial_fixture_root,
+            injection,
+        )
 
     def _synthetic_edition(self) -> dict[str, Any]:
         categories = [
@@ -251,6 +284,13 @@ class RunEngine:
             "result": "pending_recovery",
             "created_at": utc_now(),
         }
+        candidate_id = getattr(exc, "candidate_id", None)
+        if candidate_id:
+            incident["candidate_id"] = candidate_id
+            packet_dir = self.store.run_dir / "evidence-packets"
+            incident["retained_evidence_packets"] = sorted(
+                path.stem for path in packet_dir.glob("*.json")
+            ) if packet_dir.exists() else []
         self.store.write_incident(incident)
         self.store.write_run(run)
 
@@ -274,6 +314,11 @@ class RunEngine:
                 "result": "recovered",
                 "recovered_at": utc_now(),
             }
+            if "candidate_id" in incident:
+                incident["recovery_receipt"]["candidate_id"] = incident["candidate_id"]
+                incident["recovery_receipt"]["retained_evidence_packets"] = incident.get(
+                    "retained_evidence_packets", []
+                )
             incident["result"] = "recovered"
             self.store.write_incident(incident)
         run["recovery_target"] = None
@@ -341,14 +386,21 @@ class RunEngine:
         try:
             self._recover_if_needed(run)
             while run["current_state"] != "Complete":
+                if self.editorial_only and run["current_state"] == "Building":
+                    run["completion_status"] = "editorial_locked"
+                    self.store.write_run(run)
+                    return run
                 state = run["current_state"]
                 try:
                     if state == "Ready":
                         self.transition(run, "Acquiring")
                     elif state == "Acquiring":
-                        self._ensure_artifact(run, "edition", "acquiring", self._synthetic_edition)
+                        pipeline = self._editorial_pipeline()
+                        self._ensure_artifact(run, "discovery", "acquiring", pipeline.discover)
                         self.transition(run, "Deciding")
                     elif state == "Deciding":
+                        pipeline = self._editorial_pipeline()
+                        self._ensure_artifact(run, "edition", "deciding", pipeline.build_edition)
                         self._ensure_artifact(run, "rating-contract", "deciding", self._rating_contract)
                         self.transition(run, "Building")
                     elif state == "Building":
@@ -411,7 +463,7 @@ class RunEngine:
                         self._recover_if_needed(run)
                     else:
                         raise ContractError(f"unhandled state: {state}")
-                except SyntheticFailure as exc:
+                except (SyntheticFailure, EditorialCandidateFailure) as exc:
                     self._record_failure(run, state, exc)
                     raise
             return run
@@ -435,9 +487,20 @@ def start_daily_brief(
     state_root: Path | str = ".state",
     owner: str = "orchestrator",
     failure_injection: FailureInjection | None = None,
+    *,
+    editorial_fixture_root: Path | str | None = None,
+    editorial_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
-    return RunEngine(state_root, edition_date, mode, owner, failure_injection).run()
+    return RunEngine(
+        state_root,
+        edition_date,
+        mode,
+        owner,
+        failure_injection,
+        editorial_fixture_root,
+        editorial_only,
+    ).run()
 
 
 def scheduled_start(

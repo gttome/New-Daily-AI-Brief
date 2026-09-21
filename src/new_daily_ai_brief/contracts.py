@@ -39,7 +39,8 @@ LEGAL_TRANSITIONS: Final[dict[str, set[str]]] = {
 }
 
 ARTIFACT_DEPENDENCIES: Final[dict[str, tuple[str, ...]]] = {
-    "edition": (),
+    "discovery": (),
+    "edition": ("discovery",),
     "media": ("edition",),
     "images": ("edition",),
     "watchlist": ("edition",),
@@ -51,6 +52,7 @@ ARTIFACT_DEPENDENCIES: Final[dict[str, tuple[str, ...]]] = {
 }
 
 ARTIFACT_FILES: Final[dict[str, str]] = {
+    "discovery": "discovery.json",
     "edition": "edition.json",
     "media": "media.json",
     "images": "images.json",
@@ -74,3 +76,4 @@ MANDATORY_COMPLETION_RECEIPTS: Final[tuple[str, ...]] = (
 class FailureInjection:
     stage: str
     failure_class: str = "synthetic_validation_failure"
+    candidate_id: str | None = None

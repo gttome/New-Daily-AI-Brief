@@ -1,0 +1,6 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://daily-ai-brief.local/schemas/novelty-index.schema.json",
+  "title":"novelty-index","type":"object","required":["schema_version","window_days","prior_items"],
+  "properties":{"schema_version":{"const":"1.0.0"},"window_days":{"type":"integer","minimum":1},"prior_items":{"type":"array"}}
+}
