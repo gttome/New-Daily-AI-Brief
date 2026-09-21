@@ -6,9 +6,23 @@
 
 ## Outcome
 
-**Iteration 1 exit gate: PASS locally before repository publication.**
+**Iteration 1 exit gate: PASS — merged and independently verified on GitHub Actions.**
 
 The greenfield repository was empty at start, so the implementation was created without cloning or porting the legacy backend. The existing `gttome/Daily-AI-Brief` production system was not used as a test target and no production schedule, route, Command Center, or production artifact was changed.
+
+## Repository closure
+
+- Initial greenfield implementation PR: **#1**
+- Implementation merge SHA: `cf276759cb49a46baf1ea491ca8f956bd957c075`
+- Main CI workflow: `Iteration 1 Contracts`
+- Main CI run: **35667285745**
+- GitHub Actions result: **SUCCESS**
+- GitHub-hosted Python: **3.11.16**
+- Compile step: **PASS**
+- Contract/recovery suite: **15/15 PASS**
+- Legacy `gttome/Daily-AI-Brief` mutations: **0**
+
+The repository-access blocker encountered during initial publication was resolved by adding `gttome/New-Daily-AI-Brief` to the existing GitHub App installation. No production repository was used as a workaround.
 
 ## Implemented
 
@@ -34,7 +48,7 @@ Recoverable pre-live stages may enter `Recovering` and return only to the record
 
 ## Test results
 
-`15` unit/contract/recovery tests passed.
+`15` unit/contract/recovery tests passed locally and again on GitHub Actions.
 
 Covered:
 
