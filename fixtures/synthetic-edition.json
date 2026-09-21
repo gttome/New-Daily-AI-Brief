@@ -1,0 +1,10 @@
+{
+  "fixture_version": "1.0.0",
+  "purpose": "Iteration 1 deterministic control-plane fixture",
+  "stories": 6,
+  "category_allocation": [2, 2, 2],
+  "agent_skills_count": 1,
+  "videos": 2,
+  "podcasts": 2,
+  "images": 6
+}

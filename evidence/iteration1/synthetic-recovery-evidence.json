@@ -1,0 +1,87 @@
+{
+  "anti_rework": {
+    "artifact_rebuilds": 9,
+    "artifact_reuses": 0,
+    "full_pipeline_restarts": 0,
+    "locked_stage_reexecutions": 0
+  },
+  "edition_date": "2026-09-22",
+  "evidence_version": "1.0.0",
+  "exit_gate": {
+    "all_required_receipts": true,
+    "preserved_unaffected_locks": true,
+    "result": "PASS",
+    "resumed_without_chat": true,
+    "survived_injected_failure": true,
+    "traversed_required_states": true,
+    "zero_full_pipeline_restart": true,
+    "zero_unnecessary_locked_stage_reexecution": true
+  },
+  "injected_failure": {
+    "failure_class": "synthetic_validation_failure",
+    "incident_id": "dab-2026-09-22-synthetic:incident:1",
+    "stage": "Validating",
+    "state_after_failure": "Recovering"
+  },
+  "projection_freshness": {
+    "reason": "identity_match",
+    "status": "current"
+  },
+  "receipts": {
+    "book_change_evaluation_digest": "sha256:4cf77be016a1c0d73cf2a6fa0f7f39c0fb587afc5e86324fb2f0536a7ac5548f",
+    "completion_digest": "sha256:cb8d3d04a964b689e0a740698a2cd905af77a82e0f0966dd270a7e5395ce52a0",
+    "deployment_identity": "synthetic-deploy:sha256:3d1eab26b17cee83a0fd39751ffa6353c3bdaeba6c84bb8d15ac0938502ed8fa",
+    "live_verification": {
+      "bundle_digest": "sha256:3d1eab26b17cee83a0fd39751ffa6353c3bdaeba6c84bb8d15ac0938502ed8fa",
+      "result": "passed",
+      "verified_at": "2026-09-21T22:42:11Z"
+    },
+    "projection_watermark_digest": "sha256:73f9947ee081dd292c014cc1ca74c2814965c1f450f267d9f5eb157bb38c65e5",
+    "publication_bundle_digest": "sha256:3d1eab26b17cee83a0fd39751ffa6353c3bdaeba6c84bb8d15ac0938502ed8fa"
+  },
+  "resume": {
+    "chat_context_required": false,
+    "completion_status": "complete",
+    "final_state": "Complete",
+    "locks_preserved_exactly": true,
+    "new_engine_instance": true,
+    "recovery_receipt": {
+      "attempt": 2,
+      "failed_stage": "Validating",
+      "failure_class": "synthetic_validation_failure",
+      "incident_id": "dab-2026-09-22-synthetic:incident:1",
+      "invalidated_artifacts": [],
+      "recovered_at": "2026-09-21T22:42:11Z",
+      "repair_action": "resume_failed_boundary",
+      "result": "recovered",
+      "retained_locks": [
+        "edition",
+        "media",
+        "images",
+        "watchlist",
+        "rating-contract"
+      ]
+    },
+    "retained_lock_digests": {
+      "edition": "sha256:19545744d17a443692fc3567ae75a8e0810183102c599f80816725339fdb4699",
+      "images": "sha256:75ee7b459407281ca4206757337eda44ec44157150bd6498d0280b64225b5c06",
+      "media": "sha256:6662d5c9b96e7717f1758a63e6c07a89aa6fa13baf99fc4c1d216ddd77ee1bcf",
+      "rating-contract": "sha256:d5cdc7f8a898900dbbc9509de4745b604a1c148f78ea61bf448b0ccfce880a81",
+      "watchlist": "sha256:3058952e899af56534597730ec43fe4760d77de194e9bf0459e62b87a7668161"
+    }
+  },
+  "run_id": "dab-2026-09-22-synthetic",
+  "stage_executions": {
+    "acquiring": 1,
+    "building:images": 1,
+    "building:media": 1,
+    "building:watchlist": 1,
+    "deciding": 1,
+    "deployed": 1,
+    "operations_reconciled:completion": 1,
+    "operations_reconciled:projection": 1,
+    "post_publication_evaluation": 1,
+    "releasing": 1,
+    "validating": 1
+  }
+}

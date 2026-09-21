@@ -1,0 +1,69 @@
+{
+  "$id": "https://daily-ai-brief.local/schemas/incident.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "attempt": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "edition_date": {
+      "type": "string"
+    },
+    "failed_stage": {
+      "type": "string"
+    },
+    "failure_class": {
+      "type": "string"
+    },
+    "incident_id": {
+      "type": "string"
+    },
+    "invalidated_artifacts": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "recovery_receipt": {
+      "type": "object"
+    },
+    "repair_action": {
+      "type": "string"
+    },
+    "result": {
+      "enum": [
+        "pending_recovery",
+        "recovered",
+        "failed"
+      ]
+    },
+    "retained_locks": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    }
+  },
+  "required": [
+    "schema_version",
+    "incident_id",
+    "run_id",
+    "edition_date",
+    "failed_stage",
+    "failure_class",
+    "retained_locks",
+    "invalidated_artifacts",
+    "repair_action",
+    "attempt",
+    "result"
+  ],
+  "title": "incident",
+  "type": "object"
+}
