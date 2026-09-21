@@ -4,7 +4,9 @@
 
 ## Starting point
 
-Iteration 1 established the canonical greenfield control plane in `gttome/New-Daily-AI-Brief`:
+Iteration 1 established and merged the canonical greenfield control plane in `gttome/New-Daily-AI-Brief`. The Iteration 1 implementation baseline is commit `cf276759cb49a46baf1ea491ca8f956bd957c075`; GitHub Actions run `35667285745` passed all 15 contract/recovery tests.
+
+The control plane includes:
 
 - durable run state and legal transitions;
 - lease/idempotent entry;
