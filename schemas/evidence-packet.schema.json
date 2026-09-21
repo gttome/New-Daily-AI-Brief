@@ -1,0 +1,6 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://daily-ai-brief.local/schemas/evidence-packet.schema.json",
+  "title":"evidence-packet","type":"object","required":["schema_version","candidate_id","status","content_digest","data"],
+  "properties":{"schema_version":{"const":"1.0.0"},"candidate_id":{"type":"string","minLength":1},"status":{"const":"locked"},"content_digest":{"pattern":"^sha256:[0-9a-f]{64}$","type":"string"},"data":{"type":"object"}}
+}
