@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "policy": {
+    "freshness_days": 7,
+    "max_metadata_attempts": 2,
+    "max_fallback_tier": 1,
+    "deep_retrieval_limit": 8
+  },
+  "sources": [
+    {"source_id":"agents-primary","category_id":"agents_non_technical_people","fallback_tier":0,"priority":10,"cadence_days":1,"last_checked":null,"enabled":true,"synthetic_metadata_failures":0,"candidate_ids":["agent-skill-1","agent-general-1","agent-prior-url-duplicate"]},
+    {"source_id":"agents-fallback","category_id":"agents_non_technical_people","fallback_tier":1,"priority":30,"cadence_days":1,"last_checked":null,"enabled":true,"synthetic_metadata_failures":0,"candidate_ids":["agent-fallback-unused"]},
+    {"source_id":"applied-primary","category_id":"applied_genai_knowledge_workers","fallback_tier":0,"priority":10,"cadence_days":1,"last_checked":null,"enabled":true,"synthetic_metadata_failures":1,"candidate_ids":["applied-workflow-1","applied-context-2","applied-extra-1"]},
+    {"source_id":"applied-fallback","category_id":"applied_genai_knowledge_workers","fallback_tier":1,"priority":30,"cadence_days":1,"last_checked":null,"enabled":true,"synthetic_metadata_failures":0,"candidate_ids":["applied-fallback-unused"]},
+    {"source_id":"technical-primary","category_id":"technical_ai_engineering","fallback_tier":0,"priority":10,"cadence_days":1,"last_checked":null,"enabled":true,"synthetic_metadata_failures":0,"candidate_ids":["technical-grounding-1","technical-stale-1"]},
+    {"source_id":"technical-fallback","category_id":"technical_ai_engineering","fallback_tier":1,"priority":20,"cadence_days":1,"last_checked":null,"enabled":true,"synthetic_metadata_failures":0,"candidate_ids":["technical-evals-1","technical-fallback-spare"]},
+    {"source_id":"not-due-source","category_id":"technical_ai_engineering","fallback_tier":1,"priority":99,"cadence_days":7,"last_checked":"2026-09-21","enabled":true,"synthetic_metadata_failures":0,"candidate_ids":["technical-not-due"]}
+  ]
+}
