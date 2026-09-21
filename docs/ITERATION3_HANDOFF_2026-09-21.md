@@ -4,6 +4,8 @@
 
 ## Starting point
 
+Iteration 2 implementation is merged on `main` at `5af854521898c3aa0971149b16c56f798a7c1e66`. PR #3 and post-merge main CI both passed the 24-test Python 3.11 suite.
+
 Iterations 1 and 2 provide one control plane plus a deterministic locked six-story edition:
 
 - canonical `start_daily_brief(date, mode)`;
