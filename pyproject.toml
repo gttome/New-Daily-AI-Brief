@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "new-daily-ai-brief"
-version = "0.1.0"
-description = "Greenfield Daily AI Brief canonical state machine"
+version = "0.2.0"
+description = "Greenfield Daily AI Brief control plane and discovery/editorial module"
 requires-python = ">=3.11"
 dependencies = []
 
