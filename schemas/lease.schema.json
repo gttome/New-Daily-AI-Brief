@@ -1,0 +1,47 @@
+{
+  "$id": "https://daily-ai-brief.local/schemas/lease.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "acquired_at": {
+      "type": "string"
+    },
+    "active": {
+      "type": "boolean"
+    },
+    "edition_date": {
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "type": "string"
+    },
+    "mode": {
+      "enum": [
+        "synthetic",
+        "shadow",
+        "production"
+      ]
+    },
+    "owner": {
+      "type": "string"
+    },
+    "released_at": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "edition_date",
+    "mode",
+    "owner",
+    "active",
+    "acquired_at"
+  ],
+  "title": "lease",
+  "type": "object"
+}
