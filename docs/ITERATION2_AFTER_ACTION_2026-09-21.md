@@ -89,8 +89,18 @@ Machine-readable proof: `evidence/iteration2/synthetic-discovery-editorial-evide
 
 Real production source adapters, media research, Watchlist traversal, Professional Series bridge enrichment, story images, public rendering, deployment/live verification, Command Center projection, production schedules, migration, and cutover remain later-iteration work.
 
+## Repository validation and closure
+
+- Implementation PR: #3.
+- Validated PR head: `3a3b22944090b073ba2d63bb6271577c83ebf877`.
+- PR CI run: `35669341833` — **PASS**.
+- Python: 3.11.
+- Tests: **24 passed** (15 Iteration 1 + 9 Iteration 2).
+- Merged Iteration 2 main SHA: `5af854521898c3aa0971149b16c56f798a7c1e66`.
+- Post-merge main CI run: `35669379594` — **PASS**.
+
 ## Exit determination
 
 Iteration 2 satisfies its discovery/editorial contract: deterministic metadata-first acquisition, freshness/novelty, bounded local fallback, provenance-bearing evidence packets, exact editorial allocation, durable targeted recovery, no-chat resume, deterministic replay, and three consecutive no-publication synthetic runs.
 
-**Iteration 2: COMPLETE once repository CI passes the exact merge candidate.**
+**Iteration 2: COMPLETE.**
