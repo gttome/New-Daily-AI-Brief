@@ -1,0 +1,65 @@
+{
+  "$id": "https://daily-ai-brief.local/schemas/watchlist.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "artifact_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "artifact_type": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "content_digest": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "data": {
+      "type": "object"
+    },
+    "edition_date": {
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "type": "string"
+    },
+    "input_digests": {
+      "items": {
+        "pattern": "^sha256:[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "mode": {
+      "enum": [
+        "synthetic",
+        "shadow",
+        "production"
+      ]
+    },
+    "produced_by_stage": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "enum": [
+        "locked",
+        "invalidated"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "artifact_id",
+    "artifact_type",
+    "content_digest",
+    "produced_by_stage",
+    "input_digests",
+    "status",
+    "data"
+  ],
+  "title": "watchlist",
+  "type": "object"
+}
