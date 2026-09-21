@@ -1,0 +1,90 @@
+{
+  "schema_version":"1.0.0",
+  "candidates":[
+    {
+      "candidate_id":"agent-skill-1","source_id":"agents-primary","category_id":"agents_non_technical_people",
+      "title":"Reusable agent skill packages a repeatable research workflow",
+      "url":"https://example.test/agents/reusable-research-skill","published_at":"2026-09-21",
+      "summary":"A reusable agent skill captures a repeatable research workflow and verification procedure.",
+      "why_it_matters":"Teams can reuse the same agent procedure without rebuilding prompts.",
+      "quality_score":98,"development_key":"agent-research-skill-v1",
+      "tags":["agent-skill","reusable-workflow"],
+      "deep_evidence":{"claims":[{"claim":"The skill packages tool steps and verification into a reusable procedure.","source_url":"https://example.test/agents/reusable-research-skill"}]}
+    },
+    {
+      "candidate_id":"agent-general-1","source_id":"agents-primary","category_id":"agents_non_technical_people",
+      "title":"Agent workspace adds guided approval checkpoints",
+      "url":"https://example.test/agents/guided-approval-checkpoints","published_at":"2026-09-21",
+      "summary":"A guided agent workspace adds human approval checkpoints around consequential actions.",
+      "why_it_matters":"Knowledge workers can delegate multi-step work while retaining decision control.",
+      "quality_score":94,"development_key":"agent-approval-v2","tags":["agents","human-review"],
+      "deep_evidence":{"claims":[{"claim":"The workflow pauses before consequential actions for human approval.","source_url":"https://example.test/agents/guided-approval-checkpoints"}]}
+    },
+    {
+      "candidate_id":"agent-prior-url-duplicate","source_id":"agents-primary","category_id":"agents_non_technical_people",
+      "title":"Duplicate prior agent item","url":"HTTP://WWW.EXAMPLE.TEST/agents/prior-item/?utm_source=daily#section",
+      "published_at":"2026-09-21","summary":"Previously covered URL.","why_it_matters":"Should fail normalized novelty.",
+      "quality_score":99,"development_key":"agent-memory-v1","tags":["agents"],"deep_evidence":{"claims":[]}
+    },
+    {
+      "candidate_id":"agent-fallback-unused","source_id":"agents-fallback","category_id":"agents_non_technical_people",
+      "title":"Agent fallback candidate","url":"https://example.test/agents/fallback-unused","published_at":"2026-09-21",
+      "summary":"Fallback.","why_it_matters":"Fallback proof.","quality_score":80,"development_key":"agent-fallback-unused","tags":["agents"],"deep_evidence":{"claims":[]}
+    },
+    {
+      "candidate_id":"applied-workflow-1","source_id":"applied-primary","category_id":"applied_genai_knowledge_workers",
+      "title":"Knowledge-worker workflow adds grounded source notes","url":"https://example.test/applied/grounded-source-notes",
+      "published_at":"2026-09-21","summary":"A practical workflow records source notes alongside generated work.",
+      "why_it_matters":"AI-assisted work is easier to verify.","quality_score":96,"development_key":"grounded-source-notes-v1",
+      "tags":["knowledge-work","grounding"],"deep_evidence":{"claims":[{"claim":"Source notes remain linked to the generated work product.","source_url":"https://example.test/applied/grounded-source-notes"}]}
+    },
+    {
+      "candidate_id":"applied-context-2","source_id":"applied-primary","category_id":"applied_genai_knowledge_workers",
+      "title":"Context engineering update separates durable instructions from task context",
+      "url":"https://example.test/applied/context-engineering-v2","published_at":"2026-09-21",
+      "summary":"A distinct follow-on development separates durable instructions from temporary task context.",
+      "why_it_matters":"It reduces prompt drift in recurring workflows.","quality_score":95,"development_key":"context-engineering-v2",
+      "tags":["context-engineering"],"deep_evidence":{"claims":[{"claim":"Durable instructions and temporary task context are handled separately.","source_url":"https://example.test/applied/context-engineering-v2"}]}
+    },
+    {
+      "candidate_id":"applied-extra-1","source_id":"applied-primary","category_id":"applied_genai_knowledge_workers",
+      "title":"Document review workflow exposes claim checkpoints","url":"https://example.test/applied/claim-checkpoints",
+      "published_at":"2026-09-20","summary":"Claim checkpoints.","why_it_matters":"Review support.","quality_score":82,
+      "development_key":"claim-checkpoints-v1","tags":["review"],"deep_evidence":{"claims":[]}
+    },
+    {
+      "candidate_id":"applied-fallback-unused","source_id":"applied-fallback","category_id":"applied_genai_knowledge_workers",
+      "title":"Applied fallback candidate","url":"https://example.test/applied/fallback-unused","published_at":"2026-09-21",
+      "summary":"Fallback.","why_it_matters":"Fallback proof.","quality_score":70,"development_key":"applied-fallback-unused","tags":[],"deep_evidence":{"claims":[]}
+    },
+    {
+      "candidate_id":"technical-grounding-1","source_id":"technical-primary","category_id":"technical_ai_engineering",
+      "title":"Grounding pipeline adds claim-level provenance checks","url":"https://example.test/technical/claim-provenance",
+      "published_at":"2026-09-21","summary":"A grounding pipeline records claim provenance.",
+      "why_it_matters":"Engineering teams can trace outputs to evidence.","quality_score":97,"development_key":"claim-provenance-v1",
+      "tags":["grounding"],"deep_evidence":{"claims":[{"claim":"Claim records bind generated statements to source evidence.","source_url":"https://example.test/technical/claim-provenance"}]}
+    },
+    {
+      "candidate_id":"technical-stale-1","source_id":"technical-primary","category_id":"technical_ai_engineering",
+      "title":"Stale technical item","url":"https://example.test/technical/stale","published_at":"2026-08-01",
+      "summary":"Old item.","why_it_matters":"Should be stale.","quality_score":99,"development_key":"stale-v1","tags":[],"deep_evidence":{"claims":[]}
+    },
+    {
+      "candidate_id":"technical-evals-1","source_id":"technical-fallback","category_id":"technical_ai_engineering",
+      "title":"Evaluation harness isolates tool-use failure modes","url":"https://example.test/technical/tool-evals",
+      "published_at":"2026-09-21","summary":"A focused evaluation harness separates tool failures from model failures.",
+      "why_it_matters":"Builders can repair the failing boundary instead of rerunning everything.","quality_score":93,
+      "development_key":"tool-evals-v1","tags":["evaluation"],"deep_evidence":{"claims":[{"claim":"The harness reports tool-use failures separately from model-output failures.","source_url":"https://example.test/technical/tool-evals"}]}
+    },
+    {
+      "candidate_id":"technical-fallback-spare","source_id":"technical-fallback","category_id":"technical_ai_engineering",
+      "title":"Technical fallback spare","url":"https://example.test/technical/fallback-spare","published_at":"2026-09-20",
+      "summary":"Spare.","why_it_matters":"Bounded fallback.","quality_score":75,"development_key":"technical-spare-v1","tags":[],"deep_evidence":{"claims":[]}
+    },
+    {
+      "candidate_id":"technical-not-due","source_id":"not-due-source","category_id":"technical_ai_engineering",
+      "title":"Not due candidate","url":"https://example.test/technical/not-due","published_at":"2026-09-21",
+      "summary":"Should not scan.","why_it_matters":"Due-source proof.","quality_score":100,"development_key":"not-due-v1","tags":[],"deep_evidence":{"claims":[]}
+    }
+  ]
+}
