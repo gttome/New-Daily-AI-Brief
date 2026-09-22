@@ -173,8 +173,8 @@ class ProductionIntegrationExecutionExecutorBindingPreflight:
         "executor_binding_readiness_manifest_digest",
         "separate_executor_binding_readiness_id",
         "separate_executor_binding_readiness_digest",
-        "synthetic_binding_plan_descriptor_id",
-        "synthetic_binding_plan_descriptor_digest",
+        "synthetic_executor_descriptor_id",
+        "synthetic_executor_descriptor_digest",
         "executor_binding_provenance_validation_set_digest",
         "canonical_chain_digest",
         "bound_upstream_identity_digest",
@@ -635,9 +635,9 @@ class ProductionIntegrationExecutionExecutorBindingPreflight:
             or descriptor.get("non_live") is not True
             or descriptor.get("plan_kind") != "synthetic_noop_binding_plan"
             or descriptor.get("bound_synthetic_executor_descriptor_id")
-            != bound.get("synthetic_binding_plan_descriptor_id")
+            != bound.get("synthetic_executor_descriptor_id")
             or descriptor.get("bound_synthetic_executor_descriptor_digest")
-            != bound.get("synthetic_binding_plan_descriptor_digest")
+            != bound.get("synthetic_executor_descriptor_digest")
             or descriptor.get("authority_scope")
             != "iteration21_logical_preflight_testing_only"
             or descriptor.get("invocation_capability") is not False
@@ -736,11 +736,11 @@ class ProductionIntegrationExecutionExecutorBindingPreflight:
             "separate_executor_binding_readiness_digest": bound[
                 "separate_executor_binding_readiness_digest"
             ],
-            "synthetic_binding_plan_descriptor_id": bound[
-                "synthetic_binding_plan_descriptor_id"
+            "synthetic_executor_descriptor_id": bound[
+                "synthetic_executor_descriptor_id"
             ],
-            "synthetic_binding_plan_descriptor_digest": bound[
-                "synthetic_binding_plan_descriptor_digest"
+            "synthetic_executor_descriptor_digest": bound[
+                "synthetic_executor_descriptor_digest"
             ],
             "executor_binding_provenance_validation_set_digest": bound[
                 "executor_binding_provenance_validation_set_digest"
@@ -896,11 +896,11 @@ class ProductionIntegrationExecutionExecutorBindingPreflight:
             "separate_executor_binding_readiness_digest": bound[
                 "separate_executor_binding_readiness_digest"
             ],
-            "synthetic_binding_plan_descriptor_id": bound[
-                "synthetic_binding_plan_descriptor_id"
+            "synthetic_executor_descriptor_id": bound[
+                "synthetic_executor_descriptor_id"
             ],
-            "synthetic_binding_plan_descriptor_digest": bound[
-                "synthetic_binding_plan_descriptor_digest"
+            "synthetic_executor_descriptor_digest": bound[
+                "synthetic_executor_descriptor_digest"
             ],
             "executor_binding_provenance_validation_ids": bound[
                 "executor_binding_provenance_validation_ids"
@@ -919,7 +919,7 @@ class ProductionIntegrationExecutionExecutorBindingPreflight:
                 "bound_upstream_identity_digest"
             ],
         }
-        if manifest.get("executor_binding_preflight_binding") != expected_source_binding:
+        if manifest.get("executor_binding_readiness_binding") != expected_source_binding:
             raise IntegrationExecutionExecutorBindingPreflightError(
                 "executor-binding-preflight manifest binds a different Iteration 20 identity"
             )
@@ -1190,7 +1190,7 @@ class ProductionIntegrationExecutionExecutorBindingPreflight:
         validations = self._ensure_provenance_validations(
             context, evaluated, state
         )
-        evaluated["executor_binding_provenance_validations"] = validations
+        evaluated["executor_binding_preflight_provenance_validations"] = validations
         state["metrics"]["elapsed_ms"] = max(
             0, int((time.monotonic() - started) * 1000)
         )
