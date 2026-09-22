@@ -4,7 +4,9 @@
 
 ## Activation condition
 
-Use this handoff only after Iteration 3 is merged to `main` and post-merge `Greenfield Contracts` CI passes.
+**Activation condition satisfied.** Iteration 3 implementation merged to `main` at `527c210ba568f6032720399f6a2db9dc868669b4`, and post-merge `Greenfield Contracts` run `35672622812` passed 35/35 tests.
+
+Start Iteration 4 from the current `main` branch. The Iteration 3 implementation code baseline is the merge SHA above; later documentation-only closure commits do not change that implementation.
 
 Iteration 4 starts from the same greenfield control plane and the locked Iteration 3 Build-stage artifacts. It must not introduce another lifecycle owner, orchestrator, or workflow topology.
 

@@ -158,7 +158,13 @@ Validated pre-documentation candidate:
 - Iteration 2 tests: 9 PASS;
 - Iteration 3 tests: 11 PASS.
 
-Final PR-head and post-merge `main` CI identities are recorded during repository closure.
+Final repository validation and closure:
+
+- Final PR head: `e34cd876184fc8a7411203b9efafc94d10172b44`.
+- Final PR CI run: `35672590949` — **PASS**, 35/35 tests.
+- Implementation merge SHA: `527c210ba568f6032720399f6a2db9dc868669b4`.
+- Post-merge `main` CI run: `35672622812` — **PASS**, 35/35 tests.
+- No production publication, deployment, schedules, or legacy-repository mutation occurred.
 
 ## Cost and scope controls
 
@@ -178,5 +184,4 @@ Final PR-head and post-merge `main` CI identities are recorded during repository
 
 The implementation satisfies the Iteration 3 functional, recovery, deterministic replay, anti-rework, and three-run Build-stage exit requirements.
 
-**Iteration 3 implementation gate: PASS.**  
-**Repository closure: pending final PR-head CI, merge, and post-merge main CI verification.**
+**Iteration 3: COMPLETE — implementation merged and post-merge `main` CI verified.**
