@@ -39,6 +39,8 @@
         "render_locked",
         "shadow_live_verified",
         "post_publication_evaluation_locked",
+        "operations_reconciled_locked",
+        "complete_locked",
         "complete",
         "degraded",
         "failed"

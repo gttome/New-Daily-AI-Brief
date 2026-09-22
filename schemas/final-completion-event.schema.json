@@ -1,0 +1,87 @@
+{
+  "$id": "https://daily-ai-brief.local/schemas/final-completion-event.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "final-completion-event",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "completion_event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "completion_contract_version": {
+      "const": "1.0.0"
+    },
+    "completion_scope": {
+      "const": "synthetic_shadow_validation"
+    },
+    "edition_date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "canonical_chain_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "complete_chain_bindings": {
+      "type": "object",
+      "minProperties": 18
+    },
+    "projection_payload_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "projection_watermark_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "projection_reconciliation_identity": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "final_state": {
+      "const": "Complete"
+    },
+    "final_status": {
+      "const": "complete_locked"
+    },
+    "production_cutover_authorized": {
+      "const": false
+    },
+    "legacy_decommission_authorized": {
+      "const": false
+    },
+    "real_command_center_mutated": {
+      "const": false
+    },
+    "public_site_mutated": {
+      "const": false
+    },
+    "production_publication": {
+      "const": false
+    }
+  },
+  "required": [
+    "completion_event_id",
+    "completion_contract_version",
+    "completion_scope",
+    "edition_date",
+    "run_id",
+    "canonical_chain_digest",
+    "complete_chain_bindings",
+    "projection_payload_digest",
+    "projection_watermark_digest",
+    "projection_reconciliation_identity",
+    "final_state",
+    "final_status",
+    "production_cutover_authorized",
+    "legacy_decommission_authorized",
+    "real_command_center_mutated",
+    "public_site_mutated",
+    "production_publication"
+  ]
+}

@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from .build import BuildBoundaryFailure, BuildFailureInjection, BuildStagePipeline
+from .completion import CompletionBoundaryFailure, FinalCompletionPipeline
 from .contracts import (
     ARTIFACT_DEPENDENCIES,
     LEGAL_TRANSITIONS,
@@ -58,6 +59,8 @@ class RunEngine:
         evaluation_only: bool = False,
         operations_fixture_root: Path | str | None = None,
         reconcile_only: bool = False,
+        completion_fixture_root: Path | str | None = None,
+        completion_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -75,6 +78,7 @@ class RunEngine:
         self.release_only = release_only
         self.evaluation_only = evaluation_only
         self.reconcile_only = reconcile_only
+        self.completion_only = completion_only
         if self.render_only and (self.editorial_only or self.build_only or self.validation_only):
             raise ValueError("render_only cannot be combined with earlier bounded execution modes")
         if self.release_only and (
@@ -98,6 +102,16 @@ class RunEngine:
             or self.evaluation_only
         ):
             raise ValueError("reconcile_only cannot be combined with earlier bounded execution modes")
+        if self.completion_only and (
+            self.editorial_only
+            or self.build_only
+            or self.validation_only
+            or self.render_only
+            or self.release_only
+            or self.evaluation_only
+            or self.reconcile_only
+        ):
+            raise ValueError("completion_only cannot be combined with another bounded execution mode")
         if editorial_fixture_root is not None:
             self.editorial_fixture_root = Path(editorial_fixture_root)
         elif mode in {"synthetic", "shadow"}:
@@ -140,6 +154,12 @@ class RunEngine:
             self.operations_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration8"
         else:
             self.operations_fixture_root = None
+        if completion_fixture_root is not None:
+            self.completion_fixture_root = Path(completion_fixture_root)
+        elif mode in {"synthetic", "shadow"}:
+            self.completion_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration9"
+        else:
+            self.completion_fixture_root = None
 
     def _new_run(self) -> dict[str, Any]:
         now = utc_now()
@@ -371,6 +391,27 @@ class RunEngine:
             failure_class=failure_class,
         )
 
+    def _completion_pipeline(self) -> FinalCompletionPipeline:
+        failure_boundary_id = None
+        failure_class = "synthetic_completion_boundary_failure"
+        if (
+            self.failure_injection
+            and self.failure_injection.stage == "OperationsReconciled"
+            and self.failure_injection.candidate_id
+            and self.failure_injection.candidate_id.startswith("completion:")
+        ):
+            failure_boundary_id = self.failure_injection.candidate_id
+            failure_class = self.failure_injection.failure_class
+        return FinalCompletionPipeline(
+            self.store,
+            self.edition_date,
+            self.mode,
+            self.completion_fixture_root,
+            self.operations_fixture_root,
+            failure_boundary_id=failure_boundary_id,
+            failure_class=failure_class,
+        )
+
     def _rating_contract(self) -> dict[str, Any]:
         return {
             "contract_version": RATING_CONTRACT_VERSION,
@@ -404,6 +445,7 @@ class RunEngine:
             "rating-contract", "publication-bundle", "reader-render", "route-manifest",
             "release-package", "shadow-deployment", "live-verification",
             "book-change-evaluation", "command-center-projection", "projection-watermark",
+            "completion",
         ):
             artifact = self.store.load_artifact(artifact_type)
             if artifact and artifact.get("status") == "locked":
@@ -485,6 +527,22 @@ class RunEngine:
                 "attempts": deepcopy(operations_state.get("attempts") or {}),
                 "metrics": deepcopy(operations_state.get("metrics") or {}),
             }
+        if isinstance(exc, CompletionBoundaryFailure):
+            incident["boundary_type"] = exc.boundary_type
+            incident["boundary_id"] = exc.boundary_id
+            completion_state = self.store.read_json(
+                self.store.run_dir / "iteration9-completion-state.json"
+            ) or {}
+            incident["retained_completion_state"] = {
+                "attempts": deepcopy(completion_state.get("attempts") or {}),
+                "metrics": deepcopy(completion_state.get("metrics") or {}),
+                "completion_artifact_locked": bool(
+                    (self.store.load_artifact("completion") or {}).get("status") == "locked"
+                ),
+                "final_receipt_present": bool(
+                    (self.store.run_dir / "iteration9-final-completion-receipt.json").exists()
+                ),
+            }
         self.store.write_incident(incident)
         self.store.write_run(run)
 
@@ -518,6 +576,8 @@ class RunEngine:
                 "retained_render_state",
                 "retained_release_state",
                 "retained_evaluation_state",
+                "retained_operations_state",
+                "retained_completion_state",
                 "validation_invariant",
             ):
                 if key in incident:
@@ -585,6 +645,12 @@ class RunEngine:
     def run(self) -> dict[str, Any]:
         run = self.load_or_create()
         if run["current_state"] == "Complete":
+            if self.completion_only:
+                self.store.acquire_lease(self.run_id, self.owner)
+                try:
+                    self._completion_pipeline().validate_completed_run(run)
+                finally:
+                    self.store.release_lease(self.owner)
             return run
         if self.render_only and run["current_state"] not in {"Validating", "Recovering"}:
             raise ContractError(
@@ -610,6 +676,12 @@ class RunEngine:
         }:
             raise ContractError(
                 "reconcile_only requires an existing locked Iteration 7 PostPublicationEvaluation chain"
+            )
+        if self.completion_only and run["current_state"] not in {
+            "OperationsReconciled", "Recovering"
+        }:
+            raise ContractError(
+                "completion_only requires an existing locked Iteration 8 OperationsReconciled chain"
             )
         self.store.acquire_lease(self.run_id, self.owner)
         try:
@@ -805,6 +877,25 @@ class RunEngine:
                         )
                         self.transition(run, "OperationsReconciled")
                     elif state == "OperationsReconciled":
+                        if self.completion_only:
+                            completion_pipeline = self._completion_pipeline()
+                            completion_pipeline.validate_existing_completion_set(run)
+                            completion = self._ensure_artifact(
+                                run,
+                                "completion",
+                                "operations_reconciled:completion",
+                                lambda: completion_pipeline.build_completion(run),
+                            )
+                            completion_receipt = completion_pipeline.finalize_completion(
+                                run, completion
+                            )
+                            run["stage_receipts"]["final_completion"] = deepcopy(
+                                completion_receipt
+                            )
+                            run["completion_status"] = "complete_locked"
+                            self.store.write_run(run)
+                            self.transition(run, "Complete")
+                            continue
                         if self.reconcile_only:
                             operations = self._operations_pipeline()
                             operations.validate_existing_projection_set()
@@ -863,6 +954,7 @@ class RunEngine:
                     ReleaseBoundaryFailure,
                     EvaluationBoundaryFailure,
                     OperationsBoundaryFailure,
+                    CompletionBoundaryFailure,
                 ) as exc:
                     self._record_failure(run, state, exc)
                     raise
@@ -902,6 +994,8 @@ def start_daily_brief(
     evaluation_only: bool = False,
     operations_fixture_root: Path | str | None = None,
     reconcile_only: bool = False,
+    completion_fixture_root: Path | str | None = None,
+    completion_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
     return RunEngine(
@@ -924,6 +1018,8 @@ def start_daily_brief(
         evaluation_only=evaluation_only,
         operations_fixture_root=operations_fixture_root,
         reconcile_only=reconcile_only,
+        completion_fixture_root=completion_fixture_root,
+        completion_only=completion_only,
     ).run()
 
 
