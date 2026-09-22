@@ -438,6 +438,8 @@ class Iteration7PostPublicationEvaluationTest(unittest.TestCase):
         self.assertFalse(contract["production_authorized"])
         schema = json.loads((root / "schemas" / "book-change-evaluation.schema.json").read_text())
         self.assertEqual(schema["$schema"], "https://json-schema.org/draft/2020-12/schema")
+        self.assertNotIn("required", schema["properties"]["data"])
+        self.assertTrue(schema["properties"]["data"]["additionalProperties"])
 
 
 if __name__ == "__main__":
