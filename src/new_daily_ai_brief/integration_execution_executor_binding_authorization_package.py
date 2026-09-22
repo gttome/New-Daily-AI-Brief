@@ -333,7 +333,7 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackage:
                     or evaluation.get("bound_upstream_identity") != prior_context["bound_upstream_identity"]
                     or evaluation.get("bound_upstream_identity_digest") != prior_context["bound_upstream_identity_digest"]):
                 raise IntegrationExecutionExecutorBindingAuthorizationPackageError(
-                    "Iteration 24 durable review identity is stale or corrupted")
+                    "Iteration 24 durable decision identity is stale or corrupted")
             if (data.get("executor_binding_authorization_decision_schema_version") != EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_DECISION_SCHEMA_VERSION
                     or data.get("executor_binding_authorization_decision_policy_version") != EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_DECISION_POLICY_VERSION
                     or data.get("executor_binding_authorization_decision_policy_id") != "production-integration-execution-executor-binding-authorization-decision-v1"
@@ -351,7 +351,7 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackage:
             expected = prior._artifact_data({**deepcopy(evaluation),
                 "executor_binding_authorization_decision_evidence_records": validations})
             if data != expected:
-                raise IntegrationExecutionExecutorBindingAuthorizationPackageError("Iteration 24 locked review differs from exact durable evidence")
+                raise IntegrationExecutionExecutorBindingAuthorizationPackageError("Iteration 24 locked decision differs from exact durable evidence")
             prior.finalize(artifact)
         except IntegrationExecutionExecutorBindingAuthorizationDecisionError as exc:
             raise IntegrationExecutionExecutorBindingAuthorizationPackageError(str(exc)) from exc
@@ -673,7 +673,7 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackage:
             return {
                 "classification": "invalid",
                 "classification_reason_codes": [
-                    "ITERATION23_EXECUTOR_BINDING_AUTHORIZATION_DECISION_INVALID",
+                    "ITERATION24_EXECUTOR_BINDING_AUTHORIZATION_DECISION_INVALID",
                     *reasons,
                 ],
                 "decision_binding": {
@@ -685,7 +685,7 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackage:
             return {
                 "classification": "blocked",
                 "classification_reason_codes": [
-                    "ITERATION23_EXECUTOR_BINDING_AUTHORIZATION_DECISION_BLOCKED",
+                    "ITERATION24_EXECUTOR_BINDING_AUTHORIZATION_DECISION_BLOCKED",
                     *reasons,
                 ],
                 "decision_binding": {
@@ -1151,7 +1151,7 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackage:
                 != "executor_binding_authorization_decision_complete"
             ):
                 raise IntegrationExecutionExecutorBindingAuthorizationPackageError(
-                    "executor_binding_authorization_package_complete requires complete Iteration 24 review"
+                    "executor_binding_authorization_package_complete requires complete Iteration 24 decision"
                 )
             if not data.get("separate_executor_binding_authorization_package_id"):
                 raise IntegrationExecutionExecutorBindingAuthorizationPackageError(
