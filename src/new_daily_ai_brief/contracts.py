@@ -18,6 +18,8 @@ ADMISSION_SCHEMA_VERSION: Final = "1.0.0"
 ADMISSION_POLICY_VERSION: Final = "1.0.0"
 EXECUTION_PREFLIGHT_SCHEMA_VERSION: Final = "1.0.0"
 EXECUTION_PREFLIGHT_POLICY_VERSION: Final = "1.0.0"
+EXECUTION_REHEARSAL_SCHEMA_VERSION: Final = "1.0.0"
+EXECUTION_REHEARSAL_POLICY_VERSION: Final = "1.0.0"
 
 STATES: Final[tuple[str, ...]] = (
     "Ready",
@@ -87,6 +89,7 @@ ARTIFACT_DEPENDENCIES: Final[dict[str, tuple[str, ...]]] = {
     "production-integration-plan": ("production-integration-preflight",),
     "production-integration-admission": ("production-integration-plan",),
     "production-integration-execution-preflight": ("production-integration-admission",),
+    "production-integration-execution-rehearsal": ("production-integration-execution-preflight",),
 }
 
 ARTIFACT_FILES: Final[dict[str, str]] = {
@@ -112,6 +115,7 @@ ARTIFACT_FILES: Final[dict[str, str]] = {
     "production-integration-plan": "production-integration-plan.json",
     "production-integration-admission": "production-integration-admission.json",
     "production-integration-execution-preflight": "production-integration-execution-preflight.json",
+    "production-integration-execution-rehearsal": "production-integration-execution-rehearsal.json",
 }
 
 MANDATORY_COMPLETION_RECEIPTS: Final[tuple[str, ...]] = (
