@@ -328,7 +328,15 @@ The mandatory Iteration 12 closure package is:
 - `docs/ITERATION13_HANDOFF_2026-09-21.md`;
 - `docs/ITERATION13_START_PROMPT_2026-09-21.md`.
 
-**Closure-package reconciliation status: PENDING until the closure PR and its post-merge `main` CI are verified and these records are updated with exact closure identities.**
+Repository closure is reconciled and verified.
+
+- Closure-package PR: **#33**
+- Exact closure candidate: `135cdf9b6c00c9b2cde601252929b7a0b5283025`
+- Closure PR CI: **35688963050 — PASS (147/147)**
+- Closure merge SHA: `f9dafd6dbcb445475301320c61e7f1056562c412`
+- Closure post-merge `main` CI: **35689013824 — PASS (147/147)**
+
+All four mandatory closure artifacts are present on verified `main`, and the standalone Iteration 13 prompt is ready to paste into a fresh chat.
 
 ## Deferred scope
 
@@ -340,5 +348,5 @@ The next bounded slice is an explicit production-integration admission/authoriza
 
 **Iteration 12 implementation: COMPLETE.**  
 **Iteration 12 functional exit gate: PASS.**  
-**Iteration 12 operational closure: PENDING repository closure-package reconciliation.**  
-**Iteration 13 readiness: NOT READY until all four closure artifacts are merged, reconciled, and verified on `main`.**
+**Iteration 12 operational closure: COMPLETE.**  
+**Iteration 13 readiness: READY TO BEGIN after verifying the then-current `main` SHA and CI and confirming the reconciled machine-readable evidence reports `iteration13_ready=true`.**
