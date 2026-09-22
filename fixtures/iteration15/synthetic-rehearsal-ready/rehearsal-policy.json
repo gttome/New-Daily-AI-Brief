@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "execution_rehearsal_policy_version": "1.0.0",
+  "policy_id": "production-integration-execution-rehearsal-v1",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "require_exact_execution_preflight_binding": true,
+  "require_separate_rehearsal_decision": true,
+  "require_exactly_ten_noop_receipts": true,
+  "required_evidence": [
+    "runner_contract",
+    "step_selection_scope",
+    "noop_policy",
+    "dry_run_assertions",
+    "rollback_restore",
+    "target_environment",
+    "pre_rehearsal_verification",
+    "stop_abort_conditions",
+    "cutover_decommission_state",
+    "zero_incremental_cost"
+  ],
+  "classifications": ["blocked", "rehearsal_complete", "invalid"],
+  "rehearsal_complete_reason_code": "SYNTHETIC_NOOP_REHEARSAL_COMPLETE"
+}
