@@ -107,7 +107,7 @@ class Iteration1ContractsTest(unittest.TestCase):
             self.assertEqual(incident["recovery_receipt"]["result"], "recovered")
             self.assertEqual(
                 set(incident["recovery_receipt"]["retained_locks"]),
-                {"edition", "rating-contract", "media", "images", "watchlist"},
+                {"discovery", "edition", "rating-contract", "media", "images", "watchlist", "book-bridges"},
             )
 
     def test_schema_migration_from_0_9_run(self):

@@ -16,7 +16,8 @@ from .contracts import (
     FailureInjection,
 )
 from .editorial import DiscoveryEditorialPipeline, EditorialCandidateFailure, EditorialFailureInjection
-from .store import CanonicalStore, ContractError, digest, utc_now
+from .pre_release import ImageBoundaryFailure, PreReleasePipeline, ValidationBoundaryFailure
+from .store import CanonicalStore, ContractError, utc_now
 
 
 class IllegalTransition(ContractError):
@@ -43,6 +44,8 @@ class RunEngine:
         editorial_only: bool = False,
         build_fixture_root: Path | str | None = None,
         build_only: bool = False,
+        pre_release_fixture_root: Path | str | None = None,
+        validation_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -55,6 +58,7 @@ class RunEngine:
         self._injection_fired = False
         self.editorial_only = editorial_only
         self.build_only = build_only
+        self.validation_only = validation_only
         if editorial_fixture_root is not None:
             self.editorial_fixture_root = Path(editorial_fixture_root)
         elif mode in {"synthetic", "shadow"}:
@@ -67,6 +71,12 @@ class RunEngine:
             self.build_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration3"
         else:
             self.build_fixture_root = None
+        if pre_release_fixture_root is not None:
+            self.pre_release_fixture_root = Path(pre_release_fixture_root)
+        elif mode in {"synthetic", "shadow"}:
+            self.pre_release_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration4"
+        else:
+            self.pre_release_fixture_root = None
 
     def _new_run(self) -> dict[str, Any]:
         now = utc_now()
@@ -185,6 +195,7 @@ class RunEngine:
             self.failure_injection
             and self.failure_injection.stage == "Building"
             and self.failure_injection.candidate_id
+            and not self.failure_injection.candidate_id.startswith("image:")
         ):
             injection = BuildFailureInjection(
                 boundary_id=self.failure_injection.candidate_id,
@@ -197,21 +208,25 @@ class RunEngine:
             injection,
         )
 
-    def _synthetic_images(self) -> dict[str, Any]:
-        edition = self.store.load_artifact("edition")
-        stories = edition["data"]["stories"]
-        return {
-            "images": [
-                {
-                    "story_id": story["story_id"],
-                    "image_id": f"synthetic-image-{index}",
-                    "accepted": True,
-                    "binary_digest": digest({"synthetic_image": index}),
-                }
-                for index, story in enumerate(stories, start=1)
-            ],
-            "accepted_count": 6,
-        }
+    def _pre_release_pipeline(self) -> PreReleasePipeline:
+        failure_boundary_id = None
+        failure_class = "synthetic_image_boundary_failure"
+        if (
+            self.failure_injection
+            and self.failure_injection.stage == "Building"
+            and self.failure_injection.candidate_id
+            and self.failure_injection.candidate_id.startswith("image:")
+        ):
+            failure_boundary_id = self.failure_injection.candidate_id
+            failure_class = self.failure_injection.failure_class
+        return PreReleasePipeline(
+            self.store,
+            self.edition_date,
+            self.mode,
+            self.pre_release_fixture_root,
+            failure_boundary_id=failure_boundary_id,
+            failure_class=failure_class,
+        )
 
     def _rating_contract(self) -> dict[str, Any]:
         return {
@@ -222,17 +237,6 @@ class RunEngine:
             "privacy": "sender_rating_not_embedded_in_shared_copy",
             "missing_states": ["missing", "suppressed", "unavailable"],
             "legacy_policy": "preserve_original_contract_version_no_silent_conversion",
-        }
-
-    def _publication_bundle(self) -> dict[str, Any]:
-        inputs = {}
-        for name in ("edition", "media", "images", "watchlist", "rating-contract"):
-            record = self.store.load_artifact(name)
-            inputs[name] = record["content_digest"]
-        return {
-            "bundle_contract_version": "1.0.0",
-            "ordered_input_digests": inputs,
-            "synthetic": True,
         }
 
     def _maybe_inject(self, stage: str) -> None:
@@ -252,7 +256,7 @@ class RunEngine:
         run["recovery_target"] = failed_stage
         run["incident_count"] += 1
         retained = []
-        for artifact_type in ("edition", "media", "images", "watchlist", "rating-contract"):
+        for artifact_type in ("discovery", "edition", "media", "images", "watchlist", "book-bridges", "rating-contract"):
             artifact = self.store.load_artifact(artifact_type)
             if artifact and artifact.get("status") == "locked":
                 retained.append(artifact_type)
@@ -285,6 +289,18 @@ class RunEngine:
                 name: bool((self.store.run_dir / f"{name}-state.json").exists())
                 for name in ("media", "watchlist", "bridges")
             }
+        if isinstance(exc, ImageBoundaryFailure):
+            incident["boundary_type"] = exc.boundary_type
+            incident["boundary_id"] = exc.boundary_id
+            image_state = self.store.read_json(self.store.run_dir / "image-state.json") or {}
+            incident["retained_image_state"] = {
+                "accepted_story_ids": sorted((image_state.get("accepted") or {}).keys()),
+                "attempts": deepcopy(image_state.get("attempts") or {}),
+            }
+        if isinstance(exc, ValidationBoundaryFailure):
+            incident["boundary_type"] = exc.boundary_type
+            incident["boundary_id"] = exc.boundary_id
+            incident["validation_invariant"] = exc.invariant
         self.store.write_incident(incident)
         self.store.write_run(run)
 
@@ -314,6 +330,8 @@ class RunEngine:
                 "boundary_type",
                 "boundary_id",
                 "retained_build_state",
+                "retained_image_state",
+                "validation_invariant",
             ):
                 if key in incident:
                     receipt[key] = deepcopy(incident[key])
@@ -413,11 +431,22 @@ class RunEngine:
                             run["completion_status"] = "build_locked"
                             self.store.write_run(run)
                             return run
-                        self._ensure_artifact(run, "images", "building:images", self._synthetic_images)
+                        pre_release = self._pre_release_pipeline()
+                        self._ensure_artifact(run, "images", "building:images", pre_release.build_images)
                         self.transition(run, "Validating")
                     elif state == "Validating":
                         self._maybe_inject("Validating")
-                        self._ensure_artifact(run, "publication-bundle", "validating", self._publication_bundle)
+                        pre_release = self._pre_release_pipeline()
+                        self._ensure_artifact(
+                            run,
+                            "publication-bundle",
+                            "validating",
+                            pre_release.build_validation_bundle,
+                        )
+                        if self.validation_only:
+                            run["completion_status"] = "validation_locked"
+                            self.store.write_run(run)
+                            return run
                         self.transition(run, "Releasing")
                     elif state == "Releasing":
                         bundle = self.store.load_artifact("publication-bundle")
@@ -470,7 +499,13 @@ class RunEngine:
                         self._recover_if_needed(run)
                     else:
                         raise ContractError(f"unhandled state: {state}")
-                except (SyntheticFailure, EditorialCandidateFailure, BuildBoundaryFailure) as exc:
+                except (
+                    SyntheticFailure,
+                    EditorialCandidateFailure,
+                    BuildBoundaryFailure,
+                    ImageBoundaryFailure,
+                    ValidationBoundaryFailure,
+                ) as exc:
                     self._record_failure(run, state, exc)
                     raise
             return run
@@ -499,6 +534,8 @@ def start_daily_brief(
     editorial_only: bool = False,
     build_fixture_root: Path | str | None = None,
     build_only: bool = False,
+    pre_release_fixture_root: Path | str | None = None,
+    validation_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
     return RunEngine(
@@ -511,6 +548,8 @@ def start_daily_brief(
         editorial_only=editorial_only,
         build_fixture_root=build_fixture_root,
         build_only=build_only,
+        pre_release_fixture_root=pre_release_fixture_root,
+        validation_only=validation_only,
     ).run()
 
 
