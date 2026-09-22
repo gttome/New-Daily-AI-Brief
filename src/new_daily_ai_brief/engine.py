@@ -493,6 +493,7 @@ class RunEngine:
                                     "render_only requires the existing locked Iteration 4 publication bundle",
                                 )
                             renderer = self._render_pipeline()
+                            renderer.validate_existing_render_set()
                             self._ensure_artifact(
                                 run,
                                 "reader-render",
