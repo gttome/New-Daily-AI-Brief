@@ -3,7 +3,7 @@
 
 Prepared September 22, 2026. Repository: `gttome/New-Daily-AI-Brief`.
 
-**Functional exit gate: PASS. Repository closure: PENDING. Iteration 24 ready: false.**
+**Functional exit gate: PASS. Repository closure: COMPLETE. Iteration 24 ready: true.**
 
 ## Baseline and implementation
 
@@ -58,10 +58,10 @@ No real executor, credential use/storage, real target contact, production/rollba
 - Next handoff: `docs/ITERATION24_HANDOFF_2026-09-21.md`
 - Standalone prompt: `docs/ITERATION24_START_PROMPT_2026-09-21.md`
 
-Closure PR: pending; candidate: `pending`.
-Closure PR CI: pending, pending.
-Closure merge: `pending`.
-Closure post-merge main CI: pending, pending.
-Closure-verified main: `pending`.
+Closure PR: 66; candidate: `9e26c591be99884f63d27cf071cace296e577273`.
+Closure PR CI: [run 35780776021](https://github.com/gttome/New-Daily-AI-Brief/actions/runs/35780776021), pass.
+Closure merge: `2c1e00b5791e9a0a5d95165fc55de2425be75f06`.
+Closure post-merge main CI: [run 35781247470](https://github.com/gttome/New-Daily-AI-Brief/actions/runs/35781247470), pass.
+Closure-verified main: `2c1e00b5791e9a0a5d95165fc55de2425be75f06`.
 
 Activation is permitted only after these records are reconciled on current main with successful CI. The receiving chat must independently verify current main and CI again.

@@ -1,7 +1,7 @@
 # New Daily AI Brief — Iteration 24 Handoff
 ## Synthetic Executor-Binding Authorization Decision Gate
 
-**Activation: PENDING Iteration 23 closure merge, post-merge CI, and reconciliation.**
+**Activation: READY upon merge of this reconciliation. Iteration 23 closure is complete; machine evidence reports `iteration24_ready=true`. Independently verify current main and CI before beginning.**
 
 ## Authoritative startup
 
@@ -12,6 +12,8 @@ Use current `main` of `gttome/New-Daily-AI-Brief`. Independently verify its SHA 
 - `evidence/iteration23/synthetic-shadow-production-integration-execution-executor-binding-authorization-review-evidence.json`;
 - `docs/SCHEMA_VERSION_POLICY.md`;
 - `docs/ITERATION_START_PACKAGE_STANDARD.md`.
+
+The closure baseline is `2c1e00b5791e9a0a5d95165fc55de2425be75f06`, verified by Greenfield Contracts run **35781247470 — PASS (285/285)**. Closure PR #66 is merged.
 
 The implementation baseline for this package is Iteration 23 candidate `8feb5f9d9d9416bf1f2029a16231b7633bdbabb2`, PR #65, based on `222b7a285e95b696f5488ef30e4d5b2709415700`. The receiving chat must obtain the final closure baseline and CI identities from reconciled machine evidence and current repository records. Do not start while `repository_closure_status` is pending or `iteration24_ready=false`.
 
