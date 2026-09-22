@@ -11,7 +11,7 @@ from new_daily_ai_brief.contracts import FailureInjection
 from new_daily_ai_brief.engine import RunEngine, start_daily_brief
 from new_daily_ai_brief.readiness import ReadinessBoundaryFailure, ReadinessError
 from new_daily_ai_brief.store import digest, semantic_digest
-from test_iteration9 import Iteration9FinalCompletionTest
+import test_iteration9
 
 
 class Iteration10ReadinessTest(unittest.TestCase):
@@ -28,7 +28,7 @@ class Iteration10ReadinessTest(unittest.TestCase):
     ]
 
     def helper(self):
-        return Iteration9FinalCompletionTest(
+        return test_iteration9.Iteration9FinalCompletionTest(
             methodName="test_completion_binds_entire_locked_chain_and_is_nonproduction"
         )
 
