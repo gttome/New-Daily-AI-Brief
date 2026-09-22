@@ -1,6 +1,6 @@
 # Iteration 21 — Ready-to-Paste Start Prompt
 
-> **ACTIVATION STATUS: NOT READY.** Iteration 20 closure has not yet been reconciled in this initial closure package. Do not use this prompt until current repository evidence reports `repository_closure_status=complete` and `iteration21_ready=true`. Even then, re-verify current `main` and CI before changing anything.
+> **ACTIVATION STATUS: READY.** Iteration 20 closure is reconciled on verified `main`; current repository evidence reports `repository_closure_status=complete` and `iteration21_ready=true`. Before using this prompt, independently re-verify the then-current `main` SHA, CI, and closure evidence.
 
 @GitHub Proceed with Iteration 21 of the New Daily AI Brief greenfield implementation in `gttome/New-Daily-AI-Brief`.
 

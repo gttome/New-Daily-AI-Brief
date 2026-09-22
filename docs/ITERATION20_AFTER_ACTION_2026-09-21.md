@@ -208,10 +208,21 @@ The mandatory Iteration 20 closure package is:
 - `docs/ITERATION21_HANDOFF_2026-09-21.md`;
 - `docs/ITERATION21_START_PROMPT_2026-09-21.md`.
 
-**Repository closure status: PENDING.**  
-**Iteration 21 readiness: NOT READY.**
+**Repository closure status: COMPLETE.**  
+**Iteration 21 readiness: READY.**
 
-This initial closure package intentionally remains fail-closed until the exact closure candidate passes CI, merges, and post-merge `main` CI is independently verified. A separate closure-reconciliation PR must then record those immutable closure identities and may set `repository_closure_status=complete` and `iteration21_ready=true`.
+Verified closure identities:
+
+- closure PR: **#57**;
+- exact closure candidate: `f398cb095ce6a9afdeb83d827e525feec25d694e`;
+- closure PR CI: Greenfield Contracts run **35759818262 — PASS (260/260)**;
+- closure PR unittest: **110.731s**;
+- closure merge SHA: `18a9e664a7e0ce09c427e0defc2e3a9dab2a660b`;
+- closure post-merge `main` CI: Greenfield Contracts run **35760129214 — PASS (260/260)**;
+- closure post-merge unittest: **127.396s**;
+- closure-verified `main`: `18a9e664a7e0ce09c427e0defc2e3a9dab2a660b`.
+
+All four mandatory closure records are present on verified `main`, and the machine evidence is reconciled to `repository_closure_status=complete` with `iteration21_ready=true`.
 
 ## Deferred scope
 
@@ -225,5 +236,5 @@ Iteration 21 must still bind or invoke no real executor, use no credentials, con
 
 **Iteration 20 implementation: COMPLETE.**  
 **Iteration 20 functional exit gate: PASS.**  
-**Iteration 20 operational closure: PENDING reconciliation.**  
-**Iteration 21 readiness: NOT READY until reconciliation.**
+**Iteration 20 operational closure: COMPLETE.**  
+**Iteration 21 readiness: READY.**
