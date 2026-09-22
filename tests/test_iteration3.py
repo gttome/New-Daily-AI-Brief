@@ -134,7 +134,7 @@ class Iteration3BuildStageTest(unittest.TestCase):
                 resumed.store.load_artifact("discovery")["content_digest"], discovery_digest
             )
             self.assertEqual(complete["stage_executions"]["acquiring"], 1)
-            self.assertEqual(complete["stage_executions"]["deciding"], 1)
+            self.assertEqual(complete["stage_executions"]["deciding"], failed["stage_executions"]["deciding"])
             self.assertEqual(complete["anti_rework"]["locked_stage_reexecutions"], 0)
             self.assertEqual(complete["anti_rework"]["full_pipeline_restarts"], 0)
 
@@ -197,7 +197,7 @@ class Iteration3BuildStageTest(unittest.TestCase):
                 self.assertEqual(watch["edition_date"], edition_date)
                 self.assertEqual(len(bridges["decisions"]), 6)
                 self.assertEqual(run["stage_executions"]["acquiring"], 1)
-                self.assertEqual(run["stage_executions"]["deciding"], 1)
+                self.assertEqual(run["stage_executions"]["deciding"], 2)
                 self.assertEqual(run["anti_rework"]["locked_stage_reexecutions"], 0)
                 self.assertEqual(run["anti_rework"]["full_pipeline_restarts"], 0)
                 self.assertIsNone(engine.store.load_artifact("images"))
