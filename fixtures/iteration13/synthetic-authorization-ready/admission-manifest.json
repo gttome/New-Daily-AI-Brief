@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0.0",
+  "admission_manifest_version": "1.0.0",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "production_cutover_authorized": false,
+  "legacy_decommission_authorized": false,
+  "production_publication": false,
+  "iteration12_closure": {
+    "repository_closure_status": "complete",
+    "iteration13_ready": true,
+    "evidence_path": "evidence/iteration12/synthetic-shadow-production-integration-plan-evidence.json"
+  },
+  "plan_binding": {
+    "binding_type": "exact_locked_plan_artifact",
+    "artifact_type": "production-integration-plan",
+    "plan_id_field": "data.plan_id",
+    "artifact_digest_field": "content_digest"
+  },
+  "manifest_id": "fully-qualified-synthetic-admission",
+  "evidence": {
+    "discovery_adapter": {
+      "record_id": "synthetic-discovery-admission-v1",
+      "record_kind": "production-discovery-adapter",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "approved": true,
+      "adapter_id": "synthetic-zero-cost-discovery-adapter",
+      "zero_incremental_cost": true
+    },
+    "publication_target": {
+      "record_id": "synthetic-publication-admission-v1",
+      "record_kind": "production-publication-path",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "approved": true,
+      "publication_path_id": "synthetic-publication-path",
+      "target_id": "synthetic-publication-target"
+    },
+    "public_deployment_verification": {
+      "record_id": "synthetic-public-deployment-admission-v1",
+      "record_kind": "public-deployment-verification",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "approved": true,
+      "deployment_target_id": "synthetic-public-target",
+      "verification_mechanism_id": "synthetic-route-verifier"
+    },
+    "private_command_center": {
+      "record_id": "synthetic-private-command-center-admission-v1",
+      "record_kind": "private-command-center-integration",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "approved": true,
+      "target_id": "synthetic-private-command-center",
+      "projection_adapter_id": "synthetic-private-projection-adapter",
+      "privacy_boundary": "synthetic-owner-only"
+    },
+    "production_schedules": {
+      "record_id": "synthetic-production-schedule-admission-v1",
+      "record_kind": "production-schedule-policy",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "approved": true,
+      "schedule_policy_id": "synthetic-production-schedules",
+      "schedule_identities": [
+        "synthetic-publisher-0700",
+        "synthetic-validation-0900"
+      ],
+      "schedule_cadences": [
+        {
+          "schedule_id": "synthetic-publisher-0700",
+          "cadence": "07:00 America/Chicago daily"
+        },
+        {
+          "schedule_id": "synthetic-validation-0900",
+          "cadence": "09:00 America/Chicago daily"
+        }
+      ]
+    },
+    "subscriber_delivery": {
+      "record_id": "synthetic-subscriber-delivery-admission-v1",
+      "record_kind": "subscriber-delivery-policy",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "approved": true,
+      "policy_id": "synthetic-calendar-subscription-only",
+      "delivery_mode": "calendar_subscription_only",
+      "email_enabled": false,
+      "text_enabled": false,
+      "calendar_subscription_enabled": true
+    },
+    "migration_prerequisites": {
+      "record_id": "synthetic-migration-admission-v1",
+      "record_kind": "legacy-migration-cutover-prerequisites",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "prerequisites_approved": true,
+      "migration_plan_id": "synthetic-migration-plan",
+      "cutover_authorized": false,
+      "legacy_decommission_authorized": false
+    },
+    "rollback_restore": {
+      "record_id": "synthetic-rollback-admission-v1",
+      "record_kind": "rollback-recovery-policy",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "approved": true,
+      "rollback_policy_id": "synthetic-rollback-policy",
+      "rollback_identity": "synthetic-restore-point"
+    },
+    "zero_incremental_cost": {
+      "record_id": "synthetic-zero-cost-admission-v1",
+      "record_kind": "cost-policy-approval",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "approved": true,
+      "zero_incremental_cost": true,
+      "separately_billed_openai_api_required": false,
+      "paid_completion_or_storage_api_required": false,
+      "paid_deployment_or_hosting_api_required": false,
+      "other_incremental_paid_dependency_required": false
+    }
+  },
+  "admission_decision": {
+    "record_id": "synthetic-admission-decision-record-v1",
+    "record_kind": "production-integration-admission-decision",
+    "decision_id": "synthetic-admission-decision-v1",
+    "decision": "authorization_ready_for_later_execution_review",
+    "approved": true,
+    "synthetic_only": true,
+    "production_action_authorized": false,
+    "production_cutover_authorized": false,
+    "legacy_decommission_authorized": false,
+    "production_publication": false,
+    "scope": "admission_only",
+    "plan_binding_mode": "exact_locked_plan_artifact"
+  }
+}
