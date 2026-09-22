@@ -17,6 +17,20 @@ The current repository records, not chat history or a manually remembered SHA, a
 
 Do not begin implementation if the Iteration 6 evidence still reports a pending closure package or `iteration7_ready=false`.
 
+### Activation status
+
+Iteration 6 operational closure is verified and **Iteration 7 is READY**.
+
+Verified closure identities:
+
+- Closure PR: **#15**
+- Exact closure candidate: `400d84fd9148bfd61b545d55501914dd4746a332`
+- Closure PR CI: **35677935684 — PASS (67/67)**
+- Closure package merge SHA: `412a8f0149cf81b0bc10fd89b63688b651d82e43`
+- Closure post-merge `main` CI: **35677973180 — PASS (67/67)**
+
+The metadata reconciliation that records these identities does not change runtime behavior. At Iteration 7 start, verify then-current `main` and its CI again before implementation.
+
 ## Validated implementation baseline
 
 Iteration 6 implementation was merged through PR **#14**.
