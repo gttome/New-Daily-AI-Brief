@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "completion_contract_version": "1.0.0",
+  "completion_scope": "synthetic_shadow_validation",
+  "shadow_only": true,
+  "production_authorized": false,
+  "production_cutover_authorized": false,
+  "legacy_decommission_authorized": false,
+  "real_command_center_mutation_authorized": false,
+  "public_site_mutation_authorized": false
+}
