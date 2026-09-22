@@ -30,6 +30,7 @@ from .integration_execution_preflight import ProductionIntegrationExecutionPrefl
 from .integration_execution_rehearsal import ProductionIntegrationExecutionRehearsal
 from .integration_execution_authorization_review import ProductionIntegrationExecutionAuthorizationReview
 from .integration_execution_authorization_decision import ProductionIntegrationExecutionAuthorizationDecision
+from .integration_execution_authorization_package import ProductionIntegrationExecutionAuthorizationPackage
 from .store import CanonicalStore, ContractError, utc_now
 
 
@@ -85,6 +86,8 @@ class RunEngine:
         integration_execution_authorization_review_only: bool = False,
         integration_execution_authorization_decision_fixture_root: Path | str | None = None,
         integration_execution_authorization_decision_only: bool = False,
+        integration_execution_authorization_package_fixture_root: Path | str | None = None,
+        integration_execution_authorization_package_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -114,6 +117,9 @@ class RunEngine:
         )
         self.integration_execution_authorization_decision_only = (
             integration_execution_authorization_decision_only
+        )
+        self.integration_execution_authorization_package_only = (
+            integration_execution_authorization_package_only
         )
         if self.render_only and (self.editorial_only or self.build_only or self.validation_only):
             raise ValueError("render_only cannot be combined with earlier bounded execution modes")
@@ -256,6 +262,7 @@ class RunEngine:
             or self.integration_execution_preflight_only
             or self.integration_execution_rehearsal_only
             or self.integration_execution_authorization_decision_only
+            or self.integration_execution_authorization_package_only
         ):
             raise ValueError(
                 "integration_execution_authorization_review_only cannot be combined "
@@ -277,9 +284,32 @@ class RunEngine:
             or self.integration_execution_preflight_only
             or self.integration_execution_rehearsal_only
             or self.integration_execution_authorization_review_only
+            or self.integration_execution_authorization_package_only
         ):
             raise ValueError(
                 "integration_execution_authorization_decision_only cannot be combined "
+                "with another bounded execution mode"
+            )
+        if self.integration_execution_authorization_package_only and (
+            self.editorial_only
+            or self.build_only
+            or self.validation_only
+            or self.render_only
+            or self.release_only
+            or self.evaluation_only
+            or self.reconcile_only
+            or self.completion_only
+            or self.readiness_only
+            or self.integration_preflight_only
+            or self.integration_plan_only
+            or self.integration_admission_only
+            or self.integration_execution_preflight_only
+            or self.integration_execution_rehearsal_only
+            or self.integration_execution_authorization_review_only
+            or self.integration_execution_authorization_decision_only
+        ):
+            raise ValueError(
+                "integration_execution_authorization_package_only cannot be combined "
                 "with another bounded execution mode"
             )
         if editorial_fixture_root is not None:
