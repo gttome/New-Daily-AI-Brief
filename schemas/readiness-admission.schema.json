@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/readiness-admission.schema.json",
+  "title": "Iteration 10 Readiness Admission Artifact Data",
+  "type": "object",
+  "required": [
+    "readiness_schema_version",
+    "readiness_policy_version",
+    "assessment_id",
+    "completion_artifact_digest",
+    "final_completion_receipt_digest",
+    "canonical_chain_digest",
+    "classification",
+    "prerequisite_results",
+    "blocker_reason_codes",
+    "synthetic_only",
+    "production_action_authorized",
+    "final_state",
+    "final_status",
+    "completion_scope"
+  ],
+  "properties": {
+    "readiness_schema_version": {
+      "const": "1.0.0"
+    },
+    "readiness_policy_version": {
+      "const": "1.0.0"
+    },
+    "classification": {
+      "enum": [
+        "admissible",
+        "blocked",
+        "invalid"
+      ]
+    },
+    "synthetic_only": {
+      "const": true
+    },
+    "production_action_authorized": {
+      "const": false
+    },
+    "production_cutover_authorized": {
+      "const": false
+    },
+    "legacy_decommission_authorized": {
+      "const": false
+    },
+    "final_state": {
+      "const": "Complete"
+    },
+    "final_status": {
+      "const": "complete_locked"
+    },
+    "completion_scope": {
+      "const": "synthetic_shadow_validation"
+    },
+    "assessment_id": {
+      "type": "string"
+    },
+    "completion_artifact_digest": {
+      "type": "string"
+    },
+    "final_completion_receipt_digest": {
+      "type": "string"
+    },
+    "canonical_chain_digest": {
+      "type": "string"
+    },
+    "policy_digest": {
+      "type": "string"
+    },
+    "capability_digest": {
+      "type": "string"
+    },
+    "prerequisite_results": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9
+    },
+    "blocker_reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}
