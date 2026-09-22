@@ -14,6 +14,8 @@ PREFLIGHT_SCHEMA_VERSION: Final = "1.0.0"
 PREFLIGHT_POLICY_VERSION: Final = "1.0.0"
 PLAN_SCHEMA_VERSION: Final = "1.0.0"
 PLAN_POLICY_VERSION: Final = "1.0.0"
+ADMISSION_SCHEMA_VERSION: Final = "1.0.0"
+ADMISSION_POLICY_VERSION: Final = "1.0.0"
 
 STATES: Final[tuple[str, ...]] = (
     "Ready",
@@ -81,6 +83,7 @@ ARTIFACT_DEPENDENCIES: Final[dict[str, tuple[str, ...]]] = {
     "readiness-admission": ("completion",),
     "production-integration-preflight": ("readiness-admission",),
     "production-integration-plan": ("production-integration-preflight",),
+    "production-integration-admission": ("production-integration-plan",),
 }
 
 ARTIFACT_FILES: Final[dict[str, str]] = {
@@ -104,6 +107,7 @@ ARTIFACT_FILES: Final[dict[str, str]] = {
     "readiness-admission": "readiness-admission.json",
     "production-integration-preflight": "production-integration-preflight.json",
     "production-integration-plan": "production-integration-plan.json",
+    "production-integration-admission": "production-integration-admission.json",
 }
 
 MANDATORY_COMPLETION_RECEIPTS: Final[tuple[str, ...]] = (
