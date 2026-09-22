@@ -453,6 +453,19 @@ class RunEngine:
             )
         else:
             self.integration_execution_authorization_decision_fixture_root = None
+        if integration_execution_authorization_package_fixture_root is not None:
+            self.integration_execution_authorization_package_fixture_root = Path(
+                integration_execution_authorization_package_fixture_root
+            )
+        elif mode in {"synthetic", "shadow"}:
+            self.integration_execution_authorization_package_fixture_root = (
+                Path(__file__).resolve().parents[2]
+                / "fixtures"
+                / "iteration18"
+                / "current-blocked"
+            )
+        else:
+            self.integration_execution_authorization_package_fixture_root = None
 
     def _new_run(self) -> dict[str, Any]:
         now = utc_now()
@@ -873,6 +886,30 @@ class RunEngine:
             self.edition_date,
             self.mode,
             self.integration_execution_authorization_decision_fixture_root,
+            failure_boundary_id=failure_boundary_id,
+            failure_class=failure_class,
+        )
+
+    def _integration_execution_authorization_package_pipeline(
+        self,
+    ) -> ProductionIntegrationExecutionAuthorizationPackage:
+        failure_boundary_id = None
+        failure_class = (
+            "synthetic_integration_execution_authorization_package_boundary_failure"
+        )
+        if (
+            self.failure_injection
+            and self.failure_injection.stage == "Complete"
+            and self.failure_injection.candidate_id
+            and self.failure_injection.candidate_id.startswith("authorization_package:")
+        ):
+            failure_boundary_id = self.failure_injection.candidate_id
+            failure_class = self.failure_injection.failure_class
+        return ProductionIntegrationExecutionAuthorizationPackage(
+            self.store,
+            self.edition_date,
+            self.mode,
+            self.integration_execution_authorization_package_fixture_root,
             failure_boundary_id=failure_boundary_id,
             failure_class=failure_class,
         )
