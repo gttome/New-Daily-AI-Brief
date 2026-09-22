@@ -697,6 +697,28 @@ class RunEngine:
             failure_class=failure_class,
         )
 
+    def _integration_execution_rehearsal_pipeline(
+        self,
+    ) -> ProductionIntegrationExecutionRehearsal:
+        failure_boundary_id = None
+        failure_class = "synthetic_integration_execution_rehearsal_boundary_failure"
+        if (
+            self.failure_injection
+            and self.failure_injection.stage == "Complete"
+            and self.failure_injection.candidate_id
+            and self.failure_injection.candidate_id.startswith("execution_rehearsal:")
+        ):
+            failure_boundary_id = self.failure_injection.candidate_id
+            failure_class = self.failure_injection.failure_class
+        return ProductionIntegrationExecutionRehearsal(
+            self.store,
+            self.edition_date,
+            self.mode,
+            self.integration_execution_rehearsal_fixture_root,
+            failure_boundary_id=failure_boundary_id,
+            failure_class=failure_class,
+        )
+
     def _rating_contract(self) -> dict[str, Any]:
         return {
             "contract_version": RATING_CONTRACT_VERSION,
