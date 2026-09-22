@@ -18,19 +18,29 @@ Repository records, not chat history or remembered SHAs, are authoritative.
 
 Do not begin implementation if the Iteration 12 evidence reports `repository_closure_status=pending` or `iteration13_ready=false`.
 
-### Activation status at initial package creation
+### Activation status
 
-**Iteration 13 is NOT YET READY TO BEGIN** until the Iteration 12 closure package is merged, post-merge CI passes, and the closure records are reconciled to `repository_closure_status=complete` and `iteration13_ready=true`.
+**Iteration 13 is READY TO BEGIN**, subject to the mandatory start-of-iteration verification of the then-current `main` SHA and CI.
 
-The implementation identities already verified are:
+Verified Iteration 12 implementation identities:
 
-- Iteration 12 implementation PR: **#32**;
-- exact passing candidate: `0dd20b0c82c2b4ccfbafb82f430328107fb06cc2`;
-- PR CI: **35688748637 — PASS (147/147)**;
-- implementation merge SHA: `d8031eef5d27dceb5fae830d57b34edfb14f3eaf`;
-- post-merge implementation CI: **35688807372 — PASS (147/147)**.
+- Implementation PR: **#32**
+- Exact passing candidate: `0dd20b0c82c2b4ccfbafb82f430328107fb06cc2`
+- PR CI: **35688748637 — PASS (147/147)**
+- Implementation merge SHA: `d8031eef5d27dceb5fae830d57b34edfb14f3eaf`
+- Post-merge implementation `main` CI: **35688807372 — PASS (147/147)**
 
-At Iteration 13 start, always re-read the reconciled closure identities from current `main`.
+Verified Iteration 12 closure identities:
+
+- Closure-package PR: **#33**
+- Exact closure candidate: `135cdf9b6c00c9b2cde601252929b7a0b5283025`
+- Closure PR CI: **35688963050 — PASS (147/147)**
+- Closure merge SHA: `f9dafd6dbcb445475301320c61e7f1056562c412`
+- Closure post-merge `main` CI: **35689013824 — PASS (147/147)**
+
+The reconciled machine-readable evidence reports `repository_closure_status=complete` and `iteration13_ready=true`.
+
+At Iteration 13 start, verify the then-current `main` SHA and its CI. Never substitute these historical implementation/closure identities for that live repository check.
 
 ## Starting point
 
