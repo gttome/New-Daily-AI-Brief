@@ -393,16 +393,21 @@
       "docs/ITERATION25_HANDOFF_2026-09-21.md",
       "docs/ITERATION25_START_PROMPT_2026-09-21.md"
     ],
-    "repository_closure_status": "pending",
-    "iteration25_ready": false,
-    "closure_pr_number": null,
-    "closure_candidate_sha": null,
-    "closure_pr_ci_run_id": null,
-    "closure_pr_ci_result": null,
-    "closure_pr_tests_passed": null,
-    "closure_merge_sha": null,
-    "closure_post_merge_ci_run_id": null,
-    "closure_post_merge_ci_result": null,
-    "closure_verified_main_sha": null
+    "repository_closure_status": "complete",
+    "iteration25_ready": true,
+    "closure_pr_number": 69,
+    "closure_candidate_sha": "7482604487c6531a30da00ff7e0702ef7a5eef2f",
+    "closure_pr_ci_run_id": 35785622166,
+    "closure_pr_ci_result": "pass",
+    "closure_pr_tests_passed": 299,
+    "closure_merge_sha": "88e34d3ad9a9cc12b416cfd663a4ceddb176bd17",
+    "closure_post_merge_ci_run_id": 35785891870,
+    "closure_post_merge_ci_result": "pass",
+    "closure_verified_main_sha": "88e34d3ad9a9cc12b416cfd663a4ceddb176bd17",
+    "closure_pr_tests_failed": 0,
+    "closure_pr_unittest_seconds": 104.505,
+    "closure_post_merge_tests_passed": 299,
+    "closure_post_merge_tests_failed": 0,
+    "closure_post_merge_unittest_seconds": 207.834
   }
 }
