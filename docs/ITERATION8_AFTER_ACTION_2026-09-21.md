@@ -311,7 +311,16 @@ The mandatory Iteration 8 closure package is:
 - `docs/ITERATION9_HANDOFF_2026-09-21.md`;
 - `docs/ITERATION9_START_PROMPT_2026-09-21.md`.
 
-At creation of this closure-package candidate, repository closure identities are intentionally marked pending until the exact closure candidate passes CI, merges, and its post-merge `main` CI passes. A metadata-only reconciliation will then record those immutable identities and activate Iteration 9. No runtime behavior will change during closure reconciliation.
+The mandatory four-artifact closure package has now been independently verified and merged.
+
+Closure identities:
+- Closure-package PR: **#21**
+- Exact closure candidate: `8777a60ea3ee3f1f85006e7343b9feacee969821`
+- Closure PR CI: **35680743208 — PASS (94/94)**
+- Closure merge SHA: `eb8be8e286d837f5ca9af0ee350dc931b29a80c9`
+- Closure post-merge `main` CI: **35680784720 — PASS (94/94)**
+
+This metadata reconciliation changes no runtime behavior and does not alter any locked Iteration 1–8 artifact or production surface.
 
 ## Exit determination
 
@@ -319,6 +328,6 @@ At creation of this closure-package candidate, repository closure identities are
 
 **Iteration 8 functional exit gate: PASS.**
 
-**Iteration 8 operational closure: PENDING closure-package PR/CI/merge/post-merge verification.**
+**Iteration 8 operational closure: COMPLETE.**
 
-**Iteration 9 readiness: NOT YET ACTIVE until the mandatory four-artifact closure package is merged, reconciled, and verified on current `main`.**
+**Iteration 9 readiness: READY TO BEGIN after verifying the then-current `main` SHA and CI and confirming this reconciled record is present on `main`.**
