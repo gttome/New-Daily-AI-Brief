@@ -34,6 +34,7 @@ from .integration_execution_authorization_package import ProductionIntegrationEx
 from .integration_execution_authority_readiness import ProductionIntegrationExecutionAuthorityReadiness
 from .integration_execution_executor_binding_readiness import ProductionIntegrationExecutionExecutorBindingReadiness
 from .integration_execution_executor_binding_preflight import ProductionIntegrationExecutionExecutorBindingPreflight
+from .integration_execution_executor_binding_rehearsal import ProductionIntegrationExecutionExecutorBindingRehearsal
 from .store import CanonicalStore, ContractError, utc_now
 
 
@@ -97,6 +98,8 @@ class RunEngine:
         integration_execution_executor_binding_readiness_only: bool = False,
         integration_execution_executor_binding_preflight_fixture_root: Path | str | None = None,
         integration_execution_executor_binding_preflight_only: bool = False,
+        integration_execution_executor_binding_rehearsal_fixture_root: Path | str | None = None,
+        integration_execution_executor_binding_rehearsal_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -138,6 +141,9 @@ class RunEngine:
         )
         self.integration_execution_executor_binding_preflight_only = (
             integration_execution_executor_binding_preflight_only
+        )
+        self.integration_execution_executor_binding_rehearsal_only = (
+            integration_execution_executor_binding_rehearsal_only
         )
         if self.render_only and (self.editorial_only or self.build_only or self.validation_only):
             raise ValueError("render_only cannot be combined with earlier bounded execution modes")
@@ -405,6 +411,32 @@ class RunEngine:
                 "integration_execution_executor_binding_preflight_only cannot be combined "
                 "with another bounded execution mode"
             )
+        if self.integration_execution_executor_binding_rehearsal_only and (
+            self.editorial_only
+            or self.build_only
+            or self.validation_only
+            or self.render_only
+            or self.release_only
+            or self.evaluation_only
+            or self.reconcile_only
+            or self.completion_only
+            or self.readiness_only
+            or self.integration_preflight_only
+            or self.integration_plan_only
+            or self.integration_admission_only
+            or self.integration_execution_preflight_only
+            or self.integration_execution_rehearsal_only
+            or self.integration_execution_authorization_review_only
+            or self.integration_execution_authorization_decision_only
+            or self.integration_execution_authorization_package_only
+            or self.integration_execution_authority_readiness_only
+            or self.integration_execution_executor_binding_readiness_only
+            or self.integration_execution_executor_binding_preflight_only
+        ):
+            raise ValueError(
+                "integration_execution_executor_binding_rehearsal_only cannot be combined "
+                "with another bounded execution mode"
+            )
         if editorial_fixture_root is not None:
             self.editorial_fixture_root = Path(editorial_fixture_root)
         elif mode in {"synthetic", "shadow"}:
@@ -598,6 +630,19 @@ class RunEngine:
             )
         else:
             self.integration_execution_executor_binding_preflight_fixture_root = None
+        if integration_execution_executor_binding_rehearsal_fixture_root is not None:
+            self.integration_execution_executor_binding_rehearsal_fixture_root = Path(
+                integration_execution_executor_binding_rehearsal_fixture_root
+            )
+        elif mode in {"synthetic", "shadow"}:
+            self.integration_execution_executor_binding_rehearsal_fixture_root = (
+                Path(__file__).resolve().parents[2]
+                / "fixtures"
+                / "iteration22"
+                / "current-blocked"
+            )
+        else:
+            self.integration_execution_executor_binding_rehearsal_fixture_root = None
 
     def _new_run(self) -> dict[str, Any]:
         now = utc_now()
@@ -1111,6 +1156,28 @@ class RunEngine:
             failure_class=failure_class,
         )
 
+    def _integration_execution_executor_binding_rehearsal_pipeline(
+        self,
+    ) -> ProductionIntegrationExecutionExecutorBindingRehearsal:
+        failure_boundary_id = None
+        failure_class = "synthetic_integration_execution_executor_binding_rehearsal_boundary_failure"
+        if (
+            self.failure_injection
+            and self.failure_injection.stage == "Complete"
+            and self.failure_injection.candidate_id
+            and self.failure_injection.candidate_id.startswith("executor_binding_rehearsal:")
+        ):
+            failure_boundary_id = self.failure_injection.candidate_id
+            failure_class = self.failure_injection.failure_class
+        return ProductionIntegrationExecutionExecutorBindingRehearsal(
+            self.store,
+            self.edition_date,
+            self.mode,
+            self.integration_execution_executor_binding_rehearsal_fixture_root,
+            failure_boundary_id=failure_boundary_id,
+            failure_class=failure_class,
+        )
+
     def _rating_contract(self) -> dict[str, Any]:
         return {
             "contract_version": RATING_CONTRACT_VERSION,
@@ -1359,6 +1426,7 @@ class RunEngine:
                 or self.integration_execution_authority_readiness_only
                 or self.integration_execution_executor_binding_readiness_only
                 or self.integration_execution_executor_binding_preflight_only
+                or self.integration_execution_executor_binding_rehearsal_only
             ):
                 self.store.acquire_lease(self.run_id, self.owner)
                 try:
@@ -1537,6 +1605,24 @@ class RunEngine:
                             ),
                         )
                         executor_binding_preflight.finalize(artifact)
+                    if self.integration_execution_executor_binding_rehearsal_only:
+                        executor_binding_rehearsal = (
+                            self._integration_execution_executor_binding_rehearsal_pipeline()
+                        )
+                        evaluated = executor_binding_rehearsal.prepare(run)
+                        existing = self.store.load_artifact(
+                            "production-integration-execution-executor-binding-rehearsal"
+                        )
+                        executor_binding_rehearsal.validate_existing(existing, run, evaluated)
+                        artifact = self._ensure_artifact(
+                            run,
+                            "production-integration-execution-executor-binding-rehearsal",
+                            "complete:integration-execution-executor-binding-rehearsal",
+                            lambda: executor_binding_rehearsal.build_executor_binding_rehearsal(
+                                run, evaluated
+                            ),
+                        )
+                        executor_binding_rehearsal.finalize(artifact)
                 finally:
                     self.store.release_lease(self.owner)
             return run
@@ -1589,6 +1675,12 @@ class RunEngine:
             raise ContractError(
                 "integration_execution_executor_binding_preflight_only requires an existing "
                 "locked Iteration 20 executor-binding-readiness artifact and a run at "
+                "Complete / complete_locked"
+            )
+        if self.integration_execution_executor_binding_rehearsal_only:
+            raise ContractError(
+                "integration_execution_executor_binding_rehearsal_only requires an existing "
+                "locked Iteration 21 executor-binding-preflight artifact and a run at "
                 "Complete / complete_locked"
             )
         if self.render_only and run["current_state"] not in {"Validating", "Recovering"}:
@@ -1959,6 +2051,8 @@ def start_daily_brief(
     integration_execution_executor_binding_readiness_only: bool = False,
     integration_execution_executor_binding_preflight_fixture_root: Path | str | None = None,
     integration_execution_executor_binding_preflight_only: bool = False,
+    integration_execution_executor_binding_rehearsal_fixture_root: Path | str | None = None,
+    integration_execution_executor_binding_rehearsal_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
     return RunEngine(
@@ -2030,6 +2124,12 @@ def start_daily_brief(
         ),
         integration_execution_executor_binding_preflight_only=(
             integration_execution_executor_binding_preflight_only
+        ),
+        integration_execution_executor_binding_rehearsal_fixture_root=(
+            integration_execution_executor_binding_rehearsal_fixture_root
+        ),
+        integration_execution_executor_binding_rehearsal_only=(
+            integration_execution_executor_binding_rehearsal_only
         ),
     ).run()
 
