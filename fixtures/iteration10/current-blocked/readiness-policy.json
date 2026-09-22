@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "readiness_policy_version": "1.0.0",
+  "policy_id": "production-readiness-v1",
+  "required_prerequisites": [
+    "cost_policy",
+    "production_discovery",
+    "production_publication",
+    "public_deployment_verification",
+    "private_command_center",
+    "production_schedules",
+    "subscriber_delivery",
+    "legacy_migration_cutover",
+    "rollback_recovery"
+  ]
+}
