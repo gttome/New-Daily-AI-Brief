@@ -20,7 +20,7 @@ Do not begin implementation if the Iteration 13 evidence reports \`repository_cl
 
 ### Activation status
 
-**Iteration 14 is NOT YET READY TO BEGIN in this initial closure-package candidate.**
+**Iteration 14 is READY TO BEGIN**, subject to the mandatory start-of-iteration verification of the then-current `main` SHA and CI.
 
 Iteration 13 implementation is functionally complete and passing:
 
