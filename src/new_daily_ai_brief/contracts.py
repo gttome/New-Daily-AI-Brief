@@ -8,7 +8,8 @@ RUN_SCHEMA_VERSION: Final = "1.0.0"
 RATING_CONTRACT_VERSION: Final = "five-star-v1"
 PROJECTION_SCHEMA_VERSION: Final = "1.0.0"
 COMPLETION_CONTRACT_VERSION: Final = "1.0.0"
-COMPLETION_CONTRACT_VERSION: Final = "1.0.0"
+READINESS_SCHEMA_VERSION: Final = "1.0.0"
+READINESS_POLICY_VERSION: Final = "1.0.0"
 
 STATES: Final[tuple[str, ...]] = (
     "Ready",
@@ -73,6 +74,7 @@ ARTIFACT_DEPENDENCIES: Final[dict[str, tuple[str, ...]]] = {
     ),
     "projection-watermark": ("publication-bundle", "book-change-evaluation"),
     "completion": ("publication-bundle", "book-change-evaluation", "projection-watermark"),
+    "readiness-admission": ("completion",),
 }
 
 ARTIFACT_FILES: Final[dict[str, str]] = {
@@ -93,6 +95,7 @@ ARTIFACT_FILES: Final[dict[str, str]] = {
     "command-center-projection": "command-center-projection.json",
     "projection-watermark": "projection-watermark.json",
     "completion": "completion.json",
+    "readiness-admission": "readiness-admission.json",
 }
 
 MANDATORY_COMPLETION_RECEIPTS: Final[tuple[str, ...]] = (
