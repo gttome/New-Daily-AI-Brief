@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "evaluation_contract_version": "1.0.0",
+  "evaluator_adapter_version": "fixture-book-change-v1",
+  "required_counts": {
+    "article": 6,
+    "video": 2,
+    "podcast": 2
+  },
+  "proposal_item_types": [
+    "podcast"
+  ],
+  "shadow_only": true,
+  "production_authorized": false
+}
