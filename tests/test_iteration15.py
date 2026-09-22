@@ -215,6 +215,8 @@ class Iteration15IntegrationExecutionRehearsalTest(unittest.TestCase):
             self.assertEqual(data["rehearsal_decision_id"], "synthetic-rehearsal-decision-v1")
             self.assertIsNotNone(data["execution_attempt_id"])
             self.assertEqual(data["rehearsal_receipt_count"], 10)
+            self.assertEqual(len(data["execution_steps"]), 10)
+            self.assertTrue(all(item["enabled"] is False for item in data["execution_steps"]))
             receipts = data["rehearsal_receipts"]
             self.assertEqual(
                 [x["step_id"] for x in receipts],
@@ -337,17 +339,26 @@ class Iteration15IntegrationExecutionRehearsalTest(unittest.TestCase):
             )
 
     def test_changed_policy_manifest_and_decision_identity_fail_closed(self):
-        mutators = (
-            ("policy", lambda p, m: p.update({"nonsemantic_test_marker": "changed"})),
-            ("manifest", lambda p, m: m.update({"nonsemantic_test_marker": "changed"})),
+        cases = (
+            (
+                "policy",
+                lambda p: p.update({"nonsemantic_test_marker": "changed"}),
+                None,
+            ),
+            (
+                "manifest",
+                None,
+                lambda m: m.update({"nonsemantic_test_marker": "changed"}),
+            ),
             (
                 "decision",
-                lambda p, m: m["rehearsal_decision"].update(
+                None,
+                lambda m: m["rehearsal_decision"].update(
                     {"decision_id": "synthetic-rehearsal-decision-v2"}
                 ),
             ),
         )
-        for name, mutate in mutators:
+        for name, policy_mutator, manifest_mutator in cases:
             with self.subTest(name=name), tempfile.TemporaryDirectory() as td:
                 _, engine = self.make_execution_preflight(td, review_ready=True)
                 fixture = self.write_fixture(Path(td) / "first", engine)
@@ -360,8 +371,8 @@ class Iteration15IntegrationExecutionRehearsalTest(unittest.TestCase):
                 changed = self.write_fixture(
                     Path(td) / "changed",
                     engine,
-                    policy_mutator=lambda p, fn=mutate: fn(p, {}),
-                    manifest_mutator=lambda m, fn=mutate: fn({}, m),
+                    policy_mutator=policy_mutator,
+                    manifest_mutator=manifest_mutator,
                 )
                 with self.assertRaises(IntegrationExecutionRehearsalError):
                     start_daily_brief(
