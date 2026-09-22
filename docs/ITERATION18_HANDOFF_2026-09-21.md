@@ -8,7 +8,7 @@
 **Implementation post-merge CI:** Greenfield Contracts run **35698943860 — PASS (239/239)**  
 **Controlling closure evidence:** `evidence/iteration17/synthetic-shadow-production-integration-execution-authorization-decision-evidence.json`
 
-> **ACTIVATION STATUS: PENDING CLOSURE RECONCILIATION.** Do not begin Iteration 18 until current repository evidence reports `repository_closure_status=complete` and `iteration18_ready=true`. The implementation anchor above is not permission to bypass the closure gate. Current repository records at the time Iteration 18 starts are authoritative.
+> **ACTIVATION STATUS: READY.** Iteration 17 closure PR **#48** exact candidate `018a14382983c5b28c135288f97c4cba3ae5ec58` passed Greenfield Contracts run **35699321263 — PASS (239/239)**, merged as `adc65322a9ec34e5bdc2e2af701c33fbdd11616b`, and post-merge Greenfield Contracts run **35699494860 — PASS (239/239)** verified that closure `main`. The reconciled Iteration 17 evidence reports `repository_closure_status=complete` and `iteration18_ready=true`. Before implementation, still verify the then-current `main` SHA/CI and re-read repository evidence; current repository records, not this remembered SHA or chat history, are authoritative.
 
 ## Required startup reads
 
@@ -275,11 +275,6 @@ Machine evidence must report repository closure complete and `iteration19_ready=
 
 ## Activation determination
 
-**Iteration 18 implementation authorization: NOT YET ACTIVE.**
+**Iteration 18 implementation authorization: READY**, subject to mandatory start-of-iteration verification of the then-current `main` SHA, CI, and reconciled Iteration 17 evidence.
 
-Activation occurs only when the reconciled Iteration 17 machine evidence on verified current `main` reports:
-
-- `repository_closure_status=complete`;
-- `iteration18_ready=true`.
-
-The receiving chat must still re-verify current `main`, CI, and those exact repository fields before making changes.
+The receiving chat must still re-verify `repository_closure_status=complete` and `iteration18_ready=true` from current repository records before making changes.
