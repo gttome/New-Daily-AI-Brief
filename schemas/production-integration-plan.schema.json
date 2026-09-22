@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/production-integration-plan.schema.json",
+  "title": "Iteration 12 Production Integration Plan Artifact Data",
+  "type": "object",
+  "required": [
+    "plan_schema_version",
+    "plan_policy_version",
+    "plan_id",
+    "preflight_artifact_digest",
+    "preflight_id",
+    "classification",
+    "classification_reason_codes",
+    "plan_steps",
+    "dry_run_assertion_set",
+    "rollback_boundary_set",
+    "synthetic_only",
+    "production_action_authorized",
+    "production_cutover_authorized",
+    "legacy_decommission_authorized",
+    "production_publication",
+    "final_state",
+    "final_status"
+  ],
+  "properties": {
+    "plan_schema_version": {
+      "const": "1.0.0"
+    },
+    "plan_policy_version": {
+      "const": "1.0.0"
+    },
+    "classification": {
+      "enum": [
+        "blocked",
+        "planned",
+        "invalid"
+      ]
+    },
+    "synthetic_only": {
+      "const": true
+    },
+    "production_action_authorized": {
+      "const": false
+    },
+    "production_cutover_authorized": {
+      "const": false
+    },
+    "legacy_decommission_authorized": {
+      "const": false
+    },
+    "production_publication": {
+      "const": false
+    },
+    "final_state": {
+      "const": "Complete"
+    },
+    "final_status": {
+      "const": "complete_locked"
+    },
+    "plan_id": {
+      "type": "string"
+    },
+    "preflight_artifact_digest": {
+      "type": "string"
+    },
+    "preflight_id": {
+      "type": "string"
+    },
+    "classification_reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "plan_steps": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": [
+          "step_id",
+          "prerequisite",
+          "step_state",
+          "reason_code",
+          "bound_evidence_source",
+          "predecessor_step_ids",
+          "dry_run_assertions",
+          "rollback_boundary",
+          "production_action_authorized"
+        ],
+        "properties": {
+          "step_state": {
+            "enum": [
+              "planned",
+              "blocked",
+              "invalid"
+            ]
+          },
+          "production_action_authorized": {
+            "const": false
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "dry_run_assertion_set": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "type": "object"
+      }
+    },
+    "rollback_boundary_set": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "additionalProperties": true
+}
