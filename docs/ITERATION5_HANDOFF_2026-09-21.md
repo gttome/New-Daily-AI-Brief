@@ -4,7 +4,14 @@
 
 ## Activation condition
 
-Iteration 5 may begin only after the complete Iteration 4 closure package is present on verified `main`.
+**Activation condition satisfied.** The complete Iteration 4 closure package is present on verified `main`.
+
+Closure identity:
+
+- closure package PR: **#9**;
+- closure package merge: `c8df55ee850bb0f066881bf42dd5dec19454a0cf`;
+- closure post-merge `Greenfield Contracts` run: **35674679833**;
+- closure regression suite: **43/43 PASS**.
 
 The validated Iteration 4 implementation baseline is:
 

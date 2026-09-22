@@ -239,7 +239,16 @@ The Iteration 4 closure package consists of:
 - `docs/ITERATION5_HANDOFF_2026-09-21.md`;
 - `docs/ITERATION5_START_PROMPT_2026-09-21.md`.
 
-The closure-package merge identity and its post-merge `main` CI identity are reconciled into this record after the package itself is merged.
+Closure verification is complete:
+
+- Closure PR: **#9**
+- Closure candidate SHA: `4e4558deca7f91cdb8968bd35f5b601c4f02a266`
+- Closure PR CI run: **35674597340**
+- Closure PR regression: **43/43 PASS**
+- Closure package merge SHA: `c8df55ee850bb0f066881bf42dd5dec19454a0cf`
+- Closure post-merge `main` CI run: **35674679833**
+- Closure post-merge regression: **43/43 PASS**
+- Repository closure status: **COMPLETE**
 
 ## Deferred scope / Iteration 5 input
 
@@ -251,4 +260,6 @@ The Iteration 4 implementation satisfies the image, validation, deterministic re
 
 **Iteration 4 implementation: COMPLETE.**
 
-Operational closure becomes final only when the four required closure records are merged and the closure `main` CI identity has been recorded back into the repository.
+**Iteration 4 operational closure: COMPLETE.**
+
+All four mandatory closure artifacts are present on verified `main`, and the standalone Iteration 5 start prompt can begin a fresh chat without reconstruction.
