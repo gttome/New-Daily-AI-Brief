@@ -1,0 +1,241 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_type": "iteration7-synthetic-shadow-post-publication-evaluation",
+  "iteration": 7,
+  "prepared_date": "2026-09-21",
+  "repository": "gttome/New-Daily-AI-Brief",
+  "controlling_handoff": "docs/ITERATION7_HANDOFF_2026-09-21.md",
+  "starting_baseline": {
+    "main_sha": "565f663568213452941a1040cdcc0d96319f9128",
+    "main_ci_run": 35678108377,
+    "main_ci_conclusion": "success",
+    "pre_iteration_test_count": 67,
+    "iteration6_operational_closure": "complete",
+    "iteration7_activation_gate": true
+  },
+  "implementation": {
+    "pr": 17,
+    "exact_merged_candidate": "8767568b1e9282908058274992ef613646d62c1b",
+    "candidate_ci_run": 35679189858,
+    "candidate_ci_conclusion": "success",
+    "candidate_test_count": 81,
+    "candidate_compile": "pass",
+    "merge_sha": "3e3486e25bc204931f59879995d81a59e0579ffc",
+    "post_merge_main_ci_run": 35679235218,
+    "post_merge_main_ci_conclusion": "success",
+    "post_merge_test_count": 81,
+    "python": "3.11.16",
+    "runtime_test_partition": {
+      "prior_iterations_retained": 67,
+      "iteration7": 14
+    }
+  },
+  "intermediate_correction": {
+    "initial_candidate": "95e6ff4cc92eeffd07708f04e16030f97ee04c88",
+    "ci_run": 35679030784,
+    "test_count": 81,
+    "passed": 75,
+    "errors": 6,
+    "failure_class": "IllegalTransition",
+    "defect": "PostPublicationEvaluation -> Recovering transition missing",
+    "corrected_candidate": "1c72f89e8d2edabdf37ac6f7ffd9f1c52bbb376c",
+    "corrected_ci_run": 35679062365,
+    "corrected_result": "81/81 pass"
+  },
+  "evaluation_contract": {
+    "contract_version": "1.0.0",
+    "adapter_version": "fixture-book-change-v1",
+    "mode_scope": [
+      "synthetic",
+      "shadow"
+    ],
+    "production_adapter": "fail_closed_unconfigured",
+    "exact_item_count": 10,
+    "membership": {
+      "article": 6,
+      "video": 2,
+      "podcast": 2
+    },
+    "required_success_dispositions": [
+      "proposal_warranted",
+      "no_material_proposal"
+    ],
+    "represented_non_success_dispositions": [
+      "unavailable_invalid_input",
+      "not_evaluated"
+    ],
+    "zero_semantics": {
+      "all_items_evaluated_required": true,
+      "proposal_count": 0,
+      "proposal_records_empty": true,
+      "result_semantics": "true_zero",
+      "missing_evaluation_is_zero": false
+    },
+    "standard_fixture": {
+      "proposal_item_types": [
+        "podcast"
+      ],
+      "expected_proposal_count": 2
+    }
+  },
+  "release_chain_binding": {
+    "publication_bundle_digest": true,
+    "route_manifest_digest": true,
+    "release_package_digest": true,
+    "shadow_deployment_digest": true,
+    "shadow_deployment_identity": true,
+    "live_verification_digest": true,
+    "evaluation_contract_version": true,
+    "required_live_verification": {
+      "verification_scope": "shadow_offline",
+      "result": "passed",
+      "shadow_only": true,
+      "production_authorized": false,
+      "all_checks_pass": true
+    }
+  },
+  "deterministic_replay": {
+    "identical_locked_inputs_identical_evaluation_semantic_identity": true,
+    "volatile_timestamps_excluded_from_semantic_identity": true,
+    "volatile_elapsed_time_excluded_from_semantic_identity": true
+  },
+  "failure_recovery": {
+    "one_item": {
+      "injected_boundary": "evaluation:item:<story-id>",
+      "completed_prior_item_decisions": 3,
+      "fresh_engine_resume": true,
+      "prior_item_decisions_reused": true,
+      "unrelated_item_rewrites": 0,
+      "locked_iteration1_6_reexecution": 0,
+      "full_pipeline_restarts": 0,
+      "final_result": "recovered"
+    },
+    "final_artifact": {
+      "injected_boundary": "evaluation:artifact",
+      "durable_item_decisions_before_failure": 10,
+      "fresh_engine_resume": true,
+      "item_decisions_reused": 10,
+      "unrelated_item_rewrites": 0,
+      "locked_iteration1_6_reexecution": 0,
+      "full_pipeline_restarts": 0,
+      "final_result": "recovered"
+    }
+  },
+  "fail_closed_proof": [
+    "stale_or_corrupted_live_verification",
+    "non_passing_live_verification",
+    "unsafe_or_wrong_verification_scope",
+    "release_chain_digest_or_identity_mismatch",
+    "incorrect_exact_item_membership",
+    "corrupted_cached_item_evaluation",
+    "incomplete_or_not_evaluated_item_disposition",
+    "corrupted_locked_final_evaluation_artifact",
+    "final_artifact_without_durable_item_state",
+    "unsafe_or_unsupported_evaluation_contract",
+    "production_evaluator_without_approved_zero_incremental_cost_path"
+  ],
+  "three_run_exit_gate": [
+    {
+      "edition_date": "2026-09-22",
+      "mode": "shadow",
+      "exact_item_evaluations": 10,
+      "standard_fixture_proposal_count": 2,
+      "final_state": "PostPublicationEvaluation",
+      "completion_status": "post_publication_evaluation_locked",
+      "manual_intervention": false,
+      "locked_upstream_reexecution": 0,
+      "full_pipeline_restarts": 0,
+      "operations_reconciled": false,
+      "command_center_projection": false,
+      "final_completion": false,
+      "public_deployment_or_route_mutation": false,
+      "result": "pass"
+    },
+    {
+      "edition_date": "2026-09-23",
+      "mode": "shadow",
+      "exact_item_evaluations": 10,
+      "standard_fixture_proposal_count": 2,
+      "final_state": "PostPublicationEvaluation",
+      "completion_status": "post_publication_evaluation_locked",
+      "manual_intervention": false,
+      "locked_upstream_reexecution": 0,
+      "full_pipeline_restarts": 0,
+      "operations_reconciled": false,
+      "command_center_projection": false,
+      "final_completion": false,
+      "public_deployment_or_route_mutation": false,
+      "result": "pass"
+    },
+    {
+      "edition_date": "2026-09-24",
+      "mode": "shadow",
+      "exact_item_evaluations": 10,
+      "standard_fixture_proposal_count": 2,
+      "final_state": "PostPublicationEvaluation",
+      "completion_status": "post_publication_evaluation_locked",
+      "manual_intervention": false,
+      "locked_upstream_reexecution": 0,
+      "full_pipeline_restarts": 0,
+      "operations_reconciled": false,
+      "command_center_projection": false,
+      "final_completion": false,
+      "public_deployment_or_route_mutation": false,
+      "result": "pass"
+    }
+  ],
+  "anti_rework": {
+    "discovery_reexecution": 0,
+    "editorial_reexecution": 0,
+    "media_reexecution": 0,
+    "watchlist_reexecution": 0,
+    "book_bridge_reexecution": 0,
+    "accepted_image_rework": 0,
+    "publication_bundle_rebuild": 0,
+    "reader_render_rebuild": 0,
+    "route_manifest_rebuild": 0,
+    "release_package_rebuild": 0,
+    "shadow_deployment_rewrite_or_redeployment": 0,
+    "valid_live_verification_rerun": 0,
+    "unrelated_evaluated_item_rewrite": 0,
+    "full_pipeline_restarts": 0
+  },
+  "production_and_cost_guards": {
+    "separately_billed_openai_api_used": false,
+    "paid_evaluation_api_used": false,
+    "paid_deployment_or_hosting_api_used": false,
+    "new_incremental_paid_dependency": false,
+    "github_pages_deployed": false,
+    "public_chatgpt_site_mutated": false,
+    "live_public_url_mutated": false,
+    "real_public_route_verification": false,
+    "command_center_projection": false,
+    "production_schedules_changed": false,
+    "subscriber_delivery_changed": false,
+    "legacy_content_migrated": false,
+    "production_cutover": false,
+    "legacy_system_decommissioned": false,
+    "legacy_repo_modified": false
+  },
+  "closure": {
+    "required_artifacts": [
+      "docs/ITERATION7_AFTER_ACTION_2026-09-21.md",
+      "evidence/iteration7/synthetic-shadow-evaluation-evidence.json",
+      "docs/ITERATION8_HANDOFF_2026-09-21.md",
+      "docs/ITERATION8_START_PROMPT_2026-09-21.md"
+    ],
+    "repository_closure_status": "pending_closure_package_merge",
+    "closure_pr": null,
+    "exact_closure_candidate": null,
+    "closure_pr_ci_run": null,
+    "closure_pr_ci_conclusion": null,
+    "closure_merge_sha": null,
+    "closure_post_merge_main_ci_run": null,
+    "closure_post_merge_main_ci_conclusion": null,
+    "reconciliation_pr": null,
+    "reconciliation_merge_sha": null,
+    "final_main_ci_run": null,
+    "final_main_ci_conclusion": null,
+    "iteration8_ready": false
+  }
+}
