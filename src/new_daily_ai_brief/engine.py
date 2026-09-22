@@ -16,6 +16,7 @@ from .contracts import (
     FailureInjection,
 )
 from .editorial import DiscoveryEditorialPipeline, EditorialCandidateFailure, EditorialFailureInjection
+from .evaluation import EvaluationBoundaryFailure, PostPublicationEvaluationPipeline
 from .pre_release import ImageBoundaryFailure, PreReleasePipeline, ValidationBoundaryFailure
 from .render import ReaderSurfaceRenderer, RenderBoundaryFailure
 from .release import ReleaseBoundaryFailure, ShadowReleasePipeline
@@ -52,6 +53,8 @@ class RunEngine:
         render_only: bool = False,
         release_fixture_root: Path | str | None = None,
         release_only: bool = False,
+        evaluation_fixture_root: Path | str | None = None,
+        evaluation_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -67,12 +70,21 @@ class RunEngine:
         self.validation_only = validation_only
         self.render_only = render_only
         self.release_only = release_only
+        self.evaluation_only = evaluation_only
         if self.render_only and (self.editorial_only or self.build_only or self.validation_only):
             raise ValueError("render_only cannot be combined with earlier bounded execution modes")
         if self.release_only and (
             self.editorial_only or self.build_only or self.validation_only or self.render_only
         ):
             raise ValueError("release_only cannot be combined with earlier bounded execution modes")
+        if self.evaluation_only and (
+            self.editorial_only
+            or self.build_only
+            or self.validation_only
+            or self.render_only
+            or self.release_only
+        ):
+            raise ValueError("evaluation_only cannot be combined with earlier bounded execution modes")
         if editorial_fixture_root is not None:
             self.editorial_fixture_root = Path(editorial_fixture_root)
         elif mode in {"synthetic", "shadow"}:
@@ -103,6 +115,12 @@ class RunEngine:
             self.release_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration6"
         else:
             self.release_fixture_root = None
+        if evaluation_fixture_root is not None:
+            self.evaluation_fixture_root = Path(evaluation_fixture_root)
+        elif mode in {"synthetic", "shadow"}:
+            self.evaluation_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration7"
+        else:
+            self.evaluation_fixture_root = None
 
     def _new_run(self) -> dict[str, Any]:
         now = utc_now()
@@ -294,6 +312,26 @@ class RunEngine:
             failure_class=failure_class,
         )
 
+    def _evaluation_pipeline(self) -> PostPublicationEvaluationPipeline:
+        failure_boundary_id = None
+        failure_class = "synthetic_evaluation_boundary_failure"
+        if (
+            self.failure_injection
+            and self.failure_injection.stage == "PostPublicationEvaluation"
+            and self.failure_injection.candidate_id
+            and self.failure_injection.candidate_id.startswith("evaluation:")
+        ):
+            failure_boundary_id = self.failure_injection.candidate_id
+            failure_class = self.failure_injection.failure_class
+        return PostPublicationEvaluationPipeline(
+            self.store,
+            self.edition_date,
+            self.mode,
+            self.evaluation_fixture_root,
+            failure_boundary_id=failure_boundary_id,
+            failure_class=failure_class,
+        )
+
     def _rating_contract(self) -> dict[str, Any]:
         return {
             "contract_version": RATING_CONTRACT_VERSION,
@@ -326,6 +364,7 @@ class RunEngine:
             "discovery", "edition", "media", "images", "watchlist", "book-bridges",
             "rating-contract", "publication-bundle", "reader-render", "route-manifest",
             "release-package", "shadow-deployment", "live-verification",
+            "book-change-evaluation",
         ):
             artifact = self.store.load_artifact(artifact_type)
             if artifact and artifact.get("status") == "locked":
@@ -387,6 +426,16 @@ class RunEngine:
                 "completed_route_ids": sorted((release_state.get("outputs") or {}).keys()),
                 "attempts": deepcopy(release_state.get("attempts") or {}),
             }
+        if isinstance(exc, EvaluationBoundaryFailure):
+            incident["boundary_type"] = exc.boundary_type
+            incident["boundary_id"] = exc.boundary_id
+            evaluation_state = self.store.read_json(
+                self.store.run_dir / "post-publication-evaluation-state.json"
+            ) or {}
+            incident["retained_evaluation_state"] = {
+                "completed_item_ids": sorted((evaluation_state.get("evaluations") or {}).keys()),
+                "attempts": deepcopy(evaluation_state.get("attempts") or {}),
+            }
         self.store.write_incident(incident)
         self.store.write_run(run)
 
@@ -419,6 +468,7 @@ class RunEngine:
                 "retained_image_state",
                 "retained_render_state",
                 "retained_release_state",
+                "retained_evaluation_state",
                 "validation_invariant",
             ):
                 if key in incident:
@@ -498,6 +548,13 @@ class RunEngine:
             raise ContractError(
                 "release_only requires an existing locked Iteration 5 route manifest "
                 "and a run stopped at or after the Validating boundary"
+            )
+        if self.evaluation_only and run["current_state"] not in {
+            "LiveVerified", "PostPublicationEvaluation", "Recovering"
+        }:
+            raise ContractError(
+                "evaluation_only requires an existing locked Iteration 6 LiveVerified release chain "
+                "and a run stopped at or after the LiveVerified boundary"
             )
         self.store.acquire_lease(self.run_id, self.owner)
         try:
@@ -651,6 +708,28 @@ class RunEngine:
                             return run
                         self.transition(run, "PostPublicationEvaluation")
                     elif state == "PostPublicationEvaluation":
+                        if self.evaluation_only:
+                            evaluation_pipeline = self._evaluation_pipeline()
+                            evaluation_pipeline.validate_existing_evaluation_set()
+                            evaluation = self._ensure_artifact(
+                                run,
+                                "book-change-evaluation",
+                                "post_publication_evaluation",
+                                evaluation_pipeline.build_evaluation,
+                            )
+                            run["stage_receipts"]["post_publication_evaluation"] = {
+                                "evaluation_digest": evaluation["content_digest"],
+                                "proposal_count": evaluation["data"]["proposal_count"],
+                                "all_items_evaluated": evaluation["data"]["all_items_evaluated"],
+                                "live_verification_digest": evaluation["data"]["bound_release"][
+                                    "live_verification_digest"
+                                ],
+                                "evaluated_at": utc_now(),
+                                "scope": "shadow_only",
+                            }
+                            run["completion_status"] = "post_publication_evaluation_locked"
+                            self.store.write_run(run)
+                            return run
                         self._ensure_artifact(
                             run,
                             "book-change-evaluation",
@@ -686,6 +765,7 @@ class RunEngine:
                     ValidationBoundaryFailure,
                     RenderBoundaryFailure,
                     ReleaseBoundaryFailure,
+                    EvaluationBoundaryFailure,
                 ) as exc:
                     self._record_failure(run, state, exc)
                     raise
@@ -721,6 +801,8 @@ def start_daily_brief(
     render_only: bool = False,
     release_fixture_root: Path | str | None = None,
     release_only: bool = False,
+    evaluation_fixture_root: Path | str | None = None,
+    evaluation_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
     return RunEngine(
@@ -739,6 +821,8 @@ def start_daily_brief(
         render_only=render_only,
         release_fixture_root=release_fixture_root,
         release_only=release_only,
+        evaluation_fixture_root=evaluation_fixture_root,
+        evaluation_only=evaluation_only,
     ).run()
 
 
