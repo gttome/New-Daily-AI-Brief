@@ -17,6 +17,7 @@ from .contracts import (
 )
 from .editorial import DiscoveryEditorialPipeline, EditorialCandidateFailure, EditorialFailureInjection
 from .pre_release import ImageBoundaryFailure, PreReleasePipeline, ValidationBoundaryFailure
+from .render import ReaderSurfaceRenderer, RenderBoundaryFailure
 from .store import CanonicalStore, ContractError, utc_now
 
 
@@ -46,6 +47,8 @@ class RunEngine:
         build_only: bool = False,
         pre_release_fixture_root: Path | str | None = None,
         validation_only: bool = False,
+        render_fixture_root: Path | str | None = None,
+        render_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -59,6 +62,9 @@ class RunEngine:
         self.editorial_only = editorial_only
         self.build_only = build_only
         self.validation_only = validation_only
+        self.render_only = render_only
+        if self.render_only and (self.editorial_only or self.build_only or self.validation_only):
+            raise ValueError("render_only cannot be combined with earlier bounded execution modes")
         if editorial_fixture_root is not None:
             self.editorial_fixture_root = Path(editorial_fixture_root)
         elif mode in {"synthetic", "shadow"}:
@@ -77,6 +83,12 @@ class RunEngine:
             self.pre_release_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration4"
         else:
             self.pre_release_fixture_root = None
+        if render_fixture_root is not None:
+            self.render_fixture_root = Path(render_fixture_root)
+        elif mode in {"synthetic", "shadow"}:
+            self.render_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration5"
+        else:
+            self.render_fixture_root = None
 
     def _new_run(self) -> dict[str, Any]:
         now = utc_now()
@@ -228,6 +240,26 @@ class RunEngine:
             failure_class=failure_class,
         )
 
+    def _render_pipeline(self) -> ReaderSurfaceRenderer:
+        failure_boundary_id = None
+        failure_class = "synthetic_render_boundary_failure"
+        if (
+            self.failure_injection
+            and self.failure_injection.stage == "Validating"
+            and self.failure_injection.candidate_id
+            and self.failure_injection.candidate_id.startswith("render:")
+        ):
+            failure_boundary_id = self.failure_injection.candidate_id
+            failure_class = self.failure_injection.failure_class
+        return ReaderSurfaceRenderer(
+            self.store,
+            self.edition_date,
+            self.mode,
+            self.render_fixture_root,
+            failure_boundary_id=failure_boundary_id,
+            failure_class=failure_class,
+        )
+
     def _rating_contract(self) -> dict[str, Any]:
         return {
             "contract_version": RATING_CONTRACT_VERSION,
@@ -256,7 +288,10 @@ class RunEngine:
         run["recovery_target"] = failed_stage
         run["incident_count"] += 1
         retained = []
-        for artifact_type in ("discovery", "edition", "media", "images", "watchlist", "book-bridges", "rating-contract"):
+        for artifact_type in (
+            "discovery", "edition", "media", "images", "watchlist", "book-bridges",
+            "rating-contract", "publication-bundle", "reader-render", "route-manifest",
+        ):
             artifact = self.store.load_artifact(artifact_type)
             if artifact and artifact.get("status") == "locked":
                 retained.append(artifact_type)
@@ -301,6 +336,14 @@ class RunEngine:
             incident["boundary_type"] = exc.boundary_type
             incident["boundary_id"] = exc.boundary_id
             incident["validation_invariant"] = exc.invariant
+        if isinstance(exc, RenderBoundaryFailure):
+            incident["boundary_type"] = exc.boundary_type
+            incident["boundary_id"] = exc.boundary_id
+            render_state = self.store.read_json(self.store.run_dir / "reader-render-state.json") or {}
+            incident["retained_render_state"] = {
+                "completed_route_ids": sorted((render_state.get("outputs") or {}).keys()),
+                "attempts": deepcopy(render_state.get("attempts") or {}),
+            }
         self.store.write_incident(incident)
         self.store.write_run(run)
 
@@ -331,6 +374,7 @@ class RunEngine:
                 "boundary_id",
                 "retained_build_state",
                 "retained_image_state",
+                "retained_render_state",
                 "validation_invariant",
             ):
                 if key in incident:
@@ -399,6 +443,11 @@ class RunEngine:
         run = self.load_or_create()
         if run["current_state"] == "Complete":
             return run
+        if self.render_only and run["current_state"] not in {"Validating", "Recovering"}:
+            raise ContractError(
+                "render_only requires an existing locked Iteration 4 publication bundle "
+                "and a run stopped at the Validating boundary"
+            )
         self.store.acquire_lease(self.run_id, self.owner)
         try:
             self._recover_if_needed(run)
@@ -435,6 +484,31 @@ class RunEngine:
                         self._ensure_artifact(run, "images", "building:images", pre_release.build_images)
                         self.transition(run, "Validating")
                     elif state == "Validating":
+                        if self.render_only:
+                            bundle = self.store.load_artifact("publication-bundle")
+                            if not bundle or bundle.get("status") != "locked":
+                                raise RenderBoundaryFailure(
+                                    "render_validation",
+                                    "publication-bundle",
+                                    "render_only requires the existing locked Iteration 4 publication bundle",
+                                )
+                            renderer = self._render_pipeline()
+                            renderer.validate_existing_render_set()
+                            self._ensure_artifact(
+                                run,
+                                "reader-render",
+                                "validating:reader-render",
+                                renderer.build_reader_render,
+                            )
+                            self._ensure_artifact(
+                                run,
+                                "route-manifest",
+                                "validating:route-manifest",
+                                renderer.build_route_manifest,
+                            )
+                            run["completion_status"] = "render_locked"
+                            self.store.write_run(run)
+                            return run
                         self._maybe_inject("Validating")
                         pre_release = self._pre_release_pipeline()
                         self._ensure_artifact(
@@ -505,6 +579,7 @@ class RunEngine:
                     BuildBoundaryFailure,
                     ImageBoundaryFailure,
                     ValidationBoundaryFailure,
+                    RenderBoundaryFailure,
                 ) as exc:
                     self._record_failure(run, state, exc)
                     raise
@@ -536,6 +611,8 @@ def start_daily_brief(
     build_only: bool = False,
     pre_release_fixture_root: Path | str | None = None,
     validation_only: bool = False,
+    render_fixture_root: Path | str | None = None,
+    render_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
     return RunEngine(
@@ -550,6 +627,8 @@ def start_daily_brief(
         build_only=build_only,
         pre_release_fixture_root=pre_release_fixture_root,
         validation_only=validation_only,
+        render_fixture_root=render_fixture_root,
+        render_only=render_only,
     ).run()
 
 

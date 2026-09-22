@@ -1,0 +1,25 @@
+{
+  "$id": "https://daily-ai-brief.local/schemas/reader-render.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "reader-render",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "artifact_id", "artifact_type", "content_digest", "produced_by_stage", "input_digests", "status", "data"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "artifact_type": {"const": "reader-render"},
+    "content_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "status": {"enum": ["locked", "invalidated"]},
+    "data": {
+      "type": "object",
+      "required": ["render_contract_version", "template_version", "publication_bundle_digest", "story_order", "routes", "release_authorized", "render_only_boundary"],
+      "properties": {
+        "render_contract_version": {"const": "1.0.0"},
+        "story_order": {"type": "array", "minItems": 6, "maxItems": 6},
+        "routes": {"type": "array", "minItems": 11, "maxItems": 11},
+        "release_authorized": {"const": false},
+        "render_only_boundary": {"const": true}
+      }
+    }
+  }
+}

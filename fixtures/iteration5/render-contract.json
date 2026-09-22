@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "render_contract_version": "1.0.0",
+  "template_version": "shadow-static-v1",
+  "output_model": "deterministic-static-shadow",
+  "required_surfaces": [
+    "current",
+    "latest",
+    "dated",
+    "six_permanent_story_routes",
+    "archive",
+    "feed"
+  ],
+  "accessibility_contract": {
+    "html_lang": "en",
+    "main_required": true,
+    "h1_required": true,
+    "image_alt_required": true
+  },
+  "rating_contract": "five-star-v1",
+  "release_authorized": false
+}

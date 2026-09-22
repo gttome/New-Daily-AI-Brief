@@ -1,0 +1,26 @@
+{
+  "$id": "https://daily-ai-brief.local/schemas/route-render-manifest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "route-render-manifest",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "artifact_id", "artifact_type", "content_digest", "produced_by_stage", "input_digests", "status", "data"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "artifact_type": {"const": "route-manifest"},
+    "content_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "status": {"enum": ["locked", "invalidated"]},
+    "data": {
+      "type": "object",
+      "required": ["manifest_contract_version", "publication_bundle_digest", "reader_render_digest", "template_version", "routes", "validation_result", "accessibility_structural_result", "release_authorized", "render_only_boundary"],
+      "properties": {
+        "manifest_contract_version": {"const": "1.0.0"},
+        "routes": {"type": "array", "minItems": 11, "maxItems": 11},
+        "validation_result": {"const": "passed"},
+        "accessibility_structural_result": {"const": "passed"},
+        "release_authorized": {"const": false},
+        "render_only_boundary": {"const": true}
+      }
+    }
+  }
+}
