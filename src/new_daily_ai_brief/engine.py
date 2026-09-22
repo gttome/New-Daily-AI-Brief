@@ -210,6 +210,24 @@ class RunEngine:
             raise ValueError(
                 "integration_execution_preflight_only cannot be combined with another bounded execution mode"
             )
+        if self.integration_execution_rehearsal_only and (
+            self.editorial_only
+            or self.build_only
+            or self.validation_only
+            or self.render_only
+            or self.release_only
+            or self.evaluation_only
+            or self.reconcile_only
+            or self.completion_only
+            or self.readiness_only
+            or self.integration_preflight_only
+            or self.integration_plan_only
+            or self.integration_admission_only
+            or self.integration_execution_preflight_only
+        ):
+            raise ValueError(
+                "integration_execution_rehearsal_only cannot be combined with another bounded execution mode"
+            )
         if editorial_fixture_root is not None:
             self.editorial_fixture_root = Path(editorial_fixture_root)
         elif mode in {"synthetic", "shadow"}:
@@ -312,6 +330,19 @@ class RunEngine:
             )
         else:
             self.integration_execution_preflight_fixture_root = None
+        if integration_execution_rehearsal_fixture_root is not None:
+            self.integration_execution_rehearsal_fixture_root = Path(
+                integration_execution_rehearsal_fixture_root
+            )
+        elif mode in {"synthetic", "shadow"}:
+            self.integration_execution_rehearsal_fixture_root = (
+                Path(__file__).resolve().parents[2]
+                / "fixtures"
+                / "iteration15"
+                / "current-blocked"
+            )
+        else:
+            self.integration_execution_rehearsal_fixture_root = None
 
     def _new_run(self) -> dict[str, Any]:
         now = utc_now()
