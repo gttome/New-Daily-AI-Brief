@@ -2,7 +2,7 @@
 ## Synthetic Production-Integration Execution Executor-Binding Rehearsal Gate
 ### Prepared September 22, 2026
 
-> **ACTIVATION STATUS: PENDING.** Iteration 21 functional implementation is complete and post-merge `main` CI is green, but this closure package has not yet been merged and reconciled on verified `main`. Do not begin Iteration 22 until Iteration 21 machine evidence reports `repository_closure_status=complete` and `iteration22_ready=true`.
+> **ACTIVATION STATUS: READY.** Iteration 21 closure is reconciled on verified `main`; repository evidence reports `repository_closure_status=complete` and `iteration22_ready=true`. The receiving chat must still independently verify the current `main` SHA and CI before changing anything.
 
 ## Governing source of truth
 
