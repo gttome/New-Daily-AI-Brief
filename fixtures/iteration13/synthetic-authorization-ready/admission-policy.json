@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "integration_admission_policy_version": "1.0.0",
+  "policy_id": "production-integration-admission-v1",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "require_exact_plan_binding": true,
+  "require_separate_admission_decision": true,
+  "required_evidence": [
+    "discovery_adapter",
+    "publication_target",
+    "public_deployment_verification",
+    "private_command_center",
+    "production_schedules",
+    "subscriber_delivery",
+    "migration_prerequisites",
+    "rollback_restore",
+    "zero_incremental_cost"
+  ],
+  "classifications": [
+    "blocked",
+    "authorization_ready",
+    "invalid"
+  ],
+  "authorization_ready_reason_code": "ADMISSION_INPUTS_COMPLETE_SYNTHETIC_ONLY"
+}
