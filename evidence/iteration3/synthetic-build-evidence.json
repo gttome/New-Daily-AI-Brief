@@ -9,7 +9,11 @@
   "exit_gate": {
     "required_consecutive_runs": 3,
     "observed_consecutive_runs": 3,
-    "edition_dates": ["2026-09-22", "2026-09-23", "2026-09-24"],
+    "edition_dates": [
+      "2026-09-22",
+      "2026-09-23",
+      "2026-09-24"
+    ],
     "exactly_two_verified_videos_each_run": true,
     "exactly_two_verified_podcasts_each_run": true,
     "date_current_watchlist_each_run": true,
@@ -26,7 +30,10 @@
   },
   "media": {
     "contract_version": "1.0.0",
-    "verified_counts": {"videos": 2, "podcasts": 2},
+    "verified_counts": {
+      "videos": 2,
+      "podcasts": 2
+    },
     "bounded_candidate_checks": true,
     "bounded_verification_attempts": true,
     "unavailable_primary_video_exercised": true,
@@ -44,9 +51,21 @@
       "carried_forward": "active before edition_date and not changed on edition_date"
     },
     "date_classification_examples": {
-      "2026-09-22": {"new_today": 1, "updated_today": 1, "carried_forward": 1},
-      "2026-09-23": {"new_today": 1, "updated_today": 0, "carried_forward": 3},
-      "2026-09-24": {"new_today": 1, "updated_today": 0, "carried_forward": 4}
+      "2026-09-22": {
+        "new_today": 1,
+        "updated_today": 1,
+        "carried_forward": 1
+      },
+      "2026-09-23": {
+        "new_today": 1,
+        "updated_today": 0,
+        "carried_forward": 3
+      },
+      "2026-09-24": {
+        "new_today": 1,
+        "updated_today": 0,
+        "carried_forward": 4
+      }
     },
     "source_provenance": true,
     "future_topic_reuse_prevented": true
@@ -117,10 +136,19 @@
     "pre_documentation_ci_run": 35672379197,
     "python": "3.11.16",
     "tests_passed": 35,
-    "tests_failed": 0
+    "tests_failed": 0,
+    "final_pr_head_sha": "e34cd876184fc8a7411203b9efafc94d10172b44",
+    "final_pr_ci_run": 35672590949,
+    "final_pr_tests_passed": 35,
+    "implementation_merge_sha": "527c210ba568f6032720399f6a2db9dc868669b4",
+    "post_merge_main_ci_run": 35672622812,
+    "post_merge_main_tests_passed": 35
   },
   "repository_closure": {
-    "status": "pending_final_candidate_ci_merge_and_post_merge_main_ci"
+    "status": "COMPLETE",
+    "implementation_merged": true,
+    "post_merge_main_ci_passed": true,
+    "iteration4_ready": true
   },
   "cost_scope": {
     "separately_billed_openai_api": false,
