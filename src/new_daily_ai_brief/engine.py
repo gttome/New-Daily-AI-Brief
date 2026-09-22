@@ -960,6 +960,7 @@ class RunEngine:
                 or self.integration_plan_only
                 or self.integration_admission_only
                 or self.integration_execution_preflight_only
+                or self.integration_execution_rehearsal_only
             ):
                 self.store.acquire_lease(self.run_id, self.owner)
                 try:
@@ -1026,6 +1027,20 @@ class RunEngine:
                             lambda: execution_preflight.build_preflight(run, evaluated),
                         )
                         execution_preflight.finalize(artifact)
+                    if self.integration_execution_rehearsal_only:
+                        execution_rehearsal = self._integration_execution_rehearsal_pipeline()
+                        evaluated = execution_rehearsal.prepare(run)
+                        existing = self.store.load_artifact(
+                            "production-integration-execution-rehearsal"
+                        )
+                        execution_rehearsal.validate_existing(existing, run, evaluated)
+                        artifact = self._ensure_artifact(
+                            run,
+                            "production-integration-execution-rehearsal",
+                            "complete:integration-execution-rehearsal",
+                            lambda: execution_rehearsal.build_rehearsal(run, evaluated),
+                        )
+                        execution_rehearsal.finalize(artifact)
                 finally:
                     self.store.release_lease(self.owner)
             return run
@@ -1037,6 +1052,11 @@ class RunEngine:
         if self.integration_execution_preflight_only:
             raise ContractError(
                 "integration_execution_preflight_only requires an existing locked Iteration 13 admission "
+                "and a run at Complete / complete_locked"
+            )
+        if self.integration_execution_rehearsal_only:
+            raise ContractError(
+                "integration_execution_rehearsal_only requires an existing locked Iteration 14 execution preflight "
                 "and a run at Complete / complete_locked"
             )
         if self.render_only and run["current_state"] not in {"Validating", "Recovering"}:
