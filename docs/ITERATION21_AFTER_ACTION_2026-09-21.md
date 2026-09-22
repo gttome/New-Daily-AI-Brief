@@ -220,8 +220,21 @@ The mandatory Iteration 21 closure package is:
 - `docs/ITERATION22_HANDOFF_2026-09-21.md`;
 - `docs/ITERATION22_START_PROMPT_2026-09-21.md`.
 
-**Repository closure status: PENDING closure merge and post-merge verification.**  
-**Iteration 22 readiness: NOT READY until closure reconciliation is verified on `main`.**
+**Repository closure status: COMPLETE.**  
+**Iteration 22 readiness: READY.**
+
+Verified closure identities:
+
+- closure PR: **#60**;
+- exact closure candidate: `2c4cbcbadf7d6d88ecf519b9c2b92cf3a98127e4`;
+- closure PR CI: Greenfield Contracts run **35765693024 — PASS (267/267)**;
+- closure PR unittest: **122.356s**;
+- closure merge SHA: `005008c611138a9ebed903cf19433da89a6115a1`;
+- closure post-merge `main` CI: Greenfield Contracts run **35766043756 — PASS (267/267)**;
+- closure post-merge unittest: **77.145s**;
+- closure-verified `main`: `005008c611138a9ebed903cf19433da89a6115a1`.
+
+All four mandatory closure records are present on verified `main`, and machine evidence is reconciled to `repository_closure_status=complete` with `iteration22_ready=true`.
 
 ## Deferred scope
 
@@ -235,5 +248,5 @@ Iteration 22 must still bind or invoke no real executor, use no credentials, con
 
 **Iteration 21 implementation: COMPLETE.**  
 **Iteration 21 functional exit gate: PASS.**  
-**Iteration 21 operational closure: PENDING closure reconciliation.**  
-**Iteration 22 readiness: NOT READY until repository closure is verified.**
+**Iteration 21 operational closure: COMPLETE.**  
+**Iteration 22 readiness: READY.**
