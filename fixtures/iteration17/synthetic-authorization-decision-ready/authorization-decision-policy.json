@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "authorization_decision_policy_version": "1.0.0",
+  "policy_id": "production-integration-execution-authorization-decision-v1",
+  "synthetic_only": true,
+  "allowed_upstream_classification": "authorization_review_ready",
+  "classifications": [
+    "blocked",
+    "authorization_decision_ready",
+    "invalid"
+  ],
+  "real_authority_permitted": false,
+  "zero_incremental_cost_required": true
+}
