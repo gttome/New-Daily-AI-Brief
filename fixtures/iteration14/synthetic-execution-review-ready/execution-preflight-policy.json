@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "execution_preflight_policy_version": "1.0.0",
+  "policy_id": "production-integration-execution-preflight-v1",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "require_exact_admission_binding": true,
+  "require_separate_execution_envelope_decision": true,
+  "require_all_real_steps_disabled": true,
+  "required_evidence": [
+    "executor_contract",
+    "step_selection_scope",
+    "step_enablement",
+    "dry_run_assertions",
+    "rollback_restore",
+    "target_environment",
+    "pre_execution_verification",
+    "stop_abort_conditions",
+    "cutover_decommission_state",
+    "zero_incremental_cost"
+  ],
+  "classifications": [
+    "blocked",
+    "execution_review_ready",
+    "invalid"
+  ],
+  "execution_review_ready_reason_code": "EXECUTION_ENVELOPE_COMPLETE_SYNTHETIC_ONLY"
+}
