@@ -16,7 +16,98 @@
       "type": "string"
     },
     "data": {
-      "type": "object"
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "evaluation_contract_version": {
+          "const": "1.0.0"
+        },
+        "evaluator_adapter_version": {
+          "const": "fixture-book-change-v1"
+        },
+        "edition_date": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "bound_release": {
+          "type": "object"
+        },
+        "evaluated_item_ids": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "evaluated_item_types": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "items": {
+            "enum": [
+              "article",
+              "video",
+              "podcast"
+            ]
+          }
+        },
+        "item_evaluations": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "items": {
+            "type": "object"
+          }
+        },
+        "all_items_evaluated": {
+          "const": true
+        },
+        "proposal_records": {
+          "type": "array"
+        },
+        "proposal_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "result": {
+          "type": "string",
+          "minLength": 1
+        },
+        "result_semantics": {
+          "enum": [
+            "true_zero",
+            "proposals_present"
+          ]
+        },
+        "missing_evaluation_is_zero": {
+          "const": false
+        },
+        "shadow_only": {
+          "const": true
+        },
+        "production_authorized": {
+          "const": false
+        }
+      },
+      "required": [
+        "evaluation_contract_version",
+        "evaluator_adapter_version",
+        "edition_date",
+        "bound_release",
+        "evaluated_item_ids",
+        "evaluated_item_types",
+        "item_evaluations",
+        "all_items_evaluated",
+        "proposal_records",
+        "proposal_count",
+        "result",
+        "result_semantics",
+        "missing_evaluation_is_zero",
+        "shadow_only",
+        "production_authorized"
+      ]
     },
     "edition_date": {
       "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
