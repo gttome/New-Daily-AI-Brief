@@ -32,10 +32,10 @@ LEGAL_TRANSITIONS: Final[dict[str, set[str]]] = {
     "Releasing": {"Deployed", "Recovering"},
     "Deployed": {"LiveVerified", "Recovering"},
     "LiveVerified": {"PostPublicationEvaluation"},
-    "PostPublicationEvaluation": {"OperationsReconciled"},
+    "PostPublicationEvaluation": {"OperationsReconciled", "Recovering"},
     "OperationsReconciled": {"Complete"},
     "Complete": set(),
-    "Recovering": {"Acquiring", "Deciding", "Building", "Validating", "Releasing", "Deployed"},
+    "Recovering": {"Acquiring", "Deciding", "Building", "Validating", "Releasing", "Deployed", "PostPublicationEvaluation"},
 }
 
 ARTIFACT_DEPENDENCIES: Final[dict[str, tuple[str, ...]]] = {
