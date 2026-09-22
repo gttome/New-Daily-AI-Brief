@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "executor_binding_readiness_manifest_version": "1.0.0",
+  "manifest_id": "production-integration-execution-executor-binding-readiness-manifest-v1",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "production_cutover_authorized": false,
+  "legacy_decommission_authorized": false,
+  "production_publication": false,
+  "real_executor_invocation_authorized": false,
+  "credentials_use_authorized": false,
+  "real_target_contact_authorized": false,
+  "rollback_execution_authorized": false,
+  "real_integration_steps_enabled": 0,
+  "authority_readiness_binding": {
+    "binding_mode": "exact_locked_execution_authority_readiness_artifact",
+    "authority_readiness_artifact_digest": null,
+    "execution_authority_readiness_id": null,
+    "execution_authority_readiness_policy_id": null,
+    "execution_authority_readiness_policy_digest": null,
+    "execution_authority_readiness_manifest_id": null,
+    "execution_authority_readiness_manifest_digest": null,
+    "separate_execution_authority_readiness_id": null,
+    "separate_execution_authority_readiness_digest": null,
+    "readiness_provenance_validation_ids": [],
+    "readiness_provenance_validation_digests": [],
+    "readiness_provenance_validation_set_digest": null,
+    "bound_upstream_identity_digest": null
+  },
+  "executor_descriptor_binding": {
+    "binding_mode": "exact_non_live_synthetic_executor_descriptor",
+    "synthetic_executor_descriptor_id": null,
+    "synthetic_executor_descriptor_digest": null
+  },
+  "evidence": {
+    "executor_declaration": {
+      "real_executor_required": false,
+      "real_executor_present": false,
+      "real_executor_bound": false,
+      "real_executor_invocable": false,
+      "real_executor_invocation_authorized": false
+    },
+    "credential_declaration": {
+      "production_credentials_required": false,
+      "production_credentials_present": false,
+      "production_credentials_stored": false,
+      "credentials_use_authorized": false
+    },
+    "target_declaration": {
+      "scope": "synthetic_non_production",
+      "real_target_present": false,
+      "real_target_contacted": false,
+      "real_target_contact_authorized": false
+    },
+    "rollback_declaration": {
+      "rollback_plan_bound": true,
+      "rollback_execution_authorized": false,
+      "rollback_executed": false
+    },
+    "stop_abort_conditions": [
+      "identity_mismatch",
+      "authority_flag_true",
+      "cost_guard_failed",
+      "provenance_validation_mismatch",
+      "readiness_record_missing",
+      "executor_descriptor_missing",
+      "executor_descriptor_unsafe"
+    ],
+    "cost_declaration": {
+      "incremental_paid_dependency_required": false,
+      "zero_incremental_cost_approved": true
+    }
+  }
+}
