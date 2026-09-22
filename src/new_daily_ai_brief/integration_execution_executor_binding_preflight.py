@@ -337,6 +337,7 @@ class ProductionIntegrationExecutionExecutorBindingPreflight:
     ) -> dict[str, Any]:
         semantic_identity = self._source_identity(data)
         return {
+            **deepcopy(semantic_identity),
             "executor_binding_readiness_artifact_digest": artifact["content_digest"],
             "executor_binding_readiness_id": data["executor_binding_readiness_id"],
             "executor_binding_readiness_classification": data["classification"],
