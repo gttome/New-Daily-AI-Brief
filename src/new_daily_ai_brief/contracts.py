@@ -7,6 +7,7 @@ SCHEMA_VERSION: Final = "1.0.0"
 RUN_SCHEMA_VERSION: Final = "1.0.0"
 RATING_CONTRACT_VERSION: Final = "five-star-v1"
 PROJECTION_SCHEMA_VERSION: Final = "1.0.0"
+COMPLETION_CONTRACT_VERSION: Final = "1.0.0"
 
 STATES: Final[tuple[str, ...]] = (
     "Ready",
