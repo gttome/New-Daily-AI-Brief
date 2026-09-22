@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0.0",
+  "resolution_manifest_version": "1.0.0",
+  "manifest_id": "fully-qualified-synthetic-plan-resolution",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "production_cutover_authorized": false,
+  "legacy_decommission_authorized": false,
+  "production_publication": false,
+  "resolutions": {
+    "canonical_chain_integrity": {
+      "evidence_source": "readiness_artifact",
+      "evidence": null
+    },
+    "cost_policy": {
+      "evidence_source": "resolution_manifest",
+      "evidence": {
+        "record_id": "synthetic-cost-policy-v1",
+        "record_kind": "cost-policy-approval",
+        "synthetic_only": true,
+        "production_action_authorized": false,
+        "approved": true,
+        "separately_billed_openai_api_required": false,
+        "paid_completion_or_storage_api_required": false,
+        "paid_deployment_or_hosting_api_required": false,
+        "other_incremental_paid_dependency_required": false
+      }
+    },
+    "production_discovery": {
+      "evidence_source": "resolution_manifest",
+      "evidence": {
+        "record_id": "synthetic-discovery-adapter-v1",
+        "record_kind": "production-discovery-adapter",
+        "synthetic_only": true,
+        "production_action_authorized": false,
+        "approved": true,
+        "adapter_id": "synthetic-zero-cost-discovery-adapter",
+        "zero_incremental_cost": true
+      }
+    },
+    "production_publication": {
+      "evidence_source": "resolution_manifest",
+      "evidence": {
+        "record_id": "synthetic-publication-path-v1",
+        "record_kind": "production-publication-path",
+        "synthetic_only": true,
+        "production_action_authorized": false,
+        "approved": true,
+        "publication_path_id": "synthetic-publication-path",
+        "target_id": "synthetic-publication-target"
+      }
+    },
+    "public_deployment_verification": {
+      "evidence_source": "resolution_manifest",
+      "evidence": {
+        "record_id": "synthetic-public-deployment-v1",
+        "record_kind": "public-deployment-verification",
+        "synthetic_only": true,
+        "production_action_authorized": false,
+        "approved": true,
+        "deployment_target_id": "synthetic-public-target",
+        "verification_mechanism_id": "synthetic-route-verifier"
+      }
+    },
+    "private_command_center": {
+      "evidence_source": "resolution_manifest",
+      "evidence": {
+        "record_id": "synthetic-private-command-center-v1",
+        "record_kind": "private-command-center-integration",
+        "synthetic_only": true,
+        "production_action_authorized": false,
+        "approved": true,
+        "target_id": "synthetic-private-command-center",
+        "projection_adapter_id": "synthetic-private-projection-adapter",
+        "privacy_boundary": "synthetic-owner-only"
+      }
+    },
+    "production_schedules": {
+      "evidence_source": "resolution_manifest",
+      "evidence": {
+        "record_id": "synthetic-schedule-policy-v1",
+        "record_kind": "production-schedule-policy",
+        "synthetic_only": true,
+        "production_action_authorized": false,
+        "approved": true,
+        "schedule_policy_id": "synthetic-schedule-policy",
+        "schedule_identities": [
+          "synthetic-publisher-0700",
+          "synthetic-validation-0900"
+        ],
+        "schedule_cadences": [
+          {
+            "schedule_id": "synthetic-publisher-0700",
+            "cadence": "07:00 America/Chicago daily"
+          },
+          {
+            "schedule_id": "synthetic-validation-0900",
+            "cadence": "09:00 America/Chicago daily"
+          }
+        ]
+      }
+    },
+    "subscriber_delivery": {
+      "evidence_source": "readiness_artifact",
+      "evidence": null
+    },
+    "legacy_migration_cutover": {
+      "evidence_source": "resolution_manifest",
+      "evidence": {
+        "record_id": "synthetic-migration-prerequisites-v1",
+        "record_kind": "legacy-migration-cutover-prerequisites",
+        "synthetic_only": true,
+        "production_action_authorized": false,
+        "prerequisites_approved": true,
+        "migration_plan_id": "synthetic-migration-plan",
+        "cutover_authorized": false,
+        "legacy_decommission_authorized": false
+      }
+    },
+    "rollback_recovery": {
+      "evidence_source": "resolution_manifest",
+      "evidence": {
+        "record_id": "synthetic-rollback-policy-v1",
+        "record_kind": "rollback-recovery-policy",
+        "synthetic_only": true,
+        "production_action_authorized": false,
+        "approved": true,
+        "rollback_policy_id": "synthetic-rollback-policy",
+        "rollback_identity": "synthetic-restore-point"
+      }
+    }
+  }
+}
