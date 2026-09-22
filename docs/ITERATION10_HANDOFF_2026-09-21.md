@@ -19,9 +19,9 @@ Do not begin implementation while Iteration 9 evidence reports a pending closure
 
 ### Activation status
 
-**Iteration 10 is NOT YET ACTIVATED in this initial closure-package candidate.**
+**Iteration 10 is READY TO BEGIN**, subject to the mandatory start-of-iteration verification of the then-current `main` SHA and CI.
 
-The Iteration 9 implementation itself is complete and passing:
+Verified Iteration 9 implementation identities:
 
 - Implementation PR: **#23**
 - Exact passing candidate: `2e1d46d777171f1ab892d5d32d11bda511c136c1`
@@ -29,7 +29,15 @@ The Iteration 9 implementation itself is complete and passing:
 - Implementation merge SHA: `c105f307f14a0edc3490404e4171827d489670e6`
 - Post-merge implementation `main` CI: **35681946197 — PASS (106/106)**
 
-Activation requires the four Iteration 9 closure records to be merged, post-merge CI to pass, and their closure metadata to be reconciled on `main`.
+Verified Iteration 9 closure identities:
+
+- Closure-package PR: **#24**
+- Exact closure candidate: `48bc36f8e98d875367362397739f5f99eb867f61`
+- Closure PR CI: **35682155831 — PASS (106/106)**
+- Closure merge SHA: `e0662e060a49bcffc9fe32324f8a0b2989b65ce8`
+- Closure post-merge `main` CI: **35682223555 — PASS (106/106)**
+
+The repository closure evidence now reports `repository_closure_status=complete` and `iteration10_ready=true`. At Iteration 10 start, still verify the then-current `main` SHA and its CI before implementation; do not substitute these historical identities for that live check.
 
 ## Starting point
 

@@ -307,7 +307,17 @@ The mandatory Iteration 9 closure package is:
 - `docs/ITERATION10_HANDOFF_2026-09-21.md`;
 - `docs/ITERATION10_START_PROMPT_2026-09-21.md`.
 
-At creation time this package is pending independent PR CI, merge, post-merge `main` verification, and final metadata reconciliation. Until those identities are reconciled into the repository, Iteration 10 is **not yet activated**.
+The mandatory four-artifact closure package has now been independently verified and merged.
+
+Closure identities:
+
+- Closure-package PR: **#24**
+- Exact closure candidate: `48bc36f8e98d875367362397739f5f99eb867f61`
+- Closure PR CI: **35682155831 — PASS (106/106)**
+- Closure merge SHA: `e0662e060a49bcffc9fe32324f8a0b2989b65ce8`
+- Closure post-merge `main` CI: **35682223555 — PASS (106/106)**
+
+This final metadata reconciliation records those already verified identities only. It changes no runtime behavior and does not alter any locked Iteration 1–9 artifact or production surface.
 
 ## Deferred scope
 
@@ -332,6 +342,6 @@ The authoritative Iteration 10 handoff advances only the next bounded non-mutati
 
 **Iteration 9 functional exit gate: PASS.**
 
-**Iteration 9 operational closure: PENDING closure-package merge, post-merge verification, and metadata reconciliation.**
+**Iteration 9 operational closure: COMPLETE.**
 
-**Iteration 10 readiness: NOT READY until the four closure artifacts are on verified `main` and the machine-readable closure status is reconciled to complete.**
+**Iteration 10 readiness: READY TO BEGIN after verifying the then-current `main` SHA and CI and confirming this reconciled record is present on `main`.**
