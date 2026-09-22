@@ -1319,6 +1319,12 @@ class RunEngine:
                 "locked Iteration 16 authorization review and a run at "
                 "Complete / complete_locked"
             )
+        if self.integration_execution_authorization_package_only:
+            raise ContractError(
+                "integration_execution_authorization_package_only requires an existing "
+                "locked Iteration 17 authorization decision and a run at "
+                "Complete / complete_locked"
+            )
         if self.render_only and run["current_state"] not in {"Validating", "Recovering"}:
             raise ContractError(
                 "render_only requires an existing locked Iteration 4 publication bundle "
