@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0.0",
+  "integration_plan_policy_version": "1.0.0",
+  "policy_id": "production-integration-plan-v1",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "required_prerequisites": [
+    "canonical_chain_integrity",
+    "cost_policy",
+    "production_discovery",
+    "production_publication",
+    "public_deployment_verification",
+    "private_command_center",
+    "production_schedules",
+    "subscriber_delivery",
+    "legacy_migration_cutover",
+    "rollback_recovery"
+  ],
+  "step_templates": {
+    "canonical_chain_integrity": {
+      "step_id": "validate-canonical-chain",
+      "prerequisite": "canonical_chain_integrity",
+      "predecessor_step_ids": [],
+      "dry_run_assertions": [
+        "preflight/readiness/completion identities remain exactly bound and locked",
+        "no upstream artifact is rebuilt or reexecuted"
+      ],
+      "rollback_boundary": "stop-before-any-integration-step",
+      "production_action_authorized": false
+    },
+    "cost_policy": {
+      "step_id": "enforce-zero-incremental-cost",
+      "prerequisite": "cost_policy",
+      "predecessor_step_ids": [
+        "validate-canonical-chain"
+      ],
+      "dry_run_assertions": [
+        "no separately billed OpenAI API is required",
+        "no paid completion/storage/deployment/hosting or other incremental paid dependency is required"
+      ],
+      "rollback_boundary": "cost-guard-fail-closed",
+      "production_action_authorized": false
+    },
+    "production_discovery": {
+      "step_id": "bind-discovery-adapter",
+      "prerequisite": "production_discovery",
+      "predecessor_step_ids": [
+        "enforce-zero-incremental-cost"
+      ],
+      "dry_run_assertions": [
+        "discovery adapter identity is explicit repository evidence",
+        "discovery adapter is zero-incremental-cost and is not invoked"
+      ],
+      "rollback_boundary": "before-discovery-adapter-activation",
+      "production_action_authorized": false
+    },
+    "production_publication": {
+      "step_id": "bind-publication-target",
+      "prerequisite": "production_publication",
+      "predecessor_step_ids": [
+        "bind-discovery-adapter"
+      ],
+      "dry_run_assertions": [
+        "publication path and target identities are explicit repository evidence",
+        "no publication target is invoked"
+      ],
+      "rollback_boundary": "before-publication-path-activation",
+      "production_action_authorized": false
+    },
+    "public_deployment_verification": {
+      "step_id": "bind-public-deployment-verification",
+      "prerequisite": "public_deployment_verification",
+      "predecessor_step_ids": [
+        "bind-publication-target"
+      ],
+      "dry_run_assertions": [
+        "public deployment target and verification mechanism are explicit repository evidence",
+        "no public deployment, URL mutation, or live-route verification occurs"
+      ],
+      "rollback_boundary": "before-public-deployment-activation",
+      "production_action_authorized": false
+    },
+    "private_command_center": {
+      "step_id": "bind-private-command-center",
+      "prerequisite": "private_command_center",
+      "predecessor_step_ids": [
+        "bind-public-deployment-verification"
+      ],
+      "dry_run_assertions": [
+        "private Command Center target, projection adapter, and privacy boundary are explicit repository evidence",
+        "no real/private Command Center mutation occurs"
+      ],
+      "rollback_boundary": "before-private-command-center-write",
+      "production_action_authorized": false
+    },
+    "production_schedules": {
+      "step_id": "bind-production-schedules",
+      "prerequisite": "production_schedules",
+      "predecessor_step_ids": [
+        "bind-private-command-center"
+      ],
+      "dry_run_assertions": [
+        "production schedule identities and cadences are explicit repository evidence",
+        "no production schedule is created, modified, enabled, disabled, or run"
+      ],
+      "rollback_boundary": "before-production-schedule-action",
+      "production_action_authorized": false
+    },
+    "subscriber_delivery": {
+      "step_id": "enforce-subscriber-delivery",
+      "prerequisite": "subscriber_delivery",
+      "predecessor_step_ids": [
+        "bind-production-schedules"
+      ],
+      "dry_run_assertions": [
+        "subscriber-delivery policy remains exactly bound to repository readiness evidence",
+        "no subscriber-delivery setting or channel is changed"
+      ],
+      "rollback_boundary": "before-subscriber-delivery-change",
+      "production_action_authorized": false
+    },
+    "legacy_migration_cutover": {
+      "step_id": "stage-migration-prerequisites",
+      "prerequisite": "legacy_migration_cutover",
+      "predecessor_step_ids": [
+        "enforce-subscriber-delivery"
+      ],
+      "dry_run_assertions": [
+        "migration prerequisites are explicit repository evidence",
+        "production cutover remains unauthorized",
+        "legacy decommission remains unauthorized"
+      ],
+      "rollback_boundary": "before-migration-or-cutover",
+      "production_action_authorized": false
+    },
+    "rollback_recovery": {
+      "step_id": "bind-rollback-recovery",
+      "prerequisite": "rollback_recovery",
+      "predecessor_step_ids": [
+        "stage-migration-prerequisites"
+      ],
+      "dry_run_assertions": [
+        "rollback policy and restore identity are explicit repository evidence",
+        "rollback is a boundary definition only and is not executed"
+      ],
+      "rollback_boundary": "final-plan-only-stop",
+      "production_action_authorized": false
+    }
+  }
+}
