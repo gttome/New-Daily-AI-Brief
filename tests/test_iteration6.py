@@ -32,14 +32,14 @@ class Iteration6ShadowReleaseTest(unittest.TestCase):
         "route-manifest",
     )
 
-    def lock_iteration5(self, root: str, edition_date: str = DATE):
-        validation = start_daily_brief(edition_date, state_root=root, validation_only=True)
+    def lock_iteration5(self, root: str, edition_date: str = DATE, mode: str = "synthetic"):
+        validation = start_daily_brief(edition_date, mode=mode, state_root=root, validation_only=True)
         self.assertEqual(validation["current_state"], "Validating")
         self.assertEqual(validation["completion_status"], "validation_locked")
-        rendered = start_daily_brief(edition_date, state_root=root, render_only=True)
+        rendered = start_daily_brief(edition_date, mode=mode, state_root=root, render_only=True)
         self.assertEqual(rendered["current_state"], "Validating")
         self.assertEqual(rendered["completion_status"], "render_locked")
-        engine = RunEngine(root, edition_date, release_only=True)
+        engine = RunEngine(root, edition_date, mode=mode, release_only=True)
         self.assertEqual(
             engine.store.load_artifact("route-manifest")["data"]["validation_result"],
             "passed",
@@ -389,7 +389,7 @@ class Iteration6ShadowReleaseTest(unittest.TestCase):
         observed = []
         for edition_date in ("2026-09-22", "2026-09-23", "2026-09-24"):
             with tempfile.TemporaryDirectory() as td:
-                baseline, engine = self.lock_iteration5(td, edition_date)
+                baseline, engine = self.lock_iteration5(td, edition_date, mode="shadow")
                 before_counts = dict(baseline["stage_executions"])
                 before_digests = self.locked_digests(engine)
                 run = start_daily_brief(
