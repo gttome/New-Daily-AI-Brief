@@ -33,6 +33,12 @@
     "completion_status": {
       "enum": [
         "in_progress",
+        "editorial_locked",
+        "build_locked",
+        "validation_locked",
+        "render_locked",
+        "shadow_live_verified",
+        "post_publication_evaluation_locked",
         "complete",
         "degraded",
         "failed"
