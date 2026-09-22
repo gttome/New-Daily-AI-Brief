@@ -46,7 +46,7 @@ ARTIFACT_DEPENDENCIES: Final[dict[str, tuple[str, ...]]] = {
     "watchlist": ("edition",),
     "book-bridges": ("edition",),
     "rating-contract": (),
-    "publication-bundle": ("edition", "media", "images", "watchlist", "rating-contract"),
+    "publication-bundle": ("edition", "media", "images", "watchlist", "book-bridges", "rating-contract"),
     "book-change-evaluation": ("publication-bundle",),
     "projection-watermark": ("publication-bundle", "book-change-evaluation"),
     "completion": ("publication-bundle", "book-change-evaluation", "projection-watermark"),

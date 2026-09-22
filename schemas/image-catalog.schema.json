@@ -1,0 +1,22 @@
+{
+  "$id": "https://daily-ai-brief.local/schemas/image-catalog.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "image-catalog",
+  "type": "object",
+  "required": ["schema_version", "catalog_version", "policy", "images"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "catalog_version": {"type": "string", "minLength": 1},
+    "policy": {
+      "type": "object",
+      "required": ["max_attempts_per_image", "width", "height", "allowed_formats"],
+      "properties": {
+        "max_attempts_per_image": {"type": "integer", "minimum": 1, "maximum": 5},
+        "width": {"const": 1200},
+        "height": {"const": 630},
+        "allowed_formats": {"type": "array", "items": {"enum": ["webp", "png"]}}
+      }
+    },
+    "images": {"type": "array", "minItems": 6, "maxItems": 6}
+  }
+}
