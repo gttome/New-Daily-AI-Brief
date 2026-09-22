@@ -490,7 +490,42 @@ class ProductionIntegrationExecutionExecutorBindingReadiness:
             raise IntegrationExecutionExecutorBindingReadinessError(
                 "execution_authority_ready requires separate Iteration 19 readiness identity"
             )
+        source_state = self.store.read_json(
+            self.store.run_dir / "authority-readiness-state.json"
+        )
+        source_evaluation = (source_state or {}).get("evaluation") or {}
+        source_input_identity = source_evaluation.get("input_identity") or {}
+        source_readiness_binding = source_evaluation.get("readiness_binding") or {}
+        if (
+            source_evaluation.get("classification") != data.get("classification")
+            or source_evaluation.get("classification_reason_codes")
+            != data.get("classification_reason_codes")
+            or source_evaluation.get("execution_authority_readiness_policy_id")
+            != data.get("execution_authority_readiness_policy_id")
+            or source_evaluation.get("execution_authority_readiness_manifest_id")
+            != data.get("execution_authority_readiness_manifest_id")
+            or source_input_identity.get("execution_authority_readiness_policy_digest")
+            != data.get("execution_authority_readiness_policy_digest")
+            or source_input_identity.get("execution_authority_readiness_manifest_digest")
+            != data.get("execution_authority_readiness_manifest_digest")
+            or source_readiness_binding.get("readiness_record_id")
+            != data.get("separate_execution_authority_readiness_id")
+            or source_readiness_binding.get("readiness_record_digest")
+            != data.get("separate_execution_authority_readiness_digest")
+        ):
+            raise IntegrationExecutionExecutorBindingReadinessError(
+                "Iteration 19 durable authority-readiness provenance does not match locked artifact"
+            )
         validations = self._load_source_validations(data)
+        state_validation_ids = source_evaluation.get(
+            "readiness_provenance_validation_ids"
+        ) or []
+        if state_validation_ids != [
+            item["validation_id"] for item in validations
+        ]:
+            raise IntegrationExecutionExecutorBindingReadinessError(
+                "Iteration 19 durable provenance-validation identity set changed"
+            )
         bound = self._bound_upstream_identity(artifact, data, validations)
         return {
             "authority_readiness_artifact": artifact,
