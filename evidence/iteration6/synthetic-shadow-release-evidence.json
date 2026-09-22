@@ -1,0 +1,200 @@
+{
+  "evidence_version": "1.0.0",
+  "iteration": 6,
+  "scope": "deterministic_shadow_release_and_offline_verification",
+  "baseline": {
+    "start_main_sha": "7cb9ae7e3ae5c1bdaefe85742a57a5d208c1f0a5",
+    "start_main_ci_run": 35676613521,
+    "start_main_ci_result": "PASS",
+    "start_tests_passed": 54,
+    "iteration5_operational_closure_verified": true
+  },
+  "implementation": {
+    "pr": 14,
+    "first_candidate_sha": "17f2376580a3cba638fac3a36ae76a456481fa22",
+    "first_candidate_ci_run": 35677559158,
+    "first_candidate_result": "TEST_FIXTURE_SETUP_ERROR",
+    "first_candidate_tests_passed": 66,
+    "first_candidate_tests_total": 67,
+    "first_candidate_runtime_defect": false,
+    "final_candidate_sha": "664fe29bc5aeed30bd708cd4029cd7a8b92223fb",
+    "pr_ci_run": 35677602434,
+    "pr_ci_result": "PASS",
+    "python": "3.11.16",
+    "compile_result": "PASS",
+    "tests_passed": 67,
+    "tests_failed": 0,
+    "iteration_test_counts": {
+      "iteration1_through_5": 54,
+      "iteration6": 13
+    },
+    "implementation_merge_sha": "36b974dee16c20224af2cfaaa87c2640953d8b5b",
+    "post_merge_main_ci_run": 35677728380,
+    "post_merge_main_ci_result": "PASS",
+    "post_merge_tests_passed": 67
+  },
+  "release_contract": {
+    "release_package_contract_version": "1.0.0",
+    "deployment_adapter_version": "shadow-filesystem-v1",
+    "live_verification_contract_version": "1.0.0",
+    "verification_scope": "shadow_offline",
+    "required_output_count": 11,
+    "production_authorized": false,
+    "shadow_only": true
+  },
+  "artifact_chain": {
+    "dependency_order": [
+      "route-manifest",
+      "release-package",
+      "shadow-deployment",
+      "live-verification"
+    ],
+    "release_package_binds_route_manifest": true,
+    "release_package_binds_reader_render": true,
+    "release_package_binds_every_route_output_digest": true,
+    "release_package_binds_archive_feed_membership": true,
+    "deployment_receipt_binds_release_package": true,
+    "deployment_identity_deterministic": true,
+    "verification_receipt_binds_release_package": true,
+    "verification_receipt_binds_deployment_identity": true,
+    "volatile_telemetry_excluded_from_semantic_identity": true
+  },
+  "parity": {
+    "exact_output_count": 11,
+    "exact_route_output_parity": true,
+    "exact_story_count": 6,
+    "current_latest_dated_story_order_parity": true,
+    "six_permanent_story_routes_complete": true,
+    "exact_verified_video_count": 2,
+    "exact_verified_podcast_count": 2,
+    "watchlist_parity": true,
+    "professional_series_bridge_parity": true,
+    "explicit_no_bridge_preserved": true,
+    "six_accepted_image_story_bindings_preserved": true,
+    "rating_contract": "five-star-v1",
+    "fabricated_rating_values": false,
+    "archive_membership_parity": true,
+    "feed_membership_parity": true,
+    "structural_accessibility_parity": true,
+    "extra_routes_detected_fail_closed": true
+  },
+  "targeted_recovery": {
+    "release_package": {
+      "injected_boundary": "release:package",
+      "fresh_engine_resume": true,
+      "chat_context_required": false,
+      "route_manifest_retained": true,
+      "locked_iteration1_5_digests_preserved": true,
+      "locked_stage_reexecutions": 0,
+      "full_pipeline_restarts": 0
+    },
+    "one_shadow_output": {
+      "injected_boundary": "release:output:<locked-route-id>",
+      "fresh_engine_resume": true,
+      "chat_context_required": false,
+      "completed_unrelated_outputs_preserved": true,
+      "completed_unrelated_outputs_cache_reused": true,
+      "unrelated_output_rewrites": 0,
+      "locked_iteration1_5_digests_preserved": true,
+      "locked_stage_reexecutions": 0,
+      "full_pipeline_restarts": 0
+    },
+    "final_verification": {
+      "injected_boundary": "release:verification",
+      "fresh_engine_resume": true,
+      "chat_context_required": false,
+      "release_package_reused": true,
+      "shadow_deployment_reused": true,
+      "deployment_identity_unchanged": true,
+      "only_verification_retried": true,
+      "locked_stage_reexecutions": 0,
+      "full_pipeline_restarts": 0
+    }
+  },
+  "fail_closed": {
+    "stale_route_manifest": true,
+    "corrupted_route_manifest": true,
+    "reader_manifest_package_binding_mismatch": true,
+    "corrupted_shadow_output": true,
+    "missing_cached_shadow_output": true,
+    "unexpected_extra_shadow_output": true,
+    "orphan_shadow_output_without_state": true,
+    "stale_or_corrupted_deployment_receipt": true,
+    "stale_or_corrupted_verification_receipt": true,
+    "unsafe_or_incompatible_release_contract": true,
+    "production_deployment_without_approved_zero_incremental_cost_adapter": true
+  },
+  "determinism": {
+    "independent_state_root_replay": true,
+    "identical_release_package_identity_for_identical_inputs": true,
+    "identical_shadow_deployment_identity_for_identical_inputs": true,
+    "identical_live_verification_identity_for_identical_inputs": true
+  },
+  "exit_gate": {
+    "required_consecutive_runs": 3,
+    "observed_consecutive_runs": 3,
+    "edition_dates": [
+      "2026-09-22",
+      "2026-09-23",
+      "2026-09-24"
+    ],
+    "each_run_started_from_locked_iteration5_route_manifest": true,
+    "release_package_each_run": true,
+    "shadow_deployment_receipt_each_run": true,
+    "offline_verification_receipt_each_run": true,
+    "exact_parity_each_run": true,
+    "final_state_each_run": "LiveVerified",
+    "completion_status_each_run": "shadow_live_verified",
+    "manual_intervention": false,
+    "locked_iteration1_5_stage_reexecutions": 0,
+    "full_pipeline_restarts": 0,
+    "post_publication_evaluation_performed": false,
+    "command_center_projection_performed": false,
+    "public_deployment_performed": false,
+    "live_url_mutation": false,
+    "production_publication": false,
+    "result": "PASS"
+  },
+  "anti_rework": {
+    "discovery_reexecution": 0,
+    "editorial_reexecution": 0,
+    "media_reexecution": 0,
+    "watchlist_reexecution": 0,
+    "bridge_reexecution": 0,
+    "accepted_image_rework": 0,
+    "publication_bundle_rebuild": 0,
+    "reader_render_rebuild": 0,
+    "route_manifest_rebuild": 0,
+    "already_materialized_unrelated_deployment_output_rewrite": 0,
+    "full_pipeline_restarts": 0
+  },
+  "cost_and_production_scope": {
+    "separately_billed_openai_api": false,
+    "paid_deployment_hosting_api": false,
+    "new_incremental_paid_production_dependency": false,
+    "production_deployment_adapter": "fail_closed_unconfigured",
+    "github_pages_deployment": false,
+    "public_chatgpt_site_mutation": false,
+    "public_live_url_mutation": false,
+    "real_public_route_verification": false,
+    "command_center_projection": false,
+    "command_center_ui": false,
+    "production_schedule_changed": false,
+    "subscriber_delivery_changed": false,
+    "legacy_migration_cutover_decommission": false,
+    "legacy_production_repo_modified": false
+  },
+  "closure": {
+    "after_action": "docs/ITERATION6_AFTER_ACTION_2026-09-21.md",
+    "evidence": "evidence/iteration6/synthetic-shadow-release-evidence.json",
+    "next_handoff": "docs/ITERATION7_HANDOFF_2026-09-21.md",
+    "next_start_prompt": "docs/ITERATION7_START_PROMPT_2026-09-21.md",
+    "closure_package_pr": null,
+    "closure_candidate_sha": null,
+    "closure_pr_ci_run": null,
+    "closure_package_merge_sha": null,
+    "closure_post_merge_main_ci_run": null,
+    "repository_closure_status": "PENDING_CLOSURE_PACKAGE_VERIFICATION",
+    "iteration7_ready": false
+  }
+}
