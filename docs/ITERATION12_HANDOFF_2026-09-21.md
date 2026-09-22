@@ -18,6 +18,30 @@ The current repository records, not chat history or a remembered SHA, are author
 
 Do not begin implementation while Iteration 11 evidence reports `repository_closure_status=pending` or `iteration12_ready=false`.
 
+### Activation status
+
+**Iteration 12 is READY TO BEGIN**, subject to the mandatory start-of-iteration verification of the then-current `main` SHA and CI.
+
+Verified Iteration 11 implementation identities:
+
+- Implementation PR: **#29**
+- Exact passing candidate: `344c2ff9cc9d7af7d054678a36f64d385ee4f16f`
+- PR CI: **35686937191 — PASS (132/132)**
+- Implementation merge SHA: `2e9fa216a24b35b3ec0deb47a59ec5a2a39a55ba`
+- Post-merge implementation `main` CI: **35686986070 — PASS (132/132)**
+
+Verified Iteration 11 closure identities:
+
+- Closure-package PR: **#30**
+- Exact closure candidate: `a5f3a523dda5ea036ea0f72a572c93dda36584ec`
+- Closure PR CI: **35687169992 — PASS (132/132)**
+- Closure merge SHA: `be43b387547325b844a1f8a1f0e099dffd817b1d`
+- Closure post-merge `main` CI: **35687233383 — PASS (132/132)**
+
+The reconciled machine-readable evidence reports `repository_closure_status=complete` and `iteration12_ready=true`.
+
+At Iteration 12 start, still verify the then-current `main` SHA and its CI. Never substitute these historical implementation/closure identities for that live repository check.
+
 ## Starting point
 
 Iterations 1–11 provide one recoverable greenfield control plane with:
