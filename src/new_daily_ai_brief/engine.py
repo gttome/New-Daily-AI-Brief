@@ -18,6 +18,7 @@ from .contracts import (
 from .editorial import DiscoveryEditorialPipeline, EditorialCandidateFailure, EditorialFailureInjection
 from .pre_release import ImageBoundaryFailure, PreReleasePipeline, ValidationBoundaryFailure
 from .render import ReaderSurfaceRenderer, RenderBoundaryFailure
+from .release import ReleaseBoundaryFailure, ShadowReleasePipeline
 from .store import CanonicalStore, ContractError, utc_now
 
 
@@ -49,6 +50,8 @@ class RunEngine:
         validation_only: bool = False,
         render_fixture_root: Path | str | None = None,
         render_only: bool = False,
+        release_fixture_root: Path | str | None = None,
+        release_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -63,8 +66,13 @@ class RunEngine:
         self.build_only = build_only
         self.validation_only = validation_only
         self.render_only = render_only
+        self.release_only = release_only
         if self.render_only and (self.editorial_only or self.build_only or self.validation_only):
             raise ValueError("render_only cannot be combined with earlier bounded execution modes")
+        if self.release_only and (
+            self.editorial_only or self.build_only or self.validation_only or self.render_only
+        ):
+            raise ValueError("release_only cannot be combined with earlier bounded execution modes")
         if editorial_fixture_root is not None:
             self.editorial_fixture_root = Path(editorial_fixture_root)
         elif mode in {"synthetic", "shadow"}:
@@ -89,6 +97,12 @@ class RunEngine:
             self.render_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration5"
         else:
             self.render_fixture_root = None
+        if release_fixture_root is not None:
+            self.release_fixture_root = Path(release_fixture_root)
+        elif mode in {"synthetic", "shadow"}:
+            self.release_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration6"
+        else:
+            self.release_fixture_root = None
 
     def _new_run(self) -> dict[str, Any]:
         now = utc_now()
@@ -260,6 +274,26 @@ class RunEngine:
             failure_class=failure_class,
         )
 
+    def _release_pipeline(self) -> ShadowReleasePipeline:
+        failure_boundary_id = None
+        failure_class = "synthetic_release_boundary_failure"
+        if (
+            self.failure_injection
+            and self.failure_injection.stage in {"Releasing", "Deployed"}
+            and self.failure_injection.candidate_id
+            and self.failure_injection.candidate_id.startswith("release:")
+        ):
+            failure_boundary_id = self.failure_injection.candidate_id
+            failure_class = self.failure_injection.failure_class
+        return ShadowReleasePipeline(
+            self.store,
+            self.edition_date,
+            self.mode,
+            self.release_fixture_root,
+            failure_boundary_id=failure_boundary_id,
+            failure_class=failure_class,
+        )
+
     def _rating_contract(self) -> dict[str, Any]:
         return {
             "contract_version": RATING_CONTRACT_VERSION,
@@ -291,6 +325,7 @@ class RunEngine:
         for artifact_type in (
             "discovery", "edition", "media", "images", "watchlist", "book-bridges",
             "rating-contract", "publication-bundle", "reader-render", "route-manifest",
+            "release-package", "shadow-deployment", "live-verification",
         ):
             artifact = self.store.load_artifact(artifact_type)
             if artifact and artifact.get("status") == "locked":
@@ -344,6 +379,14 @@ class RunEngine:
                 "completed_route_ids": sorted((render_state.get("outputs") or {}).keys()),
                 "attempts": deepcopy(render_state.get("attempts") or {}),
             }
+        if isinstance(exc, ReleaseBoundaryFailure):
+            incident["boundary_type"] = exc.boundary_type
+            incident["boundary_id"] = exc.boundary_id
+            release_state = self.store.read_json(self.store.run_dir / "shadow-deployment-state.json") or {}
+            incident["retained_release_state"] = {
+                "completed_route_ids": sorted((release_state.get("outputs") or {}).keys()),
+                "attempts": deepcopy(release_state.get("attempts") or {}),
+            }
         self.store.write_incident(incident)
         self.store.write_run(run)
 
@@ -375,6 +418,7 @@ class RunEngine:
                 "retained_build_state",
                 "retained_image_state",
                 "retained_render_state",
+                "retained_release_state",
                 "validation_invariant",
             ):
                 if key in incident:
@@ -448,6 +492,13 @@ class RunEngine:
                 "render_only requires an existing locked Iteration 4 publication bundle "
                 "and a run stopped at the Validating boundary"
             )
+        if self.release_only and run["current_state"] not in {
+            "Validating", "Releasing", "Deployed", "LiveVerified", "Recovering"
+        }:
+            raise ContractError(
+                "release_only requires an existing locked Iteration 5 route manifest "
+                "and a run stopped at or after the Validating boundary"
+            )
         self.store.acquire_lease(self.run_id, self.owner)
         try:
             self._recover_if_needed(run)
@@ -509,6 +560,11 @@ class RunEngine:
                             run["completion_status"] = "render_locked"
                             self.store.write_run(run)
                             return run
+                        if self.release_only:
+                            release = self._release_pipeline()
+                            release.validate_existing_release_set()
+                            self.transition(run, "Releasing")
+                            continue
                         self._maybe_inject("Validating")
                         pre_release = self._pre_release_pipeline()
                         self._ensure_artifact(
@@ -523,27 +579,76 @@ class RunEngine:
                             return run
                         self.transition(run, "Releasing")
                     elif state == "Releasing":
-                        bundle = self.store.load_artifact("publication-bundle")
-                        self._count_stage(run, "releasing")
-                        run["stage_receipts"]["release"] = {
-                            "bundle_digest": bundle["content_digest"],
-                            "released_at": utc_now(),
-                        }
-                        run["stage_receipts"]["deployment_identity"] = (
-                            f"synthetic-deploy:{bundle['content_digest']}"
-                        )
-                        self.store.write_run(run)
-                        self.transition(run, "Deployed")
+                        if self.release_only:
+                            release = self._release_pipeline()
+                            release.validate_existing_release_set()
+                            package = self._ensure_artifact(
+                                run,
+                                "release-package",
+                                "releasing:release-package",
+                                release.build_release_package,
+                            )
+                            deployment = self._ensure_artifact(
+                                run,
+                                "shadow-deployment",
+                                "releasing:shadow-deployment",
+                                release.build_shadow_deployment,
+                            )
+                            run["stage_receipts"]["release"] = {
+                                "release_package_digest": package["content_digest"],
+                                "route_manifest_digest": self.store.load_artifact("route-manifest")["content_digest"],
+                                "released_at": utc_now(),
+                                "scope": "shadow_only",
+                            }
+                            run["stage_receipts"]["deployment_identity"] = deployment["data"]["deployment_identity"]
+                            self.store.write_run(run)
+                            self.transition(run, "Deployed")
+                        else:
+                            bundle = self.store.load_artifact("publication-bundle")
+                            self._count_stage(run, "releasing")
+                            run["stage_receipts"]["release"] = {
+                                "bundle_digest": bundle["content_digest"],
+                                "released_at": utc_now(),
+                            }
+                            run["stage_receipts"]["deployment_identity"] = (
+                                f"synthetic-deploy:{bundle['content_digest']}"
+                            )
+                            self.store.write_run(run)
+                            self.transition(run, "Deployed")
                     elif state == "Deployed":
-                        self._count_stage(run, "deployed")
-                        run["stage_receipts"]["live_verification"] = {
-                            "bundle_digest": self.store.load_artifact("publication-bundle")["content_digest"],
-                            "verified_at": utc_now(),
-                            "result": "passed",
-                        }
-                        self.store.write_run(run)
-                        self.transition(run, "LiveVerified")
+                        if self.release_only:
+                            release = self._release_pipeline()
+                            verification = self._ensure_artifact(
+                                run,
+                                "live-verification",
+                                "deployed:shadow-verification",
+                                release.build_live_verification,
+                            )
+                            run["stage_receipts"]["live_verification"] = {
+                                "release_package_digest": verification["data"]["release_package_digest"],
+                                "deployment_identity": verification["data"]["deployment_identity"],
+                                "verification_receipt_digest": verification["content_digest"],
+                                "verification_scope": verification["data"]["verification_scope"],
+                                "verified_at": utc_now(),
+                                "result": verification["data"]["result"],
+                            }
+                            self.store.write_run(run)
+                            self.transition(run, "LiveVerified")
+                        else:
+                            self._count_stage(run, "deployed")
+                            run["stage_receipts"]["live_verification"] = {
+                                "bundle_digest": self.store.load_artifact("publication-bundle")["content_digest"],
+                                "verified_at": utc_now(),
+                                "result": "passed",
+                            }
+                            self.store.write_run(run)
+                            self.transition(run, "LiveVerified")
                     elif state == "LiveVerified":
+                        if self.release_only:
+                            self._release_pipeline().validate_existing_release_set()
+                            run["completion_status"] = "shadow_live_verified"
+                            self.store.write_run(run)
+                            return run
                         self.transition(run, "PostPublicationEvaluation")
                     elif state == "PostPublicationEvaluation":
                         self._ensure_artifact(
@@ -580,6 +685,7 @@ class RunEngine:
                     ImageBoundaryFailure,
                     ValidationBoundaryFailure,
                     RenderBoundaryFailure,
+                    ReleaseBoundaryFailure,
                 ) as exc:
                     self._record_failure(run, state, exc)
                     raise
@@ -613,6 +719,8 @@ def start_daily_brief(
     validation_only: bool = False,
     render_fixture_root: Path | str | None = None,
     render_only: bool = False,
+    release_fixture_root: Path | str | None = None,
+    release_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
     return RunEngine(
@@ -629,6 +737,8 @@ def start_daily_brief(
         validation_only=validation_only,
         render_fixture_root=render_fixture_root,
         render_only=render_only,
+        release_fixture_root=release_fixture_root,
+        release_only=release_only,
     ).run()
 
 

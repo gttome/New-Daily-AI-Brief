@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "release_package_contract_version": "1.0.0",
+  "deployment_adapter_version": "shadow-filesystem-v1",
+  "live_verification_contract_version": "1.0.0",
+  "verification_scope": "shadow_offline",
+  "required_output_count": 11,
+  "shadow_only": true,
+  "production_authorized": false
+}

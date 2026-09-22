@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "release-package.schema.json",
+  "title": "Release Package Data",
+  "type": "object",
+  "required": [
+    "release_package_contract_version",
+    "edition_date",
+    "route_manifest_digest",
+    "reader_render_digest",
+    "routes",
+    "archive_membership",
+    "feed_membership",
+    "required_output_count",
+    "production_authorized",
+    "shadow_only"
+  ],
+  "properties": {
+    "release_package_contract_version": {"const": "1.0.0"},
+    "edition_date": {"type": "string"},
+    "route_manifest_digest": {"type": "string", "pattern": "^sha256:"},
+    "reader_render_digest": {"type": "string", "pattern": "^sha256:"},
+    "routes": {"type": "array", "minItems": 11, "maxItems": 11},
+    "archive_membership": {"type": "array"},
+    "feed_membership": {"type": "array"},
+    "required_output_count": {"const": 11},
+    "production_authorized": {"const": false},
+    "shadow_only": {"const": true}
+  },
+  "additionalProperties": false
+}
