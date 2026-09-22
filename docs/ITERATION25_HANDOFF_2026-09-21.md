@@ -3,7 +3,7 @@
 
 Prepared September 22, 2026. Repository: `gttome/New-Daily-AI-Brief`.
 
-> **ACTIVATION STATUS: PENDING.** Iteration 24 implementation is merged and its post-merge main CI is passing, but Iteration 24 operational closure is not complete until the mandatory closure package itself passes CI, merges, post-merge main CI passes, and closure metadata is reconciled to `repository_closure_status=complete` and `iteration25_ready=true`. Do not implement Iteration 25 before that reconciliation.
+> **ACTIVATION STATUS: READY.** Iteration 24 closure PR **#69** exact candidate `7482604487c6531a30da00ff7e0702ef7a5eef2f` passed Greenfield Contracts run **35785622166 — PASS (299/299)**, merged as `88e34d3ad9a9cc12b416cfd663a4ceddb176bd17`, and post-merge Greenfield Contracts run **35785891870 — PASS (299/299)** verified that closure main. Reconciled Iteration 24 evidence reports `repository_closure_status=complete` and `iteration25_ready=true`. Before implementation, still independently verify the then-current main SHA/CI and re-read repository evidence; current repository records, not this handoff's remembered SHA or chat history, are authoritative.
 
 ## Required startup reads
 
@@ -28,7 +28,17 @@ The Iteration 24 implementation currently records:
 - implementation merge: `c38b6cac26351329f8b608453582d7187dc2c304`;
 - implementation post-merge Greenfield Contracts run: 35784990316, PASS, 299 tests.
 
-These values are implementation anchors only. The receiving chat must use the later reconciled closure-verified current main and CI as its actual starting baseline.
+These values are implementation anchors only.
+
+Verified Iteration 24 closure baseline:
+
+- closure PR: #69;
+- exact closure candidate: `7482604487c6531a30da00ff7e0702ef7a5eef2f`;
+- closure PR Greenfield Contracts run: 35785622166, PASS, 299 tests;
+- closure merge: `88e34d3ad9a9cc12b416cfd663a4ceddb176bd17`;
+- closure post-merge Greenfield Contracts run: 35785891870, PASS, 299 tests.
+
+The receiving chat must still independently resolve the then-current main SHA/CI and confirm the reconciled machine evidence before making changes.
 
 ## Preserved architecture and locked inheritance
 
@@ -201,6 +211,4 @@ Then create and merge all four mandatory Iteration 25 closure artifacts under `d
 
 ## Activation determination
 
-**Iteration 25 implementation authorization: NOT YET ACTIVE.**
-
-Activation occurs only after current repository evidence is reconciled to Iteration 24 `repository_closure_status=complete`, `iteration25_ready=true`, all four Iteration 24 closure artifacts are present on verified main, and current main CI passes.
+**Iteration 25 implementation authorization: READY**, subject to mandatory start-of-iteration verification of the then-current main SHA, current Greenfield Contracts CI, all four Iteration 24 closure artifacts, and reconciled Iteration 24 evidence reporting `repository_closure_status=complete` and `iteration25_ready=true`.
