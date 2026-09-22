@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "rehearsal_envelope_manifest_version": "1.0.0",
+  "manifest_id": "current-repository-execution-rehearsal-blocked",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "production_cutover_authorized": false,
+  "legacy_decommission_authorized": false,
+  "production_publication": false,
+  "iteration14_closure": {
+    "repository_closure_status": "complete",
+    "iteration15_ready": true,
+    "evidence_path": "evidence/iteration14/synthetic-shadow-production-integration-execution-preflight-evidence.json"
+  },
+  "execution_preflight_binding": {
+    "binding_type": "exact_locked_execution_preflight_artifact",
+    "artifact_type": "production-integration-execution-preflight",
+    "execution_preflight_id_field": "data.execution_preflight_id",
+    "artifact_digest_field": "content_digest"
+  },
+  "evidence": {
+    "runner_contract": null,
+    "step_selection_scope": null,
+    "noop_policy": null,
+    "dry_run_assertions": null,
+    "rollback_restore": null,
+    "target_environment": null,
+    "pre_rehearsal_verification": null,
+    "stop_abort_conditions": null,
+    "cutover_decommission_state": null,
+    "zero_incremental_cost": null
+  },
+  "rehearsal_decision": null
+}
