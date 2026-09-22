@@ -24,6 +24,7 @@ from .render import ReaderSurfaceRenderer, RenderBoundaryFailure
 from .release import ReleaseBoundaryFailure, ShadowReleasePipeline
 from .readiness import ProductionReadinessPipeline
 from .integration_preflight import ProductionIntegrationPreflight
+from .integration_plan import ProductionIntegrationPlan
 from .store import CanonicalStore, ContractError, utc_now
 
 
@@ -67,6 +68,8 @@ class RunEngine:
         readiness_only: bool = False,
         integration_preflight_fixture_root: Path | str | None = None,
         integration_preflight_only: bool = False,
+        integration_plan_fixture_root: Path | str | None = None,
+        integration_plan_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -87,6 +90,7 @@ class RunEngine:
         self.completion_only = completion_only
         self.readiness_only = readiness_only
         self.integration_preflight_only = integration_preflight_only
+        self.integration_plan_only = integration_plan_only
         if self.render_only and (self.editorial_only or self.build_only or self.validation_only):
             raise ValueError("render_only cannot be combined with earlier bounded execution modes")
         if self.release_only and (
@@ -144,6 +148,21 @@ class RunEngine:
         ):
             raise ValueError(
                 "integration_preflight_only cannot be combined with another bounded execution mode"
+            )
+        if self.integration_plan_only and (
+            self.editorial_only
+            or self.build_only
+            or self.validation_only
+            or self.render_only
+            or self.release_only
+            or self.evaluation_only
+            or self.reconcile_only
+            or self.completion_only
+            or self.readiness_only
+            or self.integration_preflight_only
+        ):
+            raise ValueError(
+                "integration_plan_only cannot be combined with another bounded execution mode"
             )
         if editorial_fixture_root is not None:
             self.editorial_fixture_root = Path(editorial_fixture_root)
@@ -212,6 +231,17 @@ class RunEngine:
             )
         else:
             self.integration_preflight_fixture_root = None
+        if integration_plan_fixture_root is not None:
+            self.integration_plan_fixture_root = Path(integration_plan_fixture_root)
+        elif mode in {"synthetic", "shadow"}:
+            self.integration_plan_fixture_root = (
+                Path(__file__).resolve().parents[2]
+                / "fixtures"
+                / "iteration12"
+                / "current-blocked"
+            )
+        else:
+            self.integration_plan_fixture_root = None
 
     def _new_run(self) -> dict[str, Any]:
         now = utc_now()
@@ -504,6 +534,26 @@ class RunEngine:
             failure_class=failure_class,
         )
 
+    def _integration_plan_pipeline(self) -> ProductionIntegrationPlan:
+        failure_boundary_id = None
+        failure_class = "synthetic_integration_plan_boundary_failure"
+        if (
+            self.failure_injection
+            and self.failure_injection.stage == "Complete"
+            and self.failure_injection.candidate_id
+            and self.failure_injection.candidate_id.startswith("plan:")
+        ):
+            failure_boundary_id = self.failure_injection.candidate_id
+            failure_class = self.failure_injection.failure_class
+        return ProductionIntegrationPlan(
+            self.store,
+            self.edition_date,
+            self.mode,
+            self.integration_plan_fixture_root,
+            failure_boundary_id=failure_boundary_id,
+            failure_class=failure_class,
+        )
+
     def _rating_contract(self) -> dict[str, Any]:
         return {
             "contract_version": RATING_CONTRACT_VERSION,
@@ -537,7 +587,8 @@ class RunEngine:
             "rating-contract", "publication-bundle", "reader-render", "route-manifest",
             "release-package", "shadow-deployment", "live-verification",
             "book-change-evaluation", "command-center-projection", "projection-watermark",
-            "completion",
+            "completion", "readiness-admission", "production-integration-preflight",
+            "production-integration-plan",
         ):
             artifact = self.store.load_artifact(artifact_type)
             if artifact and artifact.get("status") == "locked":
@@ -737,7 +788,12 @@ class RunEngine:
     def run(self) -> dict[str, Any]:
         run = self.load_or_create()
         if run["current_state"] == "Complete":
-            if self.completion_only or self.readiness_only or self.integration_preflight_only:
+            if (
+                self.completion_only
+                or self.readiness_only
+                or self.integration_preflight_only
+                or self.integration_plan_only
+            ):
                 self.store.acquire_lease(self.run_id, self.owner)
                 try:
                     self._completion_pipeline().validate_completed_run(run)
@@ -765,6 +821,18 @@ class RunEngine:
                             lambda: preflight.build_preflight(run, evaluation),
                         )
                         preflight.finalize(artifact)
+                    if self.integration_plan_only:
+                        plan = self._integration_plan_pipeline()
+                        compiled = plan.prepare(run)
+                        existing = self.store.load_artifact("production-integration-plan")
+                        plan.validate_existing(existing, run, compiled)
+                        artifact = self._ensure_artifact(
+                            run,
+                            "production-integration-plan",
+                            "complete:integration-plan",
+                            lambda: plan.build_plan(run, compiled),
+                        )
+                        plan.finalize(artifact)
                 finally:
                     self.store.release_lease(self.owner)
             return run
@@ -1116,6 +1184,8 @@ def start_daily_brief(
     readiness_only: bool = False,
     integration_preflight_fixture_root: Path | str | None = None,
     integration_preflight_only: bool = False,
+    integration_plan_fixture_root: Path | str | None = None,
+    integration_plan_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
     return RunEngine(
@@ -1144,6 +1214,8 @@ def start_daily_brief(
         readiness_only=readiness_only,
         integration_preflight_fixture_root=integration_preflight_fixture_root,
         integration_preflight_only=integration_preflight_only,
+        integration_plan_fixture_root=integration_plan_fixture_root,
+        integration_plan_only=integration_plan_only,
     ).run()
 
 
