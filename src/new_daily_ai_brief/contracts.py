@@ -22,6 +22,8 @@ EXECUTION_REHEARSAL_SCHEMA_VERSION: Final = "1.0.0"
 EXECUTION_REHEARSAL_POLICY_VERSION: Final = "1.0.0"
 EXECUTION_AUTHORIZATION_REVIEW_SCHEMA_VERSION: Final = "1.0.0"
 EXECUTION_AUTHORIZATION_REVIEW_POLICY_VERSION: Final = "1.0.0"
+EXECUTION_AUTHORIZATION_DECISION_SCHEMA_VERSION: Final = "1.0.0"
+EXECUTION_AUTHORIZATION_DECISION_POLICY_VERSION: Final = "1.0.0"
 
 STATES: Final[tuple[str, ...]] = (
     "Ready",
@@ -93,6 +95,7 @@ ARTIFACT_DEPENDENCIES: Final[dict[str, tuple[str, ...]]] = {
     "production-integration-execution-preflight": ("production-integration-admission",),
     "production-integration-execution-rehearsal": ("production-integration-execution-preflight",),
     "production-integration-execution-authorization-review": ("production-integration-execution-rehearsal",),
+    "production-integration-execution-authorization-decision": ("production-integration-execution-authorization-review",),
 }
 
 ARTIFACT_FILES: Final[dict[str, str]] = {
@@ -120,6 +123,7 @@ ARTIFACT_FILES: Final[dict[str, str]] = {
     "production-integration-execution-preflight": "production-integration-execution-preflight.json",
     "production-integration-execution-rehearsal": "production-integration-execution-rehearsal.json",
     "production-integration-execution-authorization-review": "production-integration-execution-authorization-review.json",
+    "production-integration-execution-authorization-decision": "production-integration-execution-authorization-decision.json",
 }
 
 MANDATORY_COMPLETION_RECEIPTS: Final[tuple[str, ...]] = (
