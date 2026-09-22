@@ -453,7 +453,7 @@ class ProductionIntegrationExecutionExecutorBindingPreflight:
                 raise IntegrationExecutionExecutorBindingPreflightError(
                     "executor_binding_ready requires separate Iteration 20 readiness identity"
                 )
-            if not data.get("synthetic_binding_plan_descriptor_id"):
+            if not data.get("synthetic_executor_descriptor_id"):
                 raise IntegrationExecutionExecutorBindingPreflightError(
                     "executor_binding_ready requires Iteration 20 synthetic executor descriptor identity"
                 )
@@ -462,7 +462,7 @@ class ProductionIntegrationExecutionExecutorBindingPreflight:
         )
         source_evaluation = (source_state or {}).get("evaluation") or {}
         source_input_identity = source_evaluation.get("input_identity") or {}
-        source_preflight_binding = source_evaluation.get("preflight_binding") or {}
+        source_readiness_binding = source_evaluation.get("readiness_binding") or {}
         source_descriptor_binding = source_evaluation.get("descriptor_binding") or {}
         if (
             source_evaluation.get("classification") != data.get("classification")
@@ -476,9 +476,9 @@ class ProductionIntegrationExecutionExecutorBindingPreflight:
             != data.get("executor_binding_readiness_policy_digest")
             or source_input_identity.get("executor_binding_readiness_manifest_digest")
             != data.get("executor_binding_readiness_manifest_digest")
-            or source_preflight_binding.get("readiness_record_id")
+            or source_readiness_binding.get("readiness_record_id")
             != data.get("separate_executor_binding_readiness_id")
-            or source_preflight_binding.get("readiness_record_digest")
+            or source_readiness_binding.get("readiness_record_digest")
             != data.get("separate_executor_binding_readiness_digest")
             or source_descriptor_binding.get("synthetic_executor_descriptor_id")
             != data.get("synthetic_executor_descriptor_id")
