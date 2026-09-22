@@ -1,6 +1,6 @@
 # Iteration 18 — Ready-to-Paste Start Prompt
 
-> **ACTIVATION STATUS: PENDING ITERATION 17 CLOSURE RECONCILIATION.** Do not execute this prompt until current repository evidence reports `repository_closure_status=complete` and `iteration18_ready=true`.
+> **ACTIVATION STATUS: READY.** Iteration 17 closure is reconciled on verified `main`; current repository evidence reports `repository_closure_status=complete` and `iteration18_ready=true`. The receiving chat must still verify the current `main` SHA and CI before changing anything.
 
 @GitHub Proceed with Iteration 18 of the New Daily AI Brief greenfield implementation in `gttome/New-Daily-AI-Brief`.
 
