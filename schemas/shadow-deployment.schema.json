@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "shadow-deployment.schema.json",
+  "title": "Shadow Deployment Receipt Data",
+  "type": "object",
+  "required": [
+    "deployment_adapter_version",
+    "edition_date",
+    "release_package_digest",
+    "deployment_identity",
+    "output_count",
+    "outputs",
+    "production_authorized",
+    "shadow_only"
+  ],
+  "properties": {
+    "deployment_adapter_version": {"const": "shadow-filesystem-v1"},
+    "edition_date": {"type": "string"},
+    "release_package_digest": {"type": "string", "pattern": "^sha256:"},
+    "deployment_identity": {"type": "string", "pattern": "^shadow-deploy:"},
+    "output_count": {"const": 11},
+    "outputs": {"type": "array", "minItems": 11, "maxItems": 11},
+    "production_authorized": {"const": false},
+    "shadow_only": {"const": true}
+  },
+  "additionalProperties": false
+}
