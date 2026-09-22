@@ -323,7 +323,17 @@ The mandatory Iteration 7 closure package is:
 - `docs/ITERATION8_HANDOFF_2026-09-21.md`;
 - `docs/ITERATION8_START_PROMPT_2026-09-21.md`.
 
-At creation of this closure branch, the functional implementation is merged and verified. Closure-package PR/merge identities are intentionally recorded as pending until the exact closure candidate itself passes CI and is merged; a metadata-only reconciliation then records those immutable identities.
+Closure-package verification is complete:
+
+- Closure PR: **#18**
+- Exact closure candidate: `29f23e66a100ae49e667418fe2c2e0ef0d2b3439`
+- Closure PR CI: **35679431170 — PASS (81/81)**
+- Closure package merge SHA: `ad2deca83eebc05cfc1c024ac4104a9250b2fdba`
+- Closure post-merge `main` CI: **35679461673 — PASS (81/81)**
+- Python: **3.11.16**
+- Runtime changes in closure package: **none**
+
+This metadata reconciliation records those already verified immutable closure identities; it does not modify runtime behavior.
 
 ## Exit determination
 
@@ -331,6 +341,6 @@ At creation of this closure branch, the functional implementation is merged and 
 
 **Iteration 7 functional exit gate: PASS.**
 
-**Iteration 7 operational closure: PENDING closure-package merge and reconciliation.**
+**Iteration 7 operational closure: COMPLETE.**
 
-Iteration 8 must not start until all four mandatory closure artifacts are present on verified `main` and the machine evidence reports `iteration8_ready=true`.
+All four mandatory closure artifacts are present, the exact closure candidate passed the complete suite, and the closure merge passed post-merge `main` CI. **Iteration 8 is ready to begin from current verified `main`.**
