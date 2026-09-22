@@ -1685,6 +1685,8 @@ def start_daily_brief(
     integration_execution_authorization_review_only: bool = False,
     integration_execution_authorization_decision_fixture_root: Path | str | None = None,
     integration_execution_authorization_decision_only: bool = False,
+    integration_execution_authorization_package_fixture_root: Path | str | None = None,
+    integration_execution_authorization_package_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
     return RunEngine(
@@ -1732,6 +1734,12 @@ def start_daily_brief(
         ),
         integration_execution_authorization_decision_only=(
             integration_execution_authorization_decision_only
+        ),
+        integration_execution_authorization_package_fixture_root=(
+            integration_execution_authorization_package_fixture_root
+        ),
+        integration_execution_authorization_package_only=(
+            integration_execution_authorization_package_only
         ),
     ).run()
 
