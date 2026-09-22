@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "executor_binding_readiness_policy_version": "1.0.0",
+  "policy_id": "production-integration-execution-executor-binding-readiness-v1",
+  "synthetic_only": true,
+  "allowed_upstream_classification": "execution_authority_ready",
+  "classifications": ["blocked", "executor_binding_ready", "invalid"],
+  "real_executor_binding_permitted": false,
+  "real_authority_permitted": false,
+  "zero_incremental_cost_required": true
+}
