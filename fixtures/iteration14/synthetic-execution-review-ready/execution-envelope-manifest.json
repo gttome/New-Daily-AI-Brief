@@ -1,0 +1,156 @@
+{
+  "schema_version": "1.0.0",
+  "execution_envelope_manifest_version": "1.0.0",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "production_cutover_authorized": false,
+  "legacy_decommission_authorized": false,
+  "production_publication": false,
+  "iteration13_closure": {
+    "repository_closure_status": "complete",
+    "iteration14_ready": true,
+    "evidence_path": "evidence/iteration13/synthetic-shadow-production-integration-admission-evidence.json"
+  },
+  "admission_binding": {
+    "binding_type": "exact_locked_admission_artifact",
+    "artifact_type": "production-integration-admission",
+    "admission_id_field": "data.admission_id",
+    "artifact_digest_field": "content_digest"
+  },
+  "manifest_id": "fully-qualified-synthetic-execution-envelope",
+  "evidence": {
+    "executor_contract": {
+      "record_id": "synthetic-executor-contract-record-v1",
+      "record_kind": "production-integration-executor-contract",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "executor_contract_id": "synthetic-noop-executor-contract",
+      "executor_contract_version": "1.0.0"
+    },
+    "step_selection_scope": {
+      "record_id": "synthetic-step-selection-scope-v1",
+      "record_kind": "production-integration-step-selection-scope",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "plan_id": "__PLAN_ID__",
+      "plan_graph_digest": "__PLAN_GRAPH_DIGEST__",
+      "step_ids": [
+        "validate-canonical-chain",
+        "enforce-zero-incremental-cost",
+        "bind-discovery-adapter",
+        "bind-publication-target",
+        "bind-public-deployment-verification",
+        "bind-private-command-center",
+        "bind-production-schedules",
+        "enforce-subscriber-delivery",
+        "stage-migration-prerequisites",
+        "bind-rollback-recovery"
+      ]
+    },
+    "step_enablement": {
+      "record_id": "synthetic-step-enablement-v1",
+      "record_kind": "production-integration-step-enablement",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "plan_id": "__PLAN_ID__",
+      "steps": [
+        {"step_id": "validate-canonical-chain", "enabled": false, "production_action_authorized": false},
+        {"step_id": "enforce-zero-incremental-cost", "enabled": false, "production_action_authorized": false},
+        {"step_id": "bind-discovery-adapter", "enabled": false, "production_action_authorized": false},
+        {"step_id": "bind-publication-target", "enabled": false, "production_action_authorized": false},
+        {"step_id": "bind-public-deployment-verification", "enabled": false, "production_action_authorized": false},
+        {"step_id": "bind-private-command-center", "enabled": false, "production_action_authorized": false},
+        {"step_id": "bind-production-schedules", "enabled": false, "production_action_authorized": false},
+        {"step_id": "enforce-subscriber-delivery", "enabled": false, "production_action_authorized": false},
+        {"step_id": "stage-migration-prerequisites", "enabled": false, "production_action_authorized": false},
+        {"step_id": "bind-rollback-recovery", "enabled": false, "production_action_authorized": false}
+      ]
+    },
+    "dry_run_assertions": {
+      "record_id": "synthetic-dry-run-binding-v1",
+      "record_kind": "production-integration-dry-run-binding",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "dry_run_assertion_set_digest": "__DRY_RUN_ASSERTION_SET_DIGEST__"
+    },
+    "rollback_restore": {
+      "record_id": "synthetic-rollback-restore-binding-v1",
+      "record_kind": "production-integration-rollback-restore-binding",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "rollback_boundary_set_digest": "__ROLLBACK_BOUNDARY_SET_DIGEST__",
+      "restore_point_id": "synthetic-pre-execution-restore-point",
+      "rollback_execution_authorized": false
+    },
+    "target_environment": {
+      "record_id": "synthetic-target-environment-v1",
+      "record_kind": "production-integration-target-environment",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "target_environment_id": "synthetic-shadow-nonproduction",
+      "environment_class": "synthetic_nonproduction",
+      "production_target": false
+    },
+    "pre_execution_verification": {
+      "record_id": "synthetic-pre-execution-verification-v1",
+      "record_kind": "production-integration-pre-execution-verification-policy",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "verification_policy_id": "synthetic-pre-execution-verification-policy",
+      "required": true,
+      "approved_for_execution": false
+    },
+    "stop_abort_conditions": {
+      "record_id": "synthetic-stop-abort-policy-v1",
+      "record_kind": "production-integration-stop-abort-policy",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "policy_id": "synthetic-fail-closed-stop-abort-policy",
+      "stop_conditions": [
+        "identity mismatch",
+        "cost guard failure",
+        "unexpected enabled integration step",
+        "production authorization flag changed"
+      ],
+      "abort_on_identity_mismatch": true,
+      "abort_on_cost_guard_failure": true
+    },
+    "cutover_decommission_state": {
+      "record_id": "synthetic-cutover-decommission-state-v1",
+      "record_kind": "production-integration-cutover-decommission-state",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "cutover_authorized": false,
+      "legacy_decommission_authorized": false,
+      "readers_routed_to_greenfield": false
+    },
+    "zero_incremental_cost": {
+      "record_id": "synthetic-execution-zero-cost-v1",
+      "record_kind": "cost-policy-approval",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "approved": true,
+      "zero_incremental_cost": true,
+      "separately_billed_openai_api_required": false,
+      "paid_completion_or_storage_api_required": false,
+      "paid_deployment_or_hosting_api_required": false,
+      "other_incremental_paid_dependency_required": false
+    }
+  },
+  "execution_envelope_decision": {
+    "record_id": "synthetic-execution-envelope-decision-record-v1",
+    "record_kind": "production-integration-execution-envelope-decision",
+    "decision_id": "synthetic-execution-envelope-decision-v1",
+    "decision": "execution_review_ready_for_later_separately_authorized_executor",
+    "approved": true,
+    "synthetic_only": true,
+    "production_action_authorized": false,
+    "production_cutover_authorized": false,
+    "legacy_decommission_authorized": false,
+    "production_publication": false,
+    "scope": "execution_preflight_only",
+    "admission_binding_mode": "exact_locked_admission_artifact",
+    "execution_envelope_manifest_id": "fully-qualified-synthetic-execution-envelope",
+    "every_real_step_disabled": true
+  }
+}
