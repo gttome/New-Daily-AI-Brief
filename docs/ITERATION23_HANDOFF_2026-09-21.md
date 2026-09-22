@@ -2,7 +2,7 @@
 ## Synthetic Production-Integration Execution Executor-Binding Authorization Review Gate
 ### Prepared September 22, 2026
 
-> **ACTIVATION STATUS: PENDING.** Iteration 22 implementation is merged and passing, but Iteration 23 must not begin until the Iteration 22 closure package is merged, post-merge CI is green, and machine evidence reports `repository_closure_status=complete` and `iteration23_ready=true`.
+> **ACTIVATION STATUS: READY.** Iteration 22 closure is reconciled on verified `main`; repository evidence reports `repository_closure_status=complete` and `iteration23_ready=true`. The receiving chat must still independently verify the current `main` SHA and CI before changing anything.
 
 ## Governing source of truth
 
@@ -97,4 +97,4 @@ Iteration 23 is not operationally complete until `docs/ITERATION_START_PACKAGE_S
 
 ## Activation determination
 
-**Iteration 23 implementation authorization: PENDING Iteration 22 closure reconciliation.**
+**Iteration 23 implementation authorization: READY, subject to independent current-`main` SHA/CI verification by the receiving chat.**
