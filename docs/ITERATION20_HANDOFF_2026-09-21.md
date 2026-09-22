@@ -2,7 +2,7 @@
 ## Synthetic Production-Integration Execution Executor-Binding Readiness Gate
 ### Prepared September 22, 2026
 
-> **ACTIVATION STATUS: NOT READY until Iteration 19 closure reconciliation is complete.** The implementation described below is authorized only after current repository evidence reports `repository_closure_status=complete` and `iteration20_ready=true`, and the receiving chat independently verifies current `main` and CI.
+> **ACTIVATION STATUS: READY.** Iteration 19 closure is reconciled on verified `main`; current repository evidence reports `repository_closure_status=complete` and `iteration20_ready=true`. The receiving chat must still independently verify the current `main` SHA and CI before changing anything.
 
 ## Governing source of truth
 
@@ -269,4 +269,4 @@ Machine evidence must report repository closure complete and `iteration21_ready=
 
 ## Activation determination
 
-**Iteration 20 implementation authorization: NOT READY** until the Iteration 19 closure package has passed, merged, post-merge `main` CI has passed, and a separate closure reconciliation records `repository_closure_status=complete` and `iteration20_ready=true`.
+**Iteration 20 implementation authorization: READY**, subject to mandatory start-of-iteration verification of the then-current `main` SHA, CI, and reconciled Iteration 19 evidence.
