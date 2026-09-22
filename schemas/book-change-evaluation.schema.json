@@ -90,24 +90,7 @@
         "production_authorized": {
           "const": false
         }
-      },
-      "required": [
-        "evaluation_contract_version",
-        "evaluator_adapter_version",
-        "edition_date",
-        "bound_release",
-        "evaluated_item_ids",
-        "evaluated_item_types",
-        "item_evaluations",
-        "all_items_evaluated",
-        "proposal_records",
-        "proposal_count",
-        "result",
-        "result_semantics",
-        "missing_evaluation_is_zero",
-        "shadow_only",
-        "production_authorized"
-      ]
+      }
     },
     "edition_date": {
       "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
