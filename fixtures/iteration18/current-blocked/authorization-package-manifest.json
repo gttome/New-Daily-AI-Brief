@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "authorization_package_manifest_version": "1.0.0",
+  "manifest_id": "production-integration-execution-authorization-package-manifest-v1",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "production_cutover_authorized": false,
+  "legacy_decommission_authorized": false,
+  "production_publication": false,
+  "real_executor_invocation_authorized": false,
+  "credentials_use_authorized": false,
+  "real_target_contact_authorized": false,
+  "rollback_execution_authorized": false,
+  "real_integration_steps_enabled": 0,
+  "authorization_decision_binding": {
+    "binding_mode": "exact_locked_authorization_decision_artifact",
+    "authorization_decision_artifact_digest": null,
+    "authorization_decision_id": null,
+    "authorization_decision_policy_id": null,
+    "authorization_decision_policy_digest": null,
+    "authorization_decision_manifest_id": null,
+    "authorization_decision_manifest_digest": null,
+    "separate_authorization_decision_id": null,
+    "separate_authorization_decision_digest": null,
+    "source_provenance_validation_ids": [],
+    "source_provenance_validation_digests": [],
+    "source_provenance_validation_set_digest": null
+  },
+  "evidence": {
+    "executor_declaration": {
+      "real_executor_required": false,
+      "real_executor_present": false,
+      "real_executor_invocation_authorized": false
+    },
+    "credential_declaration": {
+      "credentials_required": false,
+      "credentials_present": false,
+      "credentials_use_authorized": false
+    },
+    "target_declaration": {
+      "scope": "synthetic_non_production",
+      "real_target_present": false,
+      "real_target_contact_authorized": false
+    },
+    "rollback_declaration": {
+      "rollback_plan_bound": true,
+      "rollback_execution_authorized": false
+    },
+    "stop_abort_conditions": [
+      "identity_mismatch",
+      "authority_flag_true",
+      "cost_guard_failed",
+      "provenance_validation_mismatch"
+    ],
+    "authority_state": {
+      "production_action_authorized": false,
+      "production_cutover_authorized": false,
+      "legacy_decommission_authorized": false,
+      "production_publication": false,
+      "real_executor_invocation_authorized": false,
+      "credentials_use_authorized": false,
+      "real_target_contact_authorized": false,
+      "rollback_execution_authorized": false,
+      "real_integration_steps_enabled": 0
+    },
+    "cost_declaration": {
+      "incremental_paid_dependency_required": false,
+      "zero_incremental_cost_approved": true
+    }
+  }
+}
