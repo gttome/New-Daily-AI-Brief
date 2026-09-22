@@ -106,6 +106,7 @@ ARTIFACT_DEPENDENCIES: Final[dict[str, tuple[str, ...]]] = {
     "production-integration-execution-authorization-decision": ("production-integration-execution-authorization-review",),
     "production-integration-execution-authorization-package": ("production-integration-execution-authorization-decision",),
     "production-integration-execution-authority-readiness": ("production-integration-execution-authorization-package",),
+    "production-integration-execution-executor-binding-readiness": ("production-integration-execution-authority-readiness",),
 }
 
 ARTIFACT_FILES: Final[dict[str, str]] = {
@@ -136,6 +137,7 @@ ARTIFACT_FILES: Final[dict[str, str]] = {
     "production-integration-execution-authorization-decision": "production-integration-execution-authorization-decision.json",
     "production-integration-execution-authorization-package": "production-integration-execution-authorization-package.json",
     "production-integration-execution-authority-readiness": "production-integration-execution-authority-readiness.json",
+    "production-integration-execution-executor-binding-readiness": "production-integration-execution-executor-binding-readiness.json",
 }
 
 MANDATORY_COMPLETION_RECEIPTS: Final[tuple[str, ...]] = (
