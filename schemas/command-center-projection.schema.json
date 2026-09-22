@@ -1,0 +1,34 @@
+{
+  "$id": "https://daily-ai-brief.local/schemas/command-center-projection.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "command-center-projection",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "artifact_id": {"type": "string", "minLength": 1},
+    "artifact_type": {"const": "command-center-projection"},
+    "edition_date": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "mode": {"enum": ["synthetic", "shadow", "production"]},
+    "content_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "produced_by_stage": {"type": "string", "minLength": 1},
+    "input_digests": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+    },
+    "status": {"enum": ["locked", "invalidated"]},
+    "data": {"type": "object"}
+  },
+  "required": [
+    "schema_version",
+    "artifact_id",
+    "artifact_type",
+    "edition_date",
+    "mode",
+    "content_digest",
+    "produced_by_stage",
+    "input_digests",
+    "status",
+    "data"
+  ]
+}

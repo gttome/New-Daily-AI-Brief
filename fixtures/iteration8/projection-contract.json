@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0.0",
+  "projection_contract_version": "1.0.0",
+  "projection_adapter_version": "fixture-filesystem-shadow-v1",
+  "target": "isolated_fixture_filesystem_shadow",
+  "shadow_only": true,
+  "production_authorized": false
+}

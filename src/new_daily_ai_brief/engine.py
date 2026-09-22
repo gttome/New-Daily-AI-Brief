@@ -17,6 +17,7 @@ from .contracts import (
 )
 from .editorial import DiscoveryEditorialPipeline, EditorialCandidateFailure, EditorialFailureInjection
 from .evaluation import EvaluationBoundaryFailure, PostPublicationEvaluationPipeline
+from .operations import OperationsBoundaryFailure, OperationsReconciliationPipeline
 from .pre_release import ImageBoundaryFailure, PreReleasePipeline, ValidationBoundaryFailure
 from .render import ReaderSurfaceRenderer, RenderBoundaryFailure
 from .release import ReleaseBoundaryFailure, ShadowReleasePipeline
@@ -55,6 +56,8 @@ class RunEngine:
         release_only: bool = False,
         evaluation_fixture_root: Path | str | None = None,
         evaluation_only: bool = False,
+        operations_fixture_root: Path | str | None = None,
+        reconcile_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -71,6 +74,7 @@ class RunEngine:
         self.render_only = render_only
         self.release_only = release_only
         self.evaluation_only = evaluation_only
+        self.reconcile_only = reconcile_only
         if self.render_only and (self.editorial_only or self.build_only or self.validation_only):
             raise ValueError("render_only cannot be combined with earlier bounded execution modes")
         if self.release_only and (
@@ -85,6 +89,15 @@ class RunEngine:
             or self.release_only
         ):
             raise ValueError("evaluation_only cannot be combined with earlier bounded execution modes")
+        if self.reconcile_only and (
+            self.editorial_only
+            or self.build_only
+            or self.validation_only
+            or self.render_only
+            or self.release_only
+            or self.evaluation_only
+        ):
+            raise ValueError("reconcile_only cannot be combined with earlier bounded execution modes")
         if editorial_fixture_root is not None:
             self.editorial_fixture_root = Path(editorial_fixture_root)
         elif mode in {"synthetic", "shadow"}:
@@ -121,6 +134,12 @@ class RunEngine:
             self.evaluation_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration7"
         else:
             self.evaluation_fixture_root = None
+        if operations_fixture_root is not None:
+            self.operations_fixture_root = Path(operations_fixture_root)
+        elif mode in {"synthetic", "shadow"}:
+            self.operations_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration8"
+        else:
+            self.operations_fixture_root = None
 
     def _new_run(self) -> dict[str, Any]:
         now = utc_now()
@@ -332,6 +351,26 @@ class RunEngine:
             failure_class=failure_class,
         )
 
+    def _operations_pipeline(self) -> OperationsReconciliationPipeline:
+        failure_boundary_id = None
+        failure_class = "synthetic_operations_boundary_failure"
+        if (
+            self.failure_injection
+            and self.failure_injection.stage == "OperationsReconciled"
+            and self.failure_injection.candidate_id
+            and self.failure_injection.candidate_id.startswith("operations:")
+        ):
+            failure_boundary_id = self.failure_injection.candidate_id
+            failure_class = self.failure_injection.failure_class
+        return OperationsReconciliationPipeline(
+            self.store,
+            self.edition_date,
+            self.mode,
+            self.operations_fixture_root,
+            failure_boundary_id=failure_boundary_id,
+            failure_class=failure_class,
+        )
+
     def _rating_contract(self) -> dict[str, Any]:
         return {
             "contract_version": RATING_CONTRACT_VERSION,
@@ -364,7 +403,7 @@ class RunEngine:
             "discovery", "edition", "media", "images", "watchlist", "book-bridges",
             "rating-contract", "publication-bundle", "reader-render", "route-manifest",
             "release-package", "shadow-deployment", "live-verification",
-            "book-change-evaluation",
+            "book-change-evaluation", "command-center-projection", "projection-watermark",
         ):
             artifact = self.store.load_artifact(artifact_type)
             if artifact and artifact.get("status") == "locked":
@@ -435,6 +474,16 @@ class RunEngine:
             incident["retained_evaluation_state"] = {
                 "completed_item_ids": sorted((evaluation_state.get("evaluations") or {}).keys()),
                 "attempts": deepcopy(evaluation_state.get("attempts") or {}),
+            }
+        if isinstance(exc, OperationsBoundaryFailure):
+            incident["boundary_type"] = exc.boundary_type
+            incident["boundary_id"] = exc.boundary_id
+            operations_state = self.store.read_json(
+                self.store.run_dir / "iteration8-operations-state.json"
+            ) or {}
+            incident["retained_operations_state"] = {
+                "attempts": deepcopy(operations_state.get("attempts") or {}),
+                "metrics": deepcopy(operations_state.get("metrics") or {}),
             }
         self.store.write_incident(incident)
         self.store.write_run(run)
@@ -555,6 +604,12 @@ class RunEngine:
             raise ContractError(
                 "evaluation_only requires an existing locked Iteration 6 LiveVerified release chain "
                 "and a run stopped at or after the LiveVerified boundary"
+            )
+        if self.reconcile_only and run["current_state"] not in {
+            "PostPublicationEvaluation", "OperationsReconciled", "Recovering"
+        }:
+            raise ContractError(
+                "reconcile_only requires an existing locked Iteration 7 PostPublicationEvaluation chain"
             )
         self.store.acquire_lease(self.run_id, self.owner)
         try:
@@ -708,6 +763,18 @@ class RunEngine:
                             return run
                         self.transition(run, "PostPublicationEvaluation")
                     elif state == "PostPublicationEvaluation":
+                        if self.reconcile_only:
+                            evaluation_pipeline = self._evaluation_pipeline()
+                            evaluation_pipeline.validate_existing_evaluation_set()
+                            evaluation = self.store.load_artifact("book-change-evaluation")
+                            if not evaluation or evaluation.get("status") != "locked":
+                                raise EvaluationBoundaryFailure(
+                                    "evaluation_validation",
+                                    "book-change-evaluation",
+                                    "reconcile_only requires the locked Iteration 7 evaluation artifact",
+                                )
+                            self.transition(run, "OperationsReconciled")
+                            continue
                         if self.evaluation_only:
                             evaluation_pipeline = self._evaluation_pipeline()
                             evaluation_pipeline.validate_existing_evaluation_set()
@@ -738,6 +805,35 @@ class RunEngine:
                         )
                         self.transition(run, "OperationsReconciled")
                     elif state == "OperationsReconciled":
+                        if self.reconcile_only:
+                            operations = self._operations_pipeline()
+                            operations.validate_existing_projection_set()
+                            projection = self._ensure_artifact(
+                                run,
+                                "command-center-projection",
+                                "operations_reconciled:projection-payload",
+                                operations.build_projection,
+                            )
+                            receipt = operations.materialize_shadow_projection(projection)
+                            watermark = self._ensure_artifact(
+                                run,
+                                "projection-watermark",
+                                "operations_reconciled:watermark",
+                                lambda: operations.build_watermark(projection, receipt),
+                            )
+                            operations.validate_complete_reconciliation(projection, receipt, watermark)
+                            run["stage_receipts"]["operations_reconciliation"] = {
+                                "projection_digest": projection["content_digest"],
+                                "shadow_projection_receipt_digest": watermark["data"][
+                                    "shadow_projection_receipt_digest"
+                                ],
+                                "projection_watermark_digest": watermark["content_digest"],
+                                "reconciliation_identity": watermark["data"]["reconciliation_identity"],
+                                "scope": "shadow_only",
+                            }
+                            run["completion_status"] = "operations_reconciled_locked"
+                            self.store.write_run(run)
+                            return run
                         self._ensure_artifact(
                             run,
                             "projection-watermark",
@@ -766,6 +862,7 @@ class RunEngine:
                     RenderBoundaryFailure,
                     ReleaseBoundaryFailure,
                     EvaluationBoundaryFailure,
+                    OperationsBoundaryFailure,
                 ) as exc:
                     self._record_failure(run, state, exc)
                     raise
@@ -803,6 +900,8 @@ def start_daily_brief(
     release_only: bool = False,
     evaluation_fixture_root: Path | str | None = None,
     evaluation_only: bool = False,
+    operations_fixture_root: Path | str | None = None,
+    reconcile_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
     return RunEngine(
@@ -823,6 +922,8 @@ def start_daily_brief(
         release_only=release_only,
         evaluation_fixture_root=evaluation_fixture_root,
         evaluation_only=evaluation_only,
+        operations_fixture_root=operations_fixture_root,
+        reconcile_only=reconcile_only,
     ).run()
 
 
