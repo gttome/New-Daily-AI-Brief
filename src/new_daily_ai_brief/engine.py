@@ -4,6 +4,7 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any, Callable
 
+from .build import BuildBoundaryFailure, BuildFailureInjection, BuildStagePipeline
 from .contracts import (
     ARTIFACT_DEPENDENCIES,
     LEGAL_TRANSITIONS,
@@ -14,8 +15,8 @@ from .contracts import (
     SCHEMA_VERSION,
     FailureInjection,
 )
-from .store import CanonicalStore, ContractError, digest, utc_now
 from .editorial import DiscoveryEditorialPipeline, EditorialCandidateFailure, EditorialFailureInjection
+from .store import CanonicalStore, ContractError, digest, utc_now
 
 
 class IllegalTransition(ContractError):
@@ -40,6 +41,8 @@ class RunEngine:
         failure_injection: FailureInjection | None = None,
         editorial_fixture_root: Path | str | None = None,
         editorial_only: bool = False,
+        build_fixture_root: Path | str | None = None,
+        build_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -51,12 +54,19 @@ class RunEngine:
         self.failure_injection = failure_injection
         self._injection_fired = False
         self.editorial_only = editorial_only
+        self.build_only = build_only
         if editorial_fixture_root is not None:
             self.editorial_fixture_root = Path(editorial_fixture_root)
         elif mode in {"synthetic", "shadow"}:
             self.editorial_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration2"
         else:
             self.editorial_fixture_root = None
+        if build_fixture_root is not None:
+            self.build_fixture_root = Path(build_fixture_root)
+        elif mode in {"synthetic", "shadow"}:
+            self.build_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration3"
+        else:
+            self.build_fixture_root = None
 
     def _new_run(self) -> dict[str, Any]:
         now = utc_now()
@@ -144,7 +154,7 @@ class RunEngine:
     def _editorial_pipeline(self) -> DiscoveryEditorialPipeline:
         if self.editorial_fixture_root is None:
             raise ContractError(
-                "production discovery is intentionally unconfigured in Iteration 2; "
+                "production discovery is intentionally unconfigured in Iteration 3; "
                 "use synthetic/shadow fixtures until a later approved cutover iteration"
             )
         injection = None
@@ -164,68 +174,43 @@ class RunEngine:
             injection,
         )
 
-    def _synthetic_edition(self) -> dict[str, Any]:
-        categories = [
-            "agents_non_technical_people",
-            "agents_non_technical_people",
-            "applied_genai_knowledge_workers",
-            "applied_genai_knowledge_workers",
-            "technical_ai_engineering",
-            "technical_ai_engineering",
-        ]
-        stories = []
-        for index, category in enumerate(categories, start=1):
-            stories.append({
-                "story_id": f"synthetic-story-{index}",
-                "category_id": category,
-                "title": f"Synthetic story {index}",
-                "agent_skills": index == 1,
-                "presentation_position": index,
-            })
-        return {
-            "stories": stories,
-            "allocation": {"agents": 2, "applied": 2, "technical": 2},
-            "agent_skills_count": 1,
-            "presentation_order": [
-                "agents_non_technical_people",
-                "applied_genai_knowledge_workers",
-                "technical_ai_engineering",
-            ],
-        }
-
-    def _synthetic_media(self) -> dict[str, Any]:
-        return {
-            "videos": [
-                {"media_id": "video-1", "verified": True},
-                {"media_id": "video-2", "verified": True},
-            ],
-            "podcasts": [
-                {"media_id": "podcast-1", "verified": True},
-                {"media_id": "podcast-2", "verified": True},
-            ],
-            "preflight": "passed",
-        }
+    def _build_pipeline(self) -> BuildStagePipeline:
+        if self.build_fixture_root is None:
+            raise ContractError(
+                "production Build-stage enrichment is intentionally unconfigured in Iteration 3; "
+                "use synthetic/shadow fixtures until a later approved cutover iteration"
+            )
+        injection = None
+        if (
+            self.failure_injection
+            and self.failure_injection.stage == "Building"
+            and self.failure_injection.candidate_id
+        ):
+            injection = BuildFailureInjection(
+                boundary_id=self.failure_injection.candidate_id,
+                failure_class=self.failure_injection.failure_class,
+            )
+        return BuildStagePipeline(
+            self.store,
+            self.edition_date,
+            self.build_fixture_root,
+            injection,
+        )
 
     def _synthetic_images(self) -> dict[str, Any]:
+        edition = self.store.load_artifact("edition")
+        stories = edition["data"]["stories"]
         return {
             "images": [
                 {
-                    "story_id": f"synthetic-story-{i}",
-                    "image_id": f"synthetic-image-{i}",
+                    "story_id": story["story_id"],
+                    "image_id": f"synthetic-image-{index}",
                     "accepted": True,
-                    "binary_digest": digest({"synthetic_image": i}),
+                    "binary_digest": digest({"synthetic_image": index}),
                 }
-                for i in range(1, 7)
+                for index, story in enumerate(stories, start=1)
             ],
             "accepted_count": 6,
-        }
-
-    def _synthetic_watchlist(self) -> dict[str, Any]:
-        return {
-            "new_today": 0,
-            "updated_today": 1,
-            "carried_forward": 2,
-            "topics": [{"topic_id": "synthetic-topic", "status": "updated"}],
         }
 
     def _rating_contract(self) -> dict[str, Any]:
@@ -255,6 +240,7 @@ class RunEngine:
             self.failure_injection
             and not self._injection_fired
             and self.failure_injection.stage == stage
+            and not self.failure_injection.candidate_id
         ):
             self._injection_fired = True
             raise SyntheticFailure(self.failure_injection.failure_class)
@@ -287,10 +273,18 @@ class RunEngine:
         candidate_id = getattr(exc, "candidate_id", None)
         if candidate_id:
             incident["candidate_id"] = candidate_id
+        if isinstance(exc, EditorialCandidateFailure):
             packet_dir = self.store.run_dir / "evidence-packets"
             incident["retained_evidence_packets"] = sorted(
                 path.stem for path in packet_dir.glob("*.json")
             ) if packet_dir.exists() else []
+        if isinstance(exc, BuildBoundaryFailure):
+            incident["boundary_type"] = exc.boundary_type
+            incident["boundary_id"] = exc.boundary_id
+            incident["retained_build_state"] = {
+                name: bool((self.store.run_dir / f"{name}-state.json").exists())
+                for name in ("media", "watchlist", "bridges")
+            }
         self.store.write_incident(incident)
         self.store.write_run(run)
 
@@ -303,7 +297,7 @@ class RunEngine:
         self.transition(run, target)
         incident = self.store.load_incident()
         if incident:
-            incident["recovery_receipt"] = {
+            receipt = {
                 "incident_id": incident["incident_id"],
                 "failed_stage": incident["failed_stage"],
                 "failure_class": incident["failure_class"],
@@ -314,11 +308,16 @@ class RunEngine:
                 "result": "recovered",
                 "recovered_at": utc_now(),
             }
-            if "candidate_id" in incident:
-                incident["recovery_receipt"]["candidate_id"] = incident["candidate_id"]
-                incident["recovery_receipt"]["retained_evidence_packets"] = incident.get(
-                    "retained_evidence_packets", []
-                )
+            for key in (
+                "candidate_id",
+                "retained_evidence_packets",
+                "boundary_type",
+                "boundary_id",
+                "retained_build_state",
+            ):
+                if key in incident:
+                    receipt[key] = deepcopy(incident[key])
+            incident["recovery_receipt"] = receipt
             incident["result"] = "recovered"
             self.store.write_incident(incident)
         run["recovery_target"] = None
@@ -404,9 +403,17 @@ class RunEngine:
                         self._ensure_artifact(run, "rating-contract", "deciding", self._rating_contract)
                         self.transition(run, "Building")
                     elif state == "Building":
-                        self._ensure_artifact(run, "media", "building:media", self._synthetic_media)
+                        build = self._build_pipeline()
+                        self._ensure_artifact(run, "media", "building:media", build.build_media)
+                        self._ensure_artifact(run, "watchlist", "building:watchlist", build.build_watchlist)
+                        self._ensure_artifact(
+                            run, "book-bridges", "building:book-bridges", build.build_book_bridges
+                        )
+                        if self.build_only:
+                            run["completion_status"] = "build_locked"
+                            self.store.write_run(run)
+                            return run
                         self._ensure_artifact(run, "images", "building:images", self._synthetic_images)
-                        self._ensure_artifact(run, "watchlist", "building:watchlist", self._synthetic_watchlist)
                         self.transition(run, "Validating")
                     elif state == "Validating":
                         self._maybe_inject("Validating")
@@ -463,13 +470,12 @@ class RunEngine:
                         self._recover_if_needed(run)
                     else:
                         raise ContractError(f"unhandled state: {state}")
-                except (SyntheticFailure, EditorialCandidateFailure) as exc:
+                except (SyntheticFailure, EditorialCandidateFailure, BuildBoundaryFailure) as exc:
                     self._record_failure(run, state, exc)
                     raise
             return run
         finally:
             self.store.release_lease(self.owner)
-
 
 
 def projection_freshness(watermark: dict[str, Any] | None, final_production_identity: str) -> dict[str, str]:
@@ -481,6 +487,7 @@ def projection_freshness(watermark: dict[str, Any] | None, final_production_iden
         return {"status": "degraded", "reason": "final_production_identity_mismatch"}
     return {"status": "current", "reason": "identity_match"}
 
+
 def start_daily_brief(
     edition_date: str,
     mode: str = "synthetic",
@@ -490,16 +497,20 @@ def start_daily_brief(
     *,
     editorial_fixture_root: Path | str | None = None,
     editorial_only: bool = False,
+    build_fixture_root: Path | str | None = None,
+    build_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
     return RunEngine(
-        state_root,
-        edition_date,
-        mode,
-        owner,
-        failure_injection,
-        editorial_fixture_root,
-        editorial_only,
+        state_root=state_root,
+        edition_date=edition_date,
+        mode=mode,
+        owner=owner,
+        failure_injection=failure_injection,
+        editorial_fixture_root=editorial_fixture_root,
+        editorial_only=editorial_only,
+        build_fixture_root=build_fixture_root,
+        build_only=build_only,
     ).run()
 
 
