@@ -1413,6 +1413,8 @@ def start_daily_brief(
     integration_admission_only: bool = False,
     integration_execution_preflight_fixture_root: Path | str | None = None,
     integration_execution_preflight_only: bool = False,
+    integration_execution_rehearsal_fixture_root: Path | str | None = None,
+    integration_execution_rehearsal_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
     return RunEngine(
@@ -1447,6 +1449,8 @@ def start_daily_brief(
         integration_admission_only=integration_admission_only,
         integration_execution_preflight_fixture_root=integration_execution_preflight_fixture_root,
         integration_execution_preflight_only=integration_execution_preflight_only,
+        integration_execution_rehearsal_fixture_root=integration_execution_rehearsal_fixture_root,
+        integration_execution_rehearsal_only=integration_execution_rehearsal_only,
     ).run()
 
 
