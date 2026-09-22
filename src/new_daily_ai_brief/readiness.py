@@ -27,7 +27,7 @@ class ProductionReadinessPipeline:
 
     REQUIRED_PREREQUISITES = (
         "canonical_chain_integrity",
-        "cost_policy"
+        "cost_policy",
         "production_discovery",
         "production_publication",
         "public_deployment_verification",
