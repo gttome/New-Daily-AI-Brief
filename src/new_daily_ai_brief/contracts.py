@@ -33,9 +33,9 @@ LEGAL_TRANSITIONS: Final[dict[str, set[str]]] = {
     "Deployed": {"LiveVerified", "Recovering"},
     "LiveVerified": {"PostPublicationEvaluation"},
     "PostPublicationEvaluation": {"OperationsReconciled", "Recovering"},
-    "OperationsReconciled": {"Complete"},
+    "OperationsReconciled": {"Complete", "Recovering"},
     "Complete": set(),
-    "Recovering": {"Acquiring", "Deciding", "Building", "Validating", "Releasing", "Deployed", "PostPublicationEvaluation"},
+    "Recovering": {"Acquiring", "Deciding", "Building", "Validating", "Releasing", "Deployed", "PostPublicationEvaluation", "OperationsReconciled"},
 }
 
 ARTIFACT_DEPENDENCIES: Final[dict[str, tuple[str, ...]]] = {
@@ -53,6 +53,22 @@ ARTIFACT_DEPENDENCIES: Final[dict[str, tuple[str, ...]]] = {
     "shadow-deployment": ("release-package",),
     "live-verification": ("shadow-deployment",),
     "book-change-evaluation": ("publication-bundle",),
+    "command-center-projection": (
+        "discovery",
+        "edition",
+        "rating-contract",
+        "media",
+        "watchlist",
+        "book-bridges",
+        "images",
+        "publication-bundle",
+        "reader-render",
+        "route-manifest",
+        "release-package",
+        "shadow-deployment",
+        "live-verification",
+        "book-change-evaluation",
+    ),
     "projection-watermark": ("publication-bundle", "book-change-evaluation"),
     "completion": ("publication-bundle", "book-change-evaluation", "projection-watermark"),
 }
@@ -72,6 +88,7 @@ ARTIFACT_FILES: Final[dict[str, str]] = {
     "shadow-deployment": "shadow-deployment.json",
     "live-verification": "live-verification.json",
     "book-change-evaluation": "book-change-evaluation.json",
+    "command-center-projection": "command-center-projection.json",
     "projection-watermark": "projection-watermark.json",
     "completion": "completion.json",
 }
