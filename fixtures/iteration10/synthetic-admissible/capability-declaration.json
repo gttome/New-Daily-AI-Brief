@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "capability_declaration_version": "1.0.0",
+  "profile_id": "fully-qualified-synthetic-policy-validation",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "cost_policy": {
+    "approved": true,
+    "separately_billed_openai_api_required": false,
+    "paid_completion_or_storage_api_required": false,
+    "paid_deployment_or_hosting_api_required": false,
+    "other_incremental_paid_dependency_required": false
+  },
+  "production_discovery": {
+    "approved": true,
+    "adapter_id": "synthetic-zero-cost-discovery-adapter",
+    "zero_incremental_cost": true
+  },
+  "production_publication": {
+    "approved": true,
+    "publication_path_id": "synthetic-controlled-publication-path",
+    "target_id": "synthetic-reader-target"
+  },
+  "public_deployment_verification": {
+    "approved": true,
+    "deployment_target_id": "synthetic-deployment-target",
+    "verification_mechanism_id": "synthetic-route-verifier"
+  },
+  "private_command_center": {
+    "approved": true,
+    "target_id": "synthetic-private-command-center",
+    "projection_adapter_id": "synthetic-private-projection-adapter",
+    "privacy_boundary": "synthetic-private-boundary"
+  },
+  "production_schedules": {
+    "approved": true,
+    "schedule_policy_id": "synthetic-schedule-policy",
+    "schedule_identities": [
+      "publisher-0700",
+      "validation-0900"
+    ]
+  },
+  "subscriber_delivery": {
+    "explicit": true,
+    "policy_id": "calendar-subscription-only-no-email-text"
+  },
+  "legacy_migration_cutover": {
+    "prerequisites_approved": true,
+    "migration_plan_id": "synthetic-migration-plan",
+    "cutover_authorized": false,
+    "legacy_decommission_authorized": false
+  },
+  "rollback_recovery": {
+    "approved": true,
+    "rollback_policy_id": "synthetic-rollback-policy",
+    "rollback_identity": "synthetic-pre-cutover-restore-point"
+  }
+}
