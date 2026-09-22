@@ -23,6 +23,7 @@ from .pre_release import ImageBoundaryFailure, PreReleasePipeline, ValidationBou
 from .render import ReaderSurfaceRenderer, RenderBoundaryFailure
 from .release import ReleaseBoundaryFailure, ShadowReleasePipeline
 from .readiness import ProductionReadinessPipeline
+from .integration_preflight import ProductionIntegrationPreflight
 from .store import CanonicalStore, ContractError, utc_now
 
 
@@ -64,6 +65,8 @@ class RunEngine:
         completion_only: bool = False,
         readiness_fixture_root: Path | str | None = None,
         readiness_only: bool = False,
+        integration_preflight_fixture_root: Path | str | None = None,
+        integration_preflight_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -83,6 +86,7 @@ class RunEngine:
         self.reconcile_only = reconcile_only
         self.completion_only = completion_only
         self.readiness_only = readiness_only
+        self.integration_preflight_only = integration_preflight_only
         if self.render_only and (self.editorial_only or self.build_only or self.validation_only):
             raise ValueError("render_only cannot be combined with earlier bounded execution modes")
         if self.release_only and (
@@ -127,6 +131,20 @@ class RunEngine:
             or self.completion_only
         ):
             raise ValueError("readiness_only cannot be combined with another bounded execution mode")
+        if self.integration_preflight_only and (
+            self.editorial_only
+            or self.build_only
+            or self.validation_only
+            or self.render_only
+            or self.release_only
+            or self.evaluation_only
+            or self.reconcile_only
+            or self.completion_only
+            or self.readiness_only
+        ):
+            raise ValueError(
+                "integration_preflight_only cannot be combined with another bounded execution mode"
+            )
         if editorial_fixture_root is not None:
             self.editorial_fixture_root = Path(editorial_fixture_root)
         elif mode in {"synthetic", "shadow"}:
@@ -183,6 +201,17 @@ class RunEngine:
             )
         else:
             self.readiness_fixture_root = None
+        if integration_preflight_fixture_root is not None:
+            self.integration_preflight_fixture_root = Path(integration_preflight_fixture_root)
+        elif mode in {"synthetic", "shadow"}:
+            self.integration_preflight_fixture_root = (
+                Path(__file__).resolve().parents[2]
+                / "fixtures"
+                / "iteration11"
+                / "current-unresolved"
+            )
+        else:
+            self.integration_preflight_fixture_root = None
 
     def _new_run(self) -> dict[str, Any]:
         now = utc_now()
@@ -455,6 +484,26 @@ class RunEngine:
             failure_class=failure_class,
         )
 
+    def _integration_preflight_pipeline(self) -> ProductionIntegrationPreflight:
+        failure_boundary_id = None
+        failure_class = "synthetic_integration_preflight_boundary_failure"
+        if (
+            self.failure_injection
+            and self.failure_injection.stage == "Complete"
+            and self.failure_injection.candidate_id
+            and self.failure_injection.candidate_id.startswith("preflight:")
+        ):
+            failure_boundary_id = self.failure_injection.candidate_id
+            failure_class = self.failure_injection.failure_class
+        return ProductionIntegrationPreflight(
+            self.store,
+            self.edition_date,
+            self.mode,
+            self.integration_preflight_fixture_root,
+            failure_boundary_id=failure_boundary_id,
+            failure_class=failure_class,
+        )
+
     def _rating_contract(self) -> dict[str, Any]:
         return {
             "contract_version": RATING_CONTRACT_VERSION,
@@ -688,7 +737,7 @@ class RunEngine:
     def run(self) -> dict[str, Any]:
         run = self.load_or_create()
         if run["current_state"] == "Complete":
-            if self.completion_only or self.readiness_only:
+            if self.completion_only or self.readiness_only or self.integration_preflight_only:
                 self.store.acquire_lease(self.run_id, self.owner)
                 try:
                     self._completion_pipeline().validate_completed_run(run)
@@ -704,6 +753,18 @@ class RunEngine:
                             lambda: readiness.build_readiness(run, evaluation),
                         )
                         readiness.finalize(artifact)
+                    if self.integration_preflight_only:
+                        preflight = self._integration_preflight_pipeline()
+                        evaluation = preflight.prepare(run)
+                        existing = self.store.load_artifact("production-integration-preflight")
+                        preflight.validate_existing(existing, run, evaluation)
+                        artifact = self._ensure_artifact(
+                            run,
+                            "production-integration-preflight",
+                            "complete:integration-preflight",
+                            lambda: preflight.build_preflight(run, evaluation),
+                        )
+                        preflight.finalize(artifact)
                 finally:
                     self.store.release_lease(self.owner)
             return run
@@ -1053,6 +1114,8 @@ def start_daily_brief(
     completion_only: bool = False,
     readiness_fixture_root: Path | str | None = None,
     readiness_only: bool = False,
+    integration_preflight_fixture_root: Path | str | None = None,
+    integration_preflight_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
     return RunEngine(
@@ -1079,6 +1142,8 @@ def start_daily_brief(
         completion_only=completion_only,
         readiness_fixture_root=readiness_fixture_root,
         readiness_only=readiness_only,
+        integration_preflight_fixture_root=integration_preflight_fixture_root,
+        integration_preflight_only=integration_preflight_only,
     ).run()
 
 
