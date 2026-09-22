@@ -1277,6 +1277,18 @@ class RunEngine:
                             ),
                         )
                         authorization_decision.finalize(artifact)
+                    if self.integration_execution_authorization_package_only:
+                        authorization_package = self._integration_execution_authorization_package_pipeline()
+                        evaluated = authorization_package.prepare(run)
+                        existing = self.store.load_artifact("production-integration-execution-authorization-package")
+                        authorization_package.validate_existing(existing, run, evaluated)
+                        artifact = self._ensure_artifact(
+                            run,
+                            "production-integration-execution-authorization-package",
+                            "complete:integration-execution-authorization-package",
+                            lambda: authorization_package.build_authorization_package(run, evaluated),
+                        )
+                        authorization_package.finalize(artifact)
                 finally:
                     self.store.release_lease(self.owner)
             return run
