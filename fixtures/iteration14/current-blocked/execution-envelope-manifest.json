@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "execution_envelope_manifest_version": "1.0.0",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "production_cutover_authorized": false,
+  "legacy_decommission_authorized": false,
+  "production_publication": false,
+  "iteration13_closure": {
+    "repository_closure_status": "complete",
+    "iteration14_ready": true,
+    "evidence_path": "evidence/iteration13/synthetic-shadow-production-integration-admission-evidence.json"
+  },
+  "admission_binding": {
+    "binding_type": "exact_locked_admission_artifact",
+    "artifact_type": "production-integration-admission",
+    "admission_id_field": "data.admission_id",
+    "artifact_digest_field": "content_digest"
+  },
+  "manifest_id": "current-repository-execution-envelope-blocked",
+  "evidence": {
+    "executor_contract": null,
+    "step_selection_scope": null,
+    "step_enablement": null,
+    "dry_run_assertions": null,
+    "rollback_restore": null,
+    "target_environment": null,
+    "pre_execution_verification": null,
+    "stop_abort_conditions": null,
+    "cutover_decommission_state": null,
+    "zero_incremental_cost": null
+  },
+  "execution_envelope_decision": null
+}

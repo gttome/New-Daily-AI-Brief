@@ -26,6 +26,7 @@ from .readiness import ProductionReadinessPipeline
 from .integration_preflight import ProductionIntegrationPreflight
 from .integration_plan import ProductionIntegrationPlan
 from .integration_admission import ProductionIntegrationAdmission
+from .integration_execution_preflight import ProductionIntegrationExecutionPreflight
 from .store import CanonicalStore, ContractError, utc_now
 
 
@@ -73,6 +74,8 @@ class RunEngine:
         integration_plan_only: bool = False,
         integration_admission_fixture_root: Path | str | None = None,
         integration_admission_only: bool = False,
+        integration_execution_preflight_fixture_root: Path | str | None = None,
+        integration_execution_preflight_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -95,6 +98,7 @@ class RunEngine:
         self.integration_preflight_only = integration_preflight_only
         self.integration_plan_only = integration_plan_only
         self.integration_admission_only = integration_admission_only
+        self.integration_execution_preflight_only = integration_execution_preflight_only
         if self.render_only and (self.editorial_only or self.build_only or self.validation_only):
             raise ValueError("render_only cannot be combined with earlier bounded execution modes")
         if self.release_only and (
@@ -185,6 +189,23 @@ class RunEngine:
             raise ValueError(
                 "integration_admission_only cannot be combined with another bounded execution mode"
             )
+        if self.integration_execution_preflight_only and (
+            self.editorial_only
+            or self.build_only
+            or self.validation_only
+            or self.render_only
+            or self.release_only
+            or self.evaluation_only
+            or self.reconcile_only
+            or self.completion_only
+            or self.readiness_only
+            or self.integration_preflight_only
+            or self.integration_plan_only
+            or self.integration_admission_only
+        ):
+            raise ValueError(
+                "integration_execution_preflight_only cannot be combined with another bounded execution mode"
+            )
         if editorial_fixture_root is not None:
             self.editorial_fixture_root = Path(editorial_fixture_root)
         elif mode in {"synthetic", "shadow"}:
@@ -274,6 +295,19 @@ class RunEngine:
             )
         else:
             self.integration_admission_fixture_root = None
+        if integration_execution_preflight_fixture_root is not None:
+            self.integration_execution_preflight_fixture_root = Path(
+                integration_execution_preflight_fixture_root
+            )
+        elif mode in {"synthetic", "shadow"}:
+            self.integration_execution_preflight_fixture_root = (
+                Path(__file__).resolve().parents[2]
+                / "fixtures"
+                / "iteration14"
+                / "current-blocked"
+            )
+        else:
+            self.integration_execution_preflight_fixture_root = None
 
     def _new_run(self) -> dict[str, Any]:
         now = utc_now()
@@ -606,6 +640,28 @@ class RunEngine:
             failure_class=failure_class,
         )
 
+    def _integration_execution_preflight_pipeline(
+        self,
+    ) -> ProductionIntegrationExecutionPreflight:
+        failure_boundary_id = None
+        failure_class = "synthetic_integration_execution_preflight_boundary_failure"
+        if (
+            self.failure_injection
+            and self.failure_injection.stage == "Complete"
+            and self.failure_injection.candidate_id
+            and self.failure_injection.candidate_id.startswith("execution_preflight:")
+        ):
+            failure_boundary_id = self.failure_injection.candidate_id
+            failure_class = self.failure_injection.failure_class
+        return ProductionIntegrationExecutionPreflight(
+            self.store,
+            self.edition_date,
+            self.mode,
+            self.integration_execution_preflight_fixture_root,
+            failure_boundary_id=failure_boundary_id,
+            failure_class=failure_class,
+        )
+
     def _rating_contract(self) -> dict[str, Any]:
         return {
             "contract_version": RATING_CONTRACT_VERSION,
@@ -846,6 +902,7 @@ class RunEngine:
                 or self.integration_preflight_only
                 or self.integration_plan_only
                 or self.integration_admission_only
+                or self.integration_execution_preflight_only
             ):
                 self.store.acquire_lease(self.run_id, self.owner)
                 try:
@@ -898,12 +955,31 @@ class RunEngine:
                             lambda: admission.build_admission(run, evaluated),
                         )
                         admission.finalize(artifact)
+                    if self.integration_execution_preflight_only:
+                        execution_preflight = self._integration_execution_preflight_pipeline()
+                        evaluated = execution_preflight.prepare(run)
+                        existing = self.store.load_artifact(
+                            "production-integration-execution-preflight"
+                        )
+                        execution_preflight.validate_existing(existing, run, evaluated)
+                        artifact = self._ensure_artifact(
+                            run,
+                            "production-integration-execution-preflight",
+                            "complete:integration-execution-preflight",
+                            lambda: execution_preflight.build_preflight(run, evaluated),
+                        )
+                        execution_preflight.finalize(artifact)
                 finally:
                     self.store.release_lease(self.owner)
             return run
         if self.integration_admission_only:
             raise ContractError(
                 "integration_admission_only requires an existing locked Iteration 12 plan "
+                "and a run at Complete / complete_locked"
+            )
+        if self.integration_execution_preflight_only:
+            raise ContractError(
+                "integration_execution_preflight_only requires an existing locked Iteration 13 admission "
                 "and a run at Complete / complete_locked"
             )
         if self.render_only and run["current_state"] not in {"Validating", "Recovering"}:
@@ -1258,6 +1334,8 @@ def start_daily_brief(
     integration_plan_only: bool = False,
     integration_admission_fixture_root: Path | str | None = None,
     integration_admission_only: bool = False,
+    integration_execution_preflight_fixture_root: Path | str | None = None,
+    integration_execution_preflight_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
     return RunEngine(
@@ -1290,6 +1368,8 @@ def start_daily_brief(
         integration_plan_only=integration_plan_only,
         integration_admission_fixture_root=integration_admission_fixture_root,
         integration_admission_only=integration_admission_only,
+        integration_execution_preflight_fixture_root=integration_execution_preflight_fixture_root,
+        integration_execution_preflight_only=integration_execution_preflight_only,
     ).run()
 
 
