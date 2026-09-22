@@ -109,7 +109,7 @@ class ProductionIntegrationExecutionExecutorBindingPreflight:
         "real_target_contact_authorized",
         "rollback_execution_authorized",
         "real_integration_steps_enabled",
-        "executor_binding_preflight_binding",
+        "executor_binding_readiness_binding",
         "binding_plan_descriptor_binding",
         "evidence",
         *MUTATION_FLAGS,
