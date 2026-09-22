@@ -1,0 +1,177 @@
+{
+  "evidence_version": "1.0.0",
+  "iteration": 4,
+  "scope": "synthetic_shadow_image_completion_and_validation_only_bundle",
+  "baseline": {
+    "start_main_sha": "6c19142f318a0b3d90ae6a75f53ab743fa071249",
+    "start_main_ci_run": 35673193050,
+    "iteration3_implementation_merge_sha": "527c210ba568f6032720399f6a2db9dc868669b4",
+    "iteration3_post_merge_ci_run": 35672622812,
+    "iteration3_tests_passed": 35,
+    "iteration3_merged_and_green": true
+  },
+  "implementation": {
+    "pr": 8,
+    "candidate_sha": "33e11cce056856564e4b88edf6ab157514d02551",
+    "pr_ci_run": 35674181236,
+    "pr_ci_result": "PASS",
+    "python": "3.11.16",
+    "tests_passed": 43,
+    "tests_failed": 0,
+    "iteration_test_counts": {
+      "iteration1": 15,
+      "iteration2": 9,
+      "iteration3": 11,
+      "iteration4": 8
+    },
+    "implementation_merge_sha": "1ea8975a446fd12580a065b054bc461b372e9e32",
+    "post_merge_main_ci_run": 35674251119,
+    "post_merge_main_ci_result": "PASS",
+    "post_merge_tests_passed": 43
+  },
+  "images": {
+    "image_contract_version": "1.0.0",
+    "accepted_count": 6,
+    "exactly_one_per_locked_story": true,
+    "unique_story_bindings": 6,
+    "unique_compositions": 6,
+    "width": 1200,
+    "height": 630,
+    "preferred_format": "webp",
+    "accepted_fixture_format": "webp",
+    "professional_textbook_editorial": true,
+    "story_specific": true,
+    "mechanism_explanatory": true,
+    "high_detail": true,
+    "high_information_density": true,
+    "white_background": true,
+    "sparse_generic_fallback": false,
+    "reused_composition_substitute": false,
+    "photos_people_decorative_collage": false,
+    "clipped_or_overlapping_text": false,
+    "max_attempts_per_image": 3,
+    "exercised_metrics": {
+      "image_attempts": 7,
+      "retries": 1,
+      "rejections": 1,
+      "acceptances": 6
+    },
+    "deterministic_replay": true,
+    "production_adapter_status": "fail_closed_unconfigured",
+    "paid_image_api_used": false
+  },
+  "validation": {
+    "bundle_contract_version": "1.0.0",
+    "required_inputs": [
+      "edition",
+      "media",
+      "images",
+      "watchlist",
+      "book-bridges",
+      "rating-contract"
+    ],
+    "exact_story_count": 6,
+    "exact_2_2_2_allocation": true,
+    "exact_agent_skills_count": 1,
+    "verified_video_count": 2,
+    "verified_podcast_count": 2,
+    "accepted_image_count": 6,
+    "watchlist_date_current": true,
+    "bridge_decisions": 6,
+    "explicit_no_bridge_valid": true,
+    "rating_contract": "five-star-v1",
+    "validates_schema_version": true,
+    "validates_edition_date": true,
+    "validates_semantic_content_digest": true,
+    "validates_current_input_digests": true,
+    "fail_closed_corruption_test": true,
+    "release_authorized": false,
+    "validation_only_boundary": true,
+    "deterministic_bundle_replay": true
+  },
+  "targeted_recovery": {
+    "image_boundary": {
+      "injected_boundary": "image:applied-workflow-1",
+      "state_after_failure": "Recovering",
+      "accepted_images_preserved_before_failure": [
+        "agent-skill-1",
+        "agent-general-1"
+      ],
+      "resumed_with_fresh_engine": true,
+      "chat_context_required": false,
+      "already_accepted_images_reused": true,
+      "upstream_locked_digests_preserved": true,
+      "upstream_stage_execution_increase": 0,
+      "locked_stage_reexecutions": 0,
+      "full_pipeline_restarts": 0,
+      "recovery_receipt": "recovered"
+    },
+    "validation_boundary": {
+      "failure_stage": "Validating",
+      "state_after_failure": "Recovering",
+      "all_build_artifacts_locked_before_failure": true,
+      "image_digest_preserved": true,
+      "resumed_with_fresh_engine": true,
+      "chat_context_required": false,
+      "upstream_stage_execution_increase": 0,
+      "locked_stage_reexecutions": 0,
+      "full_pipeline_restarts": 0,
+      "final_bundle_locked": true
+    }
+  },
+  "exit_gate": {
+    "required_consecutive_runs": 3,
+    "observed_consecutive_runs": 3,
+    "edition_dates": [
+      "2026-09-22",
+      "2026-09-23",
+      "2026-09-24"
+    ],
+    "manual_intervention": false,
+    "exactly_six_images_each_run": true,
+    "correct_iteration1_3_lock_reuse_each_run": true,
+    "validation_passed_each_run": true,
+    "one_locked_bundle_each_run": true,
+    "identical_bundle_digest_for_identical_locked_inputs": true,
+    "separate_state_root_replay": true,
+    "locked_stage_reexecutions": 0,
+    "full_pipeline_restarts": 0,
+    "release_performed": false,
+    "public_rendering_performed": false,
+    "deployment_performed": false,
+    "schedule_changed": false,
+    "production_publication_performed": false,
+    "result": "PASS"
+  },
+  "anti_rework": {
+    "discovery_reexecution": 0,
+    "editorial_reexecution": 0,
+    "media_reexecution": 0,
+    "unrelated_watchlist_reexecution": 0,
+    "unrelated_bridge_reexecution": 0,
+    "already_accepted_image_rework": 0,
+    "full_pipeline_restarts": 0
+  },
+  "cost_scope": {
+    "separately_billed_openai_api": false,
+    "paid_image_api": false,
+    "new_incremental_paid_production_dependency": false,
+    "production_schedule_added": false,
+    "legacy_production_repo_modified": false,
+    "public_site_rendering": false,
+    "deployment_live_verification": false,
+    "command_center_projection": false,
+    "legacy_migration_cutover_decommission": false
+  },
+  "closure": {
+    "after_action": "docs/ITERATION4_AFTER_ACTION_2026-09-21.md",
+    "evidence": "evidence/iteration4/synthetic-validation-evidence.json",
+    "next_handoff": "docs/ITERATION5_HANDOFF_2026-09-21.md",
+    "next_start_prompt": "docs/ITERATION5_START_PROMPT_2026-09-21.md",
+    "closure_package_pr": null,
+    "closure_package_merge_sha": null,
+    "closure_post_merge_main_ci_run": null,
+    "closure_post_merge_main_ci_result": "PENDING_RECONCILIATION",
+    "repository_closure_status": "PENDING_CLOSURE_PACKAGE_MERGE"
+  }
+}
