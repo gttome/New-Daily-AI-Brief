@@ -168,12 +168,16 @@
     "evidence": "evidence/iteration5/synthetic-render-evidence.json",
     "next_handoff": "docs/ITERATION6_HANDOFF_2026-09-21.md",
     "next_start_prompt": "docs/ITERATION6_START_PROMPT_2026-09-21.md",
-    "closure_package_pr": null,
-    "closure_candidate_sha": null,
-    "closure_pr_ci_run": null,
-    "closure_package_merge_sha": null,
-    "closure_post_merge_main_ci_run": null,
-    "repository_closure_status": "PENDING_CLOSURE_PACKAGE_MERGE",
-    "iteration6_ready": false
+    "closure_package_pr": 12,
+    "closure_candidate_sha": "6126bf799b53b53777f3a577c2df91a33bccd150",
+    "closure_pr_ci_run": 35676468946,
+    "closure_package_merge_sha": "07008fca24ac3f35dc7718053cba599bd9bcc284",
+    "closure_post_merge_main_ci_run": 35676497713,
+    "repository_closure_status": "COMPLETE",
+    "iteration6_ready": true,
+    "closure_pr_ci_result": "PASS",
+    "closure_pr_tests_passed": 54,
+    "closure_post_merge_main_ci_result": "PASS",
+    "closure_post_merge_tests_passed": 54
   }
 }
