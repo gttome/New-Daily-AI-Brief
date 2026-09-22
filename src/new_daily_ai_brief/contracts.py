@@ -49,6 +49,10 @@ EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_REVIEW_RECORD_VERSION: Final = "1.0.0"
 EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_DECISION_RECORD_VERSION: Final = "1.0.0"
 EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_REVIEW_EVIDENCE_VERSION: Final = "1.0.0"
 EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_DECISION_EVIDENCE_VERSION: Final = "1.0.0"
+EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_SCHEMA_VERSION: Final = "1.0.0"
+EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_POLICY_VERSION: Final = "1.0.0"
+EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_RECORD_VERSION: Final = "1.0.0"
+EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_EVIDENCE_VERSION: Final = "1.0.0"
 
 STATES: Final[tuple[str, ...]] = (
     "Ready",
@@ -128,6 +132,7 @@ ARTIFACT_DEPENDENCIES: Final[dict[str, tuple[str, ...]]] = {
     "production-integration-execution-executor-binding-rehearsal": ("production-integration-execution-executor-binding-preflight",),
     "production-integration-execution-executor-binding-authorization-review": ("production-integration-execution-executor-binding-rehearsal",),
     "production-integration-execution-executor-binding-authorization-decision": ("production-integration-execution-executor-binding-authorization-review",),
+    "production-integration-execution-executor-binding-authorization-package": ("production-integration-execution-executor-binding-authorization-decision",),
 }
 
 ARTIFACT_FILES: Final[dict[str, str]] = {
@@ -163,6 +168,7 @@ ARTIFACT_FILES: Final[dict[str, str]] = {
     "production-integration-execution-executor-binding-rehearsal": "production-integration-execution-executor-binding-rehearsal.json",
     "production-integration-execution-executor-binding-authorization-review": "production-integration-execution-executor-binding-authorization-review.json",
     "production-integration-execution-executor-binding-authorization-decision": "production-integration-execution-executor-binding-authorization-decision.json",
+    "production-integration-execution-executor-binding-authorization-package": "production-integration-execution-executor-binding-authorization-package.json",
 }
 
 MANDATORY_COMPLETION_RECEIPTS: Final[tuple[str, ...]] = (
