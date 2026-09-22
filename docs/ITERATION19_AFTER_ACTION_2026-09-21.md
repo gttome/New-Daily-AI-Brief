@@ -195,10 +195,21 @@ The mandatory Iteration 19 closure package is:
 - `docs/ITERATION20_HANDOFF_2026-09-21.md`;
 - `docs/ITERATION20_START_PROMPT_2026-09-21.md`.
 
-**Repository closure status: PENDING.**  
-**Iteration 20 readiness: NOT READY.**
+**Repository closure status: COMPLETE.**  
+**Iteration 20 readiness: READY.**
 
-This initial closure record intentionally remains fail-closed until the exact closure candidate passes CI, merges, and post-merge `main` CI is independently verified. A separate reconciliation PR will then record those immutable identities and may set `repository_closure_status=complete` and `iteration20_ready=true`.
+Verified closure identities:
+
+- closure PR: **#54**;
+- exact closure candidate: `8c391ffba406e7f0f8fa2419713634e0167f95e7`;
+- closure PR CI: Greenfield Contracts run **35740446417 — PASS (253/253)**;
+- closure PR unittest: **113.325s**;
+- closure merge SHA: `4aeaf909422bad1a205aa5d2e6611144aca1c5d3`;
+- closure post-merge `main` CI: Greenfield Contracts run **35740746628 — PASS (253/253)**;
+- closure post-merge unittest: **111.827s**;
+- closure-verified `main`: `4aeaf909422bad1a205aa5d2e6611144aca1c5d3`.
+
+All four mandatory closure records are present on verified `main`, and the machine evidence is reconciled to `repository_closure_status=complete` with `iteration20_ready=true`.
 
 ## Deferred scope
 
@@ -210,5 +221,5 @@ The next bounded slice is a deterministic, synthetic-only **production-integrati
 
 **Iteration 19 implementation: COMPLETE.**  
 **Iteration 19 functional exit gate: PASS.**  
-**Iteration 19 operational closure: PENDING reconciliation.**  
-**Iteration 20 readiness: NOT READY until reconciliation.**
+**Iteration 19 operational closure: COMPLETE.**  
+**Iteration 20 readiness: READY.**
