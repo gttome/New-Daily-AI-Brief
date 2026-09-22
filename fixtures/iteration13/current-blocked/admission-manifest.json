@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "admission_manifest_version": "1.0.0",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "production_cutover_authorized": false,
+  "legacy_decommission_authorized": false,
+  "production_publication": false,
+  "iteration12_closure": {
+    "repository_closure_status": "complete",
+    "iteration13_ready": true,
+    "evidence_path": "evidence/iteration12/synthetic-shadow-production-integration-plan-evidence.json"
+  },
+  "plan_binding": {
+    "binding_type": "exact_locked_plan_artifact",
+    "artifact_type": "production-integration-plan",
+    "plan_id_field": "data.plan_id",
+    "artifact_digest_field": "content_digest"
+  },
+  "manifest_id": "current-repository-admission-blocked",
+  "evidence": {
+    "discovery_adapter": null,
+    "publication_target": null,
+    "public_deployment_verification": null,
+    "private_command_center": null,
+    "production_schedules": null,
+    "subscriber_delivery": null,
+    "migration_prerequisites": null,
+    "rollback_restore": null,
+    "zero_incremental_cost": null
+  },
+  "admission_decision": null
+}
