@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "preflight_policy_version": "1.0.0",
+  "policy_id": "production-integration-preflight-v1",
+  "required_prerequisites": [
+    "canonical_chain_integrity",
+    "cost_policy",
+    "production_discovery",
+    "production_publication",
+    "public_deployment_verification",
+    "private_command_center",
+    "production_schedules",
+    "subscriber_delivery",
+    "legacy_migration_cutover",
+    "rollback_recovery"
+  ],
+  "evidence_requirements": {
+    "canonical_chain_integrity": {"evidence_type":"locked-readiness-chain","explicit_approval_required":false,"paid_incremental_dependency_approval_required":false},
+    "cost_policy": {"evidence_type":"zero-incremental-cost-policy-approval","explicit_approval_required":true,"paid_incremental_dependency_approval_required":true},
+    "production_discovery": {"evidence_type":"production-discovery-adapter-approval","explicit_approval_required":true,"paid_incremental_dependency_approval_required":true},
+    "production_publication": {"evidence_type":"production-publication-path-target-approval","explicit_approval_required":true,"paid_incremental_dependency_approval_required":true},
+    "public_deployment_verification": {"evidence_type":"public-deployment-verification-target-approval","explicit_approval_required":true,"paid_incremental_dependency_approval_required":true},
+    "private_command_center": {"evidence_type":"private-command-center-target-privacy-approval","explicit_approval_required":true,"paid_incremental_dependency_approval_required":true},
+    "production_schedules": {"evidence_type":"production-schedule-identity-cadence-approval","explicit_approval_required":true,"paid_incremental_dependency_approval_required":false},
+    "subscriber_delivery": {"evidence_type":"explicit-subscriber-delivery-policy","explicit_approval_required":false,"paid_incremental_dependency_approval_required":false},
+    "legacy_migration_cutover": {"evidence_type":"migration-cutover-decommission-prerequisites","explicit_approval_required":true,"paid_incremental_dependency_approval_required":false},
+    "rollback_recovery": {"evidence_type":"rollback-recovery-policy-restore-identity","explicit_approval_required":true,"paid_incremental_dependency_approval_required":false}
+  }
+}
