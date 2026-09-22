@@ -1,5 +1,7 @@
 # Ready-to-Paste Iteration 15 Start Prompt
 
+**Activation status:** READY after reconciled Iteration 14 repository closure. The prompt still requires re-verifying current `main` and closure evidence at start time.
+
 @GitHub Proceed with Iteration 15 of the New Daily AI Brief greenfield implementation in `gttome/New-Daily-AI-Brief`.
 
 Use the current `main` branch as the source of truth. Before changing anything, verify the current `main` SHA, verify Iteration 14 is completely closed and passing, and read:
