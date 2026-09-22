@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "production-integration-execution-executor-binding-readiness.schema.json",
+  "title": "Production Integration Execution Executor-Binding Readiness",
+  "type": "object",
+  "required": [
+    "executor_binding_readiness_schema_version",
+    "executor_binding_readiness_policy_version",
+    "authority_readiness_artifact_digest",
+    "execution_authority_readiness_id",
+    "classification",
+    "classification_reason_codes",
+    "executor_binding_readiness_id",
+    "synthetic_only",
+    "real_integration_steps_enabled",
+    "real_integration_steps_executed",
+    "production_action_authorized",
+    "production_cutover_authorized",
+    "legacy_decommission_authorized",
+    "production_publication",
+    "real_executor_invocation_authorized",
+    "credentials_use_authorized",
+    "real_target_contact_authorized",
+    "rollback_execution_authorized",
+    "real_executor_bound",
+    "real_executor_invoked",
+    "production_credentials_present",
+    "production_credentials_stored",
+    "real_target_contacted",
+    "rollback_executed",
+    "cutover_executed",
+    "decommission_executed",
+    "publication_executed",
+    "external_mutation_performed"
+  ],
+  "properties": {
+    "executor_binding_readiness_schema_version": {"const": "1.0.0"},
+    "executor_binding_readiness_policy_version": {"const": "1.0.0"},
+    "classification": {"enum": ["blocked", "executor_binding_ready", "invalid"]},
+    "classification_reason_codes": {"type": "array", "items": {"type": "string"}},
+    "executor_binding_readiness_id": {"type": "string", "pattern": "^sha256:"},
+    "authority_readiness_artifact_digest": {"type": "string", "pattern": "^sha256:"},
+    "execution_authority_readiness_id": {"type": "string", "pattern": "^sha256:"},
+    "synthetic_only": {"const": true},
+    "real_integration_steps_enabled": {"const": 0},
+    "real_integration_steps_executed": {"const": 0},
+    "production_action_authorized": {"const": false},
+    "production_cutover_authorized": {"const": false},
+    "legacy_decommission_authorized": {"const": false},
+    "production_publication": {"const": false},
+    "real_executor_invocation_authorized": {"const": false},
+    "credentials_use_authorized": {"const": false},
+    "real_target_contact_authorized": {"const": false},
+    "rollback_execution_authorized": {"const": false},
+    "real_executor_bound": {"const": false},
+    "real_executor_invoked": {"const": false},
+    "production_credentials_present": {"const": false},
+    "production_credentials_stored": {"const": false},
+    "real_target_contacted": {"const": false},
+    "rollback_executed": {"const": false},
+    "cutover_executed": {"const": false},
+    "decommission_executed": {"const": false},
+    "publication_executed": {"const": false},
+    "external_mutation_performed": {"const": false},
+    "incremental_paid_dependency_added": {"const": false},
+    "real_private_command_center_mutated": {"const": false},
+    "public_site_mutated": {"const": false},
+    "production_schedule_action": {"const": false},
+    "subscriber_delivery_changed": {"const": false},
+    "legacy_content_migrated": {"const": false},
+    "readers_routed_to_greenfield": {"const": false},
+    "legacy_repository_modified": {"const": false},
+    "lifecycle_state_changed": {"const": false},
+    "execution_steps": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["enabled", "production_action_authorized"],
+        "properties": {
+          "enabled": {"const": false},
+          "production_action_authorized": {"const": false}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "allOf": [{
+    "if": {"properties": {"classification": {"const": "executor_binding_ready"}}},
+    "then": {
+      "required": [
+        "separate_executor_binding_readiness_id",
+        "synthetic_executor_descriptor_id",
+        "synthetic_executor_descriptor",
+        "executor_binding_provenance_validation_ids"
+      ],
+      "properties": {
+        "separate_executor_binding_readiness_id": {"type": "string", "pattern": "^sha256:"},
+        "synthetic_executor_descriptor_id": {"type": "string", "pattern": "^sha256:"},
+        "executor_binding_provenance_validation_ids": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "uniqueItems": true
+        },
+        "synthetic_executor_descriptor": {
+          "type": "object",
+          "required": ["executor_kind", "invocation_capability", "network_side_effect", "production_write_capability"],
+          "properties": {
+            "executor_kind": {"const": "synthetic_noop"},
+            "invocation_capability": {"const": false},
+            "network_side_effect": {"const": false},
+            "production_write_capability": {"const": false}
+          }
+        }
+      }
+    }
+  }],
+  "additionalProperties": true
+}
