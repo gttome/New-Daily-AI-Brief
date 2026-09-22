@@ -8,7 +8,7 @@
 **Prior implementation post-merge CI:** Greenfield Contracts run **35695255082 — PASS (232/232)**  
 **Controlling closure evidence:** `evidence/iteration16/synthetic-shadow-production-integration-execution-authorization-review-evidence.json`
 
-> **ACTIVATION STATUS: PENDING ITERATION 16 OPERATIONAL CLOSURE.** Do not begin Iteration 17 until the Iteration 16 closure evidence reports `repository_closure_status=complete` and `iteration17_ready=true`. Always verify the then-current `main` SHA and CI before changing anything. Repository records, not this remembered SHA or chat history, are authoritative.
+> **ACTIVATION STATUS: READY.** Iteration 16 closure PR **#45** exact candidate `c612c78e57eb9372668db5b9d0285118030a3337` passed Greenfield Contracts run **35695632358 — PASS (232/232)**, merged as `327be25e19f658e9f9f7a1028497f1d9e80c31ed`, and post-merge Greenfield Contracts run **35695732485 — PASS (232/232)** verified that closure `main`. The reconciled Iteration 16 evidence reports `repository_closure_status=complete` and `iteration17_ready=true`. Before implementation, still verify the then-current `main` SHA/CI and re-read repository evidence; current repository records, not this remembered SHA or chat history, are authoritative.
 
 ## Required startup reads
 
@@ -20,7 +20,7 @@ Before changing anything, verify current `main` and read:
 - `docs/SCHEMA_VERSION_POLICY.md`;
 - `docs/ITERATION_START_PACKAGE_STANDARD.md`.
 
-Do not implement while Iteration 16 closure is pending or `iteration17_ready=false`.
+Do not implement if a later repository reconciliation reports Iteration 16 closure pending or `iteration17_ready=false`.
 
 ## Preserved baseline
 
@@ -265,6 +265,6 @@ The machine evidence must report `repository_closure_status=complete` and `itera
 
 ## Activation determination
 
-**Iteration 17 implementation authorization: PENDING ITERATION 16 OPERATIONAL CLOSURE.**
+**Iteration 17 implementation authorization: READY**, subject to mandatory start-of-iteration verification of the then-current `main` SHA, CI, and reconciled Iteration 16 evidence.
 
-Do not begin until the Iteration 16 machine evidence is reconciled to `repository_closure_status=complete` and `iteration17_ready=true`, and the then-current `main` CI is verified.
+The receiving chat must still re-verify `repository_closure_status=complete` and `iteration17_ready=true` from current repository records before making changes.
