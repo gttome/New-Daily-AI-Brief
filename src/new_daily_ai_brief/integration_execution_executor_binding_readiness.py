@@ -141,6 +141,46 @@ class ProductionIntegrationExecutionExecutorBindingReadiness:
         "execution_steps",
     )
 
+    POLICY_KEYS = {
+        "schema_version",
+        "executor_binding_readiness_policy_version",
+        "policy_id",
+        "synthetic_only",
+        "allowed_upstream_classification",
+        "classifications",
+        "real_executor_binding_permitted",
+        "real_authority_permitted",
+        "zero_incremental_cost_required",
+    }
+
+    MANIFEST_KEYS = {
+        "schema_version",
+        "executor_binding_readiness_manifest_version",
+        "manifest_id",
+        "synthetic_only",
+        "production_action_authorized",
+        "production_cutover_authorized",
+        "legacy_decommission_authorized",
+        "production_publication",
+        "real_executor_invocation_authorized",
+        "credentials_use_authorized",
+        "real_target_contact_authorized",
+        "rollback_execution_authorized",
+        "real_integration_steps_enabled",
+        "authority_readiness_binding",
+        "executor_descriptor_binding",
+        "evidence",
+    }
+
+    EVIDENCE_KEYS = {
+        "executor_declaration",
+        "credential_declaration",
+        "target_declaration",
+        "rollback_declaration",
+        "stop_abort_conditions",
+        "cost_declaration",
+    }
+
     DESCRIPTOR_KEYS = {
         "schema_version",
         "descriptor_version",
@@ -418,6 +458,18 @@ class ProductionIntegrationExecutionExecutorBindingReadiness:
             raise IntegrationExecutionExecutorBindingReadinessError(
                 "Iteration 19 authority-readiness artifact contains an executable step"
             )
+        if data.get("execution_authority_readiness_policy_id") != (
+            "production-integration-execution-authority-readiness-v1"
+        ):
+            raise IntegrationExecutionExecutorBindingReadinessError(
+                "Iteration 19 policy identity changed"
+            )
+        if data.get("execution_authority_readiness_manifest_id") != (
+            "production-integration-execution-authority-readiness-manifest-v1"
+        ):
+            raise IntegrationExecutionExecutorBindingReadinessError(
+                "Iteration 19 manifest identity changed"
+            )
         classification = data.get("classification")
         if classification not in {"blocked", "execution_authority_ready", "invalid"}:
             raise IntegrationExecutionExecutorBindingReadinessError(
@@ -444,6 +496,14 @@ class ProductionIntegrationExecutionExecutorBindingReadiness:
         policy: dict[str, Any],
         manifest: dict[str, Any],
     ) -> None:
+        if set(policy) != self.POLICY_KEYS:
+            raise IntegrationExecutionExecutorBindingReadinessError(
+                "Iteration 20 policy contains unsupported fields"
+            )
+        if set(manifest) != self.MANIFEST_KEYS:
+            raise IntegrationExecutionExecutorBindingReadinessError(
+                "Iteration 20 manifest contains unsupported fields"
+            )
         if (
             policy.get("schema_version")
             != EXECUTION_EXECUTOR_BINDING_READINESS_SCHEMA_VERSION
@@ -474,6 +534,10 @@ class ProductionIntegrationExecutionExecutorBindingReadiness:
             )
         self._assert_no_authority(manifest, "Iteration 20 manifest")
         evidence = manifest.get("evidence") or {}
+        if set(evidence) != self.EVIDENCE_KEYS:
+            raise IntegrationExecutionExecutorBindingReadinessError(
+                "Iteration 20 manifest evidence contains unsupported fields"
+            )
         executor = evidence.get("executor_declaration") or {}
         credential = evidence.get("credential_declaration") or {}
         target = evidence.get("target_declaration") or {}
