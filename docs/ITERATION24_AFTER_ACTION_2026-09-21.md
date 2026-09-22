@@ -3,7 +3,7 @@
 
 Prepared September 22, 2026. Repository: `gttome/New-Daily-AI-Brief`.
 
-**Functional exit gate: PASS. Repository closure: PENDING. Iteration 25 ready: false.**
+**Functional exit gate: PASS. Repository closure: COMPLETE. Iteration 25 ready: true.**
 
 ## Baseline and implementation
 
@@ -102,17 +102,26 @@ This closure candidate adds all four records required by `docs/ITERATION_START_P
 - `docs/ITERATION25_HANDOFF_2026-09-21.md`;
 - `docs/ITERATION25_START_PROMPT_2026-09-21.md`.
 
-**Repository closure remains PENDING and `iteration25_ready=false` until this exact closure candidate passes CI, merges, its post-merge main CI succeeds, and the repository records are reconciled in a subsequent metadata-only PR.**
+**Repository closure: COMPLETE. Iteration 25 ready: true.**
 
-No future closure PR/merge/CI identity is inferred in this document.
+Verified closure identities:
+
+- closure PR: **#69**;
+- exact closure candidate: `7482604487c6531a30da00ff7e0702ef7a5eef2f`;
+- closure PR CI: [Greenfield Contracts run 35785622166](https://github.com/gttome/New-Daily-AI-Brief/actions/runs/35785622166), PASS; 299 tests; unittest 104.505 seconds;
+- closure merge SHA: `88e34d3ad9a9cc12b416cfd663a4ceddb176bd17`;
+- closure post-merge main CI: [Greenfield Contracts run 35785891870](https://github.com/gttome/New-Daily-AI-Brief/actions/runs/35785891870), PASS; 299 tests; unittest 207.834 seconds;
+- closure-verified main: `88e34d3ad9a9cc12b416cfd663a4ceddb176bd17`.
+
+All four mandatory closure records are present on the closure-verified main. This metadata reconciliation records already-observed identities only; it does not predict its own merge SHA. The receiving Iteration 25 chat must independently verify the then-current main SHA and CI again.
 
 ## Deferred scope
 
-The next bounded slice is specified separately in the Iteration 25 handoff as a deterministic, synthetic-only **executor-binding authorization-package gate** consuming the exact locked Iteration 24 decision artifact. It is package-boundary evidence only and does not authorize Iteration 25 implementation until this Iteration 24 closure is reconciled and verified on current main.
+The next bounded slice is specified separately in the Iteration 25 handoff as a deterministic, synthetic-only **executor-binding authorization-package gate** consuming the exact locked Iteration 24 decision artifact. It is package-boundary evidence only. Iteration 25 may begin only after the receiving chat independently verifies the current main SHA/CI and confirms the reconciled evidence still reports `repository_closure_status=complete` and `iteration25_ready=true`.
 
 ## Exit determination
 
 **Iteration 24 implementation: COMPLETE.**  
 **Iteration 24 functional exit gate: PASS.**  
-**Iteration 24 operational closure: PENDING.**  
-**Iteration 25 readiness: NOT YET ESTABLISHED.**
+**Iteration 24 operational closure: COMPLETE.**  
+**Iteration 25 readiness: READY.**
