@@ -248,7 +248,8 @@ class Iteration17ExecutionAuthorizationDecisionTest(unittest.TestCase):
                     integration_execution_authorization_decision_only=True)
                 d=self.data(td,date,"shadow"); self.safe(d)
                 self.assertEqual(d["classification"],"authorization_decision_ready")
-                ready.append((d["classification"],tuple(d["classification_reason_codes"]),d["separate_authorization_decision_id"]))
+                self.assertTrue(d["separate_authorization_decision_id"].startswith("sha256:"))
+                ready.append((d["classification"],tuple(d["classification_reason_codes"])))
         self.assertEqual(ready[0],ready[1]); self.assertEqual(ready[1],ready[2])
 
 if __name__=="__main__": unittest.main()
