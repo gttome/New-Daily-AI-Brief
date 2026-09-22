@@ -1,0 +1,132 @@
+{
+  "evidence_version": "1.0.0",
+  "iteration": 3,
+  "scope": "synthetic_build_stage_enrichment",
+  "baseline": {
+    "main_sha": "5cdf310be07a4ebfb371e7470d07bf055ed616b0",
+    "iteration2_merged_and_green": true
+  },
+  "exit_gate": {
+    "required_consecutive_runs": 3,
+    "observed_consecutive_runs": 3,
+    "edition_dates": ["2026-09-22", "2026-09-23", "2026-09-24"],
+    "exactly_two_verified_videos_each_run": true,
+    "exactly_two_verified_podcasts_each_run": true,
+    "date_current_watchlist_each_run": true,
+    "six_complete_bridge_decisions_each_run": true,
+    "manual_intervention": false,
+    "discovery_editorial_reexecution": 0,
+    "locked_stage_reexecutions": 0,
+    "full_pipeline_restarts": 0,
+    "images_created": false,
+    "publication_bundle_created": false,
+    "public_rendering_performed": false,
+    "deployment_performed": false,
+    "result": "PASS"
+  },
+  "media": {
+    "contract_version": "1.0.0",
+    "verified_counts": {"videos": 2, "podcasts": 2},
+    "bounded_candidate_checks": true,
+    "bounded_verification_attempts": true,
+    "unavailable_primary_video_exercised": true,
+    "unavailable_primary_podcast_exercised": true,
+    "video_fallback_exercised": true,
+    "podcast_fallback_exercised": true,
+    "evidence_packets": true,
+    "deterministic_replay": true
+  },
+  "watchlist": {
+    "contract_version": "1.0.0",
+    "classification_semantics": {
+      "new_today": "first_seen == edition_date",
+      "updated_today": "first_seen < edition_date and last_changed == edition_date",
+      "carried_forward": "active before edition_date and not changed on edition_date"
+    },
+    "date_classification_examples": {
+      "2026-09-22": {"new_today": 1, "updated_today": 1, "carried_forward": 1},
+      "2026-09-23": {"new_today": 1, "updated_today": 0, "carried_forward": 3},
+      "2026-09-24": {"new_today": 1, "updated_today": 0, "carried_forward": 4}
+    },
+    "source_provenance": true,
+    "future_topic_reuse_prevented": true
+  },
+  "book_bridges": {
+    "contract_version": "1.0.0",
+    "centralized_mapping": true,
+    "mapping_versioned": true,
+    "decisions_per_edition": 6,
+    "explicit_no_bridge_supported": true,
+    "forced_links": false,
+    "evidence_packets": true,
+    "deterministic_replay": true,
+    "distinct_from_post_publication_book_change_evaluation": true
+  },
+  "targeted_recovery": {
+    "watchlist_source": {
+      "failure_stage": "Building",
+      "boundary_type": "watchlist_source",
+      "boundary_id": "watch-source-b",
+      "state_after_failure": "Recovering",
+      "resumed_with_fresh_engine": true,
+      "chat_context_required": false,
+      "prior_checked_source_preserved": true,
+      "locked_discovery_digest_preserved": true,
+      "locked_edition_digest_preserved": true,
+      "locked_media_digest_preserved": true,
+      "locked_stage_reexecutions": 0,
+      "full_pipeline_restarts": 0,
+      "recovery_receipt": "recovered"
+    },
+    "media_item": {
+      "failure_stage": "Building",
+      "boundary_type": "media_item",
+      "boundary_id": "video-fallback-1",
+      "state_after_failure": "Recovering",
+      "resumed_with_fresh_engine": true,
+      "chat_context_required": false,
+      "locked_discovery_digest_preserved": true,
+      "locked_edition_digest_preserved": true,
+      "locked_stage_reexecutions": 0,
+      "full_pipeline_restarts": 0
+    }
+  },
+  "determinism": {
+    "same_locked_inputs_same_media_digest": true,
+    "same_locked_inputs_same_watchlist_digest": true,
+    "same_locked_inputs_same_book_bridge_digest": true,
+    "elapsed_time_excluded_from_semantic_identity": true,
+    "cache_reuse_excluded_from_semantic_identity": true
+  },
+  "telemetry": {
+    "media_source_scans": true,
+    "media_candidate_checks": true,
+    "availability_failures": true,
+    "verification_attempts": true,
+    "fallback_use": true,
+    "watchlist_source_checks": true,
+    "watchlist_topic_checks": true,
+    "watchlist_changes": true,
+    "bridge_decisions": true,
+    "cache_reuse": true,
+    "elapsed_ms": true
+  },
+  "validation": {
+    "implementation_pr": 5,
+    "pre_documentation_candidate_sha": "6ddfe0e0785a289b0a720d92fec4c59552ce7283",
+    "pre_documentation_ci_run": 35672379197,
+    "python": "3.11.16",
+    "tests_passed": 35,
+    "tests_failed": 0
+  },
+  "repository_closure": {
+    "status": "pending_final_candidate_ci_merge_and_post_merge_main_ci"
+  },
+  "cost_scope": {
+    "separately_billed_openai_api": false,
+    "new_paid_api": false,
+    "new_metered_production_dependency": false,
+    "production_schedule_added": false,
+    "legacy_production_repo_modified": false
+  }
+}
