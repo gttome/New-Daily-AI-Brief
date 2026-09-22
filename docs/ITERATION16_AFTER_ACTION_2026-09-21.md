@@ -291,10 +291,19 @@ The mandatory Iteration 16 closure package is:
 - `docs/ITERATION17_HANDOFF_2026-09-21.md`;
 - `docs/ITERATION17_START_PROMPT_2026-09-21.md`.
 
-**Repository closure status: PENDING CLOSURE PR.**  
-**Iteration 17 readiness: NOT READY until closure PR merge, post-merge CI, and repository reconciliation.**
+**Repository closure status: COMPLETE.**  
+**Iteration 17 readiness: READY.**
 
-Closure identities will be reconciled only from GitHub after the closure package passes CI and merges.
+Verified closure identities:
+
+- closure PR: **#45**;
+- exact closure candidate: `c612c78e57eb9372668db5b9d0285118030a3337`;
+- closure PR CI: Greenfield Contracts run **35695632358 — PASS (232/232)**;
+- closure merge SHA: `327be25e19f658e9f9f7a1028497f1d9e80c31ed`;
+- closure post-merge `main` CI: Greenfield Contracts run **35695732485 — PASS (232/232)**;
+- closure-verified `main`: `327be25e19f658e9f9f7a1028497f1d9e80c31ed`.
+
+All four mandatory closure records are present on verified `main`, and the machine evidence is reconciled to `repository_closure_status=complete` with `iteration17_ready=true`.
 
 ## Deferred scope
 
@@ -306,5 +315,5 @@ The next bounded slice is a deterministic, synthetic-only **production-integrati
 
 **Iteration 16 implementation: COMPLETE.**  
 **Iteration 16 functional exit gate: PASS.**  
-**Iteration 16 operational closure: PENDING CLOSURE PR.**  
-**Iteration 17 readiness: NOT READY pending closure verification.**
+**Iteration 16 operational closure: COMPLETE.**  
+**Iteration 17 readiness: READY.**
