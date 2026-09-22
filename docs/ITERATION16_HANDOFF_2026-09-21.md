@@ -8,7 +8,7 @@
 **Prior implementation post-merge CI:** Greenfield Contracts run **35692979760 — PASS (209/209)**  
 **Controlling closure evidence:** `evidence/iteration15/synthetic-shadow-production-integration-execution-rehearsal-evidence.json`
 
-> **ACTIVATION STATUS: NOT READY.** The Iteration 15 functional exit gate has passed, but this handoff must not be used to begin Iteration 16 until the Iteration 15 closure package is merged, its post-merge `main` CI passes, and the reconciled machine evidence reports `repository_closure_status=complete` and `iteration16_ready=true`.
+> **ACTIVATION STATUS: READY.** Iteration 15 closure PR **#42** passed Greenfield Contracts run **35693249216 — PASS (209/209)**, merged as `7e59b5481443be98dc1ae7bc31daac2399ffa3b6`, and closure post-merge Greenfield Contracts run **35693353707 — PASS (209/209)** verified that closure `main`. The reconciled Iteration 15 evidence reports `repository_closure_status=complete` and `iteration16_ready=true`. Before implementation, still verify the then-current `main` SHA/CI and re-read the repository evidence; current repository records, not this remembered SHA, are the source of truth.
 
 ## Preserved baseline
 

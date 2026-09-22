@@ -1,6 +1,6 @@
 # Ready-to-Paste Iteration 16 Start Prompt
 
-**Activation status:** NOT READY until reconciled Iteration 15 repository closure reports `repository_closure_status=complete` and `iteration16_ready=true`.
+**Activation status:** READY after verified and reconciled Iteration 15 repository closure. The prompt still requires re-verifying current `main` and closure evidence at start time.
 
 @GitHub Proceed with Iteration 16 of the New Daily AI Brief greenfield implementation in `gttome/New-Daily-AI-Brief`.
 
