@@ -1,0 +1,179 @@
+{
+  "evidence_version": "1.0.0",
+  "iteration": 5,
+  "scope": "deterministic_synthetic_shadow_reader_surface_rendering",
+  "baseline": {
+    "start_main_sha": "6ca06da01610f35f3962207a31e88baa5a9fb892",
+    "start_main_ci_run": 35674820424,
+    "iteration4_operational_closure_verified": true
+  },
+  "implementation": {
+    "pr": 11,
+    "candidate_sha": "06a8ec9e5350757902f0b994ef41cc1d5eb12840",
+    "pr_ci_run": 35676181753,
+    "pr_ci_result": "PASS",
+    "python": "3.11.16",
+    "compile_result": "PASS",
+    "tests_passed": 54,
+    "tests_failed": 0,
+    "iteration_test_counts": {
+      "iteration1": 15,
+      "iteration2": 9,
+      "iteration3": 11,
+      "iteration4": 8,
+      "iteration5": 11
+    },
+    "implementation_merge_sha": "45e19aef1aff2ff371f7b572b37be36a8df1f0b3",
+    "post_merge_main_ci_run": 35676287692,
+    "post_merge_main_ci_result": "PASS",
+    "post_merge_tests_passed": 54
+  },
+  "rendering": {
+    "render_contract_version": "1.0.0",
+    "template_version": "shadow-static-v1",
+    "required_output_count": 11,
+    "routes": [
+      "current:/",
+      "latest:/latest/",
+      "dated:/<edition-date>/",
+      "six-permanent-story-routes",
+      "archive:/archive/",
+      "feed:/feed.xml"
+    ],
+    "exact_story_count": 6,
+    "exact_story_order_parity": true,
+    "exact_verified_video_count": 2,
+    "exact_verified_podcast_count": 2,
+    "exact_watchlist_summary_parity": true,
+    "exact_professional_series_bridge_parity": true,
+    "explicit_no_bridge_preserved": true,
+    "exact_image_story_binding_parity": true,
+    "rating_contract": "five-star-v1",
+    "fabricated_rating_values": false,
+    "archive_feed_consistent": true,
+    "structural_accessibility_validation": "PASS",
+    "release_authorized": false,
+    "render_only_boundary": true,
+    "production_adapter_status": "fail_closed_unconfigured"
+  },
+  "manifest": {
+    "artifact_type": "route-manifest",
+    "binds_publication_bundle_digest": true,
+    "binds_reader_render_digest": true,
+    "binds_template_version_and_digest": true,
+    "binds_every_route_output_digest": true,
+    "binds_archive_feed_membership": true,
+    "accessibility_structural_result": "passed",
+    "validation_result": "passed",
+    "release_authorized": false
+  },
+  "targeted_recovery": {
+    "story_route": {
+      "injected_boundary": "render:story:applied-workflow-1",
+      "fresh_engine_resume": true,
+      "chat_context_required": false,
+      "completed_routes_preserved_before_failure": true,
+      "minimum_completed_routes_before_failure": 5,
+      "prior_routes_cache_reused": true,
+      "upstream_locked_digests_preserved": true,
+      "upstream_stage_execution_increase": 0,
+      "locked_stage_reexecutions": 0,
+      "full_pipeline_restarts": 0
+    },
+    "archive_feed": {
+      "injected_boundary": "render:archive",
+      "fresh_engine_resume": true,
+      "chat_context_required": false,
+      "completed_routes_before_failure": 9,
+      "prior_routes_cache_reused": true,
+      "archive_completed_after_recovery": true,
+      "feed_completed_after_recovery": true,
+      "upstream_stage_execution_increase": 0,
+      "locked_stage_reexecutions": 0,
+      "full_pipeline_restarts": 0
+    },
+    "manifest_validation": {
+      "injected_boundary": "render:manifest-validation",
+      "fresh_engine_resume": true,
+      "chat_context_required": false,
+      "reader_render_locked_before_failure": true,
+      "reader_render_reused": true,
+      "upstream_stage_execution_increase": 0,
+      "locked_stage_reexecutions": 0,
+      "full_pipeline_restarts": 0
+    }
+  },
+  "fail_closed": {
+    "corrupted_locked_publication_bundle": true,
+    "corrupted_cached_reader_route": true,
+    "missing_or_incompatible_production_render_adapter": true
+  },
+  "dependency_invalidation": {
+    "publication_bundle_descendants": [
+      "reader-render",
+      "route-manifest"
+    ],
+    "upstream_iteration1_4_artifacts_remain_locked": true
+  },
+  "exit_gate": {
+    "required_consecutive_runs": 3,
+    "observed_consecutive_runs": 3,
+    "edition_dates": [
+      "2026-09-22",
+      "2026-09-23",
+      "2026-09-24"
+    ],
+    "independent_state_root_replay": true,
+    "complete_render_set_each_run": true,
+    "locked_manifest_each_run": true,
+    "exact_parity_each_run": true,
+    "deterministic_semantic_replay": true,
+    "structural_accessibility_pass_each_run": true,
+    "manual_intervention": false,
+    "locked_iteration1_4_stage_reexecutions": 0,
+    "full_pipeline_restarts": 0,
+    "releasing_transition": false,
+    "deployment_performed": false,
+    "live_route_mutation": false,
+    "production_publication": false,
+    "result": "PASS"
+  },
+  "anti_rework": {
+    "discovery_reexecution": 0,
+    "editorial_reexecution": 0,
+    "media_reexecution": 0,
+    "watchlist_reexecution": 0,
+    "bridge_reexecution": 0,
+    "accepted_image_rework": 0,
+    "publication_bundle_rebuild_unchanged_inputs": 0,
+    "already_completed_unrelated_route_rerender": 0,
+    "full_pipeline_restarts": 0
+  },
+  "cost_scope": {
+    "separately_billed_openai_api": false,
+    "paid_rendering_api": false,
+    "new_incremental_paid_production_dependency": false,
+    "production_rendering_hosting_adapter": "fail_closed_unconfigured",
+    "public_live_url_mutation": false,
+    "live_route_verification": false,
+    "github_pages_deployment": false,
+    "command_center_projection": false,
+    "production_schedule_changed": false,
+    "subscriber_delivery_changed": false,
+    "legacy_migration_cutover_decommission": false,
+    "legacy_production_repo_modified": false
+  },
+  "closure": {
+    "after_action": "docs/ITERATION5_AFTER_ACTION_2026-09-21.md",
+    "evidence": "evidence/iteration5/synthetic-render-evidence.json",
+    "next_handoff": "docs/ITERATION6_HANDOFF_2026-09-21.md",
+    "next_start_prompt": "docs/ITERATION6_START_PROMPT_2026-09-21.md",
+    "closure_package_pr": null,
+    "closure_candidate_sha": null,
+    "closure_pr_ci_run": null,
+    "closure_package_merge_sha": null,
+    "closure_post_merge_main_ci_run": null,
+    "repository_closure_status": "PENDING_CLOSURE_PACKAGE_MERGE",
+    "iteration6_ready": false
+  }
+}
