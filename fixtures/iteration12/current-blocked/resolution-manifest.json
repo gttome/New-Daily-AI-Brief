@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "resolution_manifest_version": "1.0.0",
+  "manifest_id": "current-repository-resolution-unresolved",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "production_cutover_authorized": false,
+  "legacy_decommission_authorized": false,
+  "production_publication": false,
+  "resolutions": {
+    "canonical_chain_integrity": {"evidence_source":"readiness_artifact","evidence":null},
+    "cost_policy": {"evidence_source":"none","evidence":null},
+    "production_discovery": {"evidence_source":"none","evidence":null},
+    "production_publication": {"evidence_source":"none","evidence":null},
+    "public_deployment_verification": {"evidence_source":"none","evidence":null},
+    "private_command_center": {"evidence_source":"none","evidence":null},
+    "production_schedules": {"evidence_source":"none","evidence":null},
+    "subscriber_delivery": {"evidence_source":"readiness_artifact","evidence":null},
+    "legacy_migration_cutover": {"evidence_source":"none","evidence":null},
+    "rollback_recovery": {"evidence_source":"none","evidence":null}
+  }
+}
