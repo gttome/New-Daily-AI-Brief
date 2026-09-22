@@ -3,7 +3,7 @@
 
 Prepared September 22, 2026. Repository: `gttome/New-Daily-AI-Brief`.
 
-> **ACTIVATION STATUS: PENDING.** Iteration 26 must not begin until Iteration 25 closure is reconciled on verified `main` with `repository_closure_status=complete` and `iteration26_ready=true`.
+> **ACTIVATION STATUS: READY.** Iteration 25 closure PR #72 exact candidate `6b8c7371d3de40858b311df838c1fb9f394c96cf` (tree `4c6b5383da707720eeac618c145c25a30898d0d2`) passed Greenfield Contracts run `35791177843` with 313/313 tests, merged as `990d27fc405857996ace94ec142ff4549fb5ee24`, and post-merge main passed run `35791564383` with 313/313 tests. Reconciled Iteration 25 evidence reports `repository_closure_status=complete` and `iteration26_ready=true`. The receiving chat must still independently verify then-current main and CI.
 
 ## Required startup reads
 Use current `main` as the sole source of truth. Independently verify current main SHA and Greenfield Contracts CI, then read:

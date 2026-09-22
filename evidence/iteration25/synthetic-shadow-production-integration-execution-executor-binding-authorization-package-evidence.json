@@ -3,8 +3,8 @@
   "iteration": 25,
   "artifact_type": "production-integration-execution-executor-binding-authorization-package",
   "functional_exit_gate": "pass",
-  "repository_closure_status": "pending",
-  "iteration26_ready": false,
+  "repository_closure_status": "complete",
+  "iteration26_ready": true,
   "baseline": {
     "main_sha": "bce747da7cc722425ee35cf0a61c23af41a16f2f",
     "ci_run_id": 35786766868,
@@ -127,12 +127,22 @@
       "docs/ITERATION26_HANDOFF_2026-09-21.md",
       "docs/ITERATION26_START_PROMPT_2026-09-21.md"
     ],
-    "repository_closure_status": "pending",
-    "iteration26_ready": false,
-    "closure_pr_number": null,
-    "closure_candidate_sha": null,
-    "closure_pr_ci_run_id": null,
-    "closure_merge_sha": null,
-    "closure_post_merge_ci_run_id": null
+    "repository_closure_status": "complete",
+    "iteration26_ready": true,
+    "closure_pr_number": 72,
+    "closure_candidate_sha": "6b8c7371d3de40858b311df838c1fb9f394c96cf",
+    "closure_candidate_tree_sha": "4c6b5383da707720eeac618c145c25a30898d0d2",
+    "closure_pr_ci_run_id": 35791177843,
+    "closure_pr_ci_result": "pass",
+    "closure_pr_tests_passed": 313,
+    "closure_pr_tests_failed": 0,
+    "closure_pr_unittest_seconds": 224.048,
+    "closure_merge_sha": "990d27fc405857996ace94ec142ff4549fb5ee24",
+    "closure_post_merge_ci_run_id": 35791564383,
+    "closure_post_merge_ci_result": "pass",
+    "closure_post_merge_tests_passed": 313,
+    "closure_post_merge_tests_failed": 0,
+    "closure_post_merge_unittest_seconds": 216.857,
+    "closure_verified_main_sha": "990d27fc405857996ace94ec142ff4549fb5ee24"
   }
 }
