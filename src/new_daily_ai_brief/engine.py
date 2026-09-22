@@ -26,6 +26,7 @@ from .readiness import ProductionReadinessPipeline
 from .integration_preflight import ProductionIntegrationPreflight
 from .integration_plan import ProductionIntegrationPlan
 from .integration_admission import ProductionIntegrationAdmission
+from .integration_execution_preflight import ProductionIntegrationExecutionPreflight
 from .store import CanonicalStore, ContractError, utc_now
 
 
@@ -73,6 +74,8 @@ class RunEngine:
         integration_plan_only: bool = False,
         integration_admission_fixture_root: Path | str | None = None,
         integration_admission_only: bool = False,
+        integration_execution_preflight_fixture_root: Path | str | None = None,
+        integration_execution_preflight_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -95,6 +98,7 @@ class RunEngine:
         self.integration_preflight_only = integration_preflight_only
         self.integration_plan_only = integration_plan_only
         self.integration_admission_only = integration_admission_only
+        self.integration_execution_preflight_only = integration_execution_preflight_only
         if self.render_only and (self.editorial_only or self.build_only or self.validation_only):
             raise ValueError("render_only cannot be combined with earlier bounded execution modes")
         if self.release_only and (
@@ -1330,6 +1334,8 @@ def start_daily_brief(
     integration_plan_only: bool = False,
     integration_admission_fixture_root: Path | str | None = None,
     integration_admission_only: bool = False,
+    integration_execution_preflight_fixture_root: Path | str | None = None,
+    integration_execution_preflight_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
     return RunEngine(
@@ -1362,6 +1368,8 @@ def start_daily_brief(
         integration_plan_only=integration_plan_only,
         integration_admission_fixture_root=integration_admission_fixture_root,
         integration_admission_only=integration_admission_only,
+        integration_execution_preflight_fixture_root=integration_execution_preflight_fixture_root,
+        integration_execution_preflight_only=integration_execution_preflight_only,
     ).run()
 
 
