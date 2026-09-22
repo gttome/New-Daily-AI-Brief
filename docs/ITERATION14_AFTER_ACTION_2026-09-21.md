@@ -257,10 +257,18 @@ The mandatory Iteration 14 closure package is:
 - `docs/ITERATION15_HANDOFF_2026-09-21.md`;
 - `docs/ITERATION15_START_PROMPT_2026-09-21.md`.
 
-**Repository closure status: PENDING.**  
-**Iteration 15 readiness: NOT READY.**
+**Repository closure status: COMPLETE.**  
+**Iteration 15 readiness: READY.**
 
-These values remain pending until this exact closure package passes CI, merges, post-merge `main` CI passes, and a separate reconciliation PR records those verified closure identities.
+Verified closure identities:
+
+- closure PR: **#39**;
+- exact closure candidate: `1ef6cfe4a6677459f2f0024ec86fcff06a4a0280`;
+- closure PR CI: Greenfield Contracts run **35691656910 — PASS (188/188)**;
+- closure merge SHA: `4d6f55069b688007dcee6f30c620407cce1c640f`;
+- closure post-merge `main` CI: Greenfield Contracts run **35691751130 — PASS (188/188)**.
+
+All four mandatory closure records are present on verified `main`, and the repository-authoritative machine evidence is reconciled to `repository_closure_status=complete` with `iteration15_ready=true`.
 
 ## Deferred scope
 
@@ -272,5 +280,5 @@ The next bounded slice is a deterministic, synthetic-only **production-integrati
 
 **Iteration 14 implementation: COMPLETE.**  
 **Iteration 14 functional exit gate: PASS.**  
-**Iteration 14 operational closure: PENDING repository reconciliation.**  
-**Iteration 15 readiness: NOT READY until machine-readable closure is reconciled to `complete` with `iteration15_ready=true`.**
+**Iteration 14 operational closure: COMPLETE.**  
+**Iteration 15 readiness: READY.**
