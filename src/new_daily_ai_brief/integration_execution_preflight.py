@@ -634,7 +634,9 @@ class ProductionIntegrationExecutionPreflight:
                 or item.get("production_action_authorized") is not False
                 for item in steps
             ):
-                return "EXECUTION_REAL_STEP_ENABLED"
+                raise IntegrationExecutionPreflightError(
+                    "Iteration 14 cannot enable or authorize any real integration step"
+                )
         elif key == "dry_run_assertions":
             if (
                 record.get("dry_run_assertion_set_digest")
