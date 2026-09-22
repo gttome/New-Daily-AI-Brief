@@ -422,6 +422,81 @@ class ReaderSurfaceRenderer:
         safe = record["route_id"].replace(":", "__")
         self.store._atomic_write(self.output_dir / f"{safe}.json", record)
 
+    def validate_existing_render_set(self) -> None:
+        contract = self._contract()
+        contract_digest = digest(contract)
+        bundle, _ = self._require_bundle()
+        reader = self.store.load_artifact("reader-render")
+        manifest = self.store.load_artifact("route-manifest")
+
+        if reader:
+            if reader.get("status") != "locked":
+                self._fail("render_validation", "reader-render", "existing reader-render is not locked")
+            if reader.get("content_digest") != semantic_digest(reader):
+                self._fail("render_validation", "reader-render", "existing reader-render semantic digest mismatch")
+            if reader.get("edition_date") != self.edition_date:
+                self._fail("render_validation", "reader-render", "existing reader-render is stale or wrong-date")
+            if reader.get("input_digests") != [bundle["content_digest"]]:
+                self._fail("render_validation", "reader-render", "existing reader-render input digest mismatch")
+            data = reader.get("data", {})
+            if data.get("publication_bundle_digest") != bundle["content_digest"]:
+                self._fail("render_validation", "reader-render", "existing reader-render bundle binding mismatch")
+            if data.get("template_digest") != contract_digest or data.get("template_version") != contract["template_version"]:
+                self._fail("render_validation", "reader-render", "existing reader-render template identity mismatch")
+            if data.get("release_authorized") is not False:
+                self._fail("render_validation", "reader-render", "existing reader-render release flag is unsafe")
+            routes = data.get("routes", [])
+            if len(routes) != 11:
+                self._fail("render_validation", "reader-render", "existing reader-render route set is incomplete")
+            for route in routes:
+                expected = digest({
+                    "route": route.get("route"),
+                    "content_type": route.get("content_type"),
+                    "content": route.get("content"),
+                    "semantic": route.get("semantic"),
+                })
+                if route.get("output_digest") != expected:
+                    self._fail("render_validation", route.get("route_id", "unknown-route"), "existing route output digest mismatch")
+                checks = route.get("structural_checks", {})
+                if not checks or not all(checks.values()):
+                    self._fail("render_validation", route.get("route_id", "unknown-route"), "existing route structural/accessibility checks are not passing")
+
+        if manifest:
+            if not reader:
+                self._fail("manifest_validation", "route-manifest", "route manifest exists without reader-render")
+            if manifest.get("status") != "locked":
+                self._fail("manifest_validation", "route-manifest", "existing route manifest is not locked")
+            if manifest.get("content_digest") != semantic_digest(manifest):
+                self._fail("manifest_validation", "route-manifest", "existing route manifest semantic digest mismatch")
+            if manifest.get("edition_date") != self.edition_date:
+                self._fail("manifest_validation", "route-manifest", "existing route manifest is stale or wrong-date")
+            if manifest.get("input_digests") != [reader["content_digest"]]:
+                self._fail("manifest_validation", "route-manifest", "existing route manifest input digest mismatch")
+            data = manifest.get("data", {})
+            if data.get("publication_bundle_digest") != bundle["content_digest"]:
+                self._fail("manifest_validation", "route-manifest", "existing route manifest bundle binding mismatch")
+            if data.get("reader_render_digest") != reader["content_digest"]:
+                self._fail("manifest_validation", "route-manifest", "existing route manifest reader binding mismatch")
+            if data.get("template_digest") != contract_digest or data.get("template_version") != contract["template_version"]:
+                self._fail("manifest_validation", "route-manifest", "existing route manifest template identity mismatch")
+            expected_routes = [
+                {
+                    "route_id": x["route_id"],
+                    "route": x["route"],
+                    "kind": x["kind"],
+                    "content_type": x["content_type"],
+                    "output_digest": x["output_digest"],
+                    "structural_checks": deepcopy(x["structural_checks"]),
+                }
+                for x in reader["data"]["routes"]
+            ]
+            if data.get("routes") != expected_routes:
+                self._fail("manifest_validation", "route-manifest", "existing route manifest entries do not match reader outputs")
+            if data.get("validation_result") != "passed" or data.get("accessibility_structural_result") != "passed":
+                self._fail("manifest_validation", "route-manifest", "existing route manifest is not passing")
+            if data.get("release_authorized") is not False:
+                self._fail("manifest_validation", "route-manifest", "existing route manifest release flag is unsafe")
+
     def build_reader_render(self) -> dict[str, Any]:
         started = time.monotonic()
         contract = self._contract()
