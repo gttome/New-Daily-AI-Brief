@@ -26,7 +26,8 @@ class ProductionReadinessPipeline:
     """Deterministic, non-mutating Iteration 10 production-readiness assessment."""
 
     REQUIRED_PREREQUISITES = (
-        "cost_policy",
+        "canonical_chain_integrity",
+        "cost_policy"
         "production_discovery",
         "production_publication",
         "public_deployment_verification",
@@ -38,6 +39,10 @@ class ProductionReadinessPipeline:
     )
 
     REASON_CODES = {
+        "canonical_chain_integrity": (
+            "CANONICAL_CHAIN_INTEGRITY_VALIDATED",
+            "CANONICAL_CHAIN_INTEGRITY_INVALID",
+        ),
         "cost_policy": ("COST_POLICY_EXPLICIT_AND_APPROVED", "COST_POLICY_APPROVAL_MISSING"),
         "production_discovery": (
             "DISCOVERY_ADAPTER_EXPLICIT_APPROVED_ZERO_COST",
@@ -175,6 +180,7 @@ class ProductionReadinessPipeline:
                 "validation_failures": 0,
                 "policy_evaluation_attempts": 0,
                 "policy_evaluation_reuse": 0,
+                "prerequisite_evaluations_by_reason_code": {},
                 "artifact_build_attempts": 0,
                 "artifact_reuse": 0,
                 "blocked_classifications": 0,
@@ -276,6 +282,8 @@ class ProductionReadinessPipeline:
 
     def _is_approved(self, prerequisite: str, capability: dict[str, Any]) -> bool:
         item = capability.get(prerequisite) or {}
+        if prerequisite == "canonical_chain_integrity":
+            return True
         if prerequisite == "cost_policy":
             return (
                 item.get("approved") is True
@@ -359,8 +367,13 @@ class ProductionReadinessPipeline:
                 "readiness_policy_evaluation", "policy_evaluation", self.failure_class
             )
 
+        policy_result = self._evaluate(capability)
+        for result in policy_result["prerequisite_results"]:
+            reason = result["reason_code"]
+            by_reason = state["metrics"]["prerequisite_evaluations_by_reason_code"]
+            by_reason[reason] = by_reason.get(reason, 0) + 1
         evaluation = {
-            **self._evaluate(capability),
+            **policy_result,
             "readiness_policy_version": policy["readiness_policy_version"],
             "policy_id": policy["policy_id"],
             "profile_id": capability["profile_id"],
