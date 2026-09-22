@@ -268,6 +268,13 @@ class ProductionIntegrationExecutionAuthorizationDecision:
             raise IntegrationExecutionAuthorizationDecisionError("rollback boundary set changed")
 
         verifications = deepcopy(rd.get("receipt_verifications") or [])
+        for verification in verifications:
+            verification_body = deepcopy(verification)
+            verification_id = verification_body.pop("verification_id", None)
+            if not verification_id or digest(verification_body) != verification_id:
+                raise IntegrationExecutionAuthorizationDecisionError(
+                    "Iteration 16 receipt-verification semantic identity is corrupted"
+                )
         verification_ids = [x.get("verification_id") for x in verifications]
         if rd.get("receipt_verification_ids") != verification_ids:
             raise IntegrationExecutionAuthorizationDecisionError(
