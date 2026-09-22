@@ -283,7 +283,15 @@ The mandatory Iteration 11 closure package is:
 - `docs/ITERATION12_HANDOFF_2026-09-21.md`;
 - `docs/ITERATION12_START_PROMPT_2026-09-21.md`.
 
-Repository closure identities are reconciled only after the closure-package PR is merged and its post-merge `main` CI has passed.
+Repository closure is reconciled and verified.
+
+- Closure-package PR: **#30**
+- Exact closure candidate: `a5f3a523dda5ea036ea0f72a572c93dda36584ec`
+- Closure PR CI: **35687169992 — PASS (132/132)**
+- Closure merge SHA: `be43b387547325b844a1f8a1f0e099dffd817b1d`
+- Closure post-merge `main` CI: **35687233383 — PASS (132/132)**
+
+All four mandatory closure artifacts are present on verified `main`, and the standalone Iteration 12 prompt is ready to paste into a fresh chat.
 
 ## Deferred scope
 
@@ -295,5 +303,5 @@ The next bounded slice is a deterministic, non-mutating production-integration p
 
 **Iteration 11 implementation: COMPLETE.**  
 **Iteration 11 functional exit gate: PASS.**  
-**Iteration 11 operational closure: PENDING closure-package merge and reconciliation.**  
-**Iteration 12 readiness: NOT READY until all four required closure records are present on verified `main`, closure metadata is reconciled, and machine-readable evidence reports `iteration12_ready=true`.**
+**Iteration 11 operational closure: COMPLETE.**  
+**Iteration 12 readiness: READY TO BEGIN after verifying the then-current `main` SHA and CI and confirming the reconciled machine-readable evidence reports `iteration12_ready=true`.**
