@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "production-integration-execution-rehearsal.schema.json",
+  "title": "Production Integration Execution Rehearsal",
+  "type": "object",
+  "required": [
+    "execution_rehearsal_schema_version",
+    "execution_rehearsal_policy_version",
+    "execution_preflight_artifact_digest",
+    "execution_preflight_id",
+    "classification",
+    "classification_reason_codes",
+    "execution_rehearsal_id",
+    "rehearsal_receipt_count",
+    "real_integration_steps_enabled",
+    "real_integration_steps_executed",
+    "synthetic_only",
+    "production_action_authorized",
+    "production_cutover_authorized",
+    "legacy_decommission_authorized",
+    "production_publication"
+  ],
+  "properties": {
+    "execution_rehearsal_schema_version": {"const": "1.0.0"},
+    "execution_rehearsal_policy_version": {"const": "1.0.0"},
+    "classification": {"enum": ["blocked", "rehearsal_complete", "invalid"]},
+    "classification_reason_codes": {"type": "array", "items": {"type": "string"}},
+    "execution_rehearsal_id": {"type": "string", "pattern": "^sha256:"},
+    "execution_attempt_id": {"type": ["string", "null"]},
+    "rehearsal_receipt_count": {"type": "integer", "minimum": 0, "maximum": 10},
+    "rehearsal_receipts": {"type": "array", "maxItems": 10},
+    "real_integration_steps_enabled": {"const": 0},
+    "real_integration_steps_executed": {"const": 0},
+    "synthetic_only": {"const": true},
+    "production_action_authorized": {"const": false},
+    "production_cutover_authorized": {"const": false},
+    "legacy_decommission_authorized": {"const": false},
+    "production_publication": {"const": false},
+    "real_private_command_center_mutated": {"const": false},
+    "public_site_mutated": {"const": false},
+    "production_schedule_action": {"const": false},
+    "subscriber_delivery_changed": {"const": false},
+    "legacy_content_migrated": {"const": false},
+    "readers_routed_to_greenfield": {"const": false},
+    "legacy_repository_modified": {"const": false},
+    "incremental_paid_dependency_added": {"const": false},
+    "lifecycle_state_changed": {"const": false}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"classification": {"const": "rehearsal_complete"}}},
+      "then": {
+        "properties": {
+          "rehearsal_receipt_count": {"const": 10},
+          "execution_attempt_id": {"type": "string"}
+        }
+      }
+    }
+  ],
+  "additionalProperties": true
+}
