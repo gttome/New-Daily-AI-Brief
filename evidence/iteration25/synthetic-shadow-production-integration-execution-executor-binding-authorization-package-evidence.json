@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.0.0",
+  "iteration": 25,
+  "artifact_type": "production-integration-execution-executor-binding-authorization-package",
+  "functional_exit_gate": "pass",
+  "repository_closure_status": "pending",
+  "iteration26_ready": false,
+  "baseline": {
+    "main_sha": "bce747da7cc722425ee35cf0a61c23af41a16f2f",
+    "ci_run_id": 35786766868,
+    "ci_result": "pass"
+  },
+  "implementation": {
+    "pr_number": 71,
+    "candidate_sha": "3c7669404ac8f72d42bc415013c5b2968adc4764",
+    "candidate_tree_sha": "d682a9fb7e2ab0b72233c789cb29e73c17f2e7dc",
+    "candidate_ci_run_id": 35789389819,
+    "candidate_ci_result": "pass",
+    "candidate_tests_passed": 313,
+    "candidate_tests_failed": 0,
+    "merge_sha": "44136a633a1371b540be6114988b87cceef27c5a",
+    "post_merge_ci_run_id": 35789771736,
+    "post_merge_ci_result": "pass",
+    "post_merge_tests_passed": 313,
+    "post_merge_tests_failed": 0
+  },
+  "current_repository_outcome": {
+    "classification": "blocked",
+    "leading_reason_code": "ITERATION24_EXECUTOR_BINDING_AUTHORIZATION_DECISION_BLOCKED",
+    "source_decision_complete_alone_sufficient": false,
+    "separate_package_record_required": true
+  },
+  "three_run_exit_gate": {
+    "result": "pass",
+    "independent_shadow_runs": 3,
+    "dates": [
+      "2026-09-22",
+      "2026-09-23",
+      "2026-09-24"
+    ],
+    "classification": "blocked",
+    "stable_reason_codes": true,
+    "real_executor_bound": false,
+    "real_executor_invoked": false,
+    "credential_use_authorized": false,
+    "real_target_contacted": false,
+    "external_mutation": false,
+    "upstream_reexecution": 0,
+    "iteration24_rebuilds": 0,
+    "unrelated_record_rewrites": 0,
+    "full_pipeline_restarts": 0
+  },
+  "recovery": [
+    {
+      "boundary": "executor_binding_authorization_package:evaluation",
+      "fresh_engine_resume": true,
+      "evaluation_attempts": 2,
+      "upstream_reexecution": 0,
+      "iteration24_rebuilds": 0,
+      "unrelated_record_rewrites": 0,
+      "full_pipeline_restarts": 0
+    },
+    {
+      "boundary": "executor_binding_authorization_package:receipt:5",
+      "fresh_engine_resume": true,
+      "minimum_receipt_reuse": 4,
+      "final_receipt_count": 10,
+      "upstream_reexecution": 0,
+      "iteration24_rebuilds": 0,
+      "unrelated_record_rewrites": 0,
+      "full_pipeline_restarts": 0
+    },
+    {
+      "boundary": "executor_binding_authorization_package:final_executor_binding_authorization_package_artifact",
+      "fresh_engine_resume": true,
+      "artifact_assembly_attempts": 2,
+      "minimum_receipt_reuse": 10,
+      "upstream_reexecution": 0,
+      "iteration24_rebuilds": 0,
+      "unrelated_record_rewrites": 0,
+      "full_pipeline_restarts": 0
+    }
+  ],
+  "fail_closed": {
+    "deterministic_replay": true,
+    "exact_source_and_transitive_binding": true,
+    "separate_package_record_required": true,
+    "stale_or_corrupted_source": true,
+    "reordered_duplicated_missing_substituted_corrupted_evidence": true,
+    "changed_source_or_package_identity": true,
+    "unsupported_versions": true,
+    "real_endpoint": true,
+    "executor_binding_capability": true,
+    "executor_invocation_capability": true,
+    "executable_command_or_step": true,
+    "credential": true,
+    "target": true,
+    "authority_or_mutation": true,
+    "unapproved_paid_dependency": true,
+    "production_mode": true,
+    "combined_bounded_modes": true
+  },
+  "prohibited_actions": {
+    "real_executor_implemented_bound_or_invoked": false,
+    "production_credentials_used_or_stored": false,
+    "real_target_contact": false,
+    "production_or_rollback_authority_granted": false,
+    "private_command_center_mutated": false,
+    "final_ui_implemented": false,
+    "pages_or_public_site_deployed": false,
+    "live_urls_changed": false,
+    "real_public_route_verification": false,
+    "production_schedule_actions": false,
+    "subscriber_delivery_changed": false,
+    "legacy_content_migrated": false,
+    "production_cutover": false,
+    "readers_routed_to_greenfield": false,
+    "legacy_decommissioned": false,
+    "production_publication": false,
+    "legacy_repository_modified": false,
+    "incremental_paid_dependency_added": false
+  },
+  "closure": {
+    "required_paths": [
+      "docs/ITERATION25_AFTER_ACTION_2026-09-21.md",
+      "evidence/iteration25/synthetic-shadow-production-integration-execution-executor-binding-authorization-package-evidence.json",
+      "docs/ITERATION26_HANDOFF_2026-09-21.md",
+      "docs/ITERATION26_START_PROMPT_2026-09-21.md"
+    ],
+    "repository_closure_status": "pending",
+    "iteration26_ready": false,
+    "closure_pr_number": null,
+    "closure_candidate_sha": null,
+    "closure_pr_ci_run_id": null,
+    "closure_merge_sha": null,
+    "closure_post_merge_ci_run_id": null
+  }
+}
