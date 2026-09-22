@@ -52,6 +52,15 @@ class Iteration10ReadinessTest(unittest.TestCase):
             self.assertEqual(result["current_state"], "Complete")
             self.assertEqual(result["completion_status"], "complete_locked")
             self.assertEqual(data["classification"], "blocked")
+            self.assertEqual(len(data["prerequisite_results"]), 10)
+            self.assertEqual(
+                data["prerequisite_results"][0],
+                {
+                    "prerequisite": "canonical_chain_integrity",
+                    "status": "satisfied",
+                    "reason_code": "CANONICAL_CHAIN_INTEGRITY_VALIDATED",
+                },
+            )
             self.assertEqual(data["blocker_reason_codes"], self.BLOCKED_CODES)
             self.assertFalse(data["production_action_authorized"])
             self.assertTrue(data["synthetic_only"])
@@ -292,6 +301,8 @@ class Iteration10ReadinessTest(unittest.TestCase):
             ["admissible", "blocked", "invalid"],
         )
         self.assertFalse(schema["properties"]["production_action_authorized"]["const"])
+        self.assertEqual(schema["properties"]["prerequisite_results"]["minItems"], 10)
+        self.assertEqual(schema["properties"]["prerequisite_results"]["maxItems"], 10)
 
 
 if __name__ == "__main__":
