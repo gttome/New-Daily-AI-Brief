@@ -336,10 +336,13 @@ class ProductionIntegrationExecutionRehearsal:
             "execution_preflight_id": data["execution_preflight_id"],
             "execution_preflight_classification": classification,
             "execution_preflight_reason_codes": deepcopy(data.get("classification_reason_codes") or []),
+            "execution_preflight_policy_id": data.get("execution_preflight_policy_id"),
             "execution_preflight_policy_digest": data.get("execution_preflight_policy_digest"),
+            "execution_envelope_manifest_id": data.get("execution_envelope_manifest_id"),
             "execution_envelope_manifest_digest": data.get("execution_envelope_manifest_digest"),
             "execution_envelope_decision_id": data.get("execution_envelope_decision_id"),
             "execution_envelope_decision_digest": data.get("execution_envelope_decision_digest"),
+            "execution_steps": deepcopy(data.get("execution_steps") or []),
             "admission_artifact_digest": admission["content_digest"],
             "admission_id": ad["admission_id"],
             "plan_artifact_digest": plan["content_digest"],
@@ -799,7 +802,9 @@ class ProductionIntegrationExecutionRehearsal:
             "execution_preflight_id": evaluated["execution_preflight_id"],
             "execution_preflight_classification": evaluated["execution_preflight_classification"],
             "execution_preflight_reason_codes": evaluated["execution_preflight_reason_codes"],
+            "execution_preflight_policy_id": evaluated["execution_preflight_policy_id"],
             "execution_preflight_policy_digest": evaluated["execution_preflight_policy_digest"],
+            "execution_envelope_manifest_id": evaluated["execution_envelope_manifest_id"],
             "execution_envelope_manifest_digest": evaluated["execution_envelope_manifest_digest"],
             "execution_envelope_decision_id": evaluated["execution_envelope_decision_id"],
             "execution_envelope_decision_digest": evaluated["execution_envelope_decision_digest"],
@@ -828,6 +833,7 @@ class ProductionIntegrationExecutionRehearsal:
             "execution_rehearsal_id": digest(semantic_identity),
             "rehearsal_receipts": deepcopy(evaluated["rehearsal_receipts"]),
             "rehearsal_receipt_count": len(evaluated["rehearsal_receipts"]),
+            "execution_steps": deepcopy(evaluated["execution_steps"]),
             "real_integration_steps_enabled": 0,
             "real_integration_steps_executed": 0,
             "final_state": "Complete",
@@ -906,6 +912,11 @@ class ProductionIntegrationExecutionRehearsal:
                 raise IntegrationExecutionRehearsalError(f"execution rehearsal cannot authorize/mutate {flag}")
         if data.get("real_integration_steps_enabled") != 0 or data.get("real_integration_steps_executed") != 0:
             raise IntegrationExecutionRehearsalError("execution rehearsal cannot enable or execute real steps")
+        steps = data.get("execution_steps") or []
+        if len(steps) not in {0, 10}:
+            raise IntegrationExecutionRehearsalError("execution rehearsal step inventory is incomplete")
+        if any(item.get("enabled") is not False for item in steps):
+            raise IntegrationExecutionRehearsalError("all real integration-plan steps must remain disabled")
         classification = data.get("classification")
         if classification == "rehearsal_complete":
             receipts = data.get("rehearsal_receipts") or []
