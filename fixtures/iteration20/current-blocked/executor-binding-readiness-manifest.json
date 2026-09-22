@@ -70,5 +70,14 @@
       "incremental_paid_dependency_required": false,
       "zero_incremental_cost_approved": true
     }
-  }
+  },
+  "real_private_command_center_mutated": false,
+  "public_site_mutated": false,
+  "production_schedule_action": false,
+  "subscriber_delivery_changed": false,
+  "legacy_content_migrated": false,
+  "readers_routed_to_greenfield": false,
+  "legacy_repository_modified": false,
+  "incremental_paid_dependency_added": false,
+  "lifecycle_state_changed": false
 }
