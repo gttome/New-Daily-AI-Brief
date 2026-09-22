@@ -27,6 +27,7 @@ from .integration_preflight import ProductionIntegrationPreflight
 from .integration_plan import ProductionIntegrationPlan
 from .integration_admission import ProductionIntegrationAdmission
 from .integration_execution_preflight import ProductionIntegrationExecutionPreflight
+from .integration_execution_rehearsal import ProductionIntegrationExecutionRehearsal
 from .store import CanonicalStore, ContractError, utc_now
 
 
@@ -76,6 +77,8 @@ class RunEngine:
         integration_admission_only: bool = False,
         integration_execution_preflight_fixture_root: Path | str | None = None,
         integration_execution_preflight_only: bool = False,
+        integration_execution_rehearsal_fixture_root: Path | str | None = None,
+        integration_execution_rehearsal_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -99,6 +102,7 @@ class RunEngine:
         self.integration_plan_only = integration_plan_only
         self.integration_admission_only = integration_admission_only
         self.integration_execution_preflight_only = integration_execution_preflight_only
+        self.integration_execution_rehearsal_only = integration_execution_rehearsal_only
         if self.render_only and (self.editorial_only or self.build_only or self.validation_only):
             raise ValueError("render_only cannot be combined with earlier bounded execution modes")
         if self.release_only and (
