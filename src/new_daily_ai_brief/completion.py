@@ -233,17 +233,18 @@ class FinalCompletionPipeline:
             )
         return record
 
-    def _operations(self) -> OperationsReconciliationPipeline:
+    def _operations(self, *, record_reuse: bool = True) -> OperationsReconciliationPipeline:
         return OperationsReconciliationPipeline(
             self.store,
             self.edition_date,
             self.mode,
             self.operations_fixture_root,
+            record_validation_metrics=record_reuse,
         )
 
-    def _validate_chain(self, run: dict[str, Any]) -> dict[str, Any]:
+    def _validate_chain(self, run: dict[str, Any], *, record_reuse: bool = True) -> dict[str, Any]:
         self._contract()
-        operations = self._operations()
+        operations = self._operations(record_reuse=record_reuse)
         operations.validate_existing_projection_set()
 
         records = {
@@ -323,10 +324,11 @@ class FinalCompletionPipeline:
                 "exactly 10 successful explicit Iteration 7 evaluations are required",
             )
 
-        state = self._load_state()
-        state["metrics"]["validation_checks"] += len(self.CANONICAL_CHAIN) + 6
-        self._save_state(state)
-        self._write_metrics(state)
+        if record_reuse:
+            state = self._load_state()
+            state["metrics"]["validation_checks"] += len(self.CANONICAL_CHAIN) + 6
+            self._save_state(state)
+            self._write_metrics(state)
         return {
             "records": records,
             "projection": projection,
@@ -501,7 +503,7 @@ class FinalCompletionPipeline:
     def validate_existing_completion_set(
         self, run: dict[str, Any], *, record_reuse: bool = True
     ) -> dict[str, Any] | None:
-        context = self._validate_chain(run)
+        context = self._validate_chain(run, record_reuse=record_reuse)
         completion = self.store.load_artifact("completion")
         receipt = self.store.read_json(self.final_receipt_path)
         if completion is None:

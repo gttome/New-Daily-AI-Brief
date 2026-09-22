@@ -32,7 +32,8 @@ class Iteration23ExecutorBindingAuthorizationReviewTest(unittest.TestCase):
         return {str(p.relative_to(engine.store.run_dir)): (p.read_bytes(), p.stat().st_mtime_ns)
                 for p in engine.store.run_dir.rglob("*.json")
                 if p.name not in {"run.json", "lease.json"}
-                and "authorization-review" not in p.name}
+                and not p.name.startswith("executor-binding-authorization-review")
+                and p.name != "production-integration-execution-executor-binding-authorization-review.json"}
 
     def helper(self):
         return test_iteration22.Iteration22ExecutorBindingRehearsalTest(

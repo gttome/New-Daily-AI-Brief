@@ -78,7 +78,9 @@ class OperationsReconciliationPipeline:
         *,
         failure_boundary_id: str | None = None,
         failure_class: str = "synthetic_operations_boundary_failure",
+        record_validation_metrics: bool = True,
     ):
+        self.record_validation_metrics = record_validation_metrics
         self.store = store
         self.edition_date = edition_date
         self.mode = mode
@@ -166,9 +168,13 @@ class OperationsReconciliationPipeline:
         }
 
     def _save_state(self, state: dict[str, Any]) -> None:
+        if not self.record_validation_metrics:
+            return
         self.store._atomic_write(self.state_path, state)
 
     def _write_metrics(self, state: dict[str, Any]) -> None:
+        if not self.record_validation_metrics:
+            return
         payload = {
             "schema_version": SCHEMA_VERSION,
             "edition_date": self.edition_date,
