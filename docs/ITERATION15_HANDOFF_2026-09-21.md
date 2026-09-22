@@ -8,7 +8,7 @@
 **Prior implementation post-merge CI:** Greenfield Contracts run **35691447948 — PASS (188/188)**  
 **Controlling closure evidence:** `evidence/iteration14/synthetic-shadow-production-integration-execution-preflight-evidence.json`
 
-> **START GATE:** Do not implement Iteration 15 unless the current repository evidence reports `repository_closure_status=complete` and `iteration15_ready=true`. Verify the then-current `main` SHA and CI before changes. This initial handoff is part of a pending closure package until reconciliation.
+> **ACTIVATION STATUS: READY.** Iteration 14 closure PR **#39** passed CI, merged as `4d6f55069b688007dcee6f30c620407cce1c640f`, and post-merge Greenfield Contracts run **35691751130** passed **188/188** tests. The reconciled Iteration 14 evidence reports `repository_closure_status=complete` and `iteration15_ready=true`. Before implementation, still verify the then-current `main` SHA/CI and re-read the repository evidence; current repository records, not this remembered SHA, are the source of truth.
 
 ## Preserved baseline
 
