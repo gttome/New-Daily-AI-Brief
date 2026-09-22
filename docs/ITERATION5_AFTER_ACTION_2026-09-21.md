@@ -275,7 +275,17 @@ The mandatory Iteration 5 closure package is:
 - `docs/ITERATION6_HANDOFF_2026-09-21.md`;
 - `docs/ITERATION6_START_PROMPT_2026-09-21.md`.
 
-Closure-package PR/merge identities are recorded by the post-merge closure reconciliation after the exact closure candidate passes CI.
+Closure package verification:
+
+- Closure PR: **#12**
+- Closure candidate SHA: `6126bf799b53b53777f3a577c2df91a33bccd150`
+- Closure PR CI run: **35676468946**
+- Closure PR regression result: **54/54 PASS**
+- Closure package merge SHA: `07008fca24ac3f35dc7718053cba599bd9bcc284`
+- Closure post-merge `main` CI run: **35676497713**
+- Closure post-merge regression result: **54/54 PASS**
+
+All four mandatory closure artifacts are therefore present on verified `main`.
 
 ## Deferred scope / Iteration 6 input
 
@@ -287,4 +297,8 @@ Iteration 6 may exercise the existing `Releasing → Deployed → LiveVerified` 
 
 **Iteration 5 implementation: COMPLETE.**
 
-Operational closure becomes complete only after the four mandatory closure artifacts are merged, their closure PR passes the full suite, and post-merge `main` is verified green.
+**Iteration 5 operational closure: COMPLETE.**
+
+The four mandatory closure artifacts are merged, closure PR #12 passed 54/54 tests, and closure post-merge `main` run 35676497713 passed 54/54 tests.
+
+**Iteration 6 readiness: READY TO BEGIN**, subject to verifying the then-current `main` SHA and reading the authoritative Iteration 6 start package.

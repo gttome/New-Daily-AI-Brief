@@ -23,7 +23,16 @@ The Iteration 5 implementation was merged as:
 
 Its post-merge `Greenfield Contracts` run **35676287692** passed the complete **54/54** regression suite.
 
-The closure package must also be present and green on current `main` before Iteration 6 begins.
+The Iteration 5 closure package was merged through PR **#12** from exact closure candidate
+`6126bf799b53b53777f3a577c2df91a33bccd150`.
+
+Closure package merge SHA:
+
+`07008fca24ac3f35dc7718053cba599bd9bcc284`
+
+Closure PR CI run **35676468946** passed **54/54** tests, and closure post-merge `main` run **35676497713** also passed **54/54** tests.
+
+**Iteration 5 operational closure is complete and Iteration 6 is ready to begin**, provided the new chat first verifies the then-current `main` SHA and confirms these closure records remain present and green.
 
 ## Starting point
 
