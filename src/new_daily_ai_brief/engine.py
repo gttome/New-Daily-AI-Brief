@@ -1158,6 +1158,7 @@ class RunEngine:
                 or self.integration_execution_rehearsal_only
                 or self.integration_execution_authorization_review_only
                 or self.integration_execution_authorization_decision_only
+                or self.integration_execution_authorization_package_only
             ):
                 self.store.acquire_lease(self.run_id, self.owner)
                 try:
