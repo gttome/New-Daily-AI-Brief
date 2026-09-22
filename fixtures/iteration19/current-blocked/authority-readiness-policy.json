@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "execution_authority_readiness_policy_version": "1.0.0",
+  "policy_id": "production-integration-execution-authority-readiness-v1",
+  "synthetic_only": true,
+  "allowed_upstream_classification": "authorization_package_ready",
+  "classifications": ["blocked", "execution_authority_ready", "invalid"],
+  "real_authority_permitted": false,
+  "zero_incremental_cost_required": true
+}
