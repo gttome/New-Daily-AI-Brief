@@ -188,11 +188,24 @@ Merge only the exact candidate that passes the complete regression + Iteration 4
 
 ## Required closure records
 
-Finish Iteration 4 by creating:
+Iteration 4 must follow `docs/ITERATION_START_PACKAGE_STANDARD.md`.
+
+Finish Iteration 4 by creating and merging all four required closure artifacts:
 
 - `docs/ITERATION4_AFTER_ACTION_2026-09-21.md`;
 - machine-readable Iteration 4 evidence;
-- the authoritative next-iteration handoff based on the validated state at that time.
+- the authoritative Iteration 5 handoff based on the validated state at that time;
+- a separate ready-to-paste Iteration 5 start-prompt `.md` file for beginning Iteration 5 in a new chat.
+
+Do not report Iteration 5 as ready until all four artifacts are present on verified `main`.
+
+## New-chat start package
+
+For Iteration 4, the standalone ready-to-paste prompt is:
+
+`docs/ITERATION4_START_PROMPT_2026-09-21.md`
+
+The inline launch prompt below is retained for convenience, but the standalone prompt file is the authoritative new-chat launcher.
 
 ## Launch prompt
 
