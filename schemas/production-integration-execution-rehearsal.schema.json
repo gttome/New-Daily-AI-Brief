@@ -21,38 +21,130 @@
     "production_publication"
   ],
   "properties": {
-    "execution_rehearsal_schema_version": {"const": "1.0.0"},
-    "execution_rehearsal_policy_version": {"const": "1.0.0"},
-    "classification": {"enum": ["blocked", "rehearsal_complete", "invalid"]},
-    "classification_reason_codes": {"type": "array", "items": {"type": "string"}},
-    "execution_rehearsal_id": {"type": "string", "pattern": "^sha256:"},
-    "execution_attempt_id": {"type": ["string", "null"]},
-    "rehearsal_receipt_count": {"type": "integer", "minimum": 0, "maximum": 10},
-    "rehearsal_receipts": {"type": "array", "maxItems": 10},
-    "real_integration_steps_enabled": {"const": 0},
-    "real_integration_steps_executed": {"const": 0},
-    "synthetic_only": {"const": true},
-    "production_action_authorized": {"const": false},
-    "production_cutover_authorized": {"const": false},
-    "legacy_decommission_authorized": {"const": false},
-    "production_publication": {"const": false},
-    "real_private_command_center_mutated": {"const": false},
-    "public_site_mutated": {"const": false},
-    "production_schedule_action": {"const": false},
-    "subscriber_delivery_changed": {"const": false},
-    "legacy_content_migrated": {"const": false},
-    "readers_routed_to_greenfield": {"const": false},
-    "legacy_repository_modified": {"const": false},
-    "incremental_paid_dependency_added": {"const": false},
-    "lifecycle_state_changed": {"const": false}
+    "execution_rehearsal_schema_version": {
+      "const": "1.0.0"
+    },
+    "execution_rehearsal_policy_version": {
+      "const": "1.0.0"
+    },
+    "classification": {
+      "enum": [
+        "blocked",
+        "rehearsal_complete",
+        "invalid"
+      ]
+    },
+    "classification_reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "execution_rehearsal_id": {
+      "type": "string",
+      "pattern": "^sha256:"
+    },
+    "execution_attempt_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "rehearsal_receipt_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "rehearsal_receipts": {
+      "type": "array",
+      "maxItems": 10
+    },
+    "real_integration_steps_enabled": {
+      "const": 0
+    },
+    "real_integration_steps_executed": {
+      "const": 0
+    },
+    "synthetic_only": {
+      "const": true
+    },
+    "production_action_authorized": {
+      "const": false
+    },
+    "production_cutover_authorized": {
+      "const": false
+    },
+    "legacy_decommission_authorized": {
+      "const": false
+    },
+    "production_publication": {
+      "const": false
+    },
+    "real_private_command_center_mutated": {
+      "const": false
+    },
+    "public_site_mutated": {
+      "const": false
+    },
+    "production_schedule_action": {
+      "const": false
+    },
+    "subscriber_delivery_changed": {
+      "const": false
+    },
+    "legacy_content_migrated": {
+      "const": false
+    },
+    "readers_routed_to_greenfield": {
+      "const": false
+    },
+    "legacy_repository_modified": {
+      "const": false
+    },
+    "incremental_paid_dependency_added": {
+      "const": false
+    },
+    "lifecycle_state_changed": {
+      "const": false
+    },
+    "execution_steps": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": [
+          "enabled",
+          "production_action_authorized"
+        ],
+        "properties": {
+          "enabled": {
+            "const": false
+          },
+          "production_action_authorized": {
+            "const": false
+          }
+        },
+        "additionalProperties": true
+      }
+    }
   },
   "allOf": [
     {
-      "if": {"properties": {"classification": {"const": "rehearsal_complete"}}},
+      "if": {
+        "properties": {
+          "classification": {
+            "const": "rehearsal_complete"
+          }
+        }
+      },
       "then": {
         "properties": {
-          "rehearsal_receipt_count": {"const": 10},
-          "execution_attempt_id": {"type": "string"}
+          "rehearsal_receipt_count": {
+            "const": 10
+          },
+          "execution_attempt_id": {
+            "type": "string"
+          }
         }
       }
     }
