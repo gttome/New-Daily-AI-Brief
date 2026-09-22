@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "production-integration-execution-authorization-package.schema.json",
+  "title": "Production Integration Execution Authorization Package",
+  "type": "object",
+  "required": [
+    "authorization_package_schema_version",
+    "authorization_package_policy_version",
+    "authorization_decision_artifact_digest",
+    "authorization_decision_id",
+    "classification",
+    "classification_reason_codes",
+    "authorization_package_id",
+    "real_integration_steps_enabled",
+    "real_integration_steps_executed",
+    "synthetic_only",
+    "production_action_authorized",
+    "production_cutover_authorized",
+    "legacy_decommission_authorized",
+    "production_publication",
+    "real_executor_invocation_authorized",
+    "credentials_use_authorized",
+    "real_target_contact_authorized",
+    "rollback_execution_authorized"
+  ],
+  "properties": {
+    "authorization_package_schema_version": {"const": "1.0.0"},
+    "authorization_package_policy_version": {"const": "1.0.0"},
+    "classification": {"enum": ["blocked", "authorization_package_ready", "invalid"]},
+    "classification_reason_codes": {"type": "array", "items": {"type": "string"}},
+    "authorization_package_id": {"type": "string", "pattern": "^sha256:"},
+    "authorization_decision_id": {"type": "string", "pattern": "^sha256:"},
+    "real_integration_steps_enabled": {"const": 0},
+    "real_integration_steps_executed": {"const": 0},
+    "synthetic_only": {"const": true},
+    "production_action_authorized": {"const": false},
+    "production_cutover_authorized": {"const": false},
+    "legacy_decommission_authorized": {"const": false},
+    "production_publication": {"const": false},
+    "real_executor_invocation_authorized": {"const": false},
+    "credentials_use_authorized": {"const": false},
+    "real_target_contact_authorized": {"const": false},
+    "rollback_execution_authorized": {"const": false},
+    "real_private_command_center_mutated": {"const": false},
+    "public_site_mutated": {"const": false},
+    "production_schedule_action": {"const": false},
+    "subscriber_delivery_changed": {"const": false},
+    "legacy_content_migrated": {"const": false},
+    "readers_routed_to_greenfield": {"const": false},
+    "legacy_repository_modified": {"const": false},
+    "incremental_paid_dependency_added": {"const": false},
+    "lifecycle_state_changed": {"const": false},
+    "execution_steps": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["enabled", "production_action_authorized"],
+        "properties": {
+          "enabled": {"const": false},
+          "production_action_authorized": {"const": false}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "allOf": [{
+    "if": {"properties": {"classification": {"const": "authorization_package_ready"}}},
+    "then": {
+      "required": ["separate_authorization_package_id"],
+      "properties": {
+        "separate_authorization_package_id": {"type": "string", "pattern": "^sha256:"},
+        "source_provenance_validation_ids": {"type": "array", "minItems": 10, "maxItems": 10},
+        "package_provenance_validation_ids": {"type": "array", "minItems": 10, "maxItems": 10}
+      }
+    }
+  }],
+  "additionalProperties": true
+}
