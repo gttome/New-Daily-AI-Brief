@@ -2,7 +2,7 @@
 ## Synthetic Production-Integration Execution-Authority Readiness Gate
 ### Prepared September 22, 2026
 
-> **ACTIVATION STATUS: NOT READY until Iteration 18 closure reconciliation is complete.** The implementation described below is authorized only after current repository evidence reports `repository_closure_status=complete` and `iteration19_ready=true`, and the receiving chat independently verifies current `main` and CI.
+> **ACTIVATION STATUS: READY.** Iteration 18 closure is reconciled on verified `main`; current repository evidence reports `repository_closure_status=complete` and `iteration19_ready=true`. The receiving chat must still independently verify the current `main` SHA and CI before changing anything.
 
 ## Governing source of truth
 
@@ -270,6 +270,6 @@ Machine evidence must report repository closure complete and `iteration20_ready=
 
 ## Activation determination
 
-**Iteration 19 implementation authorization: NOT READY** until the Iteration 18 closure package has passed, merged, post-merge `main` CI has passed, and a separate closure reconciliation records `repository_closure_status=complete` and `iteration19_ready=true`.
+**Iteration 19 implementation authorization: READY**, subject to mandatory start-of-iteration verification of the then-current `main` SHA, CI, and reconciled Iteration 18 evidence.
 
-Once activated, the receiving chat must still independently verify current `main`, CI, and closure evidence before making changes.
+The receiving chat must still independently verify `repository_closure_status=complete` and `iteration19_ready=true` from current repository records before making changes.
