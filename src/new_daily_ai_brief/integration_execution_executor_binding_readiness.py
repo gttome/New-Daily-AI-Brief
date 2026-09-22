@@ -167,6 +167,15 @@ class ProductionIntegrationExecutionExecutorBindingReadiness:
         "real_target_contact_authorized",
         "rollback_execution_authorized",
         "real_integration_steps_enabled",
+        "real_private_command_center_mutated",
+        "public_site_mutated",
+        "production_schedule_action",
+        "subscriber_delivery_changed",
+        "legacy_content_migrated",
+        "readers_routed_to_greenfield",
+        "legacy_repository_modified",
+        "incremental_paid_dependency_added",
+        "lifecycle_state_changed",
         "authority_readiness_binding",
         "executor_descriptor_binding",
         "evidence",
@@ -514,6 +523,7 @@ class ProductionIntegrationExecutionExecutorBindingReadiness:
             or policy.get("synthetic_only") is not True
             or policy.get("allowed_upstream_classification")
             != "execution_authority_ready"
+            or policy.get("classifications") != ["blocked", "executor_binding_ready", "invalid"]
             or policy.get("real_executor_binding_permitted") is not False
             or policy.get("real_authority_permitted") is not False
             or policy.get("zero_incremental_cost_required") is not True
