@@ -315,7 +315,17 @@ The mandatory Iteration 10 closure package is:
 - `docs/ITERATION11_HANDOFF_2026-09-21.md`;
 - `docs/ITERATION11_START_PROMPT_2026-09-21.md`.
 
-At this commit, the closure package is being staged for independent PR/CI/merge verification. Repository closure remains **pending** and Iteration 11 must not begin until machine-readable evidence is reconciled to `repository_closure_status=complete` and `iteration11_ready=true` on verified `main`.
+The mandatory four-artifact closure package has been independently verified and merged.
+
+Closure identities:
+
+- Closure-package PR: **#27**
+- Exact closure candidate: `2cead583e696ef80b5f6794589c719c2968ab4b4`
+- Closure PR CI: **35684425751 — PASS (118/118)**
+- Closure merge SHA: `225dbbc1dd64ef3f56ba772456ff31ad8bae3fda`
+- Closure post-merge `main` CI: **35684467264 — PASS (118/118)**
+
+This metadata reconciliation records those already verified identities only. It changes no runtime behavior and does not alter any locked Iterations 1–10 artifact or production surface.
 
 ## Deferred scope
 
@@ -325,5 +335,5 @@ Iteration 10 intentionally defers all live integration and mutation. The next bo
 
 **Iteration 10 implementation: COMPLETE.**  
 **Iteration 10 functional exit gate: PASS.**  
-**Iteration 10 operational closure: PENDING closure-package merge and post-merge verification.**  
-**Iteration 11 readiness: NOT READY until reconciled closure evidence is present on verified `main`.**
+**Iteration 10 operational closure: COMPLETE.**  
+**Iteration 11 readiness: READY TO BEGIN after verifying the then-current `main` SHA and CI and confirming the reconciled machine-readable evidence reports `iteration11_ready=true`.**

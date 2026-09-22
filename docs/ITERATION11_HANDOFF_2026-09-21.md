@@ -20,9 +20,7 @@ Do not begin implementation while Iteration 10 evidence reports `repository_clos
 
 ### Activation status
 
-At creation of this handoff, Iteration 10 functional implementation is complete and verified, but the mandatory closure package is still proceeding through its own PR/CI/merge verification.
-
-**Iteration 11 is NOT READY TO BEGIN until the reconciled Iteration 10 evidence on verified `main` reports `repository_closure_status=complete` and `iteration11_ready=true`.**
+**Iteration 11 is READY TO BEGIN**, subject to the mandatory start-of-iteration verification of the then-current `main` SHA and CI.
 
 Verified Iteration 10 implementation identities:
 
@@ -32,7 +30,17 @@ Verified Iteration 10 implementation identities:
 - Implementation merge SHA: `db9303b7df618efd2546e2f1e4205280f8839241`
 - Post-merge implementation `main` CI: **35684176127 — PASS (118/118)**
 
-At Iteration 11 start, still verify the then-current `main` SHA and its CI. Never substitute these historical implementation identities for that live repository check.
+Verified Iteration 10 closure identities:
+
+- Closure-package PR: **#27**
+- Exact closure candidate: `2cead583e696ef80b5f6794589c719c2968ab4b4`
+- Closure PR CI: **35684425751 — PASS (118/118)**
+- Closure merge SHA: `225dbbc1dd64ef3f56ba772456ff31ad8bae3fda`
+- Closure post-merge `main` CI: **35684467264 — PASS (118/118)**
+
+The reconciled machine-readable evidence reports `repository_closure_status=complete` and `iteration11_ready=true`.
+
+At Iteration 11 start, still verify the then-current `main` SHA and its CI. Never substitute these historical implementation/closure identities for that live repository check.
 
 ## Starting point
 
