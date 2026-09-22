@@ -159,31 +159,56 @@ class Iteration17ExecutionAuthorizationDecisionTest(unittest.TestCase):
             self.assertEqual(first["data"],second["data"])
 
     def test_fail_closed_identity_verification_version_authority_step_and_cost(self):
-        cases=("corrupt-review","reorder","duplicate","bad-policy","changed-binding","authority","step","cost","changed-decision")
-        for case in cases:
+        review_cases=("corrupt-review","reorder","duplicate","corrupt-verification","step")
+        for case in review_cases:
             with self.subTest(case=case), tempfile.TemporaryDirectory() as td:
                 _,e=self.make_review(td,ready=True)
-                if case in {"corrupt-review","reorder","duplicate","step"}:
-                    r=e.store.load_artifact("production-integration-execution-authorization-review")
-                    if case=="corrupt-review": r["data"]["authorization_review_policy_id"]="changed"
-                    elif case=="reorder": r["data"]["receipt_verifications"].reverse()
-                    elif case=="duplicate": r["data"]["receipt_verifications"][1]=deepcopy(r["data"]["receipt_verifications"][0])
-                    else: r["data"]["execution_steps"][0]["enabled"]=True
-                    r["content_digest"]=semantic_digest(r); e.store._atomic_write(e.store.artifact_path(
-                        "production-integration-execution-authorization-review"),r)
-                    f=None
-                else:
-                    pm=None; mm=None
-                    if case=="bad-policy": pm=lambda p:p.update({"authorization_decision_policy_version":"2.0.0"})
-                    if case=="changed-binding": mm=lambda m:m["authorization_review_binding"].update({"authorization_review_manifest_id":"changed"})
-                    if case=="authority": mm=lambda m:m["evidence"]["authority_state"].update({"real_target_contact_authorized":True})
-                    if case=="cost": mm=lambda m:m["evidence"]["cost_declaration"].update({"incremental_paid_dependency_required":True,"zero_incremental_cost_approved":False})
-                    f=self.write_fixture(Path(td)/case,e,mutate_policy=pm,mutate_manifest=mm)
-                    if case=="changed-decision":
-                        p=f/"authorization-decision-record.json"; x=json.loads(p.read_text()); x["authorization_review_id"]="changed"; p.write_text(json.dumps(x))
+                r=e.store.load_artifact("production-integration-execution-authorization-review")
+                if case=="corrupt-review": r["data"]["authorization_review_policy_id"]="changed"
+                elif case=="reorder": r["data"]["receipt_verifications"].reverse()
+                elif case=="duplicate": r["data"]["receipt_verifications"][1]=deepcopy(r["data"]["receipt_verifications"][0])
+                elif case=="corrupt-verification": r["data"]["receipt_verifications"][0]["noop_verified"]=False
+                else: r["data"]["execution_steps"][0]["enabled"]=True
+                r["content_digest"]=semantic_digest(r); e.store._atomic_write(e.store.artifact_path(
+                    "production-integration-execution-authorization-review"),r)
                 with self.assertRaises(IntegrationExecutionAuthorizationDecisionError):
                     start_daily_brief(self.DATE,state_root=td,
-                        integration_execution_authorization_decision_fixture_root=f,
+                        integration_execution_authorization_decision_only=True)
+
+        fixture_cases=("bad-schema","bad-policy","changed-policy-binding","changed-manifest-binding",
+            "changed-review-decision-binding","cost","bad-decision-version","changed-decision")
+        for case in fixture_cases:
+            with self.subTest(case=case), tempfile.TemporaryDirectory() as td:
+                _,e=self.make_review(td,ready=True); pm=None; mm=None
+                if case=="bad-schema": pm=lambda p:p.update({"schema_version":"2.0.0"})
+                if case=="bad-policy": pm=lambda p:p.update({"authorization_decision_policy_version":"2.0.0"})
+                if case=="changed-policy-binding": mm=lambda m:m["authorization_review_binding"].update({"authorization_review_policy_id":"changed"})
+                if case=="changed-manifest-binding": mm=lambda m:m["authorization_review_binding"].update({"authorization_review_manifest_id":"changed"})
+                if case=="changed-review-decision-binding": mm=lambda m:m["authorization_review_binding"].update({"authorization_review_decision_id":"changed"})
+                if case=="cost": mm=lambda m:m["evidence"]["cost_declaration"].update({"incremental_paid_dependency_required":True,"zero_incremental_cost_approved":False})
+                fixture=self.write_fixture(Path(td)/case,e,mutate_policy=pm,mutate_manifest=mm)
+                if case in {"bad-decision-version","changed-decision"}:
+                    p=fixture/"authorization-decision-record.json"; x=json.loads(p.read_text())
+                    if case=="bad-decision-version": x["decision_version"]="2.0.0"
+                    else: x["authorization_review_id"]="changed"
+                    p.write_text(json.dumps(x))
+                with self.assertRaises(IntegrationExecutionAuthorizationDecisionError):
+                    start_daily_brief(self.DATE,state_root=td,
+                        integration_execution_authorization_decision_fixture_root=fixture,
+                        integration_execution_authorization_decision_only=True)
+
+        authority_flags=("production_action_authorized","production_cutover_authorized",
+            "legacy_decommission_authorized","production_publication",
+            "real_executor_invocation_authorized","credentials_use_authorized",
+            "real_target_contact_authorized","rollback_execution_authorized")
+        for flag in authority_flags:
+            with self.subTest(authority_flag=flag), tempfile.TemporaryDirectory() as td:
+                _,e=self.make_review(td,ready=True)
+                fixture=self.write_fixture(Path(td)/flag,e,
+                    mutate_manifest=lambda m,f=flag:m["evidence"]["authority_state"].update({f:True}))
+                with self.assertRaises(IntegrationExecutionAuthorizationDecisionError):
+                    start_daily_brief(self.DATE,state_root=td,
+                        integration_execution_authorization_decision_fixture_root=fixture,
                         integration_execution_authorization_decision_only=True)
 
     def recovery(self,boundary):
