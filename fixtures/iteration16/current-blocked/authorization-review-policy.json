@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "authorization_review_policy_version": "1.0.0",
+  "policy_id": "production-integration-execution-authorization-review-v1",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "production_cutover_authorized": false,
+  "legacy_decommission_authorized": false,
+  "production_publication": false,
+  "real_executor_invocation_authorized": false,
+  "credentials_use_authorized": false,
+  "require_exact_execution_rehearsal_binding": true,
+  "require_separate_authorization_review_decision": true,
+  "require_exactly_ten_verified_noop_receipts": true,
+  "required_evidence": [
+    "rehearsal_identity",
+    "receipt_inventory",
+    "receipt_verification",
+    "executor_review_contract",
+    "step_selection_scope",
+    "target_environment",
+    "credential_use_policy",
+    "rollback_recovery_policy",
+    "pre_execution_verification_review",
+    "stop_abort_conditions",
+    "cutover_decommission_state",
+    "zero_incremental_cost"
+  ],
+  "classifications": ["blocked", "authorization_review_ready", "invalid"],
+  "authorization_review_ready_reason_code": "SYNTHETIC_AUTHORIZATION_REVIEW_READY"
+}

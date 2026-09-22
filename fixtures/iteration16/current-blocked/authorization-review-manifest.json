@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "authorization_review_manifest_version": "1.0.0",
+  "manifest_id": "current-repository-execution-authorization-review-blocked",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "production_cutover_authorized": false,
+  "legacy_decommission_authorized": false,
+  "production_publication": false,
+  "real_executor_invocation_authorized": false,
+  "credentials_use_authorized": false,
+  "iteration15_closure": {
+    "repository_closure_status": "complete",
+    "iteration16_ready": true,
+    "evidence_path": "evidence/iteration15/synthetic-shadow-production-integration-execution-rehearsal-evidence.json"
+  },
+  "execution_rehearsal_binding": {
+    "binding_type": "exact_locked_execution_rehearsal_artifact",
+    "artifact_type": "production-integration-execution-rehearsal",
+    "execution_rehearsal_id_field": "data.execution_rehearsal_id",
+    "artifact_digest_field": "content_digest"
+  },
+  "evidence": {
+    "rehearsal_identity": null,
+    "receipt_inventory": null,
+    "receipt_verification": null,
+    "executor_review_contract": null,
+    "step_selection_scope": null,
+    "target_environment": null,
+    "credential_use_policy": null,
+    "rollback_recovery_policy": null,
+    "pre_execution_verification_review": null,
+    "stop_abort_conditions": null,
+    "cutover_decommission_state": null,
+    "zero_incremental_cost": null
+  },
+  "authorization_review_decision": null
+}
