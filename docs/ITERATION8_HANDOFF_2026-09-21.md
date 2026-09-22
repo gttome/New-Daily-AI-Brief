@@ -19,11 +19,17 @@ Do not begin implementation if the Iteration 7 evidence reports a pending closur
 
 ### Activation status
 
-At creation of this handoff, Iteration 7 implementation is functionally complete, but the closure package is still being merged and reconciled.
+Iteration 7 operational closure is verified and **Iteration 8 is READY**.
 
-**Iteration 8 is NOT YET READY.**
+Verified closure identities:
 
-The metadata-only closure reconciliation must update this section after the closure PR and post-merge `main` CI are verified.
+- Closure PR: **#18**
+- Exact closure candidate: `29f23e66a100ae49e667418fe2c2e0ef0d2b3439`
+- Closure PR CI: **35679431170 — PASS (81/81)**
+- Closure package merge SHA: `ad2deca83eebc05cfc1c024ac4104a9250b2fdba`
+- Closure post-merge `main` CI: **35679461673 — PASS (81/81)**
+
+This metadata reconciliation records those verified identities and does not change runtime behavior. At Iteration 8 start, verify then-current `main` and its CI again before implementation.
 
 ## Validated Iteration 7 implementation baseline
 

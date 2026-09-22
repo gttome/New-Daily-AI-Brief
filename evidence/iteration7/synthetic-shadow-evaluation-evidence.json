@@ -224,18 +224,16 @@
       "docs/ITERATION8_HANDOFF_2026-09-21.md",
       "docs/ITERATION8_START_PROMPT_2026-09-21.md"
     ],
-    "repository_closure_status": "pending_closure_package_merge",
-    "closure_pr": null,
-    "exact_closure_candidate": null,
-    "closure_pr_ci_run": null,
-    "closure_pr_ci_conclusion": null,
-    "closure_merge_sha": null,
-    "closure_post_merge_main_ci_run": null,
-    "closure_post_merge_main_ci_conclusion": null,
-    "reconciliation_pr": null,
-    "reconciliation_merge_sha": null,
-    "final_main_ci_run": null,
-    "final_main_ci_conclusion": null,
-    "iteration8_ready": false
+    "repository_closure_status": "complete",
+    "closure_pr": 18,
+    "exact_closure_candidate": "29f23e66a100ae49e667418fe2c2e0ef0d2b3439",
+    "closure_pr_ci_run": 35679431170,
+    "closure_pr_ci_conclusion": "success_81_of_81",
+    "closure_merge_sha": "ad2deca83eebc05cfc1c024ac4104a9250b2fdba",
+    "closure_post_merge_main_ci_run": 35679461673,
+    "closure_post_merge_main_ci_conclusion": "success_81_of_81",
+    "iteration8_ready": true,
+    "metadata_reconciliation_required": true,
+    "metadata_reconciliation_runtime_changes": false
   }
 }
