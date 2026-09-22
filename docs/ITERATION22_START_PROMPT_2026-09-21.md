@@ -1,6 +1,6 @@
 # Iteration 22 — Ready-to-Paste Start Prompt
 
-> **ACTIVATION STATUS: PENDING.** Iteration 21 functional implementation is complete and post-merge `main` CI is green, but Iteration 21 closure has not yet been reconciled on verified `main`. Do not use this prompt until Iteration 21 machine evidence reports `repository_closure_status=complete` and `iteration22_ready=true`.
+> **ACTIVATION STATUS: READY.** Iteration 21 closure is reconciled on verified `main`; repository evidence reports `repository_closure_status=complete` and `iteration22_ready=true`. The receiving chat must still independently verify the current `main` SHA and CI before changing anything.
 
 @GitHub Proceed with Iteration 22 of the New Daily AI Brief greenfield implementation in `gttome/New-Daily-AI-Brief`.
 
