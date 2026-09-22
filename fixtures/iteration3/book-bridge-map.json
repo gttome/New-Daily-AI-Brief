@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "series_title": "Generative AI Professional Series",
+  "series_url": "https://generative-ai-professional-series.gtome.chatgpt.site/",
+  "rules": [
+    {
+      "rule_id": "bridge-agent-skills",
+      "priority": 10,
+      "title_keywords": ["reusable", "skill"],
+      "book_id": "agentic-ai-professional",
+      "section": "Reusable Agent Skills",
+      "reason": "The story directly concerns reusable agent procedures and maps to the series treatment of agent skills."
+    },
+    {
+      "rule_id": "bridge-context-engineering",
+      "priority": 20,
+      "title_keywords": ["context", "engineering"],
+      "book_id": "prompt-and-context-engineering",
+      "section": "Context Engineering",
+      "reason": "The story directly concerns context engineering practices covered by the series."
+    },
+    {
+      "rule_id": "bridge-grounding-provenance",
+      "priority": 30,
+      "title_keywords": ["grounding", "provenance"],
+      "book_id": "reliable-generative-ai",
+      "section": "Grounding and Provenance",
+      "reason": "The story directly concerns grounding with provenance and maps to the reliability material."
+    }
+  ]
+}

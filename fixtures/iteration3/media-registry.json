@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "policy": {
+    "max_verification_attempts": 2,
+    "max_candidate_checks_per_kind": 4,
+    "max_fallback_tier": 1
+  },
+  "sources": [
+    {
+      "source_id": "video-primary",
+      "kind": "video",
+      "fallback_tier": 0,
+      "priority": 10,
+      "enabled": true,
+      "candidate_ids": ["video-unavailable", "video-primary-1"]
+    },
+    {
+      "source_id": "video-fallback",
+      "kind": "video",
+      "fallback_tier": 1,
+      "priority": 20,
+      "enabled": true,
+      "candidate_ids": ["video-fallback-1", "video-fallback-spare"]
+    },
+    {
+      "source_id": "podcast-primary",
+      "kind": "podcast",
+      "fallback_tier": 0,
+      "priority": 10,
+      "enabled": true,
+      "candidate_ids": ["podcast-unavailable", "podcast-primary-1"]
+    },
+    {
+      "source_id": "podcast-fallback",
+      "kind": "podcast",
+      "fallback_tier": 1,
+      "priority": 20,
+      "enabled": true,
+      "candidate_ids": ["podcast-fallback-1", "podcast-fallback-spare"]
+    }
+  ]
+}

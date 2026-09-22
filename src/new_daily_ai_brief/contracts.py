@@ -44,6 +44,7 @@ ARTIFACT_DEPENDENCIES: Final[dict[str, tuple[str, ...]]] = {
     "media": ("edition",),
     "images": ("edition",),
     "watchlist": ("edition",),
+    "book-bridges": ("edition",),
     "rating-contract": (),
     "publication-bundle": ("edition", "media", "images", "watchlist", "rating-contract"),
     "book-change-evaluation": ("publication-bundle",),
@@ -57,6 +58,7 @@ ARTIFACT_FILES: Final[dict[str, str]] = {
     "media": "media.json",
     "images": "images.json",
     "watchlist": "watchlist.json",
+    "book-bridges": "book-bridges.json",
     "rating-contract": "rating-contract.json",
     "publication-bundle": "publication-bundle.json",
     "book-change-evaluation": "book-change-evaluation.json",
@@ -71,6 +73,7 @@ MANDATORY_COMPLETION_RECEIPTS: Final[tuple[str, ...]] = (
     "book_change_evaluation_digest",
     "projection_watermark_digest",
 )
+
 
 @dataclass(frozen=True)
 class FailureInjection:

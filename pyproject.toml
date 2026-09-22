@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "new-daily-ai-brief"
-version = "0.2.0"
-description = "Greenfield Daily AI Brief control plane and discovery/editorial module"
+version = "0.3.0"
+description = "Greenfield Daily AI Brief control plane, editorial, and deterministic Build-stage enrichment"
 requires-python = ">=3.11"
 dependencies = []
 

@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "sources": [
+    {
+      "source_id": "watch-source-a",
+      "priority": 10,
+      "topic_ids": ["topic-agent-skills", "topic-context"]
+    },
+    {
+      "source_id": "watch-source-b",
+      "priority": 20,
+      "topic_ids": ["topic-grounding", "topic-evals"]
+    },
+    {
+      "source_id": "watch-source-c",
+      "priority": 30,
+      "topic_ids": ["topic-tool-security"]
+    }
+  ]
+}

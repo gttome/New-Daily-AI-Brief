@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "items": [
+    {
+      "media_id": "video-unavailable",
+      "kind": "video",
+      "title": "Unavailable primary video candidate",
+      "url": "https://example.test/media/video-unavailable",
+      "published_at": "2026-09-21",
+      "duration_minutes": 7,
+      "available": false,
+      "synthetic_verification_failures": 0
+    },
+    {
+      "media_id": "video-primary-1",
+      "kind": "video",
+      "title": "Agent workflow verification in practice",
+      "url": "https://example.test/media/video-primary-1",
+      "published_at": "2026-09-21",
+      "duration_minutes": 8,
+      "available": true,
+      "synthetic_verification_failures": 0
+    },
+    {
+      "media_id": "video-fallback-1",
+      "kind": "video",
+      "title": "Grounding and evaluation fallback video",
+      "url": "https://example.test/media/video-fallback-1",
+      "published_at": "2026-09-20",
+      "duration_minutes": 9,
+      "available": true,
+      "synthetic_verification_failures": 0
+    },
+    {
+      "media_id": "video-fallback-spare",
+      "kind": "video",
+      "title": "Spare verified fallback video",
+      "url": "https://example.test/media/video-fallback-spare",
+      "published_at": "2026-09-20",
+      "duration_minutes": 10,
+      "available": true,
+      "synthetic_verification_failures": 0
+    },
+    {
+      "media_id": "podcast-unavailable",
+      "kind": "podcast",
+      "title": "Unavailable primary podcast candidate",
+      "url": "https://example.test/media/podcast-unavailable",
+      "published_at": "2026-09-21",
+      "duration_minutes": 28,
+      "available": false,
+      "synthetic_verification_failures": 0
+    },
+    {
+      "media_id": "podcast-primary-1",
+      "kind": "podcast",
+      "title": "Reliable AI workflows podcast",
+      "url": "https://example.test/media/podcast-primary-1",
+      "published_at": "2026-09-21",
+      "duration_minutes": 31,
+      "available": true,
+      "synthetic_verification_failures": 1
+    },
+    {
+      "media_id": "podcast-fallback-1",
+      "kind": "podcast",
+      "title": "Evaluation systems fallback podcast",
+      "url": "https://example.test/media/podcast-fallback-1",
+      "published_at": "2026-09-20",
+      "duration_minutes": 26,
+      "available": true,
+      "synthetic_verification_failures": 0
+    },
+    {
+      "media_id": "podcast-fallback-spare",
+      "kind": "podcast",
+      "title": "Spare verified fallback podcast",
+      "url": "https://example.test/media/podcast-fallback-spare",
+      "published_at": "2026-09-20",
+      "duration_minutes": 29,
+      "available": true,
+      "synthetic_verification_failures": 0
+    }
+  ]
+}

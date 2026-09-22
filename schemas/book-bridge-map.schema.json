@@ -1,0 +1,14 @@
+{
+  "$id": "https://daily-ai-brief.local/schemas/book-bridge-map.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "book-bridge-map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "series_title", "series_url", "rules"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "series_title": {"type": "string", "minLength": 1},
+    "series_url": {"type": "string", "minLength": 1},
+    "rules": {"type": "array"}
+  }
+}
