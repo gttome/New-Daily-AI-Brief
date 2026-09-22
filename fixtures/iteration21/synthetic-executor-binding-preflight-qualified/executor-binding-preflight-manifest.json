@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "executor_binding_preflight_manifest_version": "1.0.0",
+  "manifest_id": "production-integration-execution-executor-binding-preflight-manifest-v1",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "production_cutover_authorized": false,
+  "legacy_decommission_authorized": false,
+  "production_publication": false,
+  "real_executor_invocation_authorized": false,
+  "credentials_use_authorized": false,
+  "real_target_contact_authorized": false,
+  "rollback_execution_authorized": false,
+  "real_integration_steps_enabled": 0,
+  "executor_binding_readiness_binding": {
+    "binding_mode": "exact_locked_executor_binding_readiness_artifact",
+    "executor_binding_readiness_artifact_digest": null,
+    "executor_binding_readiness_id": null,
+    "executor_binding_readiness_policy_id": null,
+    "executor_binding_readiness_policy_digest": null,
+    "executor_binding_readiness_manifest_id": null,
+    "executor_binding_readiness_manifest_digest": null,
+    "separate_executor_binding_readiness_id": null,
+    "separate_executor_binding_readiness_digest": null,
+    "synthetic_executor_descriptor_id": null,
+    "synthetic_executor_descriptor_digest": null,
+    "executor_binding_provenance_validation_ids": [],
+    "executor_binding_provenance_validation_digests": [],
+    "executor_binding_provenance_validation_set_digest": null,
+    "canonical_chain_digest": null,
+    "iteration20_semantic_identity_digest": null,
+    "bound_upstream_identity_digest": null
+  },
+  "binding_plan_descriptor_binding": {
+    "binding_mode": "exact_non_live_synthetic_binding_plan_descriptor",
+    "synthetic_binding_plan_descriptor_id": null,
+    "synthetic_binding_plan_descriptor_digest": null
+  },
+  "evidence": {
+    "executor_declaration": {
+      "real_executor_required": false,
+      "real_executor_present": false,
+      "real_executor_bound": false,
+      "real_executor_invocable": false,
+      "real_executor_invocation_authorized": false
+    },
+    "credential_declaration": {
+      "production_credentials_required": false,
+      "production_credentials_present": false,
+      "production_credentials_stored": false,
+      "credentials_use_authorized": false
+    },
+    "target_declaration": {
+      "scope": "synthetic_non_production",
+      "real_target_present": false,
+      "real_target_contacted": false,
+      "real_target_contact_authorized": false
+    },
+    "rollback_declaration": {
+      "rollback_plan_bound": true,
+      "rollback_execution_authorized": false,
+      "rollback_executed": false
+    },
+    "stop_abort_conditions": [
+      "identity_mismatch",
+      "authority_flag_true",
+      "cost_guard_failed",
+      "provenance_validation_mismatch",
+      "preflight_record_missing",
+      "binding_plan_descriptor_missing",
+      "binding_plan_descriptor_unsafe",
+      "real_executor_binding_capability_present",
+      "executable_command_present",
+      "executable_step_present"
+    ],
+    "cost_declaration": {
+      "incremental_paid_dependency_required": false,
+      "zero_incremental_cost_approved": true
+    }
+  },
+  "real_private_command_center_mutated": false,
+  "public_site_mutated": false,
+  "production_schedule_action": false,
+  "subscriber_delivery_changed": false,
+  "legacy_content_migrated": false,
+  "readers_routed_to_greenfield": false,
+  "legacy_repository_modified": false,
+  "incremental_paid_dependency_added": false,
+  "lifecycle_state_changed": false
+}
