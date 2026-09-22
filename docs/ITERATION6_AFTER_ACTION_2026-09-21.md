@@ -299,7 +299,17 @@ The mandatory Iteration 6 closure package is:
 - `docs/ITERATION7_HANDOFF_2026-09-21.md`;
 - `docs/ITERATION7_START_PROMPT_2026-09-21.md`.
 
-At creation time, the implementation is verified on `main`. Closure-package PR/merge/post-merge identities are intentionally recorded as pending until that exact closure candidate passes CI and is merged. A metadata-only reconciliation must then record the verified closure identities and activate Iteration 7.
+Closure-package verification is complete:
+
+- Closure PR: **#15**
+- Exact closure candidate: `400d84fd9148bfd61b545d55501914dd4746a332`
+- Closure PR CI: **35677935684 — PASS (67/67)**
+- Closure package merge SHA: `412a8f0149cf81b0bc10fd89b63688b651d82e43`
+- Closure post-merge `main` CI: **35677973180 — PASS (67/67)**
+- Python: **3.11.16**
+- Runtime changes in closure package: **none**
+
+This metadata reconciliation records those already verified closure identities; it does not modify runtime behavior.
 
 ## Exit determination
 
@@ -307,4 +317,6 @@ At creation time, the implementation is verified on `main`. Closure-package PR/m
 
 **Iteration 6 functional exit gate: PASS.**
 
-Operational closure becomes complete only after all four mandatory closure artifacts are merged, closure CI passes, post-merge `main` CI passes, and the repository records are reconciled with those final identities.
+**Iteration 6 operational closure: COMPLETE.**
+
+All four mandatory closure artifacts are present, the exact closure candidate passed the complete suite, the closure merge passed post-merge `main` CI, and the repository closure identities are reconciled. **Iteration 7 is ready to begin from current verified `main`.**
