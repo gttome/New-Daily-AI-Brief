@@ -423,6 +423,67 @@ class Iteration20ExecutorBindingReadinessTest(unittest.TestCase):
 
             expect_failure(duplicate)
 
+            def corrupt_provenance(engine):
+                path = (
+                    engine.store.run_dir
+                    / "authority-readiness-validation-03.json"
+                )
+                record = engine.store.read_json(path)
+                record["side_effect_free_verified"] = False
+                engine.store._atomic_write(path, record)
+
+            expect_failure(corrupt_provenance)
+
+            def changed_iteration19_policy(engine):
+                artifact = engine.store.load_artifact(
+                    "production-integration-execution-authority-readiness"
+                )
+                data = artifact["data"]
+                data["execution_authority_readiness_policy_id"] = "changed"
+                gate = ProductionIntegrationExecutionExecutorBindingReadiness(
+                    engine.store,
+                    self.DATE,
+                    "synthetic",
+                    self.fixture("current-blocked"),
+                )
+                data["execution_authority_readiness_id"] = digest(
+                    gate._source_identity(data)
+                )
+                artifact["content_digest"] = semantic_digest(artifact)
+                engine.store._atomic_write(
+                    engine.store.artifact_path(
+                        "production-integration-execution-authority-readiness"
+                    ),
+                    artifact,
+                )
+
+            expect_failure(changed_iteration19_policy)
+
+            def changed_iteration19_manifest(engine):
+                artifact = engine.store.load_artifact(
+                    "production-integration-execution-authority-readiness"
+                )
+                data = artifact["data"]
+                data["execution_authority_readiness_manifest_id"] = "changed"
+                gate = ProductionIntegrationExecutionExecutorBindingReadiness(
+                    engine.store,
+                    self.DATE,
+                    "synthetic",
+                    self.fixture("current-blocked"),
+                )
+                data["execution_authority_readiness_id"] = digest(
+                    gate._source_identity(data)
+                )
+                artifact["content_digest"] = semantic_digest(artifact)
+                engine.store._atomic_write(
+                    engine.store.artifact_path(
+                        "production-integration-execution-authority-readiness"
+                    ),
+                    artifact,
+                )
+
+            expect_failure(changed_iteration19_manifest)
+
             def changed_separate_identity(engine):
                 artifact = engine.store.load_artifact(
                     "production-integration-execution-authority-readiness"
@@ -510,6 +571,21 @@ class Iteration20ExecutorBindingReadinessTest(unittest.TestCase):
                 "production-authority": dict(
                     mutate_descriptor=lambda d: d.update(
                         {"production_authority_granted": True}
+                    )
+                ),
+                "manifest-authority": dict(
+                    mutate_manifest=lambda m: m.update(
+                        {"real_executor_invocation_authorized": True}
+                    )
+                ),
+                "record-authority": dict(
+                    mutate_record=lambda r: r.update(
+                        {"grants_executor_invocation_authority": True}
+                    )
+                ),
+                "external-write-capability": dict(
+                    mutate_descriptor=lambda d: d.update(
+                        {"production_write_capability": True}
                     )
                 ),
                 "manifest-cost": dict(
