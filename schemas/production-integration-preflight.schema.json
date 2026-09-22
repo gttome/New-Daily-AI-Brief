@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/production-integration-preflight.schema.json",
+  "title": "Iteration 11 Production Integration Preflight Artifact Data",
+  "type": "object",
+  "required": [
+    "preflight_schema_version",
+    "preflight_policy_version",
+    "preflight_id",
+    "readiness_artifact_digest",
+    "readiness_assessment_id",
+    "resolution_manifest_digest",
+    "classification",
+    "resolution_results",
+    "synthetic_only",
+    "production_action_authorized",
+    "production_cutover_authorized",
+    "legacy_decommission_authorized",
+    "production_publication",
+    "final_state",
+    "final_status"
+  ],
+  "properties": {
+    "preflight_schema_version": {"const": "1.0.0"},
+    "preflight_policy_version": {"const": "1.0.0"},
+    "classification": {"enum": ["unresolved", "qualified", "invalid"]},
+    "synthetic_only": {"const": true},
+    "production_action_authorized": {"const": false},
+    "production_cutover_authorized": {"const": false},
+    "legacy_decommission_authorized": {"const": false},
+    "production_publication": {"const": false},
+    "final_state": {"const": "Complete"},
+    "final_status": {"const": "complete_locked"},
+    "preflight_id": {"type": "string"},
+    "readiness_artifact_digest": {"type": "string"},
+    "readiness_assessment_id": {"type": "string"},
+    "resolution_manifest_digest": {"type": "string"},
+    "resolution_results": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": [
+          "prerequisite",
+          "readiness_status",
+          "readiness_reason_code",
+          "required_resolution_evidence_type",
+          "resolution_state",
+          "resolution_reason_code",
+          "production_action_authorized"
+        ],
+        "properties": {
+          "resolution_state": {"enum": ["resolved", "unresolved", "invalid"]},
+          "production_action_authorized": {"const": false}
+        },
+        "additionalProperties": true
+      }
+    },
+    "unresolved_reason_codes": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "invalid_reason_codes": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": true
+}
