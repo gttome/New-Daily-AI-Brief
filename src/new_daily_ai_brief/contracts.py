@@ -41,6 +41,11 @@ EXECUTION_EXECUTOR_BINDING_REHEARSAL_POLICY_VERSION: Final = "1.0.0"
 EXECUTION_EXECUTOR_BINDING_REHEARSAL_RECORD_VERSION: Final = "1.0.0"
 EXECUTION_EXECUTOR_BINDING_REHEARSAL_RECEIPT_VERSION: Final = "1.0.0"
 
+EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_REVIEW_SCHEMA_VERSION: Final = "1.0.0"
+EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_REVIEW_POLICY_VERSION: Final = "1.0.0"
+EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_REVIEW_RECORD_VERSION: Final = "1.0.0"
+EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_REVIEW_EVIDENCE_VERSION: Final = "1.0.0"
+
 STATES: Final[tuple[str, ...]] = (
     "Ready",
     "Acquiring",
@@ -117,6 +122,7 @@ ARTIFACT_DEPENDENCIES: Final[dict[str, tuple[str, ...]]] = {
     "production-integration-execution-executor-binding-readiness": ("production-integration-execution-authority-readiness",),
     "production-integration-execution-executor-binding-preflight": ("production-integration-execution-executor-binding-readiness",),
     "production-integration-execution-executor-binding-rehearsal": ("production-integration-execution-executor-binding-preflight",),
+    "production-integration-execution-executor-binding-authorization-review": ("production-integration-execution-executor-binding-rehearsal",),
 }
 
 ARTIFACT_FILES: Final[dict[str, str]] = {
@@ -150,6 +156,7 @@ ARTIFACT_FILES: Final[dict[str, str]] = {
     "production-integration-execution-executor-binding-readiness": "production-integration-execution-executor-binding-readiness.json",
     "production-integration-execution-executor-binding-preflight": "production-integration-execution-executor-binding-preflight.json",
     "production-integration-execution-executor-binding-rehearsal": "production-integration-execution-executor-binding-rehearsal.json",
+    "production-integration-execution-executor-binding-authorization-review": "production-integration-execution-executor-binding-authorization-review.json",
 }
 
 MANDATORY_COMPLETION_RECEIPTS: Final[tuple[str, ...]] = (

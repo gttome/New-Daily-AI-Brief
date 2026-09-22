@@ -499,7 +499,7 @@ class FinalCompletionPipeline:
         }
 
     def validate_existing_completion_set(
-        self, run: dict[str, Any]
+        self, run: dict[str, Any], *, record_reuse: bool = True
     ) -> dict[str, Any] | None:
         context = self._validate_chain(run)
         completion = self.store.load_artifact("completion")
@@ -529,6 +529,8 @@ class FinalCompletionPipeline:
                 "final_receipt",
                 "final completion receipt is stale or corrupted",
             )
+        if not record_reuse:
+            return completion
         state = self._load_state()
         state["metrics"]["completion_reuse"] += 1
         if receipt is not None:
@@ -574,7 +576,7 @@ class FinalCompletionPipeline:
             )
         return expected
 
-    def validate_completed_run(self, run: dict[str, Any]) -> None:
+    def validate_completed_run(self, run: dict[str, Any], *, record_reuse: bool = True) -> None:
         if (
             run.get("current_state") != "Complete"
             or run.get("completion_status") != "complete_locked"
@@ -582,7 +584,7 @@ class FinalCompletionPipeline:
             raise CompletionError(
                 "completed synthetic/shadow run does not have bounded Iteration 9 final status"
             )
-        completion = self.validate_existing_completion_set(run)
+        completion = self.validate_existing_completion_set(run, record_reuse=record_reuse)
         if completion is None:
             self._fail(
                 "completion_validation",
