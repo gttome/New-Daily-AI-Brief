@@ -1,0 +1,135 @@
+{
+  "schema_version": "1.0.0",
+  "rehearsal_envelope_manifest_version": "1.0.0",
+  "manifest_id": "fully-qualified-synthetic-execution-rehearsal",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "production_cutover_authorized": false,
+  "legacy_decommission_authorized": false,
+  "production_publication": false,
+  "iteration14_closure": {
+    "repository_closure_status": "complete",
+    "iteration15_ready": true,
+    "evidence_path": "evidence/iteration14/synthetic-shadow-production-integration-execution-preflight-evidence.json"
+  },
+  "execution_preflight_binding": {
+    "binding_type": "exact_locked_execution_preflight_artifact",
+    "artifact_type": "production-integration-execution-preflight",
+    "execution_preflight_id_field": "data.execution_preflight_id",
+    "artifact_digest_field": "content_digest"
+  },
+  "evidence": {
+    "runner_contract": {
+      "record_id": "synthetic-rehearsal-runner-record-v1",
+      "record_kind": "production-integration-rehearsal-runner-contract",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "runner_contract_id": "synthetic-noop-rehearsal-runner",
+      "runner_contract_version": "1.0.0",
+      "external_execution_supported": false
+    },
+    "step_selection_scope": {
+      "record_id": "synthetic-rehearsal-step-scope-v1",
+      "record_kind": "production-integration-rehearsal-step-selection-scope",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "plan_id": "__PLAN_ID__",
+      "plan_graph_digest": "__PLAN_GRAPH_DIGEST__",
+      "step_ids": []
+    },
+    "noop_policy": {
+      "record_id": "synthetic-rehearsal-noop-policy-v1",
+      "record_kind": "production-integration-rehearsal-noop-policy",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "steps": []
+    },
+    "dry_run_assertions": {
+      "record_id": "synthetic-rehearsal-dry-run-binding-v1",
+      "record_kind": "production-integration-rehearsal-dry-run-binding",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "dry_run_assertion_set_digest": "__DRY_RUN_ASSERTION_SET_DIGEST__"
+    },
+    "rollback_restore": {
+      "record_id": "synthetic-rehearsal-rollback-restore-v1",
+      "record_kind": "production-integration-rehearsal-rollback-restore-binding",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "rollback_boundary_set_digest": "__ROLLBACK_BOUNDARY_SET_DIGEST__",
+      "restore_point_id": "synthetic-pre-rehearsal-restore-point",
+      "rollback_execution_authorized": false
+    },
+    "target_environment": {
+      "record_id": "synthetic-rehearsal-target-v1",
+      "record_kind": "production-integration-rehearsal-target-environment",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "target_environment_id": "synthetic-shadow-rehearsal",
+      "environment_class": "synthetic_nonproduction",
+      "production_target": false
+    },
+    "pre_rehearsal_verification": {
+      "record_id": "synthetic-rehearsal-pre-verification-v1",
+      "record_kind": "production-integration-rehearsal-pre-verification-policy",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "verification_policy_id": "synthetic-rehearsal-pre-verification",
+      "required": true,
+      "approved_for_real_execution": false
+    },
+    "stop_abort_conditions": {
+      "record_id": "synthetic-rehearsal-stop-abort-v1",
+      "record_kind": "production-integration-rehearsal-stop-abort-policy",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "policy_id": "synthetic-rehearsal-fail-closed-stop-abort",
+      "stop_conditions": [
+        "identity mismatch",
+        "unexpected executable step",
+        "cost guard failure",
+        "production authorization changed"
+      ],
+      "abort_on_identity_mismatch": true,
+      "abort_on_unexpected_executable_step": true,
+      "abort_on_cost_guard_failure": true
+    },
+    "cutover_decommission_state": {
+      "record_id": "synthetic-rehearsal-cutover-state-v1",
+      "record_kind": "production-integration-rehearsal-cutover-decommission-state",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "cutover_authorized": false,
+      "legacy_decommission_authorized": false,
+      "readers_routed_to_greenfield": false
+    },
+    "zero_incremental_cost": {
+      "record_id": "synthetic-rehearsal-zero-cost-v1",
+      "record_kind": "cost-policy-approval",
+      "synthetic_only": true,
+      "production_action_authorized": false,
+      "approved": true,
+      "zero_incremental_cost": true,
+      "separately_billed_openai_api_required": false,
+      "paid_completion_or_storage_api_required": false,
+      "paid_deployment_or_hosting_api_required": false,
+      "other_incremental_paid_dependency_required": false
+    }
+  },
+  "rehearsal_decision": {
+    "record_id": "synthetic-rehearsal-decision-record-v1",
+    "record_kind": "production-integration-execution-rehearsal-decision",
+    "decision_id": "synthetic-rehearsal-decision-v1",
+    "decision": "authorize_synthetic_noop_rehearsal",
+    "approved": true,
+    "synthetic_only": true,
+    "production_action_authorized": false,
+    "production_cutover_authorized": false,
+    "legacy_decommission_authorized": false,
+    "production_publication": false,
+    "scope": "execution_rehearsal_only",
+    "execution_preflight_binding_mode": "exact_locked_execution_preflight_artifact",
+    "rehearsal_envelope_manifest_id": "fully-qualified-synthetic-execution-rehearsal",
+    "every_real_step_disabled": true
+  }
+}
