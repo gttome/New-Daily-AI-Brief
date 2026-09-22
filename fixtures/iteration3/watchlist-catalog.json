@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "topics": [
+    {
+      "topic_id": "topic-agent-skills",
+      "title": "Reusable Agent Skills",
+      "summary": "Reusable procedures for agent workflows remain an emerging implementation pattern.",
+      "first_seen": "2026-09-22",
+      "last_changed": "2026-09-22",
+      "active": true
+    },
+    {
+      "topic_id": "topic-context",
+      "title": "Context Engineering",
+      "summary": "Durable context and task-scoped context are increasingly separated in production workflows.",
+      "first_seen": "2026-08-15",
+      "last_changed": "2026-09-20",
+      "active": true
+    },
+    {
+      "topic_id": "topic-grounding",
+      "title": "Claim-Level Grounding",
+      "summary": "Grounding systems increasingly preserve claim-level provenance.",
+      "first_seen": "2026-09-10",
+      "last_changed": "2026-09-22",
+      "active": true
+    },
+    {
+      "topic_id": "topic-evals",
+      "title": "Tool-Use Evaluation Harnesses",
+      "summary": "Evaluation systems are separating tool failures from model-output failures.",
+      "first_seen": "2026-09-23",
+      "last_changed": "2026-09-23",
+      "active": true
+    },
+    {
+      "topic_id": "topic-tool-security",
+      "title": "Agent Tool Security",
+      "summary": "Permission-scoped tool use is becoming a first-class agent reliability concern.",
+      "first_seen": "2026-09-24",
+      "last_changed": "2026-09-24",
+      "active": true
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$id": "https://daily-ai-brief.local/schemas/media-registry.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "media-registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "policy", "sources"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "policy": {
+      "type": "object",
+      "required": ["max_verification_attempts", "max_candidate_checks_per_kind", "max_fallback_tier"]
+    },
+    "sources": {"type": "array", "minItems": 1}
+  }
+}

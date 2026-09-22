@@ -1,0 +1,18 @@
+{
+  "$id": "https://daily-ai-brief.local/schemas/book-bridges.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "book-bridges",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "artifact_id", "artifact_type", "content_digest", "produced_by_stage", "input_digests", "status", "data"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "artifact_id": {"type": "string", "minLength": 1},
+    "artifact_type": {"type": "string", "minLength": 1},
+    "content_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "produced_by_stage": {"type": "string", "minLength": 1},
+    "input_digests": {"type": "array", "items": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}},
+    "status": {"enum": ["locked", "invalidated"]},
+    "data": {"type": "object"}
+  }
+}

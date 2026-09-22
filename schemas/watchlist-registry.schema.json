@@ -1,0 +1,12 @@
+{
+  "$id": "https://daily-ai-brief.local/schemas/watchlist-registry.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "watchlist-registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "sources"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "sources": {"type": "array", "minItems": 1}
+  }
+}
