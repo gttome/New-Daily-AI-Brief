@@ -244,9 +244,7 @@
     "closure_pr_ci_run_id": 35690174839,
     "closure_merge_sha": "f2cafb9b3a97944c08aab7d0309141ba5fd1b48a",
     "closure_post_merge_ci_run_id": 35690248775,
-    "reconciliation_pr_number": null,
-    "reconciliation_merge_sha": null,
-    "final_verified_main_sha": "f2cafb9b3a97944c08aab7d0309141ba5fd1b48a",
-    "iteration14_ready": true
+    "iteration14_ready": true,
+    "closure_verified_main_sha": "f2cafb9b3a97944c08aab7d0309141ba5fd1b48a"
   }
 }
