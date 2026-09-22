@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "capability_declaration_version": "1.0.0",
+  "profile_id": "current-live-capability-unapproved",
+  "synthetic_only": true,
+  "production_action_authorized": false,
+  "cost_policy": {
+    "approved": false,
+    "separately_billed_openai_api_required": false,
+    "paid_completion_or_storage_api_required": false,
+    "paid_deployment_or_hosting_api_required": false,
+    "other_incremental_paid_dependency_required": false
+  },
+  "production_discovery": {
+    "approved": false,
+    "adapter_id": null,
+    "zero_incremental_cost": false
+  },
+  "production_publication": {
+    "approved": false,
+    "publication_path_id": null,
+    "target_id": null
+  },
+  "public_deployment_verification": {
+    "approved": false,
+    "deployment_target_id": null,
+    "verification_mechanism_id": null
+  },
+  "private_command_center": {
+    "approved": false,
+    "target_id": null,
+    "projection_adapter_id": null,
+    "privacy_boundary": null
+  },
+  "production_schedules": {
+    "approved": false,
+    "schedule_policy_id": null,
+    "schedule_identities": []
+  },
+  "subscriber_delivery": {
+    "explicit": true,
+    "policy_id": "calendar-subscription-only-no-email-text"
+  },
+  "legacy_migration_cutover": {
+    "prerequisites_approved": false,
+    "migration_plan_id": null,
+    "cutover_authorized": false,
+    "legacy_decommission_authorized": false
+  },
+  "rollback_recovery": {
+    "approved": false,
+    "rollback_policy_id": null,
+    "rollback_identity": null
+  }
+}

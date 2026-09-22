@@ -22,6 +22,7 @@ from .operations import OperationsBoundaryFailure, OperationsReconciliationPipel
 from .pre_release import ImageBoundaryFailure, PreReleasePipeline, ValidationBoundaryFailure
 from .render import ReaderSurfaceRenderer, RenderBoundaryFailure
 from .release import ReleaseBoundaryFailure, ShadowReleasePipeline
+from .readiness import ProductionReadinessPipeline
 from .store import CanonicalStore, ContractError, utc_now
 
 
@@ -61,6 +62,8 @@ class RunEngine:
         reconcile_only: bool = False,
         completion_fixture_root: Path | str | None = None,
         completion_only: bool = False,
+        readiness_fixture_root: Path | str | None = None,
+        readiness_only: bool = False,
     ):
         if mode not in {"synthetic", "shadow", "production"}:
             raise ValueError(f"unsupported mode: {mode}")
@@ -79,6 +82,7 @@ class RunEngine:
         self.evaluation_only = evaluation_only
         self.reconcile_only = reconcile_only
         self.completion_only = completion_only
+        self.readiness_only = readiness_only
         if self.render_only and (self.editorial_only or self.build_only or self.validation_only):
             raise ValueError("render_only cannot be combined with earlier bounded execution modes")
         if self.release_only and (
@@ -112,6 +116,17 @@ class RunEngine:
             or self.reconcile_only
         ):
             raise ValueError("completion_only cannot be combined with another bounded execution mode")
+        if self.readiness_only and (
+            self.editorial_only
+            or self.build_only
+            or self.validation_only
+            or self.render_only
+            or self.release_only
+            or self.evaluation_only
+            or self.reconcile_only
+            or self.completion_only
+        ):
+            raise ValueError("readiness_only cannot be combined with another bounded execution mode")
         if editorial_fixture_root is not None:
             self.editorial_fixture_root = Path(editorial_fixture_root)
         elif mode in {"synthetic", "shadow"}:
@@ -160,6 +175,14 @@ class RunEngine:
             self.completion_fixture_root = Path(__file__).resolve().parents[2] / "fixtures" / "iteration9"
         else:
             self.completion_fixture_root = None
+        if readiness_fixture_root is not None:
+            self.readiness_fixture_root = Path(readiness_fixture_root)
+        elif mode in {"synthetic", "shadow"}:
+            self.readiness_fixture_root = (
+                Path(__file__).resolve().parents[2] / "fixtures" / "iteration10" / "current-blocked"
+            )
+        else:
+            self.readiness_fixture_root = None
 
     def _new_run(self) -> dict[str, Any]:
         now = utc_now()
@@ -412,6 +435,26 @@ class RunEngine:
             failure_class=failure_class,
         )
 
+    def _readiness_pipeline(self) -> ProductionReadinessPipeline:
+        failure_boundary_id = None
+        failure_class = "synthetic_readiness_boundary_failure"
+        if (
+            self.failure_injection
+            and self.failure_injection.stage == "Complete"
+            and self.failure_injection.candidate_id
+            and self.failure_injection.candidate_id.startswith("readiness:")
+        ):
+            failure_boundary_id = self.failure_injection.candidate_id
+            failure_class = self.failure_injection.failure_class
+        return ProductionReadinessPipeline(
+            self.store,
+            self.edition_date,
+            self.mode,
+            self.readiness_fixture_root,
+            failure_boundary_id=failure_boundary_id,
+            failure_class=failure_class,
+        )
+
     def _rating_contract(self) -> dict[str, Any]:
         return {
             "contract_version": RATING_CONTRACT_VERSION,
@@ -645,10 +688,22 @@ class RunEngine:
     def run(self) -> dict[str, Any]:
         run = self.load_or_create()
         if run["current_state"] == "Complete":
-            if self.completion_only:
+            if self.completion_only or self.readiness_only:
                 self.store.acquire_lease(self.run_id, self.owner)
                 try:
                     self._completion_pipeline().validate_completed_run(run)
+                    if self.readiness_only:
+                        readiness = self._readiness_pipeline()
+                        evaluation = readiness.prepare(run)
+                        existing = self.store.load_artifact("readiness-admission")
+                        readiness.validate_existing(existing, run, evaluation)
+                        artifact = self._ensure_artifact(
+                            run,
+                            "readiness-admission",
+                            "complete:readiness",
+                            lambda: readiness.build_readiness(run, evaluation),
+                        )
+                        readiness.finalize(artifact)
                 finally:
                     self.store.release_lease(self.owner)
             return run
@@ -996,6 +1051,8 @@ def start_daily_brief(
     reconcile_only: bool = False,
     completion_fixture_root: Path | str | None = None,
     completion_only: bool = False,
+    readiness_fixture_root: Path | str | None = None,
+    readiness_only: bool = False,
 ) -> dict[str, Any]:
     """Canonical manual/future-schedule entry point."""
     return RunEngine(
@@ -1020,6 +1077,8 @@ def start_daily_brief(
         reconcile_only=reconcile_only,
         completion_fixture_root=completion_fixture_root,
         completion_only=completion_only,
+        readiness_fixture_root=readiness_fixture_root,
+        readiness_only=readiness_only,
     ).run()
 
 
