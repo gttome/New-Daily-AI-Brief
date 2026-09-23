@@ -50,9 +50,9 @@
     }
   },
   "closure_state": "not_started",
-  "next_permissible_action": "reuse branch iteration31-authorization-package-20260923; after exact prelude post-merge main CI passes, open one implementation PR and reuse its exact-head Greenfield Contracts run; do not rebuild Iterations 1-30",
+  "next_permissible_action": "resume PR 90 on branch iteration31-authorization-package-20260923; reuse exact-head CI for each candidate and never create a duplicate PR or manually duplicate CI; preserve merged prelude PR 89 and Iterations 1-30",
   "resume_policy": {
-    "reuse_existing_pr": null,
+    "reuse_existing_pr": 89,
     "reuse_exact_head_ci": true,
     "reuse_merged_commits": true,
     "reuse_closure_artifacts": true,
