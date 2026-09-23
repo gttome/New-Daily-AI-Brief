@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "production-integration-execution-executor-binding-authorization-package-readiness-authorization-decision.schema.json",
+  "title": "Synthetic Executor-Binding Authorization-Package-Readiness Authorization Decision",
+  "type": "object",
+  "required": [
+    "executor_binding_authorization_package_readiness_authorization_decision_schema_version",
+    "executor_binding_authorization_package_readiness_authorization_decision_policy_version",
+    "executor_binding_authorization_package_readiness_authorization_review_artifact_digest",
+    "executor_binding_authorization_package_readiness_authorization_review_id",
+    "classification",
+    "classification_reason_codes",
+    "executor_binding_authorization_package_readiness_authorization_decision_id",
+    "synthetic_only",
+    "real_integration_steps_enabled",
+    "real_integration_steps_executed",
+    "production_action_authorized",
+    "production_cutover_authorized",
+    "legacy_decommission_authorized",
+    "production_publication",
+    "real_executor_invocation_authorized",
+    "credentials_use_authorized",
+    "real_target_contact_authorized",
+    "rollback_execution_authorized",
+    "real_executor_bound",
+    "real_executor_invoked",
+    "production_credentials_present",
+    "production_credentials_stored",
+    "real_target_contacted",
+    "rollback_executed",
+    "cutover_executed",
+    "decommission_executed",
+    "publication_executed",
+    "external_mutation_performed"
+  ],
+  "properties": {
+    "executor_binding_authorization_package_readiness_authorization_decision_schema_version": {
+      "const": "1.0.0"
+    },
+    "executor_binding_authorization_package_readiness_authorization_decision_policy_version": {
+      "const": "1.0.0"
+    },
+    "executor_binding_authorization_package_readiness_authorization_review_artifact_digest": {
+      "type": "string",
+      "pattern": "^sha256:"
+    },
+    "executor_binding_authorization_package_readiness_authorization_review_id": {
+      "type": "string",
+      "pattern": "^sha256:"
+    },
+    "executor_binding_authorization_package_readiness_authorization_decision_id": {
+      "type": "string",
+      "pattern": "^sha256:"
+    },
+    "classification": {
+      "enum": [
+        "blocked",
+        "executor_binding_authorization_package_readiness_authorization_decision_complete",
+        "invalid"
+      ]
+    },
+    "classification_reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "synthetic_only": {
+      "const": true
+    },
+    "real_integration_steps_enabled": {
+      "const": 0
+    },
+    "real_integration_steps_executed": {
+      "const": 0
+    },
+    "production_action_authorized": {
+      "const": false
+    },
+    "production_cutover_authorized": {
+      "const": false
+    },
+    "legacy_decommission_authorized": {
+      "const": false
+    },
+    "production_publication": {
+      "const": false
+    },
+    "real_executor_invocation_authorized": {
+      "const": false
+    },
+    "credentials_use_authorized": {
+      "const": false
+    },
+    "real_target_contact_authorized": {
+      "const": false
+    },
+    "rollback_execution_authorized": {
+      "const": false
+    },
+    "real_executor_bound": {
+      "const": false
+    },
+    "real_executor_invoked": {
+      "const": false
+    },
+    "production_credentials_present": {
+      "const": false
+    },
+    "production_credentials_stored": {
+      "const": false
+    },
+    "real_target_contacted": {
+      "const": false
+    },
+    "rollback_executed": {
+      "const": false
+    },
+    "cutover_executed": {
+      "const": false
+    },
+    "decommission_executed": {
+      "const": false
+    },
+    "publication_executed": {
+      "const": false
+    },
+    "external_mutation_performed": {
+      "const": false
+    },
+    "incremental_paid_dependency_added": {
+      "const": false
+    },
+    "real_private_command_center_mutated": {
+      "const": false
+    },
+    "public_site_mutated": {
+      "const": false
+    },
+    "production_schedule_action": {
+      "const": false
+    },
+    "subscriber_delivery_changed": {
+      "const": false
+    },
+    "legacy_content_migrated": {
+      "const": false
+    },
+    "readers_routed_to_greenfield": {
+      "const": false
+    },
+    "legacy_repository_modified": {
+      "const": false
+    },
+    "lifecycle_state_changed": {
+      "const": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "classification": {
+            "const": "executor_binding_authorization_package_readiness_authorization_decision_complete"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "separate_executor_binding_authorization_package_readiness_authorization_decision_id",
+          "executor_binding_authorization_package_readiness_authorization_decision_evidence_ids",
+          "executor_binding_authorization_package_readiness_authorization_decision_evidence_digests",
+          "executor_binding_authorization_package_readiness_authorization_decision_evidence_set_digest"
+        ],
+        "properties": {
+          "separate_executor_binding_authorization_package_readiness_authorization_decision_id": {
+            "type": "string",
+            "pattern": "^sha256:"
+          },
+          "executor_binding_authorization_package_readiness_authorization_decision_evidence_ids": {
+            "type": "array",
+            "minItems": 10,
+            "maxItems": 10,
+            "uniqueItems": true
+          },
+          "executor_binding_authorization_package_readiness_authorization_decision_evidence_digests": {
+            "type": "array",
+            "minItems": 10,
+            "maxItems": 10,
+            "uniqueItems": true
+          },
+          "executor_binding_authorization_package_readiness_authorization_decision_evidence_set_digest": {
+            "type": "string",
+            "pattern": "^sha256:"
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": true
+}
