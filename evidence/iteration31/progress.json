@@ -2,9 +2,9 @@
   "schema_version": "1.0.0",
   "record_type": "iteration-progress",
   "iteration": 31,
-  "phase": "iteration31_post_merge_verification",
+  "phase": "iteration31_closure_package",
   "branch": "iteration31-closure-20260923",
-  "checkpoint_head_sha": "8c63afcb09853fa8567669a97bc1caf3e6d78652",
+  "checkpoint_head_sha": "f6fb1290016840fcbe22b81442ccb06bdc2d5fe8",
   "completed_gates": [
     "iteration30_repository_closure_verified",
     "iteration31_ready_verified",
@@ -19,9 +19,10 @@
     "iteration31_merge_tree_matches_candidate",
     "iteration31_closure_branch_created",
     "iteration31_four_closure_artifacts_staged",
-    "iteration32_scope_narrowed_to_owner_testing_access_only"
+    "iteration32_scope_narrowed_to_owner_testing_access_only",
+    "iteration31_post_merge_main_ci_35902929793_passed"
   ],
-  "active_gate": "iteration31_post_merge_main_verification",
+  "active_gate": "iteration31_closure_exact_candidate_verification",
   "ci_runs": {
     "baseline_main": {
       "sha": "206b1cf510c57151375ada384264ede6acba2e33",
@@ -64,13 +65,16 @@
     "iteration31_post_merge_main": {
       "sha": "9d3af402a3f1566a8c6def7268820696b414e4a4",
       "run_id": 35902929793,
-      "result": "in_progress_at_checkpoint",
+      "result": "pass",
       "event": "push",
+      "tests_passed": 385,
+      "tests_failed": 0,
+      "unittest_seconds": 3038.721,
       "duplicate_run_started": false
     }
   },
-  "closure_state": "implementation_verified",
-  "next_permissible_action": "Reuse push Greenfield Contracts run 35902929793 for exact merge SHA 9d3af402a3f1566a8c6def7268820696b414e4a4. If it passes, finalize and merge the Iteration 31 closure package. Iteration 32 is then limited to deploying the minimum greenfield reader and private Command Center needed for owner testing, delivering the URLs, verifying basic desktop/phone access, and stopping for owner feedback.",
+  "closure_state": "closure_package",
+  "next_permissible_action": "Open or reuse the single Iteration 31 closure PR from iteration31-closure-20260923, reuse its exact-head bounded Greenfield Contracts CI, merge only if that exact head passes, verify the push bounded CI on main, then reconcile repository_closure_status=complete and iteration32_ready=true. Do not rerun runtime suites.",
   "resume_policy": {
     "reuse_existing_pr": 89,
     "reuse_exact_head_ci": true,
