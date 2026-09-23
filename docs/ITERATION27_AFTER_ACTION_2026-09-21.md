@@ -3,7 +3,7 @@
 
 Prepared September 22, 2026. Repository: `gttome/New-Daily-AI-Brief`.
 
-**Functional exit gate: PASS. Repository closure: PENDING. Iteration 28 ready: false.**
+**Functional exit gate: PASS. Repository closure: COMPLETE. Iteration 28 ready: true.**
 
 ## Verified baseline
 - Startup `main`: `41c7befabca3fb5ce10bff545e9a42aa9827ae35`.
@@ -57,4 +57,12 @@ Mandatory closure artifacts:
 - `docs/ITERATION28_HANDOFF_2026-09-21.md`
 - `docs/ITERATION28_START_PROMPT_2026-09-21.md`
 
-Closure is intentionally pending until the exact closure candidate passes Greenfield Contracts, merges, post-merge `main` Greenfield Contracts passes, and those observed identities are reconciled into repository records.
+Verified closure:
+- closure PR: #78;
+- exact closure candidate: `8376a4aedf072bd91d9220cef4ea63397620d621`;
+- exact closure candidate tree: `adb74c4aa084290d27974f6f914beace5ac34e19`;
+- closure PR Greenfield Contracts: run `35809611730`, PASS, **334/334 tests**, 370.593s;
+- closure merge: `ecf87fd2c087b288008056053894f84a01860342`;
+- closure post-merge main Greenfield Contracts: run `35810068396`, PASS, **334/334 tests**, 547.055s.
+
+This reconciliation records those independently observed facts and activates Iteration 28.
