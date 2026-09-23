@@ -13,10 +13,61 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Classify change scope
+        id: scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+            git fetch --no-tags origin "$GITHUB_BASE_REF"
+            BASE_REF="origin/$GITHUB_BASE_REF"
+            git diff --name-only "$BASE_REF...HEAD" > changed-files.txt
+          else
+            BEFORE="${{ github.event.before }}"
+            if [[ -z "$BEFORE" || "$BEFORE" == "0000000000000000000000000000000000000000" ]]; then
+              BASE_REF=""
+              git ls-files > changed-files.txt
+            else
+              BASE_REF="$BEFORE"
+              git diff --name-only "$BEFORE" "$GITHUB_SHA" > changed-files.txt
+            fi
+          fi
+          full=false
+          while IFS= read -r path; do
+            [[ -z "$path" ]] && continue
+            case "$path" in
+              docs/*|evidence/*) ;;
+              *) full=true ;;
+            esac
+          done < changed-files.txt
+          echo "full=$full" >> "$GITHUB_OUTPUT"
+          echo "base_ref=$BASE_REF" >> "$GITHUB_OUTPUT"
+          echo "Changed files:"
+          cat changed-files.txt
+          echo "Full regression required: $full"
       - name: Compile
-        run: PYTHONPATH=src python -m compileall -q src tests
+        if: steps.scope.outputs.full == 'true'
+        run: PYTHONPATH=src python -m compileall -q src tests scripts
+      - name: Targeted process and Iteration tests
+        if: steps.scope.outputs.full == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -f tests/test_process_hardening.py ]]; then
+            PYTHONPATH=src python -m unittest discover -s tests -p 'test_process_hardening.py' -v
+          fi
+          if [[ -f tests/test_iteration31.py ]]; then
+            PYTHONPATH=src python -m unittest discover -s tests -p 'test_iteration31.py' -v
+          fi
       - name: Contract, discovery, editorial, and recovery tests
+        if: steps.scope.outputs.full == 'true'
         run: PYTHONPATH=src python -m unittest discover -s tests -v
+      - name: Closure metadata validation
+        if: steps.scope.outputs.full != 'true'
+        run: |
+          PYTHONPATH=src python scripts/validate_closure_metadata.py             --changed-file-list changed-files.txt             --base-ref "${{ steps.scope.outputs.base_ref }}"

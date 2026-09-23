@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "iteration-progress.schema.json",
+  "title": "Durable Iteration Progress Checkpoint",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "iteration",
+    "phase",
+    "branch",
+    "checkpoint_head_sha",
+    "completed_gates",
+    "active_gate",
+    "ci_runs",
+    "closure_state",
+    "next_permissible_action",
+    "resume_policy"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "iteration-progress"},
+    "iteration": {"type": "integer", "minimum": 1},
+    "phase": {"type": "string", "minLength": 1},
+    "branch": {"type": "string", "minLength": 1},
+    "checkpoint_head_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "completed_gates": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "active_gate": {"type": "string", "minLength": 1},
+    "ci_runs": {"type": "object"},
+    "closure_state": {
+      "enum": [
+        "not_started",
+        "implementation_verified",
+        "closure_package",
+        "closure_verification",
+        "reconciliation",
+        "final_main_verification",
+        "complete"
+      ]
+    },
+    "next_permissible_action": {"type": "string", "minLength": 1},
+    "resume_policy": {
+      "type": "object",
+      "required": [
+        "reuse_existing_pr",
+        "reuse_exact_head_ci",
+        "reuse_merged_commits",
+        "reuse_closure_artifacts",
+        "duplicate_pr_permitted",
+        "duplicate_ci_for_same_head_permitted",
+        "prior_iteration_rebuild_permitted"
+      ]
+    }
+  },
+  "additionalProperties": true
+}
