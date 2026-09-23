@@ -1,0 +1,99 @@
+name: Greenfield Test Access Deploy
+
+on:
+  workflow_run:
+    workflows: ["Greenfield Contracts"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: greenfield-test-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    outputs:
+      source_sha: ${{ steps.meta.outputs.source_sha }}
+    steps:
+      - name: Resolve source
+        id: meta
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
+            echo "source_sha=${{ github.event.workflow_run.head_sha }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "source_sha=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.meta.outputs.source_sha }}
+      - name: Assemble static test surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf _site
+          cp -R site _site
+          python - <<'PY'
+          import json, os, datetime
+          payload = {
+              "source_sha": os.environ["SOURCE_SHA"],
+              "deployed_at": datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00","Z"),
+              "environment": "greenfield-owner-acceptance",
+              "production_cutover": False
+          }
+          with open("_site/build.json","w",encoding="utf-8") as f:
+              json.dump(payload,f,separators=(",",":"))
+          PY
+        env:
+          SOURCE_SHA: ${{ steps.meta.outputs.source_sha }}
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy greenfield owner-test site
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  live-smoke:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify actual deployed URLs for desktop and phone user agents
+        shell: bash
+        env:
+          PAGE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          base="${PAGE_URL%/}/"
+          desktop="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/154 Safari/537.36"
+          mobile="Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 Chrome/154 Mobile Safari/537.36"
+          for ua in "$desktop" "$mobile"; do
+            curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 -A "$ua" "$base" | grep -q "GREENFIELD TEST"
+            curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 -A "$ua" "${base}command-center/" | grep -q "PRIVATE OWNER TEST"
+          done
+          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}archive.html" | grep -q "Archive / History"
+          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}watchlist.html" | grep -q "Emerging AI Watchlist"
+          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}media.html" | grep -q "Media Brief"
+          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}article.html?id=context-graphs" | grep -q "Representative greenfield article surface"
+          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}build.json" | grep -q '"production_cutover":false'
