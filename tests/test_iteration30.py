@@ -19,7 +19,7 @@ from new_daily_ai_brief.store import digest, semantic_digest
 import test_iteration29
 
 
-class Iteration24ExecutorBindingAuthorizationDecisionTest(unittest.TestCase):
+class Iteration30ExecutorBindingAuthorizationPackageReadinessAuthorizationDecisionTest(unittest.TestCase):
     DATE = "2026-09-22"
 
     def emit(self, kind, data):
@@ -36,7 +36,7 @@ class Iteration24ExecutorBindingAuthorizationDecisionTest(unittest.TestCase):
                 and p.name != "production-integration-execution-executor-binding-authorization-package-readiness-authorization-decision.json"}
 
     def helper(self):
-        return test_iteration29.Iteration23ExecutorBindingAuthorizationReviewTest(
+        return test_iteration29.Iteration29ExecutorBindingAuthorizationPackageReadinessAuthorizationReviewTest(
             methodName="test_current_repository_stays_blocked_deterministic_and_zero_rework"
         )
 
