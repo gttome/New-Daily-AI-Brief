@@ -14,23 +14,21 @@ The Iteration 32 handoff is controlling. Do not begin if Iteration 31 evidence r
 
 Preserve all locked Iterations 1–31 architecture, contracts, identities, lifecycle/state-machine behavior, the canonical `start_daily_brief(date, mode)`, the single `RunEngine`, lease/idempotency, content-addressed records, dependency invalidation, recovery evidence, and exact Iteration 31 authorization-package artifact. Do not rebuild or reexecute completed Iterations 1–31 merely because this is a new chat or because a retry occurs.
 
-## Non-negotiable Iteration 32 mission
+## Non-negotiable Iteration 32 mission — testing access only
 
-Iteration 32 is the fixed first owner-access and acceptance-testing milestone. It may not be replaced by another synthetic-only authorization/readiness gate and may not be deferred to Iteration 33 or later.
+Iteration 32 has one purpose: **make the greenfield system available for the owner's hands-on testing**.
 
-By the end of Iteration 32, provide:
-
+Implement only the minimum needed to provide:
 1. a functioning greenfield Daily Generative AI Brief reader site;
 2. a functioning private greenfield Command Center;
-3. real owner-accessible URLs for both surfaces;
-4. desktop and phone/small-screen access verification for both URLs;
-5. representative end-to-end brief data flowing through the greenfield architecture;
-6. usable reader home/current-edition, archive/history, Watchlist, article, media, ratings, sharing, and navigation surfaces required for acceptance testing;
-7. observable representative run/QA/readiness/freshness/recovery state in the private Command Center;
-8. clear coexistence with the current production Daily AI Brief, with no production cutover or reader routing;
-9. an owner-facing acceptance checklist with explicit pass/fail results.
+3. real owner-accessible URLs for both;
+4. basic desktop and phone/small-screen access verification;
+5. representative end-to-end data sufficient to exercise the deployed system;
+6. the minimum reader surfaces needed for meaningful testing: current edition/home, navigation, archive/history, Watchlist, article/media, ratings, and sharing;
+7. the minimum Command Center surfaces needed for meaningful testing: run identity/status, QA/readiness, freshness/currentness, and recovery/resume state;
+8. coexistence with the current production Daily AI Brief, with no cutover or production reader routing.
 
-A local-only build, fixture-only artifact, screenshot-only proof, or another synthetic authorization/readiness record is not sufficient to close Iteration 32. Actual deployed URLs must be tested.
+As soon as those URLs and minimum test surfaces are available and verified, **stop and hand control to me for testing**. Do not continue with unrelated features, broader hardening, production cutover, Iteration 32 closure, or Iteration 33 preparation until I provide my testing results and explicitly tell you to continue.
 
 ## Process-hardening requirements
 
@@ -46,22 +44,9 @@ Retain the Iteration 31 hardening:
 
 If an Actions query helper does not expose push-triggered runs, inspect the GitHub Actions runs API directly rather than assuming no post-merge run exists.
 
-## Mandatory CI performance prelude
+## CI runtime constraint before owner testing
 
-Before substantial Iteration 32 feature work, fix the CI runtime defect exposed by Iteration 31. The Iteration 31 candidate ran the targeted 14-test suite in 1727.602s (~28.8 min), then ran the 385-test full suite in 3157.978s (~52.6 min), with current-iteration tests included again. That ~81-minute candidate cycle is not acceptable for ongoing operation.
-
-Do this as an **unnumbered prelude inside Iteration 32**, not as Iteration 33 and not as a prerequisite that delays first owner access.
-
-Preserve safety while:
-- eliminating duplicate current-iteration test execution;
-- preserving the required Greenfield Contracts branch-protection check context;
-- sharding independent historical regression tests so they run in parallel;
-- introducing immutable digest-verified upstream test checkpoints/fixtures so each current-iteration test does not reconstruct the entire locked prior chain;
-- preserving fresh-engine recovery by reopening/cloning durable checkpoints, never by sharing mutable in-memory state;
-- retaining complete historical regression coverage for executable/contract changes;
-- retaining bounded docs/evidence-only closure validation.
-
-Measure and record the result. Target executable-change Greenfield Contracts wall clock at **20 minutes or less**, with a **30-minute normal-operation ceiling** absent a documented external runner incident. Target docs/evidence-only closure/reconciliation at **5 minutes or less**. Do not close Iteration 32 without recording before/after timings and proving that test coverage was not reduced.
+Do not make the broader CI-performance optimization a prerequisite to first owner access unless a specific CI defect prevents the test deployment. Preserve safety checks, avoid duplicate exact-head CI, and use the bounded metadata path where applicable. The broader 53–81 minute CI optimization is deferred until after my hands-on testing so Iteration 32 remains focused only on enabling testing.
 
 ## Safety and cost constraints
 
@@ -80,17 +65,15 @@ Use existing/no-incremental-cost deployment mechanisms. Representative test data
 
 ## Required execution
 
-Proceed autonomously through:
+Proceed autonomously only through:
 1. verified baseline;
-2. implementation of the owner-access reader and private Command Center surfaces;
+2. the minimum reader and private Command Center implementation needed for hands-on testing;
 3. representative data integration;
-4. desktop and phone acceptance checks against actual URLs;
-5. exact-candidate PR and Greenfield Contracts verification;
-6. guarded exact-head merge;
-7. independent post-merge `main` verification;
-8. all four mandatory Iteration 32 closure artifacts;
-9. closure CI/merge/reconciliation.
+4. deployment to real owner-accessible URLs;
+5. basic desktop and phone/small-screen access checks;
+6. the minimum verification needed to ensure the test environment is safe and does not affect production;
+7. delivery of both URLs and a concise owner test checklist.
 
-Do not ask me to approve intermediate technical choices when the repository contracts already determine a safe option. Make the lowest-complexity, zero-incremental-cost choice consistent with the handoff and preserve the existing production system.
+Then **STOP**. Do not close Iteration 32 and do not begin Iteration 33. Wait for my testing results and explicit instruction to continue.
 
-Iteration 32 must not be declared complete until the working reader URL and private Command Center URL are both provided to me and the documented access/acceptance checks pass. No Iteration 33 prerequisite may be inserted before that first owner access.
+Do not ask me to approve intermediate technical choices when repository contracts already determine a safe option. Make the lowest-complexity, zero-incremental-cost choice that gets the system into a testable state while preserving the existing production system.
