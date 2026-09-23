@@ -72,6 +72,11 @@ Two nonfinal failures were repaired without rebuilding completed work:
 
 The final exact candidate then passed the targeted Iteration 31 suite and the full regression suite.
 
+## CI performance defect and required correction
+The exact candidate exposed a material ongoing-operability defect in the test pipeline. The targeted process/Iteration phase ran 4 process-hardening tests in 0.070s and 14 Iteration 31 tests in 1727.602s (~28.8 min). The subsequent full suite then ran 385 tests in 3157.978s (~52.6 min), including the Iteration 31 tests again. The resulting candidate validation consumed roughly 81 minutes before setup/cleanup.
+
+This is not acceptable as the ongoing executable-change feedback loop. The Iteration 32 handoff therefore requires an unnumbered CI-performance prelude that removes duplicate current-iteration execution, shards independent historical regression work, and adds immutable digest-verified upstream test checkpoints while preserving fresh-engine recovery semantics and full safety coverage. The target is <=20 minutes wall clock for a representative executable-change run, a 30-minute normal-operation ceiling absent an external runner incident, and <=5 minutes for docs/evidence-only closure/reconciliation.
+
 ## Observability defect identified during closure
 The helper used to query commit workflow runs returns pull-request-triggered runs only. It therefore incorrectly appeared that no post-merge run existed. Direct GitHub Actions inspection confirmed push run `35902929793` was created for exact merge SHA `9d3af402a3f1566a8c6def7268820696b414e4a4`. Closure uses that authoritative push run rather than waiting for the PR-only helper.
 
