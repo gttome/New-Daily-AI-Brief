@@ -1,5 +1,4 @@
 from pathlib import Path
-import re
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,13 +29,18 @@ class Iteration32AccessTests(unittest.TestCase):
             self.assertIn('name="viewport"', (SITE/name).read_text())
         self.assertRegex(css, r"@media\(max-width:720px\)")
 
-    def test_command_center_is_encrypted_and_contains_no_plain_payload(self):
+    def test_command_center_is_direct_access_and_safe(self):
+        page=(SITE/"command-center"/"index.html").read_text()
         cc=(SITE/"command-center"/"cc.js").read_text()
-        self.assertIn('crypto.subtle.decrypt', cc)
-        self.assertIn('AES-GCM', cc)
-        self.assertNotIn('shadow-2026-09-23-owner-test', cc)
-        self.assertNotIn('ready_for_owner_testing', cc)
-        self.assertNotIn('71a12a1278c1a509e6d3ef8784278097231e2083', cc)
+        self.assertIn("GREENFIELD COMMAND CENTER", page)
+        self.assertNotIn("PRIVATE OWNER TEST", page)
+        self.assertNotIn("crypto.subtle.decrypt", cc)
+        self.assertNotIn("AES-GCM", cc)
+        self.assertNotIn("location.hash", cc)
+        self.assertIn("representative_test_data", cc)
+        self.assertIn("production_isolation", cc)
+        self.assertNotIn("password", cc.lower())
+        self.assertNotIn("secret", cc.lower())
 
     def test_deployment_is_pages_only_and_has_live_smoke(self):
         wf=(ROOT/".github/workflows/deploy-iteration32-test.yml").read_text()
@@ -45,6 +49,7 @@ class Iteration32AccessTests(unittest.TestCase):
         self.assertIn("workflow_run", wf)
         self.assertIn("live-smoke", wf)
         self.assertIn("Mobile Safari", wf)
+        self.assertIn("GREENFIELD COMMAND CENTER", wf)
         self.assertNotIn("Daily-AI-Brief", wf.replace("New-Daily-AI-Brief",""))
 
 if __name__ == "__main__":

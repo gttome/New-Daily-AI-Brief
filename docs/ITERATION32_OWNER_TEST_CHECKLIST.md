@@ -12,12 +12,12 @@ Use only after the Iteration 32 deployment workflow reports success.
 - Test Share on an article and a media item.
 - Confirm six representative stories appear in the locked 2 / 2 / 2 allocation.
 
-### Private Command Center
-- Open the owner Command Center URL supplied in chat; keep its URL fragment intact.
-- Confirm the dashboard decrypts and shows run identity/status, QA/readiness, freshness/currentness, recovery/resume, and production separation.
+### Command Center
+- Open the Command Center URL directly; no owner-only key or URL fragment is required.
+- Confirm it shows run identity/status, QA/readiness, freshness/currentness, recovery/resume, and production separation.
 - Confirm the displayed deployed source SHA is present.
 - Open it on a phone/small screen and confirm cards reflow to a single column.
-- Remove the URL fragment and confirm the dashboard remains locked.
+- Confirm the page contains representative test state only and exposes no credentials, secrets, private IDs, prompts, or production-control capability.
 
 ### Coexistence / safety
 - Confirm the greenfield reader is clearly separate from the production Daily AI Brief.

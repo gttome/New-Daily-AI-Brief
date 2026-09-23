@@ -10,24 +10,24 @@
     "result": "pass",
     "event": "push"
   },
-  "implementation_content_sha": "51fe83db3a2568c50e30c585233f7a22671dea2d",
   "completed_gates": [
     "iteration31_repository_closure_verified_complete",
     "iteration32_ready_verified_true",
     "baseline_main_verified",
     "baseline_greenfield_contracts_35913224824_passed",
-    "no_existing_iteration32_branch_or_pr",
+    "existing_iteration32_pr_93_reused",
     "minimum_reader_surface_implemented",
-    "encrypted_command_center_surface_implemented",
+    "direct_access_safe_command_center_surface_implemented",
     "representative_shadow_data_integrated",
     "pages_deployment_workflow_staged",
     "desktop_and_mobile_live_smoke_checks_staged",
-    "production_coexistence_preserved_in_candidate"
+    "production_coexistence_preserved_in_candidate",
+    "owner_only_encryption_removed_by_owner_direction_2026_09_23"
   ],
   "active_gate": "iteration32_exact_head_greenfield_contracts",
   "closure_state": "not_started_owner_testing_required",
   "owner_testing_stop_gate": true,
-  "next_permissible_action": "Open exactly one Iteration 32 PR, run/reuse exact-head Greenfield Contracts, merge only if passing, verify post-merge main Greenfield Contracts, allow the Pages workflow to deploy and run live desktop/mobile smoke checks, provide the reader URL plus the encrypted owner Command Center URL and stop for owner testing. Do not close Iteration 32 or prepare Iteration 33.",
+  "next_permissible_action": "Reuse PR #93 and its automatically triggered exact-head Greenfield Contracts run; merge only if passing, verify post-merge main Greenfield Contracts, allow the Pages workflow to deploy and run live desktop/mobile smoke checks, provide the reader URL plus direct-access Command Center URL and stop for owner testing. Do not close Iteration 32 or prepare Iteration 33.",
   "resume_policy": {
     "reuse_existing_branch": true,
     "reuse_existing_pr": true,
@@ -35,6 +35,12 @@
     "duplicate_pr_permitted": false,
     "duplicate_ci_for_same_head_permitted": false,
     "prior_iteration_rebuild_permitted": false
+  },
+  "access_policy": {
+    "command_center_direct_access": true,
+    "owner_only_key_required": false,
+    "safe_representative_test_data_only": true,
+    "secrets_credentials_private_ids_prompts_production_controls_exposed": false
   },
   "safety": {
     "production_cutover": false,

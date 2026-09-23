@@ -90,7 +90,7 @@ jobs:
           mobile="Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 Chrome/154 Mobile Safari/537.36"
           for ua in "$desktop" "$mobile"; do
             curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 -A "$ua" "$base" | grep -q "GREENFIELD TEST"
-            curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 -A "$ua" "${base}command-center/" | grep -q "PRIVATE OWNER TEST"
+            curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 -A "$ua" "${base}command-center/" | grep -q "GREENFIELD COMMAND CENTER"
           done
           curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}archive.html" | grep -q "Archive / History"
           curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}watchlist.html" | grep -q "Emerging AI Watchlist"
