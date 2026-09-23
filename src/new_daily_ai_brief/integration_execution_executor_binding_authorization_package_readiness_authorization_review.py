@@ -129,6 +129,8 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackageReadiness
         "approved",
         "scope",
         "synthetic_only",
+        "noop",
+        "non_live",
         "executor_binding_authorization_package_readiness_rehearsal_artifact_digest",
         "executor_binding_authorization_package_readiness_rehearsal_id",
         "executor_binding_authorization_package_readiness_rehearsal_policy_id",
@@ -669,6 +671,8 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackageReadiness
             "approved": True,
             "scope": "execution_executor_binding_authorization_package_readiness_authorization_review_only",
             "synthetic_only": True,
+            "noop": True,
+            "non_live": True,
             "executor_binding_authorization_package_readiness_rehearsal_artifact_digest": bound[
                 "executor_binding_authorization_package_readiness_rehearsal_artifact_digest"
             ],
