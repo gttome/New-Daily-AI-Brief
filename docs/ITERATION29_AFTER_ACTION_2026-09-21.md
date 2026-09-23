@@ -3,7 +3,7 @@
 
 Prepared September 22, 2026. Repository: `gttome/New-Daily-AI-Brief`.
 
-**Functional exit gate: PASS. Repository closure: PENDING reconciliation. Iteration 30 ready: false until closure merge/main CI is independently reconciled.**
+**Functional exit gate: PASS. Repository closure: COMPLETE. Iteration 30 ready: true.**
 
 ## Verified baseline
 - Starting `main`: `7496138f1abc75579f39a640c4a25234e1ce7f59`.
@@ -69,7 +69,16 @@ This closure branch contains the four required artifacts:
 - `docs/ITERATION30_HANDOFF_2026-09-21.md`
 - `docs/ITERATION30_START_PROMPT_2026-09-21.md`
 
-Repository closure remains pending until the exact closure candidate passes Greenfield Contracts, is merged with exact-head guarding, post-merge main CI passes, and those observed closure identities are reconciled into repository records.
+Verified closure:
+- closure PR: **#84**;
+- exact closure candidate: `b2fb048558d79c7ec047339a190edaa16df412d1`;
+- exact closure candidate tree: `70d424feef52d0746f4daaa99b84f9106c09fac7`;
+- closure PR Greenfield Contracts: run `35820622596`, PASS, **353/353 tests**, 701.060s;
+- closure merge: `814a830bf0974e4fecaa94b5ae45c4c40c2c1fba`;
+- closure merge tree: `70d424feef52d0746f4daaa99b84f9106c09fac7`, identical to the tested closure candidate tree;
+- closure post-merge main Greenfield Contracts: run `35821619098`, PASS, **353/353 tests**, 688.557s.
+
+This reconciliation records those independently observed facts and activates Iteration 30.
 
 ## Deferred scope
-Iteration 30 is specified as a deterministic synthetic-only executor-binding authorization-package-readiness **authorization-decision** gate consuming the exact locked Iteration 29 review artifact. It remains blocked and grants no production authority. Iteration 30 must not begin until reconciled repository evidence reports `repository_closure_status=complete` and `iteration30_ready=true`.
+Iteration 30 is specified as a deterministic synthetic-only executor-binding authorization-package-readiness **authorization-decision** gate consuming the exact locked Iteration 29 review artifact. The current chain remains blocked and grants no production authority. Reconciled repository evidence now reports `repository_closure_status=complete` and `iteration30_ready=true`.
