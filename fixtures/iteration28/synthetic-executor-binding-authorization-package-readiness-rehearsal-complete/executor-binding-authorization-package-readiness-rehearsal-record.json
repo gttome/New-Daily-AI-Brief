@@ -17,7 +17,6 @@
   "separate_executor_binding_authorization_package_readiness_preflight_digest": "sha256:placeholder",
   "synthetic_binding_plan_descriptor_id": null,
   "synthetic_binding_plan_descriptor_digest": null,
-  "executor_binding_authorization_package_readiness_preflight_provenance_validation_set_digest": "sha256:placeholder",
   "canonical_chain_digest": "sha256:placeholder",
   "bound_upstream_identity_digest": "sha256:placeholder",
   "executor_binding_authorization_package_readiness_rehearsal_manifest_id": "production-integration-execution-executor-binding-authorization-package-readiness-rehearsal-manifest-v1",
