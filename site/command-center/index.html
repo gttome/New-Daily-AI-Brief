@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Greenfield Command Center — Test</title><link rel="stylesheet" href="../styles.css"></head>
+<body><header class="masthead compact"><div><p class="eyebrow">GREENFIELD COMMAND CENTER · PRE-CUTOVER</p><h1>Command Center</h1><p class="dek">Direct-access acceptance dashboard using representative greenfield test state only.</p></div><span class="status-pill">Test environment</span></header>
+<nav class="nav" aria-label="Primary"><a href="../">Reader</a><a href="../archive.html">Archive</a><a href="../watchlist.html">Watchlist</a><a aria-current="page" href="./">Command Center</a></nav>
+<main>
+<section id="dashboard">
+<div class="cc-grid">
+<div class="cc-card"><span class="kicker">Run identity</span><strong id="run-id"></strong><p id="run-mode" class="muted"></p></div>
+<div class="cc-card"><span class="kicker">Lifecycle / status</span><strong id="run-status"></strong><p id="run-phase" class="muted"></p></div>
+<div class="cc-card"><span class="kicker">QA / readiness</span><strong class="ok" id="qa-state"></strong><p class="muted">Greenfield Contracts, reader surface, Command Center surface, and production isolation.</p></div>
+<div class="cc-card"><span class="kicker">Freshness / currentness</span><strong id="freshness"></strong><p id="source-sha" class="muted"></p></div>
+<div class="cc-card"><span class="kicker">Recovery / resume</span><strong id="resume-state"></strong><p id="anti-rework" class="muted"></p></div>
+<div class="cc-card"><span class="kicker">Production separation</span><strong class="ok">No cutover</strong><p class="muted">Legacy production repository, schedules, subscribers, and reader routing remain unchanged.</p></div>
+</div>
+<section class="callout"><h2>Acceptance boundary</h2><p>This dashboard intentionally exposes only safe representative test state. It contains no credentials, secrets, private IDs, prompts, production controls, executor authority, publication authority, cutover authority, or decommission authority.</p></section>
+</section></main>
+<footer><span>Greenfield test Command Center</span><span id="build-meta">Loading deployment identity…</span></footer><script src="cc.js"></script></body></html>
