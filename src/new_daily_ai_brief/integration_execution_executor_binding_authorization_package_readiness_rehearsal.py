@@ -400,7 +400,8 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackageReadiness
         if data.get("synthetic_only") is not True:
             raise IntegrationExecutionExecutorBindingAuthorizationPackageReadinessRehearsalError(
                 "Iteration 27 executor-binding-authorization-package-readiness-preflight artifact must be synthetic-only"
-            )        if data.get("executor_binding_authorization_package_readiness_preflight_policy_id") != (
+            )
+        if data.get("executor_binding_authorization_package_readiness_preflight_policy_id") != (
             "production-integration-execution-executor-binding-authorization-package-readiness-preflight-v1"
         ):
             raise IntegrationExecutionExecutorBindingAuthorizationPackageReadinessRehearsalError(
