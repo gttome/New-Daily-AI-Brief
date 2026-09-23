@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.0.0",
+  "iteration": 27,
+  "artifact_type": "production-integration-execution-executor-binding-authorization-package-readiness-preflight",
+  "functional_exit_gate": "pass",
+  "repository_closure_status": "pending",
+  "iteration28_ready": false,
+  "baseline": {
+    "main_sha": "41c7befabca3fb5ce10bff545e9a42aa9827ae35",
+    "main_ci_run_id": 35805944910,
+    "main_ci_result": "pass",
+    "main_tests_passed": 323,
+    "main_tests_failed": 0,
+    "iteration26_repository_closure_status": "complete",
+    "iteration27_ready": true
+  },
+  "implementation": {
+    "pr_number": 77,
+    "candidate_sha": "b23b14f57bbb8999725d46eb3e69e8c4eb2a2bf9",
+    "candidate_tree_sha": "c261c7804085a83dc37cab6fc968af7fc051f98a",
+    "candidate_ci_run_id": 35808680371,
+    "candidate_ci_result": "pass",
+    "candidate_tests_passed": 334,
+    "candidate_tests_failed": 0,
+    "candidate_unittest_seconds": 259.995,
+    "merge_sha": "0e5b3fde269d925628fd20b7cd364e018eda6225",
+    "post_merge_ci_run_id": 35809034247,
+    "post_merge_ci_result": "pass",
+    "post_merge_tests_passed": 334,
+    "post_merge_tests_failed": 0,
+    "post_merge_unittest_seconds": 362.265,
+    "prior_failed_candidate": {
+      "candidate_sha": "aed59ce1ea94ddd1046044b9e7417a77e0f80331",
+      "ci_run_id": 35808176265,
+      "tests_run": 334,
+      "errors": 3,
+      "repair_scope": "tests/test_iteration27.py only; 5 additions, 3 deletions"
+    }
+  },
+  "current_repository_outcome": {
+    "classification": "blocked",
+    "leading_reason_code": "ITERATION26_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_BLOCKED",
+    "separate_preflight_record_required": true
+  },
+  "three_run_exit_gate": {
+    "result": "pass",
+    "independent_shadow_runs": 3,
+    "dates": [
+      "2026-09-22",
+      "2026-09-23",
+      "2026-09-24"
+    ],
+    "classification": "blocked",
+    "stable_reason_codes": true,
+    "real_executor_bound": false,
+    "real_executor_invoked": false,
+    "production_credentials_present": false,
+    "real_target_contacted": false,
+    "external_mutation": false,
+    "upstream_reexecution": 0,
+    "iteration26_rebuilds": 0,
+    "unrelated_record_rewrites": 0,
+    "full_pipeline_restarts": 0
+  },
+  "recovery": [
+    {
+      "boundary": "executor_binding_authorization_package_readiness_preflight:evaluation",
+      "fresh_engine_resume": true,
+      "evaluation_attempts": 2,
+      "upstream_reexecution": 0,
+      "iteration26_rebuilds": 0,
+      "unrelated_record_rewrites": 0,
+      "full_pipeline_restarts": 0
+    },
+    {
+      "boundary": "executor_binding_authorization_package_readiness_preflight:validation:5",
+      "fresh_engine_resume": true,
+      "minimum_receipt_reuse": 4,
+      "final_receipt_count": 10,
+      "upstream_reexecution": 0,
+      "iteration26_rebuilds": 0,
+      "unrelated_record_rewrites": 0,
+      "full_pipeline_restarts": 0
+    },
+    {
+      "boundary": "executor_binding_authorization_package_readiness_preflight:final_executor_binding_authorization_package_readiness_preflight_artifact",
+      "fresh_engine_resume": true,
+      "artifact_assembly_attempts": 2,
+      "minimum_receipt_reuse": 10,
+      "upstream_reexecution": 0,
+      "iteration26_rebuilds": 0,
+      "unrelated_record_rewrites": 0,
+      "full_pipeline_restarts": 0
+    }
+  ],
+  "fail_closed": {
+    "deterministic_replay": true,
+    "exact_source_and_transitive_binding": true,
+    "separate_preflight_record_required": true,
+    "missing_corrupted_reordered_duplicated_substituted_evidence": true,
+    "changed_iteration26_identity": true,
+    "changed_iteration25_identity": true,
+    "changed_iteration24_identity": true,
+    "unsupported_versions": true,
+    "real_endpoint": true,
+    "executor_binding_capability": true,
+    "executor_invocation_capability": true,
+    "executable_command_or_step": true,
+    "credential": true,
+    "target": true,
+    "authority_or_mutation": true,
+    "missing_zero_incremental_cost_approval": true,
+    "production_mode": true,
+    "combined_bounded_modes": true
+  },
+  "prohibited_actions": {
+    "real_executor_implemented_bound_or_invoked": false,
+    "production_credentials_used_or_stored": false,
+    "real_target_contact": false,
+    "production_or_rollback_authority_granted": false,
+    "private_command_center_mutated": false,
+    "final_ui_implemented": false,
+    "pages_or_public_site_deployed": false,
+    "live_urls_changed": false,
+    "real_public_route_verification": false,
+    "production_schedule_actions": false,
+    "subscriber_delivery_changed": false,
+    "legacy_content_migrated": false,
+    "production_cutover": false,
+    "readers_routed_to_greenfield": false,
+    "legacy_decommissioned": false,
+    "production_publication": false,
+    "legacy_repository_modified": false,
+    "incremental_paid_dependency_added": false
+  },
+  "closure": {
+    "required_paths": [
+      "docs/ITERATION27_AFTER_ACTION_2026-09-21.md",
+      "evidence/iteration27/synthetic-shadow-production-integration-execution-executor-binding-authorization-package-readiness-preflight-evidence.json",
+      "docs/ITERATION28_HANDOFF_2026-09-21.md",
+      "docs/ITERATION28_START_PROMPT_2026-09-21.md"
+    ],
+    "repository_closure_status": "pending",
+    "iteration28_ready": false,
+    "closure_pr_number": null,
+    "closure_candidate_sha": null,
+    "closure_candidate_tree_sha": null,
+    "closure_pr_ci_run_id": null,
+    "closure_pr_ci_result": null,
+    "closure_pr_tests_passed": null,
+    "closure_pr_tests_failed": null,
+    "closure_merge_sha": null,
+    "closure_post_merge_ci_run_id": null,
+    "closure_post_merge_ci_result": null,
+    "closure_post_merge_tests_passed": null,
+    "closure_post_merge_tests_failed": null,
+    "closure_verified_main_sha": null
+  }
+}
