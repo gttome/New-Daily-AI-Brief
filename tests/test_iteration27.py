@@ -182,13 +182,15 @@ class Iteration27ExecutorBindingAuthorizationPackageReadinessPreflightTest(
             "canonical_chain_digest": bound["canonical_chain_digest"],
             "bound_upstream_identity_digest": context["bound_upstream_identity_digest"],
         }
+        for key in list(record):
+            if key in bound:
+                record[key] = deepcopy(bound[key])
+        # The Iteration 27 record binds the complete Iteration 26 semantic identity
+        # separately from the inherited Iteration 26 -> Iteration 25 bound digest.
         record["bound_upstream_identity"] = deepcopy(bound)
         record["bound_upstream_identity_digest"] = context[
             "bound_upstream_identity_digest"
         ]
-        for key in list(record):
-            if key in bound:
-                record[key] = deepcopy(bound[key])
         record[
             "executor_binding_authorization_package_readiness_preflight_manifest_id"
         ] = manifest["manifest_id"]
