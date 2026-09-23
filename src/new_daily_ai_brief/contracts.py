@@ -61,6 +61,10 @@ EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_PREFLIGHT_SCHEMA_VERS
 EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_PREFLIGHT_POLICY_VERSION: Final = "1.0.0"
 EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_PREFLIGHT_RECORD_VERSION: Final = "1.0.0"
 EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_PREFLIGHT_EVIDENCE_VERSION: Final = "1.0.0"
+EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_REHEARSAL_SCHEMA_VERSION: Final = "1.0.0"
+EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_REHEARSAL_POLICY_VERSION: Final = "1.0.0"
+EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_REHEARSAL_RECORD_VERSION: Final = "1.0.0"
+EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_REHEARSAL_RECEIPT_VERSION: Final = "1.0.0"
 
 STATES: Final[tuple[str, ...]] = (
     "Ready",
@@ -143,6 +147,7 @@ ARTIFACT_DEPENDENCIES: Final[dict[str, tuple[str, ...]]] = {
     "production-integration-execution-executor-binding-authorization-package": ("production-integration-execution-executor-binding-authorization-decision",),
     "production-integration-execution-executor-binding-authorization-package-readiness": ("production-integration-execution-executor-binding-authorization-package",),
     "production-integration-execution-executor-binding-authorization-package-readiness-preflight": ("production-integration-execution-executor-binding-authorization-package-readiness",),
+    "production-integration-execution-executor-binding-authorization-package-readiness-rehearsal": ("production-integration-execution-executor-binding-authorization-package-readiness-preflight",),
 }
 
 ARTIFACT_FILES: Final[dict[str, str]] = {
@@ -181,6 +186,7 @@ ARTIFACT_FILES: Final[dict[str, str]] = {
     "production-integration-execution-executor-binding-authorization-package": "production-integration-execution-executor-binding-authorization-package.json",
     "production-integration-execution-executor-binding-authorization-package-readiness": "production-integration-execution-executor-binding-authorization-package-readiness.json",
     "production-integration-execution-executor-binding-authorization-package-readiness-preflight": "production-integration-execution-executor-binding-authorization-package-readiness-preflight.json",
+    "production-integration-execution-executor-binding-authorization-package-readiness-rehearsal": "production-integration-execution-executor-binding-authorization-package-readiness-rehearsal.json",
 }
 
 MANDATORY_COMPLETION_RECEIPTS: Final[tuple[str, ...]] = (
