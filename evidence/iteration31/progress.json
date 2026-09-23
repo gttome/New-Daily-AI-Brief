@@ -2,22 +2,27 @@
   "schema_version": "1.0.0",
   "record_type": "iteration-progress",
   "iteration": 31,
-  "phase": "iteration31_authorization_package_implementation",
-  "branch": "iteration31-authorization-package-20260923",
-  "checkpoint_head_sha": "9b4be8ad1d016a75df59eea315808d95110b5465",
+  "phase": "iteration31_closure_package",
+  "branch": "iteration31-closure-20260923",
+  "checkpoint_head_sha": "f6fb1290016840fcbe22b81442ccb06bdc2d5fe8",
   "completed_gates": [
     "iteration30_repository_closure_verified",
     "iteration31_ready_verified",
     "starting_main_206b1cf510c57151375ada384264ede6acba2e33_verified",
     "starting_main_greenfield_contracts_35878800217_passed",
-    "superseding_prompt_and_amendment_loaded",
-    "existing_pr_89_reused",
-    "process_hardening_prelude_exact_head_7f893c9698d60d26673e82faa61c791b12771dac_verified",
     "process_hardening_prelude_ci_35886278368_passed",
     "process_hardening_prelude_merged_9b4be8ad1d016a75df59eea315808d95110b5465",
-    "process_hardening_prelude_merge_tree_matches_candidate"
+    "process_hardening_prelude_post_merge_ci_35889320179_passed",
+    "iteration31_candidate_a04f2facd05b96691a5f7357c27552b48593b5e4_verified",
+    "iteration31_candidate_ci_35893378540_passed_385_tests",
+    "iteration31_merge_9d3af402a3f1566a8c6def7268820696b414e4a4",
+    "iteration31_merge_tree_matches_candidate",
+    "iteration31_closure_branch_created",
+    "iteration31_four_closure_artifacts_staged",
+    "iteration32_scope_narrowed_to_owner_testing_access_only",
+    "iteration31_post_merge_main_ci_35902929793_passed"
   ],
-  "active_gate": "iteration31_authorization_package_exact_candidate_verification",
+  "active_gate": "iteration31_closure_exact_candidate_verification",
   "ci_runs": {
     "baseline_main": {
       "sha": "206b1cf510c57151375ada384264ede6acba2e33",
@@ -47,10 +52,29 @@
       "run_id": 35889320179,
       "result": "in_progress_at_checkpoint",
       "duplicate_run_started": false
+    },
+    "iteration31_candidate": {
+      "sha": "a04f2facd05b96691a5f7357c27552b48593b5e4",
+      "run_id": 35893378540,
+      "result": "pass",
+      "tests_passed": 385,
+      "tests_failed": 0,
+      "unittest_seconds": 3157.978,
+      "duplicate_run_started": false
+    },
+    "iteration31_post_merge_main": {
+      "sha": "9d3af402a3f1566a8c6def7268820696b414e4a4",
+      "run_id": 35902929793,
+      "result": "pass",
+      "event": "push",
+      "tests_passed": 385,
+      "tests_failed": 0,
+      "unittest_seconds": 3038.721,
+      "duplicate_run_started": false
     }
   },
-  "closure_state": "not_started",
-  "next_permissible_action": "resume PR 90 on branch iteration31-authorization-package-20260923; reuse exact-head CI for each candidate and never create a duplicate PR or manually duplicate CI; preserve merged prelude PR 89 and Iterations 1-30",
+  "closure_state": "closure_package",
+  "next_permissible_action": "Open or reuse the single Iteration 31 closure PR from iteration31-closure-20260923, reuse its exact-head bounded Greenfield Contracts CI, merge only if that exact head passes, verify the push bounded CI on main, then reconcile repository_closure_status=complete and iteration32_ready=true. Do not rerun runtime suites.",
   "resume_policy": {
     "reuse_existing_pr": 89,
     "reuse_exact_head_ci": true,
@@ -59,5 +83,7 @@
     "duplicate_pr_permitted": false,
     "duplicate_ci_for_same_head_permitted": false,
     "prior_iteration_rebuild_permitted": false
-  }
+  },
+  "implementation_pr_number": 90,
+  "implementation_merge_sha": "9d3af402a3f1566a8c6def7268820696b414e4a4"
 }
