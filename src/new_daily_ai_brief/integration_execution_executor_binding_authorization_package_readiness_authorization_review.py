@@ -139,8 +139,16 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackageReadiness
         "separate_executor_binding_authorization_package_readiness_rehearsal_digest",
         "synthetic_binding_plan_descriptor_id",
         "synthetic_binding_plan_descriptor_digest",
+        "executor_binding_authorization_package_readiness_rehearsal_receipt_ids",
+        "executor_binding_authorization_package_readiness_rehearsal_receipt_digests",
         "executor_binding_authorization_package_readiness_rehearsal_receipt_set_digest",
+        "iteration24_semantic_identity_digest",
+        "iteration25_semantic_identity_digest",
+        "iteration26_semantic_identity_digest",
+        "iteration27_semantic_identity_digest",
+        "iteration28_semantic_identity_digest",
         "canonical_chain_digest",
+        "bound_upstream_identity",
         "bound_upstream_identity_digest",
         "executor_binding_authorization_package_readiness_authorization_review_manifest_id",
         "grants_production_authority",
@@ -641,7 +649,7 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackageReadiness
             return {
                 "authorization_review_record_id": None,
                 "authorization_review_record_digest": None,
-            }, "EXECUTOR_BINDING_AUTHORIZATION_REVIEW_RECORD_MISSING"
+            }, "EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_AUTHORIZATION_REVIEW_RECORD_MISSING"
         if set(record) != self.RECORD_KEYS:
             raise IntegrationExecutionExecutorBindingAuthorizationPackageReadinessAuthorizationReviewError(
                 "executor-binding-authorization-package-readiness-authorization-review record contains unsupported fields"
@@ -689,10 +697,22 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackageReadiness
             "synthetic_binding_plan_descriptor_digest": bound[
                 "synthetic_binding_plan_descriptor_digest"
             ],
+            "executor_binding_authorization_package_readiness_rehearsal_receipt_ids": deepcopy(
+                bound["executor_binding_authorization_package_readiness_rehearsal_receipt_ids"]
+            ),
+            "executor_binding_authorization_package_readiness_rehearsal_receipt_digests": deepcopy(
+                bound["executor_binding_authorization_package_readiness_rehearsal_receipt_digests"]
+            ),
             "executor_binding_authorization_package_readiness_rehearsal_receipt_set_digest": bound[
                 "executor_binding_authorization_package_readiness_rehearsal_receipt_set_digest"
             ],
+            "iteration24_semantic_identity_digest": bound["iteration24_semantic_identity_digest"],
+            "iteration25_semantic_identity_digest": bound["iteration25_semantic_identity_digest"],
+            "iteration26_semantic_identity_digest": bound["iteration26_semantic_identity_digest"],
+            "iteration27_semantic_identity_digest": bound["iteration27_semantic_identity_digest"],
+            "iteration28_semantic_identity_digest": bound["iteration28_semantic_identity_digest"],
             "canonical_chain_digest": bound["canonical_chain_digest"],
+            "bound_upstream_identity": deepcopy(bound),
             "bound_upstream_identity_digest": context["bound_upstream_identity_digest"],
             "executor_binding_authorization_package_readiness_authorization_review_manifest_id": manifest["manifest_id"],
             "grants_production_authority": False,
@@ -757,7 +777,7 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackageReadiness
             return {
                 "classification": "invalid",
                 "classification_reason_codes": [
-                    "ITERATION22_EXECUTOR_BINDING_REHEARSAL_INVALID",
+                    "ITERATION28_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_REHEARSAL_INVALID",
                     *reasons,
                 ],
                 "rehearsal_binding": {
@@ -769,7 +789,7 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackageReadiness
             return {
                 "classification": "blocked",
                 "classification_reason_codes": [
-                    "ITERATION22_EXECUTOR_BINDING_REHEARSAL_BLOCKED",
+                    "ITERATION28_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_REHEARSAL_BLOCKED",
                     *reasons,
                 ],
                 "rehearsal_binding": {
@@ -837,7 +857,7 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackageReadiness
         return {
             "classification": "executor_binding_authorization_package_readiness_authorization_review_complete",
             "classification_reason_codes": [
-                "SYNTHETIC_EXECUTOR_BINDING_AUTHORIZATION_REVIEW_COMPLETE"
+                "SYNTHETIC_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_AUTHORIZATION_REVIEW_COMPLETE"
             ],
             "rehearsal_binding": rehearsal_binding,
         }
