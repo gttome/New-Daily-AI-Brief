@@ -7,6 +7,8 @@
   "approved": true,
   "scope": "execution_executor_binding_authorization_package_readiness_authorization_review_only",
   "synthetic_only": true,
+  "noop": true,
+  "non_live": true,
   "executor_binding_authorization_package_readiness_rehearsal_artifact_digest": "sha256:placeholder",
   "executor_binding_authorization_package_readiness_rehearsal_id": "sha256:placeholder",
   "executor_binding_authorization_package_readiness_rehearsal_policy_id": "placeholder",
