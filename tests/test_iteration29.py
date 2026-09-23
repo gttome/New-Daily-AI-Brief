@@ -412,6 +412,17 @@ class Iteration29ExecutorBindingAuthorizationPackageReadinessAuthorizationReview
                 lambda d: d.__setitem__("executor_binding_authorization_package_readiness_rehearsal_manifest_id", "changed"),
                 lambda d: d.__setitem__("separate_executor_binding_authorization_package_readiness_rehearsal_id", "sha256:" + "1" * 64),
                 lambda d: d.__setitem__("synthetic_binding_plan_descriptor_id", "sha256:" + "2" * 64),
+                lambda d: d.__setitem__("executor_binding_authorization_package_readiness_preflight_policy_id", "changed"),
+                lambda d: d.__setitem__("executor_binding_authorization_package_readiness_preflight_manifest_id", "changed"),
+                lambda d: d.__setitem__("separate_executor_binding_authorization_package_readiness_preflight_id", "sha256:" + "4" * 64),
+                lambda d: d.__setitem__("iteration27_semantic_identity_digest", "sha256:" + "5" * 64),
+                lambda d: d.__setitem__("iteration26_semantic_identity_digest", "sha256:" + "6" * 64),
+                lambda d: d.__setitem__("iteration25_semantic_identity_digest", "sha256:" + "7" * 64),
+                lambda d: d.__setitem__("iteration24_semantic_identity_digest", "sha256:" + "8" * 64),
+                lambda d: d.__setitem__(
+                    "executor_binding_authorization_package_readiness_preflight_evidence_ids",
+                    list(reversed(d["executor_binding_authorization_package_readiness_preflight_evidence_ids"])),
+                ),
                 lambda d: d.__setitem__(
                     "executor_binding_authorization_package_readiness_rehearsal_receipt_ids",
                     list(reversed(d["executor_binding_authorization_package_readiness_rehearsal_receipt_ids"])),
@@ -459,6 +470,11 @@ class Iteration29ExecutorBindingAuthorizationPackageReadinessAuthorizationReview
                 "target-authority": dict(mutate_record=lambda r: r.update({"grants_real_target_contact_authority": True})),
                 "rollback-authority": dict(mutate_record=lambda r: r.update({"grants_rollback_execution_authority": True})),
                 "cost": dict(mutate_record=lambda r: r.update({"zero_incremental_cost_approved": False})),
+                "manifest-cost": dict(
+                    mutate_manifest=lambda m: m["evidence"]["cost_declaration"].update(
+                        {"zero_incremental_cost_approved": False}
+                    )
+                ),
             }
             for name, kwargs in fixture_cases.items():
                 with self.subTest(name=name), tempfile.TemporaryDirectory() as td:
