@@ -3,7 +3,7 @@
 
 Prepared September 22, 2026. Repository: `gttome/New-Daily-AI-Brief`.
 
-**Functional exit gate: PASS. Repository closure: PENDING until closure PR/main CI reconciliation. Iteration 27 ready: false.**
+**Functional exit gate: PASS. Repository closure: COMPLETE. Iteration 27 ready: true.**
 
 ## Verified baseline
 - Iteration 25 reconciled main before Iteration 26 implementation: `1dd6102df5581e20a68223679d4194d07f16f298`.
@@ -45,10 +45,19 @@ Every recovery preserved the locked upstream artifact digests, upstream stage-ex
 ## Prohibited actions
 No real executor was implemented, bound, or invoked. No production credentials were used/stored. No real target was contacted. No production/rollback/cutover/decommission/publication authority was granted or executed. No private Command Center, final UI, Pages/Sites, public URL, real public-route verification, production schedule, subscriber delivery, legacy migration/cutover/decommission/publication, `gttome/Daily-AI-Brief`, or incremental paid dependency was changed.
 
-## Mandatory closure package
+## Closure
+Mandatory closure artifacts:
 - `docs/ITERATION26_AFTER_ACTION_2026-09-21.md`
 - `evidence/iteration26/synthetic-shadow-production-integration-execution-executor-binding-authorization-package-readiness-evidence.json`
 - `docs/ITERATION27_HANDOFF_2026-09-21.md`
 - `docs/ITERATION27_START_PROMPT_2026-09-21.md`
 
-Closure identities are intentionally pending in this initial package. They must be reconciled only after the exact closure candidate passes Greenfield Contracts, merges, and independent post-merge main CI passes.
+Verified closure:
+- closure PR: #75;
+- exact closure candidate: `be4608c1b0c1bc1db7363dd7fe8a40575c60fd59`;
+- exact closure candidate tree: `bc5f522dda333d0df4143f5050167337b87cf64e`;
+- closure PR Greenfield Contracts: run `35803569792`, PASS, **323/323 tests**, 282.404s;
+- closure merge: `9590f18d76304788dc00415598b99b3cd26bbc75`;
+- closure post-merge main Greenfield Contracts: run `35804137759`, PASS, **323/323 tests**, 273.688s.
+
+This reconciliation records those independently observed facts and activates Iteration 27.
