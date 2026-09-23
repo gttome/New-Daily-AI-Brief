@@ -3,7 +3,7 @@
 
 Prepared September 22, 2026. Repository: `gttome/New-Daily-AI-Brief`.
 
-**Functional exit gate: PASS. Repository closure: PENDING. Iteration 29 ready: false.**
+**Functional exit gate: PASS. Repository closure: COMPLETE. Iteration 29 ready: true.**
 
 ## Verified baseline
 - Startup `main`: `03379a4fab54aa559f7e47a63a02df801db5c8ef`.
