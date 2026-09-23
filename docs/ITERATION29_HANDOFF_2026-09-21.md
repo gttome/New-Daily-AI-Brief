@@ -3,7 +3,7 @@
 
 Prepared September 22, 2026. Repository: `gttome/New-Daily-AI-Brief`.
 
-> **ACTIVATION STATUS: PENDING.** Iteration 28 functional exit gate passed, but Iteration 29 must not begin until the Iteration 28 closure package is merged, independent closure post-merge `main` CI passes, and reconciled repository evidence reports `repository_closure_status=complete` and `iteration29_ready=true`.
+> **ACTIVATION STATUS: READY.** Iteration 28 closure PR #81 exact candidate `20a7c51fbddb88bc19a861900e0d4f09cc28c9c8` (tree `4127a8b1c948132e7e2fec440139ce74e4765a71`) passed Greenfield Contracts run `35814676414` with 343/343 tests, merged as `4730bbaa46b9108e0498f9481146562d811ce3e7`, and post-merge main passed run `35815091323` with 343/343 tests. Reconciled Iteration 28 evidence reports `repository_closure_status=complete` and `iteration29_ready=true`. The receiving chat must still independently verify then-current main and CI.
 
 ## Required startup reads
 Use current `main` as the sole source of truth. Independently verify current main SHA and Greenfield Contracts CI, then read:
