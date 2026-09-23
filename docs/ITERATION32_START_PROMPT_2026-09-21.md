@@ -46,6 +46,23 @@ Retain the Iteration 31 hardening:
 
 If an Actions query helper does not expose push-triggered runs, inspect the GitHub Actions runs API directly rather than assuming no post-merge run exists.
 
+## Mandatory CI performance prelude
+
+Before substantial Iteration 32 feature work, fix the CI runtime defect exposed by Iteration 31. The Iteration 31 candidate ran the targeted 14-test suite in 1727.602s (~28.8 min), then ran the 385-test full suite in 3157.978s (~52.6 min), with current-iteration tests included again. That ~81-minute candidate cycle is not acceptable for ongoing operation.
+
+Do this as an **unnumbered prelude inside Iteration 32**, not as Iteration 33 and not as a prerequisite that delays first owner access.
+
+Preserve safety while:
+- eliminating duplicate current-iteration test execution;
+- preserving the required Greenfield Contracts branch-protection check context;
+- sharding independent historical regression tests so they run in parallel;
+- introducing immutable digest-verified upstream test checkpoints/fixtures so each current-iteration test does not reconstruct the entire locked prior chain;
+- preserving fresh-engine recovery by reopening/cloning durable checkpoints, never by sharing mutable in-memory state;
+- retaining complete historical regression coverage for executable/contract changes;
+- retaining bounded docs/evidence-only closure validation.
+
+Measure and record the result. Target executable-change Greenfield Contracts wall clock at **20 minutes or less**, with a **30-minute normal-operation ceiling** absent a documented external runner incident. Target docs/evidence-only closure/reconciliation at **5 minutes or less**. Do not close Iteration 32 without recording before/after timings and proving that test coverage was not reduced.
+
 ## Safety and cost constraints
 
 Do not:
