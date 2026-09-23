@@ -3,7 +3,7 @@
 
 Prepared September 23, 2026. Repository: `gttome/New-Daily-AI-Brief`.
 
-> **ACTIVATION STATUS: PENDING CLOSURE RECONCILIATION.** Iteration 30 functional exit gate passed, but Iteration 31 must not begin until reconciled Iteration 30 evidence reports `repository_closure_status=complete` and `iteration31_ready=true`, all four closure artifacts are present on verified `main`, and then-current Greenfield Contracts passes.
+> **ACTIVATION STATUS: READY.** Iteration 30 closure PR **#87** exact candidate `54b38ccbe4bd0dc29ee5dd591e7a9bb4268adbf9` (tree `790a7f829b5c417694ad06262016838f19499e8b`) passed Greenfield Contracts run `35869186085` with 367/367 tests, merged as `3f42a1bec2643af47ce4a0d7b4f0891aec7b8ec3`, and post-merge main passed run `35871863681` with 367/367 tests. Reconciled Iteration 30 evidence reports `repository_closure_status=complete` and `iteration31_ready=true`. The receiving chat must still independently verify then-current main and CI.
 
 ## Required startup reads
 Use current `main` as the sole source of truth. Independently verify current main SHA and Greenfield Contracts CI, then read:

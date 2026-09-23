@@ -3,7 +3,7 @@
 
 Prepared September 23, 2026. Repository: `gttome/New-Daily-AI-Brief`.
 
-**Functional exit gate: PASS. Repository closure: PENDING reconciliation. Iteration 31 ready: false until closure merge/main CI is independently reconciled.**
+**Functional exit gate: PASS. Repository closure: COMPLETE. Iteration 31 ready: true.**
 
 ## Verified baseline
 - Starting `main`: `d19f6b749694945cb8af552d50fbe46657d39e83`.
@@ -69,7 +69,16 @@ This closure branch contains the four required artifacts:
 - `docs/ITERATION31_HANDOFF_2026-09-21.md`
 - `docs/ITERATION31_START_PROMPT_2026-09-21.md`
 
-Repository closure remains pending until the exact closure candidate passes Greenfield Contracts, is merged with exact-head guarding, post-merge main CI passes, and those observed closure identities are reconciled into repository records.
+Verified closure:
+- closure PR: **#87**;
+- exact closure candidate: `54b38ccbe4bd0dc29ee5dd591e7a9bb4268adbf9`;
+- exact closure candidate tree: `790a7f829b5c417694ad06262016838f19499e8b`;
+- closure PR Greenfield Contracts: run `35869186085`, PASS, **367/367 tests**, 1299.318s;
+- closure merge: `3f42a1bec2643af47ce4a0d7b4f0891aec7b8ec3`;
+- closure merge tree: `790a7f829b5c417694ad06262016838f19499e8b`, identical to the tested closure candidate tree;
+- closure post-merge main Greenfield Contracts: run `35871863681`, PASS, **367/367 tests**, 1561.631s.
+
+This reconciliation records those independently observed facts and activates Iteration 31.
 
 ## Deferred scope
-Iteration 31 is specified as a deterministic synthetic-only executor-binding authorization-package-readiness **authorization-package** gate consuming the exact locked Iteration 30 authorization-decision artifact. It remains blocked and grants no production authority. Iteration 31 must not begin until reconciled repository evidence reports `repository_closure_status=complete` and `iteration31_ready=true`.
+Iteration 31 is specified as a deterministic synthetic-only executor-binding authorization-package-readiness **authorization-package** gate consuming the exact locked Iteration 30 authorization-decision artifact. The current chain remains blocked and grants no production authority. Reconciled repository evidence now reports `repository_closure_status=complete` and `iteration31_ready=true`.
