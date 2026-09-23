@@ -40,5 +40,13 @@
   "credentials_use_authorized": false,
   "real_target_contact_authorized": false,
   "rollback_execution_authorized": false,
-  "real_integration_steps_enabled": 0
+  "real_integration_steps_enabled": 0,
+  "executor_binding_authorization_package_readiness_rehearsal_receipt_ids": [],
+  "executor_binding_authorization_package_readiness_rehearsal_receipt_digests": [],
+  "iteration24_semantic_identity_digest": "sha256:placeholder",
+  "iteration25_semantic_identity_digest": "sha256:placeholder",
+  "iteration26_semantic_identity_digest": "sha256:placeholder",
+  "iteration27_semantic_identity_digest": "sha256:placeholder",
+  "iteration28_semantic_identity_digest": "sha256:placeholder",
+  "bound_upstream_identity": {}
 }
