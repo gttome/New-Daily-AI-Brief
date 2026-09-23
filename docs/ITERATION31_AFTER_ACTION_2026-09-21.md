@@ -29,7 +29,7 @@ The prelude preserves the required **Greenfield Contracts** check, routes execut
 - full-suite result: **385/385 tests**, 3157.978s;
 - guarded exact-head merge: `9d3af402a3f1566a8c6def7268820696b414e4a4`;
 - merge tree: `739635408272a48b4f66843cb88d538caeeda7cd`, identical to the tested candidate tree;
-- independent post-merge push Greenfield Contracts: `35902929793`, currently pending completion at closure preparation time.
+- independent post-merge push Greenfield Contracts: `35902929793`, PASS, **385/385 tests**, 3038.721s.
 
 ## Implemented scope
 Iteration 31 adds exactly one mutually exclusive bounded
@@ -90,7 +90,7 @@ The closure package is being staged on `iteration31-closure-20260923` and consis
 - `docs/ITERATION32_HANDOFF_2026-09-21.md`
 - `docs/ITERATION32_START_PROMPT_2026-09-21.md`
 
-Repository closure remains pending until post-merge run `35902929793` passes, the exact closure candidate passes bounded Greenfield Contracts validation, the closure PR merges, post-merge closure validation passes, and repository metadata is reconciled.
+Repository closure remains pending only for the documentation/evidence closure PR, bounded Greenfield Contracts validation, closure merge/post-merge bounded validation, and final reconciliation. Implementation post-merge run `35902929793` has passed.
 
 ## Iteration 32 fixed access milestone
 Iteration 32 is **strictly limited to enabling owner hands-on testing**. It must create and deploy the minimum functioning greenfield reader and private greenfield Command Center, provide real desktop/phone-accessible URLs, representative data, and the minimum reader/Command Center surfaces needed for meaningful testing while preserving production coexistence.
