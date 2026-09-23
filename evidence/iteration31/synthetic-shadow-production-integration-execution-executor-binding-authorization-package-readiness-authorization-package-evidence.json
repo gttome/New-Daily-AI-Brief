@@ -41,7 +41,12 @@
     "candidate_unittest_seconds": 3157.978,
     "merge_sha": "9d3af402a3f1566a8c6def7268820696b414e4a4",
     "merge_tree_sha": "739635408272a48b4f66843cb88d538caeeda7cd",
-    "merge_tree_matches_candidate": true
+    "merge_tree_matches_candidate": true,
+    "post_merge_ci_run_id": 35902929793,
+    "post_merge_ci_result": "pass",
+    "post_merge_tests_passed": 385,
+    "post_merge_tests_failed": 0,
+    "post_merge_unittest_seconds": 3038.721
   },
   "contract": {
     "artifact_schema_version": "1.0.0",
@@ -184,7 +189,7 @@
     "repository_closure_status": "pending",
     "iteration32_ready": false,
     "implementation_post_merge_ci_run_id": 35902929793,
-    "implementation_post_merge_ci_result": "in_progress_at_closure_preparation",
+    "implementation_post_merge_ci_result": "pass",
     "closure_branch": "iteration31-closure-20260923",
     "closure_pr_number": null,
     "closure_candidate_sha": null,
