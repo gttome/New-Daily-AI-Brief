@@ -474,10 +474,6 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackageReadiness
                 raise IntegrationExecutionExecutorBindingAuthorizationPackageReadinessAuthorizationReviewError(
                     "qualified Iteration 28 input requires separate preflight identity"
                 )
-            if not data.get("synthetic_binding_plan_descriptor_id"):
-                raise IntegrationExecutionExecutorBindingAuthorizationPackageReadinessAuthorizationReviewError(
-                    "qualified Iteration 28 input requires binding-plan identity"
-                )
         state = self.store.read_json(
             self.store.run_dir / "executor-binding-authorization-package-readiness-rehearsal-state.json"
         )
