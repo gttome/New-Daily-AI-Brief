@@ -3,7 +3,7 @@
 
 Prepared September 23, 2026. Repository: `gttome/New-Daily-AI-Brief`.
 
-> **ACTIVATION STATUS: PENDING ITERATION 31 REPOSITORY CLOSURE.** Do not begin Iteration 32 until the Iteration 31 evidence reports `repository_closure_status=complete`, `iteration32_ready=true`, all four Iteration 31 closure artifacts exist on verified `main`, and the current Greenfield Contracts check is passing.
+> **ACTIVATION STATUS: READY.** Iteration 31 implementation and closure have passed exact-candidate, post-merge, bounded closure, and post-merge closure verification. Reconciled Iteration 31 evidence reports `repository_closure_status=complete` and `iteration32_ready=true`. The receiving chat must still independently verify then-current `main` and Greenfield Contracts before changing anything.
 
 ## Required startup reads
 Use current `main` as the sole source of truth. Independently verify the current main SHA and Greenfield Contracts state, then read:

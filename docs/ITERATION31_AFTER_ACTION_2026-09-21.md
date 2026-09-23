@@ -3,7 +3,7 @@
 
 Prepared September 23, 2026. Repository: `gttome/New-Daily-AI-Brief`.
 
-**Functional exit gate: PASS. Repository closure: PENDING post-merge verification and closure reconciliation. Iteration 32 ready: false.**
+**Functional exit gate: PASS. Repository closure: COMPLETE. Iteration 32 ready: true.**
 
 ## Verified baseline
 - Starting `main`: `206b1cf510c57151375ada384264ede6acba2e33`.
@@ -90,7 +90,16 @@ The closure package is being staged on `iteration31-closure-20260923` and consis
 - `docs/ITERATION32_HANDOFF_2026-09-21.md`
 - `docs/ITERATION32_START_PROMPT_2026-09-21.md`
 
-Repository closure remains pending only for the documentation/evidence closure PR, bounded Greenfield Contracts validation, closure merge/post-merge bounded validation, and final reconciliation. Implementation post-merge run `35902929793` has passed.
+Verified closure:
+- closure PR: **#91**;
+- exact closure candidate: `3b432e785bf694f1105927fed0febc21ebaa7b9d`;
+- closure candidate tree: `c3f8fcf3e7aad74c6c9de5fb92054f75e84e7bf2`;
+- bounded closure Greenfield Contracts: run `35912658172`, PASS in **9 seconds**;
+- closure merge: `5c97a3c58032e158bb06482898cebaa159e0a374`;
+- closure merge tree: `c3f8fcf3e7aad74c6c9de5fb92054f75e84e7bf2`, identical to the tested closure candidate tree;
+- post-merge bounded Greenfield Contracts: run `35912788901`, PASS in **14 seconds**.
+
+The bounded closure path reduced verification wall clock from the 1,571-second historical baseline to 9–14 seconds for docs/evidence-only changes while skipping runtime tests exactly as designed. Repository closure is complete and Iteration 32 is ready.
 
 ## Iteration 32 fixed access milestone
 Iteration 32 is **strictly limited to enabling owner hands-on testing**. It must create and deploy the minimum functioning greenfield reader and private greenfield Command Center, provide real desktop/phone-accessible URLs, representative data, and the minimum reader/Command Center surfaces needed for meaningful testing while preserving production coexistence.
