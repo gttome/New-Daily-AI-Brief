@@ -1824,6 +1824,7 @@ class RunEngine:
                 or self.integration_execution_executor_binding_authorization_package_only
                 or self.integration_execution_executor_binding_authorization_package_readiness_only
                 or self.integration_execution_executor_binding_authorization_package_readiness_preflight_only
+                or self.integration_execution_executor_binding_authorization_package_readiness_rehearsal_only
             ):
                 self.store.acquire_lease(self.run_id, self.owner)
                 try:
@@ -1834,6 +1835,7 @@ class RunEngine:
                             or self.integration_execution_executor_binding_authorization_package_only
                             or self.integration_execution_executor_binding_authorization_package_readiness_only
                             or self.integration_execution_executor_binding_authorization_package_readiness_preflight_only
+                            or self.integration_execution_executor_binding_authorization_package_readiness_rehearsal_only
                         )
                     )
                     if self.readiness_only:
