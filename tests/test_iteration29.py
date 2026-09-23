@@ -210,10 +210,22 @@ class Iteration29ExecutorBindingAuthorizationPackageReadinessAuthorizationReview
                 "synthetic_binding_plan_descriptor_digest": bound[
                     "synthetic_binding_plan_descriptor_digest"
                 ],
+                "executor_binding_authorization_package_readiness_rehearsal_receipt_ids": deepcopy(
+                    bound["executor_binding_authorization_package_readiness_rehearsal_receipt_ids"]
+                ),
+                "executor_binding_authorization_package_readiness_rehearsal_receipt_digests": deepcopy(
+                    bound["executor_binding_authorization_package_readiness_rehearsal_receipt_digests"]
+                ),
                 "executor_binding_authorization_package_readiness_rehearsal_receipt_set_digest": bound[
                     "executor_binding_authorization_package_readiness_rehearsal_receipt_set_digest"
                 ],
+                "iteration24_semantic_identity_digest": bound["iteration24_semantic_identity_digest"],
+                "iteration25_semantic_identity_digest": bound["iteration25_semantic_identity_digest"],
+                "iteration26_semantic_identity_digest": bound["iteration26_semantic_identity_digest"],
+                "iteration27_semantic_identity_digest": bound["iteration27_semantic_identity_digest"],
+                "iteration28_semantic_identity_digest": bound["iteration28_semantic_identity_digest"],
                 "canonical_chain_digest": bound["canonical_chain_digest"],
+                "bound_upstream_identity": deepcopy(bound),
                 "bound_upstream_identity_digest": context[
                     "bound_upstream_identity_digest"
                 ],
@@ -268,7 +280,7 @@ class Iteration29ExecutorBindingAuthorizationPackageReadinessAuthorizationReview
             self.assertEqual(data1["classification"], "blocked")
             self.assertEqual(
                 data1["classification_reason_codes"][0],
-                "ITERATION22_EXECUTOR_BINDING_REHEARSAL_BLOCKED",
+                "ITERATION28_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_REHEARSAL_BLOCKED",
             )
             self.assertEqual(data1["executor_binding_authorization_package_readiness_authorization_review_id"], data2["executor_binding_authorization_package_readiness_authorization_review_id"])
             self.assertEqual(digest1, digest2)
@@ -305,7 +317,7 @@ class Iteration29ExecutorBindingAuthorizationPackageReadinessAuthorizationReview
                 self.assertEqual(data["classification"], "blocked")
                 self.assertEqual(
                     data["classification_reason_codes"][0],
-                    "EXECUTOR_BINDING_AUTHORIZATION_REVIEW_RECORD_MISSING",
+                    "EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_AUTHORIZATION_REVIEW_RECORD_MISSING",
                 )
                 self.assertEqual(data["executor_binding_authorization_package_readiness_authorization_review_evidence_ids"], [])
                 self.safe(data)
@@ -324,7 +336,7 @@ class Iteration29ExecutorBindingAuthorizationPackageReadinessAuthorizationReview
                 self.assertEqual(data["classification"], "executor_binding_authorization_package_readiness_authorization_review_complete")
                 self.assertEqual(
                     data["classification_reason_codes"],
-                    ["SYNTHETIC_EXECUTOR_BINDING_AUTHORIZATION_REVIEW_COMPLETE"],
+                    ["SYNTHETIC_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_AUTHORIZATION_REVIEW_COMPLETE"],
                 )
                 self.assertEqual(
                     data["executor_binding_authorization_package_readiness_rehearsal_classification"],
@@ -838,7 +850,7 @@ class Iteration29ExecutorBindingAuthorizationPackageReadinessAuthorizationReview
                     self.assertEqual(run["stage_executions"].get(key), value)
                 self.assertEqual(prior_files, self.snapshot(engine))
                 self.assertEqual(data["classification"], "blocked")
-                self.assertEqual(data["classification_reason_codes"][0], "ITERATION22_EXECUTOR_BINDING_REHEARSAL_BLOCKED")
+                self.assertEqual(data["classification_reason_codes"][0], "ITERATION28_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_REHEARSAL_BLOCKED")
                 artifact = engine.store.load_artifact("production-integration-execution-executor-binding-authorization-package-readiness-authorization-review")
                 self.emit("exit_run", {"date": date, "mode": "shadow", "artifact_digest": artifact["content_digest"],
                           "review_id": data["executor_binding_authorization_package_readiness_authorization_review_id"],
