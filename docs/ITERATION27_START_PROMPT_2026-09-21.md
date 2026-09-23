@@ -1,3 +1,4 @@
+<!-- ACTIVATION STATUS: READY — Iteration 26 closure reconciled; receiving chat must still verify current main/CI. -->
 @GitHub Proceed with Iteration 27 of the New Daily AI Brief greenfield implementation in `gttome/New-Daily-AI-Brief`.
 
 Use current `main` as the source of truth. Before changing anything, independently verify current main SHA and Greenfield Contracts CI, verify Iteration 26 is completely closed and passing, and read:
