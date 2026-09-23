@@ -1,4 +1,4 @@
-<!-- ACTIVATION STATUS: PENDING — do not start until reconciled Iteration 28 evidence reports repository_closure_status=complete and iteration29_ready=true. -->
+<!-- ACTIVATION STATUS: READY — Iteration 28 closure reconciled; receiving chat must still verify current main/CI. -->
 @GitHub Proceed with Iteration 29 of the New Daily AI Brief greenfield implementation in `gttome/New-Daily-AI-Brief`.
 
 Use current `main` as the source of truth. Before changing anything, independently verify current main SHA and Greenfield Contracts CI, verify Iteration 28 is completely closed and passing, and read:
