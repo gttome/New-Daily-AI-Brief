@@ -14,7 +14,7 @@ from new_daily_ai_brief.integration_execution_executor_binding_authorization_pac
     IntegrationExecutionExecutorBindingAuthorizationPackageReadinessError,
     ProductionIntegrationExecutionExecutorBindingAuthorizationPackageReadiness,
 )
-from new_daily_ai_brief.store import digest
+from new_daily_ai_brief.store import digest, semantic_digest
 import test_iteration25
 
 
@@ -387,6 +387,109 @@ class Iteration26ExecutorBindingAuthorizationPackageReadinessTest(unittest.TestC
                     state_root=td,
                     integration_execution_executor_binding_authorization_package_readiness_only=True,
                 )
+
+    def test_changed_iteration25_identity_and_unsafe_source_capabilities_fail_closed(self):
+        source_cases = {
+            "schema-version": lambda d: d.__setitem__(
+                "executor_binding_authorization_package_schema_version", "2.0.0"
+            ),
+            "package-id": lambda d: d.__setitem__(
+                "executor_binding_authorization_package_id", "sha256:changed"
+            ),
+            "endpoint": lambda d: d["synthetic_binding_plan_descriptor"].update(
+                {"external_endpoint": "https://example.invalid"}
+            ),
+            "binding": lambda d: d["synthetic_binding_plan_descriptor"].update(
+                {"real_executor_binding_capability": True}
+            ),
+            "invocation": lambda d: d["synthetic_binding_plan_descriptor"].update(
+                {"invocation_capability": True}
+            ),
+            "command": lambda d: d["synthetic_binding_plan_descriptor"].update(
+                {"executable_command": "echo unsafe"}
+            ),
+            "step": lambda d: d["synthetic_binding_plan_descriptor"].update(
+                {"executable_steps": ["unsafe"]}
+            ),
+            "credential": lambda d: d["synthetic_binding_plan_descriptor"].update(
+                {"credential_reference": "secret"}
+            ),
+            "target": lambda d: d["synthetic_binding_plan_descriptor"].update(
+                {"deployment_target": "prod"}
+            ),
+            "paid": lambda d: d["synthetic_binding_plan_descriptor"].update(
+                {"paid_dependency_required": True}
+            ),
+            "mutation": lambda d: d.__setitem__("external_mutation_performed", True),
+            "authority": lambda d: d.__setitem__("production_action_authorized", True),
+        }
+        with tempfile.TemporaryDirectory() as base:
+            self.make_source(base, qualified=True)
+            for name, mutate in source_cases.items():
+                with self.subTest(name=name), tempfile.TemporaryDirectory() as td:
+                    self.clone_root(base, td)
+                    e = RunEngine(td, self.DATE)
+                    artifact = e.store.load_artifact(
+                        "production-integration-execution-executor-binding-authorization-package"
+                    )
+                    mutate(artifact["data"])
+                    artifact["content_digest"] = semantic_digest(artifact)
+                    e.store._atomic_write(
+                        e.store.artifact_path(
+                            "production-integration-execution-executor-binding-authorization-package"
+                        ),
+                        artifact,
+                    )
+                    with self.assertRaises(
+                        IntegrationExecutionExecutorBindingAuthorizationPackageReadinessError
+                    ):
+                        start_daily_brief(
+                            self.DATE,
+                            state_root=td,
+                            integration_execution_executor_binding_authorization_package_readiness_only=True,
+                        )
+
+    def test_unknown_unsafe_readiness_manifest_fields_and_mutations_fail_closed(self):
+        unsafe = {
+            "external_endpoint": "https://example.invalid",
+            "binding_capability": True,
+            "invocation_capability": True,
+            "executable_command": "unsafe",
+            "executable_step": True,
+            "credential": "synthetic-secret-marker",
+            "target": "production",
+            "authority": True,
+            "paid_dependency": "paid",
+            "real_private_command_center_mutated": True,
+            "public_site_mutated": True,
+            "production_schedule_action": True,
+            "subscriber_delivery_changed": True,
+            "legacy_content_migrated": True,
+            "readers_routed_to_greenfield": True,
+            "legacy_repository_modified": True,
+            "incremental_paid_dependency_added": True,
+            "lifecycle_state_changed": True,
+        }
+        with tempfile.TemporaryDirectory() as base:
+            self.make_source(base, qualified=True)
+            for name, value in unsafe.items():
+                with self.subTest(name=name), tempfile.TemporaryDirectory() as td:
+                    self.clone_root(base, td)
+                    e = RunEngine(td, self.DATE)
+                    fixture = self.write_fixture(
+                        Path(td) / "unsafe",
+                        e,
+                        mutate_manifest=lambda m, n=name, v=value: m.update({n: v}),
+                    )
+                    with self.assertRaises(
+                        IntegrationExecutionExecutorBindingAuthorizationPackageReadinessError
+                    ):
+                        start_daily_brief(
+                            self.DATE,
+                            state_root=td,
+                            integration_execution_executor_binding_authorization_package_readiness_fixture_root=fixture,
+                            integration_execution_executor_binding_authorization_package_readiness_only=True,
+                        )
 
     def recovery(self, source_root, boundary):
         temp = tempfile.TemporaryDirectory()
