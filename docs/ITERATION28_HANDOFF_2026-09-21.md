@@ -3,7 +3,7 @@
 
 Prepared September 22, 2026. Repository: `gttome/New-Daily-AI-Brief`.
 
-> **ACTIVATION STATUS: PENDING.** Iteration 27 implementation has passed candidate and post-merge main CI, but Iteration 27 repository closure must still be merged, independently verified, and reconciled before this handoff becomes active. The receiving chat must never begin while Iteration 27 evidence reports `repository_closure_status=pending` or `iteration28_ready=false`.
+> **ACTIVATION STATUS: READY.** Iteration 27 closure PR #78 exact candidate `8376a4aedf072bd91d9220cef4ea63397620d621` (tree `adb74c4aa084290d27974f6f914beace5ac34e19`) passed Greenfield Contracts run `35809611730` with 334/334 tests, merged as `ecf87fd2c087b288008056053894f84a01860342`, and post-merge main passed run `35810068396` with 334/334 tests. Reconciled Iteration 27 evidence reports `repository_closure_status=complete` and `iteration28_ready=true`. The receiving chat must still independently verify then-current main and CI.
 
 ## Required startup reads
 Use current `main` as the sole source of truth. Independently verify current main SHA and Greenfield Contracts CI, then read:
