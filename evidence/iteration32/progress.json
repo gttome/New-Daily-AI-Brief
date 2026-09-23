@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "iteration-progress",
+  "iteration": 32,
+  "phase": "owner_test_access_candidate",
+  "branch": "iteration32-owner-test-access",
+  "baseline_main_sha": "71a12a1278c1a509e6d3ef8784278097231e2083",
+  "baseline_greenfield_contracts": {
+    "run_id": 35913224824,
+    "result": "pass",
+    "event": "push"
+  },
+  "implementation_content_sha": "51fe83db3a2568c50e30c585233f7a22671dea2d",
+  "completed_gates": [
+    "iteration31_repository_closure_verified_complete",
+    "iteration32_ready_verified_true",
+    "baseline_main_verified",
+    "baseline_greenfield_contracts_35913224824_passed",
+    "no_existing_iteration32_branch_or_pr",
+    "minimum_reader_surface_implemented",
+    "encrypted_command_center_surface_implemented",
+    "representative_shadow_data_integrated",
+    "pages_deployment_workflow_staged",
+    "desktop_and_mobile_live_smoke_checks_staged",
+    "production_coexistence_preserved_in_candidate"
+  ],
+  "active_gate": "iteration32_exact_head_greenfield_contracts",
+  "closure_state": "not_started_owner_testing_required",
+  "owner_testing_stop_gate": true,
+  "next_permissible_action": "Open exactly one Iteration 32 PR, run/reuse exact-head Greenfield Contracts, merge only if passing, verify post-merge main Greenfield Contracts, allow the Pages workflow to deploy and run live desktop/mobile smoke checks, provide the reader URL plus the encrypted owner Command Center URL and stop for owner testing. Do not close Iteration 32 or prepare Iteration 33.",
+  "resume_policy": {
+    "reuse_existing_branch": true,
+    "reuse_existing_pr": true,
+    "reuse_exact_head_ci": true,
+    "duplicate_pr_permitted": false,
+    "duplicate_ci_for_same_head_permitted": false,
+    "prior_iteration_rebuild_permitted": false
+  },
+  "safety": {
+    "production_cutover": false,
+    "production_reader_routing": false,
+    "legacy_repository_modified": false,
+    "production_schedules_modified": false,
+    "subscriber_delivery_modified": false,
+    "real_executor_used": false,
+    "incremental_paid_dependency_added": false
+  }
+}
