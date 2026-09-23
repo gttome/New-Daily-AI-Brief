@@ -44,5 +44,12 @@
   "noop": true,
   "non_live": true,
   "executor_binding_authorization_package_readiness_authorization_review_evidence_ids": [],
-  "executor_binding_authorization_package_readiness_authorization_review_evidence_digests": []
+  "executor_binding_authorization_package_readiness_authorization_review_evidence_digests": [],
+  "iteration24_semantic_identity_digest": "sha256:placeholder",
+  "iteration25_semantic_identity_digest": "sha256:placeholder",
+  "iteration26_semantic_identity_digest": "sha256:placeholder",
+  "iteration27_semantic_identity_digest": "sha256:placeholder",
+  "iteration28_semantic_identity_digest": "sha256:placeholder",
+  "iteration29_semantic_identity_digest": "sha256:placeholder",
+  "bound_upstream_identity": {}
 }
