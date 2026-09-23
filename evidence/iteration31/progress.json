@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "iteration-progress",
+  "iteration": 31,
+  "phase": "process_hardening_prelude",
+  "branch": "iteration31-start-prompt-amendment-20260923",
+  "checkpoint_head_sha": "dda8e2593e8a5647eca3eef1219368572fdecdc1",
+  "completed_gates": [
+    "iteration30_repository_closure_verified",
+    "iteration31_ready_verified",
+    "starting_main_206b1cf510c57151375ada384264ede6acba2e33_verified",
+    "starting_main_greenfield_contracts_35878800217_passed",
+    "superseding_prompt_and_amendment_loaded",
+    "existing_pr_89_reused"
+  ],
+  "active_gate": "process_hardening_prelude_verification",
+  "ci_runs": {
+    "baseline_main": {
+      "sha": "206b1cf510c57151375ada384264ede6acba2e33",
+      "run_id": 35878800217,
+      "result": "pass",
+      "started_at": "2026-09-23T15:03:55Z",
+      "completed_at": "2026-09-23T15:30:06Z",
+      "elapsed_seconds": 1571
+    },
+    "existing_exact_head": {
+      "sha": "dda8e2593e8a5647eca3eef1219368572fdecdc1",
+      "run_id": 35884642806,
+      "result": "in_progress_at_checkpoint",
+      "duplicate_run_started": false
+    }
+  },
+  "closure_state": "not_started",
+  "next_permissible_action": "verify this process-hardening candidate with full Greenfield Contracts before adding the Iteration 31 authorization-package gate",
+  "resume_policy": {
+    "reuse_existing_pr": 89,
+    "reuse_exact_head_ci": true,
+    "reuse_merged_commits": true,
+    "reuse_closure_artifacts": true,
+    "duplicate_pr_permitted": false,
+    "duplicate_ci_for_same_head_permitted": false,
+    "prior_iteration_rebuild_permitted": false
+  }
+}
