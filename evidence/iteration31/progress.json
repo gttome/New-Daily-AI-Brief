@@ -2,18 +2,22 @@
   "schema_version": "1.0.0",
   "record_type": "iteration-progress",
   "iteration": 31,
-  "phase": "process_hardening_prelude",
-  "branch": "iteration31-start-prompt-amendment-20260923",
-  "checkpoint_head_sha": "dda8e2593e8a5647eca3eef1219368572fdecdc1",
+  "phase": "iteration31_authorization_package_implementation",
+  "branch": "iteration31-authorization-package-20260923",
+  "checkpoint_head_sha": "9b4be8ad1d016a75df59eea315808d95110b5465",
   "completed_gates": [
     "iteration30_repository_closure_verified",
     "iteration31_ready_verified",
     "starting_main_206b1cf510c57151375ada384264ede6acba2e33_verified",
     "starting_main_greenfield_contracts_35878800217_passed",
     "superseding_prompt_and_amendment_loaded",
-    "existing_pr_89_reused"
+    "existing_pr_89_reused",
+    "process_hardening_prelude_exact_head_7f893c9698d60d26673e82faa61c791b12771dac_verified",
+    "process_hardening_prelude_ci_35886278368_passed",
+    "process_hardening_prelude_merged_9b4be8ad1d016a75df59eea315808d95110b5465",
+    "process_hardening_prelude_merge_tree_matches_candidate"
   ],
-  "active_gate": "process_hardening_prelude_verification",
+  "active_gate": "iteration31_authorization_package_exact_candidate_verification",
   "ci_runs": {
     "baseline_main": {
       "sha": "206b1cf510c57151375ada384264ede6acba2e33",
@@ -28,10 +32,25 @@
       "run_id": 35884642806,
       "result": "in_progress_at_checkpoint",
       "duplicate_run_started": false
+    },
+    "prelude_exact_head": {
+      "sha": "7f893c9698d60d26673e82faa61c791b12771dac",
+      "run_id": 35886278368,
+      "result": "pass",
+      "tests_passed": 371,
+      "tests_failed": 0,
+      "unittest_seconds": 1519.237,
+      "duplicate_run_started": false
+    },
+    "prelude_post_merge_main": {
+      "sha": "9b4be8ad1d016a75df59eea315808d95110b5465",
+      "run_id": 35889320179,
+      "result": "in_progress_at_checkpoint",
+      "duplicate_run_started": false
     }
   },
   "closure_state": "not_started",
-  "next_permissible_action": "verify this process-hardening candidate with full Greenfield Contracts before adding the Iteration 31 authorization-package gate",
+  "next_permissible_action": "resume PR 90 on branch iteration31-authorization-package-20260923; reuse exact-head CI for each candidate and never create a duplicate PR or manually duplicate CI; preserve merged prelude PR 89 and Iterations 1-30",
   "resume_policy": {
     "reuse_existing_pr": 89,
     "reuse_exact_head_ci": true,
