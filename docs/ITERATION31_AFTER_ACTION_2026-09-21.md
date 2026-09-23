@@ -93,4 +93,6 @@ The closure package is being staged on `iteration31-closure-20260923` and consis
 Repository closure remains pending until post-merge run `35902929793` passes, the exact closure candidate passes bounded Greenfield Contracts validation, the closure PR merges, post-merge closure validation passes, and repository metadata is reconciled.
 
 ## Iteration 32 fixed access milestone
-Iteration 32 is **not another synthetic-only gate**. Its non-negotiable exit condition is first owner access to a functioning greenfield reader and private greenfield Command Center, with real desktop/phone URLs, representative data, required reader and Command Center acceptance surfaces, and coexistence with the current production system. This milestone may not be deferred to Iteration 33 or later.
+Iteration 32 is **strictly limited to enabling owner hands-on testing**. It must create and deploy the minimum functioning greenfield reader and private greenfield Command Center, provide real desktop/phone-accessible URLs, representative data, and the minimum reader/Command Center surfaces needed for meaningful testing while preserving production coexistence.
+
+Once those URLs and minimum test surfaces are verified, Iteration 32 must **stop at an owner-testing checkpoint**. It must not continue with unrelated feature work, the broader CI optimization program, production cutover, final Iteration 32 closure, or Iteration 33 preparation until the owner completes testing and explicitly resumes the iteration.
