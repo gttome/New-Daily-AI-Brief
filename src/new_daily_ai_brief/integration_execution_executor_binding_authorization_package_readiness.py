@@ -729,7 +729,7 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackageReadiness
         return {
             "classification": "executor_binding_authorization_package_readiness_complete",
             "classification_reason_codes": [
-                "SYNTHETIC_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_COMPLETE"
+                "SYNTHETIC_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_COMPLETE"
             ],
             "decision_binding": decision_binding,
         }
@@ -914,13 +914,13 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackageReadiness
             state["attempts"]["receipts"][key] += 1
             state["metrics"]["receipt_build_attempts"] += 1
             self._save_state(state)
-            boundary = f"receipt:{position}"
+            boundary = f"validation:{position}"
             if self.failure_boundary_id == boundary and not self._failure_fired:
                 self._failure_fired = True
                 self._record_incident(boundary, state)
                 self._write_metrics(state)
                 raise IntegrationExecutionExecutorBindingAuthorizationPackageReadinessBoundaryFailure(
-                    "executor_binding_authorization_package_readiness_evidence",
+                    "executor_binding_authorization_package_readiness_evidence_validation",
                     boundary,
                     self.failure_class,
                 )
