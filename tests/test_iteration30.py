@@ -216,6 +216,13 @@ class Iteration30ExecutorBindingAuthorizationPackageReadinessAuthorizationDecisi
                     "executor_binding_authorization_package_readiness_authorization_review_evidence_set_digest"
                 ],
                 "canonical_chain_digest": bound["canonical_chain_digest"],
+                "iteration24_semantic_identity_digest": bound["iteration24_semantic_identity_digest"],
+                "iteration25_semantic_identity_digest": bound["iteration25_semantic_identity_digest"],
+                "iteration26_semantic_identity_digest": bound["iteration26_semantic_identity_digest"],
+                "iteration27_semantic_identity_digest": bound["iteration27_semantic_identity_digest"],
+                "iteration28_semantic_identity_digest": bound["iteration28_semantic_identity_digest"],
+                "iteration29_semantic_identity_digest": bound["iteration29_semantic_identity_digest"],
+                "bound_upstream_identity": deepcopy(bound),
                 "bound_upstream_identity_digest": context[
                     "bound_upstream_identity_digest"
                 ],
@@ -872,7 +879,8 @@ class Iteration30ExecutorBindingAuthorizationPackageReadinessAuthorizationDecisi
                        if k.endswith(("_id", "_digest")) and k != "authorization_decision_record_id"}
             changes.update(noop=False, non_live=False, synthetic_only=False,
                            approved=False, grants_executor_binding_authority=True,
-                           grants_executor_invocation_authority=True, external_mutation_permitted=True)
+                           grants_executor_invocation_authority=True, external_mutation_permitted=True,
+                           bound_upstream_identity={"changed": True})
             for field in ("executor_binding_authorization_package_readiness_authorization_review_evidence_ids",
                           "executor_binding_authorization_package_readiness_authorization_review_evidence_digests"):
                 values = original[field]
