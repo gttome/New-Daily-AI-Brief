@@ -62,6 +62,30 @@ The Iteration 31 hardening rules remain active:
 - preserve explicit resumable transitions;
 - record elapsed CI time and anti-rework evidence.
 
+## Mandatory CI performance correction — unnumbered Iteration 32 prelude
+The Iteration 31 candidate exposed an unacceptable CI wall-clock pattern: the targeted Iteration 31 suite ran 14 tests in 1727.602s (~28.8 min), then the full suite ran 385 tests in 3157.978s (~52.6 min) and included the Iteration 31 tests again. This made the executable candidate cycle roughly 81 minutes before setup/cleanup.
+
+Before substantial Iteration 32 feature work, correct this as an **unnumbered prelude inside Iteration 32**. Do not create Iteration 33 or any other prerequisite iteration for this work, and do not weaken safety coverage.
+
+Required changes:
+- eliminate duplicate execution of the current-iteration targeted suite inside the subsequent full historical regression;
+- preserve the required **Greenfield Contracts** check context used by branch protection;
+- parallelize historical regression into deterministic shards while retaining one authoritative aggregate pass/fail gate;
+- reuse immutable, digest-verified upstream test checkpoints/fixtures so current-iteration tests do not reconstruct the entire locked Iterations 1–31 chain for every test case;
+- keep fresh-engine recovery semantics by cloning/reopening durable checkpoints rather than sharing mutable in-memory state;
+- fail closed if a cached/checkpointed upstream artifact digest or semantic identity differs from the locked repository identity;
+- retain full historical regression coverage for executable/contract changes, but run independent portions concurrently and without duplicate current-iteration tests;
+- retain the bounded docs/evidence-only closure path.
+
+Performance exit criteria for this prelude:
+- no test method may be intentionally executed twice in the same Greenfield Contracts run solely because it appears in both the targeted and full-suite phases;
+- representative executable-change Greenfield Contracts wall clock target: **20 minutes or less**;
+- executable-change hard ceiling for normal ongoing operation: **30 minutes** unless an external GitHub runner incident is documented;
+- documentation/evidence-only closure/reconciliation path target: **5 minutes or less**;
+- record before/after wall-clock time, test counts, shard timings, and proof that coverage was preserved.
+
+This optimization must not become a reason to defer the Iteration 32 owner-access milestone. Complete the prelude and the owner-access implementation within Iteration 32.
+
 ## Implementation approach
 Implement only what is necessary to make the owner-accessible greenfield reader and private Command Center usable for acceptance testing.
 
