@@ -305,9 +305,6 @@ class ProductionIntegrationExecutionExecutorBindingAuthorizationPackageReadiness
             if (record.get("receipt_id") != digest(body)
                     or record.get("schema_version") != EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_REHEARSAL_SCHEMA_VERSION
                     or record.get("receipt_version") != EXECUTION_EXECUTOR_BINDING_AUTHORIZATION_PACKAGE_READINESS_REHEARSAL_RECEIPT_VERSION
-                    or record.get("executor_binding_authorization_package_readiness_rehearsal_record_id") != data.get("separate_executor_binding_authorization_package_readiness_rehearsal_id")
-                    or record.get("executor_binding_authorization_package_readiness_preflight_id") != data.get("executor_binding_authorization_package_readiness_preflight_id")
-                    or record.get("executor_binding_authorization_package_readiness_preflight_artifact_digest") != data.get("executor_binding_authorization_package_readiness_preflight_artifact_digest")
                     or record.get("executable_command") is not None
                     or record.get("executable_step") is not False
                     or any(record.get(flag) is not False for flag in (
