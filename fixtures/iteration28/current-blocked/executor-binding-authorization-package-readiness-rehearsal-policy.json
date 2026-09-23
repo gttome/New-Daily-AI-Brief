@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "executor_binding_authorization_package_readiness_rehearsal_policy_version": "1.0.0",
+  "policy_id": "production-integration-execution-executor-binding-authorization-package-readiness-rehearsal-v1",
+  "synthetic_only": true,
+  "allowed_upstream_classification": "executor_binding_authorization_package_readiness_preflight_complete",
+  "classifications": [
+    "blocked",
+    "executor_binding_authorization_package_readiness_rehearsal_complete",
+    "invalid"
+  ],
+  "require_separate_rehearsal_record": true,
+  "require_exactly_ten_noop_receipts": true,
+  "real_executor_binding_permitted": false,
+  "real_executor_invocation_permitted": false,
+  "real_authority_permitted": false,
+  "zero_incremental_cost_required": true
+}
