@@ -1,0 +1,85 @@
+name: Reader Parity Validation
+
+on:
+  pull_request:
+    paths:
+      - ".gitmodules"
+      - "migration/**"
+      - "scripts/build_reader_**"
+      - "scripts/prepare_legacy_run_inputs.py"
+      - "scripts/manual_canonical_run.py"
+      - "scripts/validate_reader_bundle.py"
+      - ".github/workflows/reader-parity.yml"
+      - ".github/workflows/manual-daily-brief.yml"
+      - ".github/workflows/deploy-iteration32-test.yml"
+  push:
+    branches: [main]
+    paths:
+      - ".gitmodules"
+      - "migration/**"
+      - "scripts/build_reader_**"
+      - "scripts/prepare_legacy_run_inputs.py"
+      - "scripts/manual_canonical_run.py"
+      - "scripts/validate_reader_bundle.py"
+      - ".github/workflows/reader-parity.yml"
+      - ".github/workflows/manual-daily-brief.yml"
+      - ".github/workflows/deploy-iteration32-test.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reader-parity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
+      - name: Install bounded reader build dependencies
+        run: gem install jekyll jekyll-theme-cayman webrick --no-document
+
+      - name: Reconcile historical migration
+        run: |
+          python scripts/build_reader_parity_manifest.py \
+            --legacy-root legacy_snapshot \
+            --output _artifacts/data-parity-manifest.json
+          python - <<'PY'
+          import json
+          p=json.load(open("_artifacts/data-parity-manifest.json",encoding="utf-8"))
+          assert p["parity_status"]=="reconciled", p
+          assert p["unexplained_mismatches"]==[], p
+          assert p["post_cutoff_editions_imported"] is False
+          PY
+
+      - name: Build final target reader bundle
+        run: |
+          python scripts/build_reader_bundle.py \
+            --legacy-root legacy_snapshot \
+            --destination _site \
+            --config migration/ndaib-jekyll.yml \
+            --site-url https://ndaib.gtome.chatgpt.site \
+            --greenfield-sha "$GITHUB_SHA"
+
+      - name: Validate final reader bundle
+        run: python scripts/validate_reader_bundle.py --site-root _site --target-url https://ndaib.gtome.chatgpt.site
+
+      - name: Upload parity evidence and reader bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: ndaib-reader-parity-${{ github.sha }}
+          path: |
+            _site
+            _artifacts/data-parity-manifest.json
+          if-no-files-found: error
+          retention-days: 30
