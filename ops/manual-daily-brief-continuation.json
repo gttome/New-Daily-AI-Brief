@@ -4,5 +4,7 @@
   "edition_date": "2026-09-24",
   "approved_image_manifest": "approved-images/2026-09-24/approved-image-manifest.json",
   "force_replace_existing_edition": false,
-  "purpose": "Resume the existing canonical Manual Daily Brief from its durable build_locked checkpoint after the six approved images were merged."
+  "purpose": "Resume the existing canonical Manual Daily Brief from its durable build_locked checkpoint after the six approved images were merged.",
+  "retry_revision": 2,
+  "retry_reason": "Retry after aligning podcast freshness validation with verified publication timestamps."
 }
