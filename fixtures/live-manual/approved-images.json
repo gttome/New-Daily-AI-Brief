@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "fixture_only": true,
+  "note": "CI-only plumbing fixture using six already-verified historical image byte streams. Never use as a live edition approval.",
+  "images": [
+    {
+      "story_id": "live-1a1a44ce4558785d",
+      "file": "briefs/images/2026-09-23/01-nemotron-diarization.webp",
+      "generation_method": "openai_image_generation",
+      "quality_accepted": true,
+      "accepted_locked": true,
+      "sha256": "",
+      "alt": "Professional textbook-style editorial diagram for New evaluation method improves reproducibility for AI systems.",
+      "composition": "ci-fixture-technical-evals",
+      "assessment": "CI fixture only."
+    },
+    {
+      "story_id": "live-502594480f22d01b",
+      "file": "briefs/images/2026-09-23/02-gpt6-sol-luna-copilot.webp",
+      "generation_method": "openai_image_generation",
+      "quality_accepted": true,
+      "accepted_locked": true,
+      "sha256": "",
+      "alt": "Professional textbook-style editorial diagram for Inference stack adds stronger isolation for sensitive context.",
+      "composition": "ci-fixture-technical-inference",
+      "assessment": "CI fixture only."
+    },
+    {
+      "story_id": "live-517e8eb7e39a7f0c",
+      "file": "briefs/images/2026-09-23/03-copilot-opentelemetry.webp",
+      "generation_method": "openai_image_generation",
+      "quality_accepted": true,
+      "accepted_locked": true,
+      "sha256": "",
+      "alt": "Professional textbook-style editorial diagram for Enterprise copilots expose new observability controls.",
+      "composition": "ci-fixture-applied-observability",
+      "assessment": "CI fixture only."
+    },
+    {
+      "story_id": "live-f89eb2f4f993d219",
+      "file": "briefs/images/2026-09-23/04-nvidia-confidential-inference.webp",
+      "generation_method": "openai_image_generation",
+      "quality_accepted": true,
+      "accepted_locked": true,
+      "sha256": "",
+      "alt": "Professional textbook-style editorial diagram for Knowledge workers gain governed document automation.",
+      "composition": "ci-fixture-applied-docs",
+      "assessment": "CI fixture only."
+    },
+    {
+      "story_id": "live-b10e5c5ea59003c8",
+      "file": "briefs/images/2026-09-23/05-copilot-jetbrains-skills.webp",
+      "generation_method": "openai_image_generation",
+      "quality_accepted": true,
+      "accepted_locked": true,
+      "sha256": "",
+      "alt": "Professional textbook-style editorial diagram for Evaluate reusable agent skills with deterministic checks.",
+      "composition": "ci-fixture-agent-skill",
+      "assessment": "CI fixture only."
+    },
+    {
+      "story_id": "live-f833cb5a466c5781",
+      "file": "briefs/images/2026-09-23/06-agentforce-aws-public-sector.webp",
+      "generation_method": "openai_image_generation",
+      "quality_accepted": true,
+      "accepted_locked": true,
+      "sha256": "",
+      "alt": "Professional textbook-style editorial diagram for Business teams automate repetitive research workflows with agents.",
+      "composition": "ci-fixture-agent-workflow",
+      "assessment": "CI fixture only."
+    }
+  ]
+}

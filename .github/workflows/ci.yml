@@ -48,7 +48,7 @@ jobs:
             case "$path" in
               docs/*|evidence/*)
                 ;;
-              .gitmodules|legacy_snapshot|migration/*|fixtures/live-manual/*|scripts/build_reader_*|scripts/prepare_legacy_run_inputs.py|scripts/prepare_live_editorial_inputs.py|scripts/manual_canonical_run.py|scripts/validate_reader_bundle.py|.github/workflows/ci.yml|.github/workflows/reader-parity.yml|.github/workflows/manual-daily-brief.yml|.github/workflows/deploy-iteration32-test.yml)
+              .gitmodules|legacy_snapshot|migration/*|config/live-media-sources.json|fixtures/live-manual/*|scripts/build_reader_*|scripts/prepare_legacy_run_inputs.py|scripts/prepare_live_editorial_inputs.py|scripts/discover_live_media.py|scripts/prepare_live_operational_inputs.py|scripts/build_live_edition.py|scripts/manual_canonical_run.py|scripts/validate_reader_bundle.py|scripts/validate_live_reader_candidate.py|.github/workflows/ci.yml|.github/workflows/reader-parity.yml|.github/workflows/manual-daily-brief.yml|.github/workflows/deploy-iteration32-test.yml)
                 reader=true
                 ;;
               *)
@@ -94,6 +94,10 @@ jobs:
             scripts/validate_reader_bundle.py \
             scripts/prepare_legacy_run_inputs.py \
             scripts/prepare_live_editorial_inputs.py \
+            scripts/discover_live_media.py \
+            scripts/prepare_live_operational_inputs.py \
+            scripts/build_live_edition.py \
+            scripts/validate_live_reader_candidate.py \
             scripts/manual_canonical_run.py
 
       - name: Reconcile pinned historical snapshot
@@ -139,13 +143,29 @@ jobs:
             --input-root /tmp/ndaib-live-inputs \
             --state-root /tmp/ndaib-live-state \
             --editorial-only
+          cp fixtures/live-manual/media-discovery.json /tmp/ndaib-live-inputs/live-media.json
+          PYTHONPATH=src python scripts/prepare_live_operational_inputs.py \
+            --edition-date 2026-09-24 \
+            --input-root /tmp/ndaib-live-inputs \
+            --media-json /tmp/ndaib-live-inputs/live-media.json \
+            --legacy-root legacy_snapshot
+          PYTHONPATH=src python scripts/manual_canonical_run.py \
+            --edition-date 2026-09-24 \
+            --input-root /tmp/ndaib-live-inputs \
+            --state-root /tmp/ndaib-live-state \
+            --build-only
           python - <<'PY'
           import json
           from pathlib import Path
           p=json.load(open("/tmp/ndaib-live-inputs/live-input-manifest.json",encoding="utf-8"))
+          o=json.load(open("/tmp/ndaib-live-inputs/operational-input-manifest.json",encoding="utf-8"))
+          q=json.load(open("/tmp/ndaib-live-inputs/image-generation-request.json",encoding="utf-8"))
+          run=json.load(open("/tmp/ndaib-live-state/2026-09-24__production/run.json",encoding="utf-8"))
           assert p["selected_story_count"] == 6, p
           assert sum(bool(x["agent_skills"]) for x in p["selected_stories"]) == 1, p
-          assert p["publication_attempted"] is False, p
+          assert o["media"] == {"video_count": 2, "podcast_count": 2}, o
+          assert q["story_count"] == 6 and len(q["requests"]) == 6, q
+          assert run["completion_status"] == "build_locked", run
           assert Path("/tmp/ndaib-live-inputs/live-editorial-draft.md").exists()
           PY
 

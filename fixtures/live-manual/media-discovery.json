@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0.0",
+  "edition_date": "2026-09-24",
+  "cutoff": "2026-09-24T13:00:00Z",
+  "execution_owner": "ci_fixture",
+  "paid_api_calls": 0,
+  "ready": true,
+  "selected": {
+    "videos": [
+      {
+        "kind": "video",
+        "source_id": "fixture-video-a",
+        "channel": "Fixture AI",
+        "title": "Agent evaluation in practice",
+        "url": "https://example.com/video/agent-evaluation",
+        "published_at": "2026-09-24T08:00:00Z",
+        "publication_date": "2026-09-24",
+        "runtime_seconds": 480,
+        "duration_tier": "short",
+        "description": "A concise walkthrough of agent evaluation and verification.",
+        "agent_signal": true,
+        "score": 80,
+        "available": true,
+        "reachable": true,
+        "http_status": 200,
+        "resolved_url": "https://example.com/video/agent-evaluation"
+      },
+      {
+        "kind": "video",
+        "source_id": "fixture-video-b",
+        "channel": "Fixture Engineering",
+        "title": "Grounded retrieval systems explained",
+        "url": "https://example.com/video/grounded-retrieval",
+        "published_at": "2026-09-24T07:00:00Z",
+        "publication_date": "2026-09-24",
+        "runtime_seconds": 540,
+        "duration_tier": "short",
+        "description": "A practical explanation of grounded retrieval and provenance.",
+        "agent_signal": false,
+        "score": 76,
+        "available": true,
+        "reachable": true,
+        "http_status": 200,
+        "resolved_url": "https://example.com/video/grounded-retrieval"
+      }
+    ],
+    "podcasts": [
+      {
+        "kind": "podcast",
+        "source_id": "fixture-podcast-a",
+        "show": "Fixture AI Daily",
+        "host": "Fixture AI Daily",
+        "title": "Enterprise AI workflows and governance",
+        "url": "https://example.com/podcast/enterprise-ai",
+        "publisher_url": "https://example.com/podcast",
+        "published_at": "2026-09-24T06:00:00Z",
+        "publication_date": "2026-09-24",
+        "runtime_seconds": 1800,
+        "description": "Enterprise AI workflows, governance, and measurable adoption.",
+        "freshness_tier": "primary_48h",
+        "freshness_exception_reason": null,
+        "score": 70,
+        "available": true,
+        "reachable": true,
+        "http_status": 200,
+        "resolved_url": "https://example.com/podcast/enterprise-ai"
+      },
+      {
+        "kind": "podcast",
+        "source_id": "fixture-podcast-b",
+        "show": "Fixture Agents",
+        "host": "Fixture Agents",
+        "title": "Reliable agents from tools to outcomes",
+        "url": "https://example.org/podcast/reliable-agents",
+        "publisher_url": "https://example.org/podcast",
+        "published_at": "2026-09-23T18:00:00Z",
+        "publication_date": "2026-09-23",
+        "runtime_seconds": 2400,
+        "description": "Agent tools, verification, and long-running workflow reliability.",
+        "freshness_tier": "primary_48h",
+        "freshness_exception_reason": null,
+        "score": 68,
+        "available": true,
+        "reachable": true,
+        "http_status": 200,
+        "resolved_url": "https://example.org/podcast/reliable-agents"
+      }
+    ]
+  },
+  "diagnostics": {
+    "video_sources": [],
+    "podcast_sources": []
+  }
+}

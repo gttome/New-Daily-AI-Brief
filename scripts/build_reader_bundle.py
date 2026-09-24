@@ -39,6 +39,7 @@ def main() -> int:
     ap.add_argument("--base-path", default="")
     ap.add_argument("--greenfield-sha", default=os.environ.get("GITHUB_SHA", "local"))
     ap.add_argument("--legacy-sha", default="4ac06268048a3241d2ecaa5ce7c2638266500d75")
+    ap.add_argument("--live-edition-date", default="")
     args = ap.parse_args()
 
     legacy = Path(args.legacy_root)
@@ -77,6 +78,7 @@ def main() -> int:
         "greenfield_source_sha": args.greenfield_sha,
         "legacy_snapshot_sha": args.legacy_sha,
         "historical_cutoff": "2026-09-23",
+        "live_edition_date": args.live_edition_date or None,
         "legacy_production_modified": False,
         "command_center_included": False,
         "reader_test_labels_included": False,
