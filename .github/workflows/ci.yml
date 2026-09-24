@@ -43,10 +43,14 @@ jobs:
 
           full=false
           reader=false
+          command_center=false
           while IFS= read -r path; do
             [[ -z "$path" ]] && continue
             case "$path" in
               docs/*|evidence/*)
+                ;;
+              site/command-center/*|scripts/build_command_center_snapshot.py|schemas/command-center-state.schema.json|tests/test_command_center.py)
+                command_center=true
                 ;;
               .gitmodules|legacy_snapshot|migration/*|config/live-media-sources.json|fixtures/live-manual/*|scripts/build_reader_*|scripts/prepare_legacy_run_inputs.py|scripts/prepare_live_editorial_inputs.py|scripts/discover_live_media.py|scripts/prepare_live_operational_inputs.py|scripts/build_live_edition.py|scripts/manual_canonical_run.py|scripts/validate_reader_bundle.py|scripts/validate_live_reader_candidate.py|.github/workflows/ci.yml|.github/workflows/reader-parity.yml|.github/workflows/manual-daily-brief.yml|.github/workflows/deploy-iteration32-test.yml)
                 reader=true
@@ -59,11 +63,13 @@ jobs:
 
           echo "full=$full" >> "$GITHUB_OUTPUT"
           echo "reader=$reader" >> "$GITHUB_OUTPUT"
+          echo "command_center=$command_center" >> "$GITHUB_OUTPUT"
           echo "base_ref=$BASE_REF" >> "$GITHUB_OUTPUT"
           echo "Changed files:"
           cat changed-files.txt
           echo "Full regression required: $full"
           echo "Reader-parity validation required: $reader"
+          echo "Command Center targeted validation required: $command_center"
 
       - name: Compile full runtime
         if: steps.scope.outputs.full == 'true'
@@ -183,8 +189,30 @@ jobs:
           assert Path("/tmp/ndaib-live-inputs/live-editorial-draft.md").exists()
           PY
 
+      - name: Verify private Command Center contracts
+        if: steps.scope.outputs.command_center == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/build_command_center_snapshot.py tests/test_command_center.py
+          python scripts/build_command_center_snapshot.py \
+            --repo-root . \
+            --main-sha "$GITHUB_SHA" \
+            --output /tmp/command-center-state.json
+          PYTHONPATH=src python -m unittest discover -s tests -p 'test_command_center.py' -v
+          node --check site/command-center/cc.js
+          python - <<'PY'
+          import json
+          p=json.load(open("/tmp/command-center-state.json",encoding="utf-8"))
+          assert p["privacy"]["surface"] == "private-owner-only"
+          assert p["privacy"]["public_reader_exposure"] is False
+          assert p["command_center_site"]["public_pages_deployment_allowed"] is False
+          assert p["schedules"]["creation_permitted"] is False
+          assert all(not x["created"] and not x["enabled"] for x in p["schedules"]["planned"])
+          PY
+
       - name: Closure metadata validation
-        if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader != 'true'
+        if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader != 'true' && steps.scope.outputs.command_center != 'true'
         run: |
           PYTHONPATH=src python scripts/validate_closure_metadata.py \
             --changed-file-list changed-files.txt \
