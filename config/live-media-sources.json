@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "video_policy": {
+    "target_count": 2,
+    "preferred_max_runtime_seconds": 600,
+    "absolute_max_runtime_seconds": 1200,
+    "max_age_hours": 168,
+    "max_entries_per_source": 6
+  },
+  "podcast_policy": {
+    "target_count": 2,
+    "primary_max_age_hours": 48,
+    "fallback_max_age_days": 7,
+    "absolute_max_age_days": 30,
+    "max_entries_per_source": 6,
+    "distinct_sources_required": true
+  },
+  "video_sources": [
+    {"source_id": "aicodeking", "name": "AICodeKing", "channel_url": "https://www.youtube.com/@AICodeKing", "priority": 10},
+    {"source_id": "openai-youtube", "name": "OpenAI", "channel_url": "https://www.youtube.com/@OpenAI", "priority": 20},
+    {"source_id": "google-deepmind-youtube", "name": "Google DeepMind", "channel_url": "https://www.youtube.com/@GoogleDeepMind", "priority": 30},
+    {"source_id": "github-youtube", "name": "GitHub", "channel_url": "https://www.youtube.com/@GitHub", "priority": 40},
+    {"source_id": "microsoft-developer-youtube", "name": "Microsoft Developer", "channel_url": "https://www.youtube.com/@MicrosoftDeveloper", "priority": 50},
+    {"source_id": "nvidia-developer-youtube", "name": "NVIDIA Developer", "channel_url": "https://www.youtube.com/@NVIDIADeveloper", "priority": 60}
+  ],
+  "podcast_sources": [
+    {"source_id": "ai-daily-brief", "show": "The AI Daily Brief", "website": "https://aidailybrief.ai/", "priority": 10},
+    {"source_id": "everyday-ai", "show": "Everyday AI", "website": "https://www.youreverydayai.com/", "priority": 20},
+    {"source_id": "artificial-intelligence-show", "show": "The Artificial Intelligence Show", "website": "https://podcast.smarterx.ai/", "priority": 30},
+    {"source_id": "ai-for-humans", "show": "AI for Humans", "website": "https://www.aiforhumans.show/", "priority": 40},
+    {"source_id": "practical-ai", "show": "Practical AI", "website": "https://practicalai.show/", "priority": 50},
+    {"source_id": "latent-space", "show": "Latent Space", "website": "https://www.latent.space/podcast", "priority": 60},
+    {"source_id": "twiml", "show": "TWIML", "website": "https://twimlai.com/podcast/twimlai/", "priority": 70}
+  ]
+}
