@@ -421,7 +421,7 @@ def update_book_reading(runtime_root: Path, edition_date: str, build_root: Path,
     dump(path, data)
 
 
-def write_media_preflight(runtime_root: Path, edition_date: str, cutoff: str, edition: dict[str, Any], video_out: list[tuple[str, dict[str, Any], dict[str, Any]]]) -> None:
+def write_media_preflight(runtime_root: Path, edition_date: str, cutoff: str, edition: dict[str, Any], media: dict[str, Any], video_out: list[tuple[str, dict[str, Any], dict[str, Any]]]) -> None:
     items = []
     for slot, source, item in video_out:
         item_id = f"dab-video-{edition_date}-{'general' if slot == 'general' else 'agent-skills'}"
@@ -434,13 +434,16 @@ def write_media_preflight(runtime_root: Path, edition_date: str, cutoff: str, ed
             "observed_date": item["upload_date"],
             "observed_runtime_seconds": item["runtime_seconds"],
         })
-    for podcast in edition["podcasts"]:
+    source_podcasts = (media.get("selected") or {}).get("podcasts") or []
+    if len(source_podcasts) != len(edition["podcasts"]):
+        raise SystemExit("media preflight podcast source count mismatch")
+    for podcast, source in zip(edition["podcasts"], source_podcasts):
         items.append({
             "item_id": podcast["item_id"],
             "kind": "podcast",
             "url": podcast["url"],
-            "reachable": True,
-            "http_status": 200,
+            "reachable": source.get("reachable") is True,
+            "http_status": int(source.get("http_status") or 0),
             "observed_date": podcast["publication_date"],
             "observed_runtime_seconds": podcast["runtime_seconds"],
         })
@@ -523,7 +526,7 @@ def main() -> int:
     dump(review_path, handoff)
     update_watchlist(runtime_root, args.edition_date, cutoff, operational, stories)
     update_book_reading(runtime_root, args.edition_date, input_root / "build", stories)
-    write_media_preflight(runtime_root, args.edition_date, cutoff, edition, video_out)
+    write_media_preflight(runtime_root, args.edition_date, cutoff, edition, media, video_out)
 
     result = {
         "schema_version": "1.0.0",
