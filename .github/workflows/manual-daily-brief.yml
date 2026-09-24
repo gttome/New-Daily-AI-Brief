@@ -77,6 +77,44 @@ jobs:
             echo "mode=live_editorial" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Restore durable live-run checkpoint
+        if: steps.mode.outputs.mode == 'live_editorial'
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .state/manual
+            .runtime-inputs/${{ inputs.edition_date }}
+          key: manual-daily-brief-v2-${{ inputs.edition_date }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            manual-daily-brief-v2-${{ inputs.edition_date }}-
+
+      - name: Resolve durable live-run checkpoint
+        if: steps.mode.outputs.mode == 'live_editorial'
+        id: checkpoint
+        shell: bash
+        env:
+          EDITION_DATE: ${{ inputs.edition_date }}
+        run: |
+          set -euo pipefail
+          mkdir -p .state/manual ".runtime-inputs/$EDITION_DATE"
+          python - "$EDITION_DATE" "$GITHUB_OUTPUT" <<'PY'
+          import json, pathlib, sys
+          date,out=sys.argv[1:3]
+          root=pathlib.Path(".runtime-inputs")/date
+          run_path=pathlib.Path(".state/manual")/f"{date}__production"/"run.json"
+          stage="none"
+          if run_path.exists():
+              run=json.loads(run_path.read_text(encoding="utf-8"))
+              completion=run.get("completion_status")
+              if completion=="build_locked" and (root/"operational-input-manifest.json").exists() and (root/"live-media.json").exists():
+                  stage="build"
+              elif completion=="editorial_locked" and (root/"live-input-manifest.json").exists() and (root/"editorial"/"source-catalog.json").exists():
+                  stage="editorial"
+          with open(out,"a",encoding="utf-8") as fh:
+              fh.write(f"stage={stage}\n")
+          print(json.dumps({"edition_date":date,"checkpoint":stage}))
+          PY
+
       - name: Check out read-only discovery and publication adapter
         if: steps.mode.outputs.mode == 'live_editorial'
         uses: actions/checkout@v4
@@ -88,7 +126,7 @@ jobs:
           persist-credentials: false
 
       - name: Discover fresh public-source article evidence
-        if: steps.mode.outputs.mode == 'live_editorial'
+        if: steps.mode.outputs.mode == 'live_editorial' && steps.checkpoint.outputs.stage == 'none'
         shell: bash
         run: |
           set -euo pipefail
@@ -136,7 +174,7 @@ jobs:
           PYTHONPATH=src python scripts/prepare_legacy_run_inputs.py "${args[@]}"
 
       - name: Prepare live greenfield editorial inputs
-        if: steps.mode.outputs.mode == 'live_editorial'
+        if: steps.mode.outputs.mode == 'live_editorial' && steps.checkpoint.outputs.stage == 'none'
         run: |
           PYTHONPATH=src python scripts/prepare_live_editorial_inputs.py \
             --edition-date "${{ inputs.edition_date }}" \
@@ -147,7 +185,7 @@ jobs:
             --output-root ".runtime-inputs/${{ inputs.edition_date }}"
 
       - name: Lock canonical live editorial selection
-        if: steps.mode.outputs.mode == 'live_editorial'
+        if: steps.mode.outputs.mode == 'live_editorial' && steps.checkpoint.outputs.stage == 'none'
         run: |
           PYTHONPATH=src python scripts/manual_canonical_run.py \
             --edition-date "${{ inputs.edition_date }}" \
@@ -156,7 +194,7 @@ jobs:
             --editorial-only
 
       - name: Discover and verify live videos and podcasts
-        if: steps.mode.outputs.mode == 'live_editorial'
+        if: steps.mode.outputs.mode == 'live_editorial' && steps.checkpoint.outputs.stage != 'build'
         shell: bash
         run: |
           set -euo pipefail
@@ -174,7 +212,7 @@ jobs:
             --output ".runtime-inputs/${{ inputs.edition_date }}/live-media.json"
 
       - name: Prepare live Watchlist, book bridges, and image request
-        if: steps.mode.outputs.mode == 'live_editorial'
+        if: steps.mode.outputs.mode == 'live_editorial' && steps.checkpoint.outputs.stage != 'build'
         run: |
           PYTHONPATH=src python scripts/prepare_live_operational_inputs.py \
             --edition-date "${{ inputs.edition_date }}" \
@@ -183,7 +221,7 @@ jobs:
             --legacy-root legacy_snapshot
 
       - name: Lock canonical Building stage
-        if: steps.mode.outputs.mode == 'live_editorial'
+        if: steps.mode.outputs.mode == 'live_editorial' && steps.checkpoint.outputs.stage != 'build'
         run: |
           PYTHONPATH=src python scripts/manual_canonical_run.py \
             --edition-date "${{ inputs.edition_date }}" \
@@ -283,6 +321,15 @@ jobs:
               echo "- Canonical RunEngine depth: **complete prepared-package run**"
             fi
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Save durable live-run checkpoint
+        if: always() && steps.mode.outputs.mode == 'live_editorial'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .state/manual
+            .runtime-inputs/${{ inputs.edition_date }}
+          key: manual-daily-brief-v2-${{ inputs.edition_date }}-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Preserve canonical run state, evidence, and publication candidate
         if: always()
