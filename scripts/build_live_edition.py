@@ -345,6 +345,7 @@ def build_media(edition_date: str, media: dict[str, Any]) -> tuple[dict[str, Any
             "show": row.get("show") or row.get("source_id") or "Verified podcast",
             "host": row.get("host") or row.get("show") or "Verified podcast",
             "publication_date": row["publication_date"],
+            "published_at": row.get("published_at"),
             "runtime_seconds": row.get("runtime_seconds"),
             "focus": focus,
             "topics": topics_for({"title": row["title"], "summary": row.get("description")}),
