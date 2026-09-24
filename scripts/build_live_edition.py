@@ -513,13 +513,20 @@ def main() -> int:
     if locked_media_urls != discovered_media_urls or len(locked_media_urls) != 4:
         raise SystemExit("publication media does not match the canonical greenfield locked media set")
 
+    locked_catalog_candidates = [
+        x for x in catalog.get("candidates", [])
+        if x.get("candidate_id") in locked_story_ids
+    ]
     by_focus = {
-        focus: sorted([x for x in catalog.get("candidates", []) if x.get("category_id") == focus], key=lambda x: (-int(x.get("quality_score") or 0), x["candidate_id"]))
+        focus: sorted(
+            [x for x in locked_catalog_candidates if x.get("category_id") == focus],
+            key=lambda x: (-int(x.get("quality_score") or 0), x["candidate_id"]),
+        )
         for focus in (TECHNICAL, APPLIED, AGENTS)
     }
     ordered_candidates = by_focus[TECHNICAL] + by_focus[APPLIED] + by_focus[AGENTS]
-    if len(ordered_candidates) != 6:
-        raise SystemExit("exactly six locked candidates are required")
+    if len(ordered_candidates) != 6 or any(len(by_focus[focus]) != 2 for focus in (TECHNICAL, APPLIED, AGENTS)):
+        raise SystemExit("exactly six canonical locked candidates in the 2/2/2 allocation are required")
 
     images, handoff = image_entries(
         args.edition_date,
