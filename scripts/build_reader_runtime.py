@@ -22,6 +22,10 @@ class ItemParser(HTMLParser):
 def attach_reader_runtime(destination: Path, legacy: Path):
     root = Path(__file__).resolve().parents[1]
     runtime = root / 'migration/reader-runtime'
+    archive_css = destination / 'assets/css/archive.css'
+    if archive_css.exists() and 'NDAIB narrow archive correction' not in archive_css.read_text():
+        with archive_css.open('a') as output:
+            output.write('\n/* NDAIB narrow archive correction */\n.archive-controls>*{min-width:0}.archive-controls input,.archive-controls select{box-sizing:border-box;max-width:100%}@media(max-width:640px){.archive-controls{grid-template-columns:minmax(0,1fr)}.archive-dates{grid-template-columns:repeat(2,minmax(0,1fr))}}\n')
     parser = ItemParser()
     for page in destination.rglob('*.html'):
         parser.feed(page.read_text())
