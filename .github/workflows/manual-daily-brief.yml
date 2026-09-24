@@ -247,6 +247,7 @@ jobs:
           PYTHONPATH=src python scripts/prepare_live_operational_inputs.py \
             --edition-date "${{ inputs.edition_date }}" \
             --input-root ".runtime-inputs/${{ inputs.edition_date }}" \
+            --state-root ".state/manual" \
             --media-json ".runtime-inputs/${{ inputs.edition_date }}/live-media.json" \
             --legacy-root legacy_snapshot
 
