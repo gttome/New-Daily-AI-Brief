@@ -57,6 +57,10 @@ jobs:
           source: ./reader-source
           destination: ./site
 
+      - name: Normalize generated-site ownership
+        shell: bash
+        run: sudo chown -R "$(id -u):$(id -g)" site
+
       - name: Finalize target URLs and build parity manifest
         run: |
           python scripts/migrate_legacy_reader.py finalize \
