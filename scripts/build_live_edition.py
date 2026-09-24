@@ -429,8 +429,8 @@ def write_media_preflight(runtime_root: Path, edition_date: str, cutoff: str, ed
             "item_id": item_id,
             "kind": "video",
             "url": item["url"],
-            "reachable": True,
-            "http_status": 200,
+            "reachable": source.get("reachable") is True,
+            "http_status": int(source.get("http_status") or 0),
             "observed_date": item["upload_date"],
             "observed_runtime_seconds": item["runtime_seconds"],
         })
