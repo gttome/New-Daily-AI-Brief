@@ -80,7 +80,7 @@ def main() -> int:
         ) else 2
     if args.build_only:
         return 0 if (
-            result["current_state"] == "Validating"
+            result["current_state"] == "Building"
             and result["completion_status"] == "build_locked"
         ) else 2
     return 0 if result["current_state"] == "Complete" else 2
