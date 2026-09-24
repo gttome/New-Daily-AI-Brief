@@ -1,0 +1,73 @@
+name: Manual Daily Brief — canonical greenfield run
+
+on:
+  workflow_dispatch:
+    inputs:
+      edition_date:
+        description: "Edition date (YYYY-MM-DD)"
+        required: true
+        type: string
+      edition_json:
+        description: "Optional repository-relative authoritative edition JSON for an explicit future date"
+        required: false
+        default: ""
+        type: string
+      watchlist_json:
+        description: "Optional repository-relative authoritative Watchlist JSON for an explicit future date"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: manual-daily-brief-${{ inputs.edition_date }}
+  cancel-in-progress: false
+
+jobs:
+  canonical-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Prepare authoritative run inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(
+            --edition-date "${{ inputs.edition_date }}"
+            --legacy-root legacy_snapshot
+            --output-root ".runtime-inputs/${{ inputs.edition_date }}"
+          )
+          if [[ -n "${{ inputs.edition_json }}" ]]; then
+            args+=(--edition-json "${{ inputs.edition_json }}")
+          fi
+          if [[ -n "${{ inputs.watchlist_json }}" ]]; then
+            args+=(--watchlist-json "${{ inputs.watchlist_json }}")
+          fi
+          PYTHONPATH=src python scripts/prepare_legacy_run_inputs.py "${args[@]}"
+
+      - name: Invoke canonical RunEngine
+        run: |
+          PYTHONPATH=src python scripts/manual_canonical_run.py \
+            --edition-date "${{ inputs.edition_date }}" \
+            --input-root ".runtime-inputs/${{ inputs.edition_date }}" \
+            --state-root ".state/manual"
+
+      - name: Preserve canonical run state
+        uses: actions/upload-artifact@v4
+        with:
+          name: canonical-run-${{ inputs.edition_date }}
+          path: |
+            .state/manual
+            .runtime-inputs/${{ inputs.edition_date }}/input-manifest.json
+          if-no-files-found: error
+          retention-days: 30
