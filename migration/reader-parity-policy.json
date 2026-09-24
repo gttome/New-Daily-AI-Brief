@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "program": "autonomous-full-parity-reader-rebuild",
+  "cutoff_date": "2026-09-23",
+  "timezone": "America/Chicago",
+  "target_reader": "https://ndaib.gtome.chatgpt.site",
+  "greenfield_repository": "gttome/New-Daily-AI-Brief",
+  "legacy": {
+    "repository": "gttome/Daily-AI-Brief",
+    "reader": "https://gttome.github.io/Daily-AI-Brief/",
+    "pinned_sha": "4ac06268048a3241d2ecaa5ce7c2638266500d75",
+    "snapshot_path": "legacy_snapshot",
+    "snapshot_strategy": "git_submodule"
+  },
+  "reader_rules": {
+    "parity_migration_not_redesign": true,
+    "command_center_out_of_scope": true,
+    "legacy_production_immutable": true,
+    "post_cutoff_editions_forbidden": true,
+    "test_labels_forbidden_in_final_reader": true,
+    "reader_command_center_link_forbidden": true
+  },
+  "interaction_services": {
+    "ratings": {
+      "endpoint": "https://daily-ai-brief-ratings.gtome.chatgpt.site/api/ratings",
+      "migration_strategy": "retained_in_place",
+      "historical_values": "authoritative_service_state"
+    },
+    "shares_and_events": {
+      "endpoint": "https://daily-ai-brief-ratings.gtome.chatgpt.site/api/events",
+      "migration_strategy": "retained_in_place",
+      "historical_values": "authoritative_service_state"
+    },
+    "comments": {
+      "endpoint": "https://daily-ai-brief-ratings.gtome.chatgpt.site/api/comments",
+      "migration_strategy": "retained_in_place",
+      "privacy": "private_to_editor_90_day_retention",
+      "historical_values": "authoritative_service_state"
+    }
+  },
+  "private_reader_exclusions": [
+    "legacy_snapshot/_records/command-center",
+    "legacy_snapshot/_architecture/command-center",
+    "site/command-center"
+  ],
+  "cutover": {
+    "legacy_redirect": false,
+    "legacy_decommission": false,
+    "reader_reroute": false
+  }
+}

@@ -15,9 +15,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          submodules: recursive
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
       - name: Classify change scope
         id: scope
         shell: bash
@@ -37,22 +40,35 @@ jobs:
               git diff --name-only "$BEFORE" "$GITHUB_SHA" > changed-files.txt
             fi
           fi
+
           full=false
+          reader=false
           while IFS= read -r path; do
             [[ -z "$path" ]] && continue
             case "$path" in
-              docs/*|evidence/*) ;;
-              *) full=true ;;
+              docs/*|evidence/*)
+                ;;
+              .gitmodules|legacy_snapshot|migration/*|scripts/build_reader_*|scripts/prepare_legacy_run_inputs.py|scripts/manual_canonical_run.py|scripts/validate_reader_bundle.py|.github/workflows/ci.yml|.github/workflows/reader-parity.yml|.github/workflows/manual-daily-brief.yml|.github/workflows/deploy-iteration32-test.yml)
+                reader=true
+                ;;
+              *)
+                full=true
+                ;;
             esac
           done < changed-files.txt
+
           echo "full=$full" >> "$GITHUB_OUTPUT"
+          echo "reader=$reader" >> "$GITHUB_OUTPUT"
           echo "base_ref=$BASE_REF" >> "$GITHUB_OUTPUT"
           echo "Changed files:"
           cat changed-files.txt
           echo "Full regression required: $full"
-      - name: Compile
+          echo "Reader-parity validation required: $reader"
+
+      - name: Compile full runtime
         if: steps.scope.outputs.full == 'true'
         run: PYTHONPATH=src python -m compileall -q src tests scripts
+
       - name: Targeted process and Iteration tests
         if: steps.scope.outputs.full == 'true'
         shell: bash
@@ -64,10 +80,51 @@ jobs:
           if [[ -f tests/test_iteration31.py ]]; then
             PYTHONPATH=src python -m unittest discover -s tests -p 'test_iteration31.py' -v
           fi
+
       - name: Contract, discovery, editorial, and recovery tests
         if: steps.scope.outputs.full == 'true'
         run: PYTHONPATH=src python -m unittest discover -s tests -v
-      - name: Closure metadata validation
-        if: steps.scope.outputs.full != 'true'
+
+      - name: Compile reader migration tools
+        if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader == 'true'
         run: |
-          PYTHONPATH=src python scripts/validate_closure_metadata.py             --changed-file-list changed-files.txt             --base-ref "${{ steps.scope.outputs.base_ref }}"
+          python -m py_compile \
+            scripts/build_reader_parity_manifest.py \
+            scripts/build_reader_bundle.py \
+            scripts/validate_reader_bundle.py \
+            scripts/prepare_legacy_run_inputs.py \
+            scripts/manual_canonical_run.py
+
+      - name: Reconcile pinned historical snapshot
+        if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader == 'true'
+        run: |
+          python scripts/build_reader_parity_manifest.py \
+            --legacy-root legacy_snapshot \
+            --output /tmp/data-parity-manifest.json
+          python - <<'PY'
+          import json
+          p=json.load(open("/tmp/data-parity-manifest.json",encoding="utf-8"))
+          assert p["parity_status"]=="reconciled", p
+          assert p["unexplained_mismatches"]==[], p
+          assert p["post_cutoff_editions_imported"] is False
+          PY
+
+      - name: Verify authorized manual canonical run without duplicate pipeline
+        if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader == 'true'
+        run: |
+          rm -rf /tmp/ndaib-inputs /tmp/ndaib-state
+          PYTHONPATH=src python scripts/prepare_legacy_run_inputs.py \
+            --edition-date 2026-09-23 \
+            --legacy-root legacy_snapshot \
+            --output-root /tmp/ndaib-inputs
+          PYTHONPATH=src python scripts/manual_canonical_run.py \
+            --edition-date 2026-09-23 \
+            --input-root /tmp/ndaib-inputs \
+            --state-root /tmp/ndaib-state
+
+      - name: Closure metadata validation
+        if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader != 'true'
+        run: |
+          PYTHONPATH=src python scripts/validate_closure_metadata.py \
+            --changed-file-list changed-files.txt \
+            --base-ref "${{ steps.scope.outputs.base_ref }}"

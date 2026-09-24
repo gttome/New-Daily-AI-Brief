@@ -1,0 +1,4 @@
+[submodule "legacy_snapshot"]
+	path = legacy_snapshot
+	url = https://github.com/gttome/Daily-AI-Brief.git
+	branch = main
