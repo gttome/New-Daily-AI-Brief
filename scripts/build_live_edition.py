@@ -498,9 +498,9 @@ def main() -> int:
             raise SystemExit(f"canonical greenfield {name} artifact is not locked")
         if record.get("edition_date") != args.edition_date:
             raise SystemExit(f"canonical greenfield {name} artifact date mismatch")
-    expected_story_ids = {x["candidate_id"] for x in catalog.get("candidates", [])}
+    catalog_story_ids = {x["candidate_id"] for x in catalog.get("candidates", [])}
     locked_story_ids = {x["story_id"] for x in canonical_edition.get("data", {}).get("stories", [])}
-    if locked_story_ids != expected_story_ids or len(locked_story_ids) != 6:
+    if len(locked_story_ids) != 6 or not locked_story_ids.issubset(catalog_story_ids):
         raise SystemExit("publication assembly does not match the six canonical greenfield locked stories")
     locked_media_urls = {
         x["url"] for kind in ("videos", "podcasts")
@@ -535,7 +535,12 @@ def main() -> int:
         Path(args.approved_image_root),
         runtime_root,
     )
-    stories = build_stories(args.edition_date, cutoff, catalog, images)
+    stories = build_stories(
+        args.edition_date,
+        cutoff,
+        {"schema_version": catalog.get("schema_version", "1.0.0"), "candidates": locked_catalog_candidates},
+        images,
+    )
     worth, podcasts, video_out = build_media(args.edition_date, media)
     fallback_used = any(x["freshness"]["tier"] == "fallback" for x in stories)
     coverage = f"24-hour primary window ending at {cutoff}."
