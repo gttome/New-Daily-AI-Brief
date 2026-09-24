@@ -111,6 +111,15 @@ def main() -> int:
     if "/api/comments" not in comments or "/api/ratings" not in feedback or "/api/events" not in share:
         fail("reader interaction transports are incomplete")
 
+    if "baseurl||\'/Daily-AI-Brief\'" in read(root / "assets/js/watchlist.js"):
+        fail("Watchlist has an invalid root-site fallback")
+    for page in (root / "stories/2026-09-23").glob("*/index.html"):
+        if "Source reading time unavailable" in read(page):
+            fail("Verified September 23 reading estimate missing: " + str(page))
+    corrections = json.loads(read(root / "reader-corrections.json"))
+    if len(corrections.get("image_corrections", [])) != 3:
+        fail("September 23 image correction bindings are incomplete")
+
     build = json.loads(read(root / "build.json"))
     if build.get("command_center_included") is not False:
         fail("build metadata does not prove Command Center exclusion")
@@ -126,6 +135,7 @@ def main() -> int:
 
     print(json.dumps({
         "result": "passed",
+        "verification_scope": "static candidate only; live feedback and mobile verification required",
         "dated_editions": len(edition_dirs),
         "html_pages": len(html_files),
         "sep23_images": len(SEP23_IMAGES),

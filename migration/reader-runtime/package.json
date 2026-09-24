@@ -1,0 +1,1 @@
+{"name":"ndaib-reader-runtime","private":true,"type":"module","scripts":{"db:generate":"drizzle-kit generate","test":"node --test runtime.test.mjs"},"devDependencies":{"drizzle-kit":"0.31.11","drizzle-orm":"0.44.7","vite":"^8.0.13"}}

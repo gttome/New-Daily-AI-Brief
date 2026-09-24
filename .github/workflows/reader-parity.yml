@@ -158,6 +158,7 @@ jobs:
           name: ndaib-reader-parity-${{ github.sha }}
           path: |
             _site
+            _site.runtime
             _artifacts/data-parity-manifest.json
           if-no-files-found: error
           retention-days: 30
