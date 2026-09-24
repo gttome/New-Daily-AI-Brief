@@ -278,6 +278,14 @@ def discover_videos(config: dict[str, Any], cutoff: datetime, editorial_terms: s
                 selected.append(candidate)
     if len(selected) != int(policy["target_count"]):
         raise SystemExit(f"live video discovery produced {len(selected)} verified candidates; exactly {policy['target_count']} required")
+    for candidate in selected:
+        try:
+            _, resolved, status = http_text(candidate["url"])
+            candidate["reachable"] = 200 <= status < 400
+            candidate["http_status"] = status
+            candidate["resolved_url"] = resolved
+        except Exception as exc:  # noqa: BLE001
+            raise SystemExit(f"selected video URL failed final reachability verification: {candidate['url']}: {exc}") from exc
     return selected, diagnostics
 
 
@@ -370,6 +378,14 @@ def discover_podcasts(config: dict[str, Any], cutoff: datetime, editorial_terms:
             break
     if len(selected) != int(policy["target_count"]):
         raise SystemExit(f"live podcast discovery produced {len(selected)} source-diverse verified candidates; exactly {policy['target_count']} required")
+    for candidate in selected:
+        try:
+            _, resolved, status = http_text(candidate["url"])
+            candidate["reachable"] = 200 <= status < 400
+            candidate["http_status"] = status
+            candidate["resolved_url"] = resolved
+        except Exception as exc:  # noqa: BLE001
+            raise SystemExit(f"selected podcast URL failed final reachability verification: {candidate['url']}: {exc}") from exc
     return selected, diagnostics
 
 
