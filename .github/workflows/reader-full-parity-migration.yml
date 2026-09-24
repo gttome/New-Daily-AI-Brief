@@ -1,0 +1,123 @@
+name: Reader Full-Parity Migration
+
+on:
+  push:
+    branches: [reader-full-parity-20260923]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: reader-full-parity-migration
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    if: github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, '[reader-migration-output]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out greenfield repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check out frozen legacy reader source
+        uses: actions/checkout@v4
+        with:
+          repository: gttome/Daily-AI-Brief
+          ref: 4ac06268048a3241d2ecaa5ce7c2638266500d75
+          path: _legacy
+          fetch-depth: 1
+
+      - name: Materialize checked migration helpers
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat scripts/.bootstrap/migrate-legacy-reader.*.b64 | base64 --decode > scripts/migrate_legacy_reader.py
+          base64 --decode scripts/.bootstrap/verify-reader-parity.b64 > scripts/verify_reader_parity.py
+          echo '393de644fe31ee0b288449646dd2be54761fe1eb73c50de2e6b07de42bb213a0  scripts/migrate_legacy_reader.py' | sha256sum -c -
+          echo '990a03bb0a35a858a4534237f890200cc5351cf161ec1a89ce2e6752975a6532  scripts/verify_reader_parity.py' | sha256sum -c -
+          python -m py_compile scripts/migrate_legacy_reader.py scripts/verify_reader_parity.py
+
+      - name: Prepare reader source and historical support snapshot
+        run: |
+          python scripts/migrate_legacy_reader.py prepare \
+            --legacy-root _legacy \
+            --legacy-sha 4ac06268048a3241d2ecaa5ce7c2638266500d75 \
+            --cutoff 2026-09-23 \
+            --reader-source reader-source \
+            --support-root migration/legacy-support \
+            --provenance migration/legacy-provenance.json
+
+      - name: Build production-equivalent reader with GitHub Pages Jekyll
+        uses: actions/jekyll-build-pages@44a6e6beabd48582f863aeeb6cb2151cc1716697
+        with:
+          source: ./reader-source
+          destination: ./site
+
+      - name: Finalize target URLs and build parity manifest
+        run: |
+          python scripts/migrate_legacy_reader.py finalize \
+            --legacy-root _legacy \
+            --legacy-sha 4ac06268048a3241d2ecaa5ce7c2638266500d75 \
+            --cutoff 2026-09-23 \
+            --support-root migration/legacy-support \
+            --site-root site \
+            --manifest migration/parity-manifest.json
+
+      - name: Verify full historical and functional reader bundle
+        run: |
+          python scripts/verify_reader_parity.py \
+            --legacy-root _legacy \
+            --site-root site \
+            --manifest migration/parity-manifest.json \
+            --cutoff 2026-09-23 \
+            --output migration/reader-parity-qa.json
+
+      - name: Verify interaction service accepts the new Site origin
+        shell: bash
+        run: |
+          set -euo pipefail
+          origin='https://ndaib.gtome.chatgpt.site'
+          service='https://daily-ai-brief-ratings.gtome.chatgpt.site'
+          : > migration/interaction-cors.txt
+          for path in /api/ratings /api/events /api/comments /api/watchlist; do
+            headers="$(mktemp)"
+            status="$(curl -sS -o /dev/null -D "$headers" -w '%{http_code}' -X OPTIONS \
+              -H "Origin: $origin" \
+              -H 'Access-Control-Request-Method: POST' \
+              -H 'Access-Control-Request-Headers: content-type,x-operation-id' \
+              "$service$path" || true)"
+            allow="$(awk 'BEGIN{IGNORECASE=1} /^access-control-allow-origin:/ {gsub(/\r/,"",$2); print $2}' "$headers" | tail -1)"
+            echo "$path status=$status allow-origin=${allow:-missing}" | tee -a migration/interaction-cors.txt
+            if [[ "$allow" != '*' && "$allow" != "$origin" ]]; then
+              echo "CORS does not authorize the target Site origin for $path" >&2
+              exit 1
+            fi
+          done
+
+      - name: Verify no legacy reader mutation occurred
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _legacy rev-parse HEAD)" = '4ac06268048a3241d2ecaa5ce7c2638266500d75'
+          test -z "$(git -C _legacy status --porcelain)"
+
+      - name: Persist deterministic migration output
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf reader-source _legacy
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -rf scripts/.bootstrap
+          git add site migration scripts/migrate_legacy_reader.py scripts/verify_reader_parity.py
+          git add -u scripts/.bootstrap
+          if git diff --cached --quiet; then
+            echo 'Migration output already current.'
+            exit 0
+          fi
+          git commit -m 'Build full-parity reader migration [reader-migration-output]'
+          git push origin "HEAD:${GITHUB_REF_NAME}"

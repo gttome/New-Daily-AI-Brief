@@ -1,0 +1,53 @@
+name: Manual Canonical Daily Brief Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      edition_date:
+        description: Edition date (YYYY-MM-DD)
+        required: true
+        type: string
+      mode:
+        description: Canonical RunEngine mode
+        required: true
+        default: production
+        type: choice
+        options: [production, shadow, synthetic]
+      input_package:
+        description: Repository path containing the date-specific canonical input package
+        required: true
+        default: operator-inputs
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  PYTHONPATH: src
+
+jobs:
+  canonical-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate operator inputs and invoke the canonical RunEngine
+        shell: bash
+        env:
+          EDITION_DATE: ${{ inputs.edition_date }}
+          RUN_MODE: ${{ inputs.mode }}
+          INPUT_PACKAGE: ${{ inputs.input_package }}
+        run: |
+          set -euo pipefail
+          [[ "$EDITION_DATE" =~ ^20[0-9]{2}-[0-9]{2}-[0-9]{2}$ ]]
+          python scripts/manual_canonical_run.py \
+            --date "$EDITION_DATE" \
+            --mode "$RUN_MODE" \
+            --input-package "$INPUT_PACKAGE" \
+            --state-dir .state/manual
+      - name: Preserve run receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: canonical-run-${{ inputs.edition_date }}-${{ inputs.mode }}
+          path: .state/manual
+          if-no-files-found: error

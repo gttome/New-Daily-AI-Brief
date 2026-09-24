@@ -1,4 +1,4 @@
-name: Greenfield Test Access Deploy
+name: Greenfield Reader Engineering Preview
 
 on:
   workflow_run:
@@ -12,7 +12,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: greenfield-test-pages
+  group: greenfield-reader-preview
   cancel-in-progress: false
 
 jobs:
@@ -34,31 +34,30 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ steps.meta.outputs.source_sha }}
-      - name: Assemble static test surface
+      - name: Assemble engineering preview
         shell: bash
         run: |
           set -euo pipefail
+          test -f site/index.html
           rm -rf _site
           cp -R site _site
           python - <<'PY'
-          import json, os, datetime
-          payload = {
-              "source_sha": os.environ["SOURCE_SHA"],
-              "deployed_at": datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00","Z"),
-              "environment": "greenfield-owner-acceptance",
-              "production_cutover": False
+          import datetime, json, os
+          payload={
+            "source_sha":os.environ["SOURCE_SHA"],
+            "deployed_at":datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat().replace('+00:00','Z'),
+            "environment":"engineering-preview-only",
+            "production_cutover":False,
+            "reader_target":"https://ndaib.gtome.chatgpt.site"
           }
-          with open("_site/build.json","w",encoding="utf-8") as f:
-              json.dump(payload,f,separators=(",",":"))
+          with open('_site/build.json','w',encoding='utf-8') as f: json.dump(payload,f,separators=(',',':'))
           PY
         env:
           SOURCE_SHA: ${{ steps.meta.outputs.source_sha }}
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v5
         with:
           enablement: true
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
@@ -71,7 +70,7 @@ jobs:
     outputs:
       page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy greenfield owner-test site
+      - name: Deploy engineering preview only
         id: deployment
         uses: actions/deploy-pages@v4
 
@@ -79,21 +78,27 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Verify actual deployed URLs for desktop and phone user agents
+      - name: Verify parity preview on desktop and phone user agents
         shell: bash
         env:
           PAGE_URL: ${{ needs.deploy.outputs.page_url }}
         run: |
           set -euo pipefail
           base="${PAGE_URL%/}/"
-          desktop="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/154 Safari/537.36"
-          mobile="Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 Chrome/154 Mobile Safari/537.36"
+          desktop='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/154 Safari/537.36'
+          mobile='Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 Chrome/154 Mobile Safari/537.36'
           for ua in "$desktop" "$mobile"; do
-            curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 -A "$ua" "$base" | grep -q "GREENFIELD TEST"
-            curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 -A "$ua" "${base}command-center/" | grep -q "GREENFIELD COMMAND CENTER"
+            home="$(curl --fail --location --retry 4 --retry-all-errors -A "$ua" "$base")"
+            grep -q 'The Daily Generative AI Brief' <<<"$home"
+            ! grep -q 'GREENFIELD TEST' <<<"$home"
+            ! grep -qi 'href=.*command-center' <<<"$home"
+            curl --fail --location -A "$ua" "${base}briefs/2026-08-17/" >/dev/null
+            curl --fail --location -A "$ua" "${base}briefs/2026-09-05/" >/dev/null
+            curl --fail --location -A "$ua" "${base}briefs/2026-09-23/" >/dev/null
+            curl --fail --location -A "$ua" "${base}stories/2026-09-23/copilot-for-jetbrains-adds-shared-skills-instructions-plan-review-and-tool-approvals/" >/dev/null
+            curl --fail --location -A "$ua" "${base}watchlist/" >/dev/null
+            curl --fail --location -A "$ua" "${base}briefs-archive/" >/dev/null
           done
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}archive.html" | grep -q "Archive / History"
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}watchlist.html" | grep -q "Emerging AI Watchlist"
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}media.html" | grep -q "Media Brief"
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}article.html?id=context-graphs" | grep -q "Representative greenfield article surface"
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}build.json" | grep -q '"production_cutover":false'
+          curl --fail --location "${base}daily-feed.xml" >/dev/null
+          curl --fail --location "${base}feed.json" >/dev/null
+          curl --fail --location "${base}build.json" | grep -q '"production_cutover":false'
