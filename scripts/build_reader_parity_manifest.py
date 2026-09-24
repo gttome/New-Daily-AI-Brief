@@ -64,6 +64,18 @@ def count_feed_entries(root: Path) -> int:
     return sum(1 for item in items if str(item.get("date_published", ""))[:10] <= CUTOFF)
 
 
+def count_book_records(root: Path) -> int:
+    data = jload(root / "_data" / "book-reading.json", {})
+    editions = data.get("editions", {}) if isinstance(data, dict) else {}
+    if not isinstance(editions, dict):
+        return 0
+    return sum(
+        len(records)
+        for edition_date, records in editions.items()
+        if edition_date <= CUTOFF and isinstance(records, list)
+    )
+
+
 def snapshot_family(count: int, *, note: str | None = None) -> dict[str, Any]:
     result = {
         "legacy_count": count,
@@ -80,6 +92,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--legacy-root", default="legacy_snapshot")
     ap.add_argument("--output", default="evidence/reader-parity/data-parity-manifest.json")
+    ap.add_argument("--site-root", default=None)
     args = ap.parse_args()
     root = Path(args.legacy_root)
     if not root.exists():
@@ -99,9 +112,14 @@ def main() -> int:
     source_registry = jload(root / "_data" / "source-registry.json", {})
     sources = source_registry.get("sources", []) if isinstance(source_registry, dict) else []
     archive = jload(root / "data" / "archive-index.json", {})
-    archive_items = archive.get("items", archive if isinstance(archive, list) else [])
-    book_reading = jload(root / "_data" / "book-reading.json", {})
-    book_records = book_reading.get("records", book_reading.get("items", [])) if isinstance(book_reading, dict) else []
+    archive_items = archive.get("stories", archive.get("items", archive if isinstance(archive, list) else []))
+    rendered_route_count = None
+    if args.site_root:
+        site_root = Path(args.site_root)
+        if site_root.exists():
+            rendered_route_count = sum(1 for p in site_root.rglob("*.html") if p.is_file())
+    if rendered_route_count is None:
+        rendered_route_count = len(editions) + len(story_pages) + len(video_pages) + len(podcast_pages)
 
     families = {
         "editions": snapshot_family(len(editions)),
@@ -143,9 +161,10 @@ def main() -> int:
         "corrections": snapshot_family(json_record_count(root, "_records/ledgers"), note="Append-only ledgers are retained by exact snapshot identity."),
         "incidents": snapshot_family(sum(1 for p in rfiles(root / "_records", "*.json") if "incident" in p.name.lower()) if (root / "_records").exists() else 0),
         "trend_records": snapshot_family(json_record_count(root, "_records/trends")),
-        "book_bridges": snapshot_family(len(book_records) if isinstance(book_records, list) else 0),
+        "book_bridges": snapshot_family(count_book_records(root)),
+        "archive_entries": snapshot_family(len(archive_items)),
         "feed_entries": snapshot_family(count_feed_entries(root)),
-        "public_routes": snapshot_family(len(archive_items) + len(editions), note="Archive-index items plus complete dated editions; supporting informational/feed routes are additionally validated in the reader bundle.")
+        "public_routes": snapshot_family(rendered_route_count, note="Rendered HTML route count when --site-root is supplied; otherwise deterministic source-route minimum.")
     }
 
     mismatches = [name for name, value in families.items() if value.get("reconciled") is not True]
