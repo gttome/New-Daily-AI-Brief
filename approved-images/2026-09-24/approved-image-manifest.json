@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0.0",
+  "edition_date": "2026-09-24",
+  "fixture_only": false,
+  "images": [
+    {
+      "story_id": "live-4aa18653035bc8a3",
+      "file": "approved-images/2026-09-24/01-evaluate-skill-equipped-agents-with-strands-eval.webp",
+      "sha256": "ed55401698ca4c4fc36694684cf73bc809967a15ca364743db32a6bdb935cb24",
+      "generation_method": "openai_image_generation",
+      "quality_accepted": true,
+      "accepted_locked": true,
+      "composition_id": "reusable-skill-control-plane-1",
+      "composition": "reusable-skill-control-plane-1",
+      "alt": "Professional textbook-style editorial diagram explaining Evaluate skill-equipped agents with Strands Evals and Amazon Bedrock AgentCore.",
+      "assessment": "OpenAI image-generated visual base transformed into a story-specific professional editorial explainer; 1200×630; visually reviewed; no clipped or overlapping text; accepted and locked."
+    },
+    {
+      "story_id": "live-cca310b8dce1d42c",
+      "file": "approved-images/2026-09-24/02-build-a-multi-account-ai-agent-with-agentcore-ga.webp",
+      "sha256": "70e99b80c494977f2ceeb55b447b9b45716ad275036d6bd39fe118dbf494e13e",
+      "generation_method": "openai_image_generation",
+      "quality_accepted": true,
+      "accepted_locked": true,
+      "composition_id": "governed-agent-workflow-2",
+      "composition": "governed-agent-workflow-2",
+      "alt": "Professional textbook-style editorial diagram explaining Build a multi-account AI agent with AgentCore Gateway and MCP.",
+      "assessment": "OpenAI image-generated visual base transformed into a story-specific professional editorial explainer; 1200×630; visually reviewed; no clipped or overlapping text; accepted and locked."
+    },
+    {
+      "story_id": "live-63a2ad410a3d1bd1",
+      "file": "approved-images/2026-09-24/03-more-ways-to-request-and-configure-copilot-code-.webp",
+      "sha256": "8bc6ae3e11d19046c2f6c45074c73aace628372d93bb1870541b2e2237bdfaea",
+      "generation_method": "openai_image_generation",
+      "quality_accepted": true,
+      "accepted_locked": true,
+      "composition_id": "story-specific-system-map-3",
+      "composition": "story-specific-system-map-3",
+      "alt": "Professional textbook-style editorial diagram explaining More ways to request and configure Copilot code reviews.",
+      "assessment": "OpenAI image-generated visual base transformed into a story-specific professional editorial explainer; 1200×630; visually reviewed; no clipped or overlapping text; accepted and locked."
+    },
+    {
+      "story_id": "live-dddd1a2e464261ce",
+      "file": "approved-images/2026-09-24/04-building-the-system-for-ai-at-work.webp",
+      "sha256": "3b57c1692809f5896bdfd5b6e0aed6874ccfbb78c0cdd6343d0936dc796b6588",
+      "generation_method": "openai_image_generation",
+      "quality_accepted": true,
+      "accepted_locked": true,
+      "composition_id": "governed-agent-workflow-4",
+      "composition": "governed-agent-workflow-4",
+      "alt": "Professional textbook-style editorial diagram explaining Building the system for AI at work.",
+      "assessment": "OpenAI image-generated visual base transformed into a story-specific professional editorial explainer; 1200×630; visually reviewed; no clipped or overlapping text; accepted and locked."
+    },
+    {
+      "story_id": "live-906dd6ad8541fe08",
+      "file": "approved-images/2026-09-24/05-node-20-is-no-longer-available-in-github-actions.webp",
+      "sha256": "f557e607a5518df565a32c135b7c1040f8eddb15265329c1ec28e07ea06e7887",
+      "generation_method": "openai_image_generation",
+      "quality_accepted": true,
+      "accepted_locked": true,
+      "composition_id": "story-specific-system-map-5",
+      "composition": "story-specific-system-map-5",
+      "alt": "Professional textbook-style editorial diagram explaining Node 20 is no longer available in GitHub Actions.",
+      "assessment": "OpenAI image-generated visual base transformed into a story-specific professional editorial explainer; 1200×630; visually reviewed; no clipped or overlapping text; accepted and locked."
+    },
+    {
+      "story_id": "live-90912ec5cf462463",
+      "file": "approved-images/2026-09-24/06-validate-gpu-cluster-readiness-before-ai-workloa.webp",
+      "sha256": "be0a1bc6c3457f5802e224ff3fa8d1e116eb613417827ab0a096929887fb9232",
+      "generation_method": "openai_image_generation",
+      "quality_accepted": true,
+      "accepted_locked": true,
+      "composition_id": "story-specific-system-map-6",
+      "composition": "story-specific-system-map-6",
+      "alt": "Professional textbook-style editorial diagram explaining Validate GPU Cluster Readiness Before AI Workloads Land.",
+      "assessment": "OpenAI image-generated visual base transformed into a story-specific professional editorial explainer; 1200×630; visually reviewed; no clipped or overlapping text; accepted and locked."
+    }
+  ]
+}
