@@ -498,9 +498,9 @@ def main() -> int:
             raise SystemExit(f"canonical greenfield {name} artifact is not locked")
         if record.get("edition_date") != args.edition_date:
             raise SystemExit(f"canonical greenfield {name} artifact date mismatch")
-    expected_story_ids = {x["candidate_id"] for x in catalog.get("candidates", [])}
+    catalog_story_ids = {x["candidate_id"] for x in catalog.get("candidates", [])}
     locked_story_ids = {x["story_id"] for x in canonical_edition.get("data", {}).get("stories", [])}
-    if locked_story_ids != expected_story_ids or len(locked_story_ids) != 6:
+    if len(locked_story_ids) != 6 or not locked_story_ids.issubset(catalog_story_ids):
         raise SystemExit("publication assembly does not match the six canonical greenfield locked stories")
     locked_media_urls = {
         x["url"] for kind in ("videos", "podcasts")
@@ -513,13 +513,20 @@ def main() -> int:
     if locked_media_urls != discovered_media_urls or len(locked_media_urls) != 4:
         raise SystemExit("publication media does not match the canonical greenfield locked media set")
 
+    locked_catalog_candidates = [
+        x for x in catalog.get("candidates", [])
+        if x.get("candidate_id") in locked_story_ids
+    ]
     by_focus = {
-        focus: sorted([x for x in catalog.get("candidates", []) if x.get("category_id") == focus], key=lambda x: (-int(x.get("quality_score") or 0), x["candidate_id"]))
+        focus: sorted(
+            [x for x in locked_catalog_candidates if x.get("category_id") == focus],
+            key=lambda x: (-int(x.get("quality_score") or 0), x["candidate_id"]),
+        )
         for focus in (TECHNICAL, APPLIED, AGENTS)
     }
     ordered_candidates = by_focus[TECHNICAL] + by_focus[APPLIED] + by_focus[AGENTS]
-    if len(ordered_candidates) != 6:
-        raise SystemExit("exactly six locked candidates are required")
+    if len(ordered_candidates) != 6 or any(len(by_focus[focus]) != 2 for focus in (TECHNICAL, APPLIED, AGENTS)):
+        raise SystemExit("exactly six canonical locked candidates in the 2/2/2 allocation are required")
 
     images, handoff = image_entries(
         args.edition_date,
@@ -528,7 +535,12 @@ def main() -> int:
         Path(args.approved_image_root),
         runtime_root,
     )
-    stories = build_stories(args.edition_date, cutoff, catalog, images)
+    stories = build_stories(
+        args.edition_date,
+        cutoff,
+        {"schema_version": catalog.get("schema_version", "1.0.0"), "candidates": locked_catalog_candidates},
+        images,
+    )
     worth, podcasts, video_out = build_media(args.edition_date, media)
     fallback_used = any(x["freshness"]["tier"] == "fallback" for x in stories)
     coverage = f"24-hour primary window ending at {cutoff}."
