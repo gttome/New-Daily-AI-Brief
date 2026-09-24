@@ -64,6 +64,10 @@ jobs:
             --site-url https://gttome.github.io/New-Daily-AI-Brief \
             --base-path New-Daily-AI-Brief \
             --greenfield-sha "${{ steps.meta.outputs.source_sha }}"
+          python scripts/build_reader_parity_manifest.py \
+            --legacy-root legacy_snapshot \
+            --site-root _site \
+            --output _artifacts/data-parity-manifest.json
           python scripts/validate_reader_bundle.py \
             --site-root _site \
             --target-url https://gttome.github.io/New-Daily-AI-Brief
