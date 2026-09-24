@@ -64,6 +64,10 @@ jobs:
             --site-url https://gttome.github.io/New-Daily-AI-Brief \
             --base-path New-Daily-AI-Brief \
             --greenfield-sha "${{ steps.meta.outputs.source_sha }}"
+          python scripts/build_reader_parity_manifest.py \
+            --legacy-root legacy_snapshot \
+            --site-root _site \
+            --output _artifacts/data-parity-manifest.json
           python scripts/validate_reader_bundle.py \
             --site-root _site \
             --target-url https://gttome.github.io/New-Daily-AI-Brief
@@ -111,10 +115,17 @@ jobs:
             ! grep -q "GREENFIELD TEST" <<<"$html"
             ! grep -qi "command-center" <<<"$html"
           done
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}briefs-archive/" | grep -q "221 items"
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}watchlist/" | grep -q "Emerging AI Watchlist"
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}about/" | grep -q "About the Daily Generative AI Brief"
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}briefs/2026-09-23/" | grep -q "How useful was this?"
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}assets/js/comments.js" | grep -q "/api/comments"
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}assets/js/feedback.js" | grep -q "/api/ratings"
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}assets/js/share.js" | grep -q "/api/events"
+          assert_contains() {
+            local url="$1"
+            local needle="$2"
+            local body
+            body="$(curl --fail --silent --show-error --location --retry 12 --retry-all-errors --retry-delay 5 "$url")"
+            grep -Fq "$needle" <<<"$body"
+          }
+          assert_contains "${base}briefs-archive/" "221 items"
+          assert_contains "${base}watchlist/" "Emerging AI Watchlist"
+          assert_contains "${base}about/" "About the Daily Generative AI Brief"
+          assert_contains "${base}briefs/2026-09-23/" "How useful was this?"
+          assert_contains "${base}assets/js/comments.js" "/api/comments"
+          assert_contains "${base}assets/js/feedback.js" "/api/ratings"
+          assert_contains "${base}assets/js/share.js" "/api/events"

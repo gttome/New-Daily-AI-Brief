@@ -1,0 +1,172 @@
+{
+  "schema_version": "1.0.1",
+  "cutoff_date": "2026-09-23",
+  "legacy_repository": "gttome/Daily-AI-Brief",
+  "legacy_sha": "4ac06268048a3241d2ecaa5ce7c2638266500d75",
+  "greenfield_repository": "gttome/New-Daily-AI-Brief",
+  "reader_payload_verified_sha": "95146408b648e30cf897d9aac6cc6f144d7b4902",
+  "migration_strategy": "immutable_git_submodule_snapshot_plus_target_reader_build",
+  "parity_status": "reconciled",
+  "post_cutoff_editions_imported": false,
+  "unexplained_mismatches": [],
+  "generated_reader_evidence": {
+    "html_pages": 342,
+    "critical_defects": 0,
+    "high_defects": 0,
+    "dated_editions": 38,
+    "sep23_images": 6
+  },
+  "families": {
+    "editions": {
+      "legacy_count": 38,
+      "greenfield_count": 38,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "stories": {
+      "legacy_count": 239,
+      "greenfield_count": 239,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "story_pages": {
+      "legacy_count": 239,
+      "greenfield_count": 239,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "images": {
+      "legacy_count": 209,
+      "greenfield_count": 209,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "videos": {
+      "legacy_count": 20,
+      "greenfield_count": 20,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "podcasts": {
+      "legacy_count": 21,
+      "greenfield_count": 21,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "comments": {
+      "legacy_count": null,
+      "greenfield_count": null,
+      "representation": "retained_in_place_authoritative_interaction_service",
+      "state": "Unavailable",
+      "reconciled": true,
+      "note": "Private comment records are not exposed by the public repository; the existing comments service remains authoritative and is reused by the migrated reader."
+    },
+    "ratings": {
+      "legacy_count": null,
+      "greenfield_count": null,
+      "representation": "retained_in_place_authoritative_interaction_service",
+      "state": "Unavailable",
+      "reconciled": true,
+      "note": "Exact historical values remain in the authoritative ratings service and are not inferred."
+    },
+    "share_records_counts": {
+      "legacy_count": null,
+      "greenfield_count": null,
+      "representation": "retained_in_place_authoritative_interaction_service",
+      "state": "Unavailable",
+      "reconciled": true,
+      "note": "Exact historical values remain in the authoritative events/share service and are not inferred."
+    },
+    "watchlist_topics_history": {
+      "legacy_count": 16,
+      "greenfield_count": 16,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "sources": {
+      "legacy_count": 43,
+      "greenfield_count": 43,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "story_memory_entries": {
+      "legacy_count": 1843,
+      "greenfield_count": 1843,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "editorial_candidates": {
+      "legacy_count": 7,
+      "greenfield_count": 7,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "qa_records": {
+      "legacy_count": 19,
+      "greenfield_count": 19,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "accessibility_records": {
+      "legacy_count": 12,
+      "greenfield_count": 12,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "analytics_records": {
+      "legacy_count": 18,
+      "greenfield_count": 18,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "attempts_runs": {
+      "legacy_count": 12,
+      "greenfield_count": 12,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "corrections": {
+      "legacy_count": 0,
+      "greenfield_count": 0,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true,
+      "note": "Append-only correction/ledger records are retained by exact snapshot identity; no counted JSON ledgers existed at cutoff."
+    },
+    "incidents": {
+      "legacy_count": 1,
+      "greenfield_count": 1,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "trend_records": {
+      "legacy_count": 17,
+      "greenfield_count": 17,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "book_bridges": {
+      "legacy_count": 33,
+      "greenfield_count": 33,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "archive_entries": {
+      "legacy_count": 221,
+      "greenfield_count": 221,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "feed_entries": {
+      "legacy_count": 221,
+      "greenfield_count": 221,
+      "representation": "immutable_pinned_legacy_snapshot",
+      "reconciled": true
+    },
+    "public_routes": {
+      "legacy_count": 342,
+      "greenfield_count": 342,
+      "representation": "rendered_from_same_pinned_reader_source_with_target_url_override",
+      "reconciled": true
+    }
+  }
+}

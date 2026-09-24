@@ -70,6 +70,10 @@ jobs:
             --config migration/ndaib-jekyll.yml \
             --site-url https://ndaib.gtome.chatgpt.site \
             --greenfield-sha "$GITHUB_SHA"
+          python scripts/build_reader_parity_manifest.py \
+            --legacy-root legacy_snapshot \
+            --site-root _site \
+            --output _artifacts/data-parity-manifest.json
 
       - name: Validate final reader bundle
         run: python scripts/validate_reader_bundle.py --site-root _site --target-url https://ndaib.gtome.chatgpt.site
