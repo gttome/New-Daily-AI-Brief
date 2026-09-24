@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "status": "site_publication_blocked_by_unavailable_current_chat_capability",
+  "target_site": "https://ndaib.gtome.chatgpt.site",
+  "target_slug": "ndaib",
+  "verified_source_sha": "e3a765c259e7e2ef8d59570e9353c09a57031804",
+  "legacy_snapshot_sha": "4ac06268048a3241d2ecaa5ce7c2638266500d75",
+  "reader_parity_workflow": {
+    "run_id": 35941992171,
+    "conclusion": "success"
+  },
+  "greenfield_contracts": {
+    "run_id": 35941992165,
+    "conclusion": "success"
+  },
+  "engineering_preview": {
+    "url": "https://gttome.github.io/New-Daily-AI-Brief/",
+    "run_id": 35942011388,
+    "conclusion": "success",
+    "desktop_smoke": "passed",
+    "phone_smoke": "passed"
+  },
+  "verified_bundle": {
+    "artifact_id": 10784968502,
+    "name": "ndaib-reader-parity-e3a765c259e7e2ef8d59570e9353c09a57031804",
+    "size_bytes": 70669179,
+    "digest": "sha256:75813307a9116270db32b4f01512f952e96e55f5414f288864a4b790fdb869b7"
+  },
+  "parity": {
+    "status": "reconciled",
+    "critical_defects": 0,
+    "high_defects": 0,
+    "dated_editions": 38,
+    "story_pages": 239,
+    "images": 209,
+    "videos": 20,
+    "podcasts": 21,
+    "archive_entries": 221,
+    "feed_entries": 221,
+    "book_bridges": 33,
+    "rendered_html_routes": 342,
+    "sep23_images": 6
+  },
+  "current_chat_capability_check": {
+    "native_sites_publish_tool_available": false,
+    "chatgpt_sites_plugin_found": false,
+    "web_fetch_target_site": "unsupported/cache_miss",
+    "conclusion": "cannot truthfully publish or verify the existing ChatGPT Site from this chat"
+  },
+  "remaining_action": "publish existing verified reader bundle to the existing ndaib ChatGPT Site and run live Site parity verification",
+  "redo_completed_work": false
+}
