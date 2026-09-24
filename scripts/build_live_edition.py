@@ -461,6 +461,7 @@ def main() -> int:
     ap.add_argument("--edition-date", required=True)
     ap.add_argument("--input-root", required=True)
     ap.add_argument("--runtime-root", required=True)
+    ap.add_argument("--state-root", required=True)
     ap.add_argument("--approved-image-manifest", required=True)
     ap.add_argument("--approved-image-root", default=".")
     args = ap.parse_args()
@@ -475,6 +476,36 @@ def main() -> int:
     cutoff = str(live_manifest.get("metadata_cutoff") or media.get("cutoff"))
     if not cutoff:
         raise SystemExit("live research cutoff is missing")
+
+    state_dir = Path(args.state_root) / f"{args.edition_date}__production"
+    canonical_edition = load(state_dir / "edition.json")
+    canonical_media = load(state_dir / "media.json")
+    canonical_watchlist = load(state_dir / "watchlist.json")
+    canonical_bridges = load(state_dir / "book-bridges.json")
+    for name, record in (
+        ("edition", canonical_edition),
+        ("media", canonical_media),
+        ("watchlist", canonical_watchlist),
+        ("book-bridges", canonical_bridges),
+    ):
+        if record.get("status") != "locked":
+            raise SystemExit(f"canonical greenfield {name} artifact is not locked")
+        if record.get("edition_date") != args.edition_date:
+            raise SystemExit(f"canonical greenfield {name} artifact date mismatch")
+    expected_story_ids = {x["candidate_id"] for x in catalog.get("candidates", [])}
+    locked_story_ids = {x["story_id"] for x in canonical_edition.get("data", {}).get("stories", [])}
+    if locked_story_ids != expected_story_ids or len(locked_story_ids) != 6:
+        raise SystemExit("publication assembly does not match the six canonical greenfield locked stories")
+    locked_media_urls = {
+        x["url"] for kind in ("videos", "podcasts")
+        for x in canonical_media.get("data", {}).get(kind, [])
+    }
+    discovered_media_urls = {
+        x["url"] for kind in ("videos", "podcasts")
+        for x in (media.get("selected") or {}).get(kind, [])
+    }
+    if locked_media_urls != discovered_media_urls or len(locked_media_urls) != 4:
+        raise SystemExit("publication media does not match the canonical greenfield locked media set")
 
     by_focus = {
         focus: sorted([x for x in catalog.get("candidates", []) if x.get("category_id") == focus], key=lambda x: (-int(x.get("quality_score") or 0), x["candidate_id"]))
@@ -517,6 +548,12 @@ def main() -> int:
             "greenfield_run_depth_before_images": "build_locked",
             "live_discovery_profile": live_manifest.get("discovery_profile"),
             "paid_api_calls": 0,
+            "canonical_artifact_digests": {
+                "edition": canonical_edition.get("content_digest"),
+                "media": canonical_media.get("content_digest"),
+                "watchlist": canonical_watchlist.get("content_digest"),
+                "book_bridges": canonical_bridges.get("content_digest"),
+            },
         },
         "podcasts": podcasts,
     }
