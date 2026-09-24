@@ -4,5 +4,6 @@
   "edition_date": "2026-09-24",
   "approved_image_manifest": "approved-images/2026-09-24/approved-image-manifest.json",
   "force_replace_existing_edition": false,
-  "purpose": "Resume the existing canonical Manual Daily Brief from its durable build_locked checkpoint after the six approved images were merged."
+  "purpose": "Resume the existing canonical Manual Daily Brief from build_locked after approved images; retry only publication generation with timestamp-aware podcast freshness validation.",
+  "resume_token": "sep24-freshness-validator-fix-1"
 }
