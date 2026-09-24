@@ -48,7 +48,7 @@ jobs:
             case "$path" in
               docs/*|evidence/*)
                 ;;
-              .gitmodules|legacy_snapshot|migration/*|scripts/build_reader_*|scripts/prepare_legacy_run_inputs.py|scripts/manual_canonical_run.py|scripts/validate_reader_bundle.py|.github/workflows/ci.yml|.github/workflows/reader-parity.yml|.github/workflows/manual-daily-brief.yml|.github/workflows/deploy-iteration32-test.yml)
+              .gitmodules|legacy_snapshot|migration/*|fixtures/live-manual/*|scripts/build_reader_*|scripts/prepare_legacy_run_inputs.py|scripts/prepare_live_editorial_inputs.py|scripts/manual_canonical_run.py|scripts/validate_reader_bundle.py|.github/workflows/ci.yml|.github/workflows/reader-parity.yml|.github/workflows/manual-daily-brief.yml|.github/workflows/deploy-iteration32-test.yml)
                 reader=true
                 ;;
               *)
@@ -93,6 +93,7 @@ jobs:
             scripts/build_reader_bundle.py \
             scripts/validate_reader_bundle.py \
             scripts/prepare_legacy_run_inputs.py \
+            scripts/prepare_live_editorial_inputs.py \
             scripts/manual_canonical_run.py
 
       - name: Reconcile pinned historical snapshot
@@ -121,6 +122,32 @@ jobs:
             --edition-date 2026-09-23 \
             --input-root /tmp/ndaib-inputs \
             --state-root /tmp/ndaib-state
+
+      - name: Verify live manual editorial path without network calls
+        if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader == 'true'
+        run: |
+          rm -rf /tmp/ndaib-live-inputs /tmp/ndaib-live-state
+          PYTHONPATH=src python scripts/prepare_live_editorial_inputs.py \
+            --edition-date 2026-09-24 \
+            --metadata-json fixtures/live-manual/metadata-candidates.json \
+            --evidence-json fixtures/live-manual/article-evidence.json \
+            --evidence-receipt-json fixtures/live-manual/article-evidence-receipt.json \
+            --legacy-root legacy_snapshot \
+            --output-root /tmp/ndaib-live-inputs
+          PYTHONPATH=src python scripts/manual_canonical_run.py \
+            --edition-date 2026-09-24 \
+            --input-root /tmp/ndaib-live-inputs \
+            --state-root /tmp/ndaib-live-state \
+            --editorial-only
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.load(open("/tmp/ndaib-live-inputs/live-input-manifest.json",encoding="utf-8"))
+          assert p["selected_story_count"] == 6, p
+          assert sum(bool(x["agent_skills"]) for x in p["selected_stories"]) == 1, p
+          assert p["publication_attempted"] is False, p
+          assert Path("/tmp/ndaib-live-inputs/live-editorial-draft.md").exists()
+          PY
 
       - name: Closure metadata validation
         if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader != 'true'
