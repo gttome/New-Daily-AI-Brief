@@ -9,6 +9,7 @@ import shutil
 import subprocess
 from pathlib import Path
 from build_reader_corrections import apply_reader_corrections
+from build_reader_runtime import attach_reader_runtime, add_related_coverage
 
 LEGACY_BASE = "https://gttome.github.io/Daily-AI-Brief"
 TEXT_SUFFIXES = {".html", ".xml", ".json", ".js", ".css", ".txt", ".webmanifest"}
@@ -73,6 +74,8 @@ def main() -> int:
             path.write_text(text, encoding="utf-8")
 
     corrections = apply_reader_corrections(dest, legacy)
+    add_related_coverage(dest, legacy)
+    corrections['reader_runtime'] = attach_reader_runtime(dest, legacy)
     (dest / "reader-corrections.json").write_text(json.dumps(corrections, indent=2) + "\n", encoding="utf-8")
 
     metadata = {
