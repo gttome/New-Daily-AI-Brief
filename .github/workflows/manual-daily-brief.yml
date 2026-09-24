@@ -208,6 +208,11 @@ jobs:
           fetch-depth: 1
           persist-credentials: false
 
+      - name: Patch publication adapter podcast freshness validation
+        if: steps.mode.outputs.mode == 'live_editorial'
+        run: |
+          python scripts/patch_publication_adapter_freshness.py \
+            --adapter-root .live-discovery-adapter
       - name: Discover fresh public-source article evidence
         if: steps.mode.outputs.mode == 'live_editorial' && steps.checkpoint.outputs.stage == 'none'
         shell: bash
