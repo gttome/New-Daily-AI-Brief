@@ -55,11 +55,11 @@ jobs:
         shell: bash
         env:
           EVENT_NAME: ${{ github.event_name }}
-          INPUT_EDITION_DATE: ${{ steps.event.outputs.edition_date }}
-          INPUT_EDITION_JSON: ${{ steps.event.outputs.edition_json }}
-          INPUT_WATCHLIST_JSON: ${{ steps.event.outputs.watchlist_json }}
-          INPUT_APPROVED_IMAGE_MANIFEST: ${{ steps.event.outputs.approved_image_manifest }}
-          INPUT_FORCE_REPLACE: ${{ steps.event.outputs.force_replace }}
+          INPUT_EDITION_DATE: ${{ inputs.edition_date }}
+          INPUT_EDITION_JSON: ${{ inputs.edition_json }}
+          INPUT_WATCHLIST_JSON: ${{ inputs.watchlist_json }}
+          INPUT_APPROVED_IMAGE_MANIFEST: ${{ inputs.approved_image_manifest }}
+          INPUT_FORCE_REPLACE: ${{ inputs.force_replace_existing_edition }}
         run: |
           set -euo pipefail
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
