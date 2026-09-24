@@ -22,6 +22,11 @@ on:
         required: false
         default: ""
         type: string
+      force_replace_existing_edition:
+        description: "Discard the saved checkpoint for this live edition date and rebuild it from fresh discovery"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -55,6 +60,7 @@ jobs:
           EDITION_DATE: ${{ inputs.edition_date }}
           EDITION_JSON: ${{ inputs.edition_json }}
           APPROVED_IMAGE_MANIFEST: ${{ inputs.approved_image_manifest }}
+          FORCE_REPLACE: ${{ inputs.force_replace_existing_edition }}
         run: |
           set -euo pipefail
           [[ "$EDITION_DATE" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || {
@@ -65,6 +71,14 @@ jobs:
             echo "approved_image_manifest does not exist: $APPROVED_IMAGE_MANIFEST" >&2
             exit 2
           fi
+          if [[ "$FORCE_REPLACE" == "true" && -n "$APPROVED_IMAGE_MANIFEST" ]]; then
+            echo "force_replace_existing_edition cannot be combined with an approved_image_manifest because fresh discovery may change the locked story set" >&2
+            exit 2
+          fi
+          if [[ "$FORCE_REPLACE" == "true" && -n "$EDITION_JSON" ]]; then
+            echo "force_replace_existing_edition is only valid for live-discovery editions; do not combine it with edition_json" >&2
+            exit 2
+          fi
           if [[ -n "$EDITION_JSON" ]]; then
             [[ -f "$EDITION_JSON" ]] || {
               echo "authoritative edition_json does not exist: $EDITION_JSON" >&2
@@ -72,13 +86,17 @@ jobs:
             }
             echo "mode=authoritative_package" >> "$GITHUB_OUTPUT"
           elif [[ -f "legacy_snapshot/_data/editions/$EDITION_DATE.json" ]]; then
+            if [[ "$FORCE_REPLACE" == "true" ]]; then
+              echo "force_replace_existing_edition is only valid for live-discovery editions; $EDITION_DATE is an authoritative historical/prepared edition" >&2
+              exit 2
+            fi
             echo "mode=authoritative_package" >> "$GITHUB_OUTPUT"
           else
             echo "mode=live_editorial" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Restore durable live-run checkpoint
-        if: steps.mode.outputs.mode == 'live_editorial'
+        if: steps.mode.outputs.mode == 'live_editorial' && inputs.force_replace_existing_edition != true
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -87,6 +105,23 @@ jobs:
           key: manual-daily-brief-v2-${{ inputs.edition_date }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
             manual-daily-brief-v2-${{ inputs.edition_date }}-
+
+      - name: Reset selected live edition for explicit replacement
+        if: steps.mode.outputs.mode == 'live_editorial' && inputs.force_replace_existing_edition == true
+        shell: bash
+        env:
+          EDITION_DATE: ${{ inputs.edition_date }}
+        run: |
+          set -euo pipefail
+          rm -rf ".state/manual/${EDITION_DATE}__production" ".runtime-inputs/${EDITION_DATE}"
+          mkdir -p ".state/manual" ".runtime-inputs/${EDITION_DATE}"
+          {
+            echo "### Explicit edition replacement"
+            echo "- Edition: **${EDITION_DATE}**"
+            echo "- Saved checkpoint restored: **no**"
+            echo "- Prior local canonical state/input package: **discarded for this run**"
+            echo "- Fresh discovery required: **yes**"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Resolve durable live-run checkpoint
         if: steps.mode.outputs.mode == 'live_editorial'
@@ -298,11 +333,13 @@ jobs:
           INPUT_MODE: ${{ steps.mode.outputs.mode }}
           EDITION_DATE: ${{ inputs.edition_date }}
           APPROVED_IMAGE_MANIFEST: ${{ inputs.approved_image_manifest }}
+          FORCE_REPLACE: ${{ inputs.force_replace_existing_edition }}
         run: |
           {
             echo "### Manual Daily Brief"
             echo "- Edition: **$EDITION_DATE**"
             echo "- Input mode: **$INPUT_MODE**"
+            echo "- Force replace existing live edition: **$FORCE_REPLACE**"
             if [[ "$INPUT_MODE" == "live_editorial" ]]; then
               echo "- Fresh article discovery/evidence: **locked**"
               echo "- Videos/podcasts: **2 + 2 verified and locked**"
