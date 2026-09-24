@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "under80-v1",
+  "model_visible": [
+    {
+      "candidate_id": "m01",
+      "focus": "agents_non_technical_people",
+      "headline": "Evaluate reusable agent skills with deterministic checks",
+      "canonical_url": "https://example.com/agent-skill",
+      "excerpt": "Reusable agent skills can be evaluated for correct selection and instruction following before deployment."
+    },
+    {
+      "candidate_id": "m02",
+      "focus": "agents_non_technical_people",
+      "headline": "Business teams automate repetitive research workflows with agents",
+      "canonical_url": "https://example.com/agent-workflow",
+      "excerpt": "Business teams can delegate repetitive research steps to agents while retaining explicit review checkpoints."
+    },
+    {
+      "candidate_id": "m03",
+      "focus": "agents_non_technical_people",
+      "headline": "Assistants add safer approval checkpoints for business users",
+      "canonical_url": "https://example.com/agent-approval",
+      "excerpt": "Approval checkpoints reduce the chance that assistants take consequential actions without human review."
+    },
+    {
+      "candidate_id": "m04",
+      "focus": "applied_genai_knowledge_workers",
+      "headline": "Enterprise copilots expose new observability controls",
+      "canonical_url": "https://example.com/applied-observability",
+      "excerpt": "Enterprise copilots now emit telemetry that helps administrators understand model and tool behavior."
+    },
+    {
+      "candidate_id": "m05",
+      "focus": "applied_genai_knowledge_workers",
+      "headline": "Knowledge workers gain governed document automation",
+      "canonical_url": "https://example.com/applied-docs",
+      "excerpt": "Governed document automation can shorten routine knowledge-work tasks while preserving policy controls."
+    },
+    {
+      "candidate_id": "m06",
+      "focus": "applied_genai_knowledge_workers",
+      "headline": "Teams measure AI adoption with workflow-level telemetry",
+      "canonical_url": "https://example.com/applied-adoption",
+      "excerpt": "Workflow telemetry lets teams distinguish broad license adoption from meaningful task-level AI use."
+    },
+    {
+      "candidate_id": "m07",
+      "focus": "technical_ai_engineering",
+      "headline": "New evaluation method improves reproducibility for AI systems",
+      "canonical_url": "https://example.com/technical-evals",
+      "excerpt": "Reproducible evaluation makes benchmark results easier to compare across model and harness changes."
+    },
+    {
+      "candidate_id": "m08",
+      "focus": "technical_ai_engineering",
+      "headline": "Inference stack adds stronger isolation for sensitive context",
+      "canonical_url": "https://example.com/technical-inference",
+      "excerpt": "Confidential inference isolates sensitive prompts, context, and model execution inside a trusted environment."
+    },
+    {
+      "candidate_id": "m09",
+      "focus": "technical_ai_engineering",
+      "headline": "Retrieval pipeline adds provenance checks for grounded generation",
+      "canonical_url": "https://example.com/technical-rag",
+      "excerpt": "Provenance checks bind retrieved evidence to generation so grounded outputs can be audited."
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "under80-v1",
+  "ready": true,
+  "retrieved": 9,
+  "focus_counts": {
+    "technical_ai_engineering": 3,
+    "applied_genai_knowledge_workers": 3,
+    "agents_non_technical_people": 3
+  }
+}
