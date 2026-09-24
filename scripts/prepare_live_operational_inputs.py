@@ -278,6 +278,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Prepare live media, Watchlist, book-bridge, and image-request inputs")
     ap.add_argument("--edition-date", required=True)
     ap.add_argument("--input-root", required=True)
+    ap.add_argument("--state-root", required=True)
     ap.add_argument("--media-json", required=True)
     ap.add_argument("--legacy-root", default="legacy_snapshot")
     args = ap.parse_args()
@@ -286,14 +287,19 @@ def main() -> int:
     date.fromisoformat(edition_date)
     root = Path(args.input_root)
     editorial = load(root / "editorial" / "source-catalog.json")
-    live_manifest = load(root / "live-input-manifest.json")
-    selected_ids = {str(x.get("story_id")) for x in live_manifest.get("selected_stories", [])}
+    canonical_edition = load(Path(args.state_root) / f"{edition_date}__production" / "edition.json")
+    if canonical_edition.get("status") != "locked":
+        raise SystemExit("canonical greenfield edition must be locked before downstream operational preparation")
+    selected_ids = {
+        str(x.get("story_id"))
+        for x in (canonical_edition.get("data") or {}).get("stories", [])
+    }
     selected_candidates = [
         x for x in editorial.get("candidates", [])
         if str(x.get("candidate_id")) in selected_ids
     ]
-    if len(selected_candidates) != 6:
-        raise SystemExit("live operational preparation requires exactly six provisional selected stories")
+    if len(selected_ids) != 6 or len(selected_candidates) != 6:
+        raise SystemExit("live operational preparation requires the exact six canonical locked stories")
     selected_editorial = {"schema_version": editorial.get("schema_version", "1.0.0"), "candidates": selected_candidates}
     media = load(Path(args.media_json))
     build = root / "build"
