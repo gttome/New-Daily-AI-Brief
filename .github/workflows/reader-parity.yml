@@ -113,6 +113,7 @@ jobs:
           PYTHONPATH=src python scripts/prepare_live_operational_inputs.py \
             --edition-date 2026-09-24 \
             --input-root /tmp/ndaib-live-inputs \
+            --state-root /tmp/ndaib-live-state \
             --media-json /tmp/ndaib-live-inputs/live-media.json \
             --legacy-root legacy_snapshot
           PYTHONPATH=src python scripts/manual_canonical_run.py \
