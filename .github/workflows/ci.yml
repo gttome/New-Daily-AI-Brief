@@ -48,7 +48,7 @@ jobs:
             case "$path" in
               docs/*|evidence/*)
                 ;;
-              .gitmodules|migration/*|scripts/build_reader_*|scripts/prepare_legacy_run_inputs.py|scripts/manual_canonical_run.py|scripts/validate_reader_bundle.py|.github/workflows/reader-parity.yml|.github/workflows/manual-daily-brief.yml|.github/workflows/deploy-iteration32-test.yml)
+              .gitmodules|migration/*|scripts/build_reader_*|scripts/prepare_legacy_run_inputs.py|scripts/manual_canonical_run.py|scripts/validate_reader_bundle.py|.github/workflows/ci.yml|.github/workflows/reader-parity.yml|.github/workflows/manual-daily-brief.yml|.github/workflows/deploy-iteration32-test.yml)
                 reader=true
                 ;;
               *)
