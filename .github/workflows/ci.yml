@@ -52,7 +52,7 @@ jobs:
               site/command-center/*|scripts/build_command_center_snapshot.py|schemas/command-center-state.schema.json|tests/test_command_center.py|tests/test_iteration32_access.py)
                 command_center=true
                 ;;
-              .gitmodules|legacy_snapshot|migration/*|config/live-media-sources.json|fixtures/live-manual/*|scripts/build_reader_*|scripts/prepare_legacy_run_inputs.py|scripts/prepare_live_editorial_inputs.py|scripts/discover_live_media.py|scripts/prepare_live_operational_inputs.py|scripts/build_live_edition.py|scripts/manual_canonical_run.py|scripts/validate_reader_bundle.py|scripts/validate_live_reader_candidate.py|.github/workflows/ci.yml|.github/workflows/reader-parity.yml|.github/workflows/manual-daily-brief.yml|.github/workflows/deploy-iteration32-test.yml)
+              approved-images/*|.gitmodules|legacy_snapshot|migration/*|config/live-media-sources.json|fixtures/live-manual/*|scripts/build_reader_*|scripts/prepare_legacy_run_inputs.py|scripts/prepare_live_editorial_inputs.py|scripts/discover_live_media.py|scripts/prepare_live_operational_inputs.py|scripts/build_live_edition.py|scripts/manual_canonical_run.py|scripts/validate_reader_bundle.py|scripts/validate_live_reader_candidate.py|.github/workflows/ci.yml|.github/workflows/reader-parity.yml|.github/workflows/manual-daily-brief.yml|.github/workflows/deploy-iteration32-test.yml)
                 reader=true
                 ;;
               *)
@@ -90,6 +90,45 @@ jobs:
       - name: Contract, discovery, editorial, and recovery tests
         if: steps.scope.outputs.full == 'true'
         run: PYTHONPATH=src python -m unittest discover -s tests -v
+
+      - name: Verify approved image packages
+        if: steps.scope.outputs.reader == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+
+          root = Path("approved-images")
+          if not root.exists():
+              raise SystemExit(0)
+          manifests = sorted(root.glob("*/approved-image-manifest.json"))
+          for manifest_path in manifests:
+              manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+              images = manifest.get("images")
+              if not isinstance(images, list) or len(images) != 6:
+                  raise SystemExit(f"{manifest_path}: exactly six images required")
+              digests = set()
+              for entry in images:
+                  if entry.get("quality_accepted") is not True or entry.get("accepted_locked") is not True:
+                      raise SystemExit(f"{manifest_path}: image is not accepted/locked")
+                  if entry.get("generation_method") != "openai_image_generation":
+                      raise SystemExit(f"{manifest_path}: invalid generation_method")
+                  rel = str(entry.get("file") or "")
+                  p = Path(rel)
+                  if not p.is_file():
+                      raise SystemExit(f"{manifest_path}: missing image {rel}")
+                  if p.suffix.lower() not in {".webp", ".png"}:
+                      raise SystemExit(f"{manifest_path}: invalid image format {rel}")
+                  digest = hashlib.sha256(p.read_bytes()).hexdigest()
+                  if digest != str(entry.get("sha256") or ""):
+                      raise SystemExit(f"{manifest_path}: sha256 mismatch {rel}")
+                  digests.add(digest)
+              if len(digests) != 6:
+                  raise SystemExit(f"{manifest_path}: images must have six distinct byte streams")
+              print(f"{manifest_path}: approved image package PASS")
+          PY
 
       - name: Compile reader migration tools
         if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader == 'true'
