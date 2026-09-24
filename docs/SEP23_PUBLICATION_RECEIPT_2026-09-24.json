@@ -1,0 +1,43 @@
+{
+  "edition_date": "2026-09-23",
+  "status": "published_with_live_feed_verification_limit",
+  "repository_source_sha": "a23992f94eda864455501dcd67b51d27ed2192b8",
+  "site_project_id": "appgprj_6ab087e80a888191abb0f806118aa194",
+  "site_version": 3,
+  "site_source_sha": "c43608f36d577660e404b8ea0d87f938a3987ca5",
+  "site_version_id": "appgprj_6ab087e80a888191abb0f806118aa194~appgver_90c6fa89384c8191933c140fb33019bd",
+  "deployment_id": "appgdep_6ab49fd346648191b2f80483744af972",
+  "deployment_status": "succeeded",
+  "brief_url": "https://ndaib.gtome.chatgpt.site/briefs/2026-09-23/",
+  "archive_sha256": "f4549486c8a70bc8aecc5cb0ec87958572f5f5e514a6d8d6eea85c7079fa4ff6",
+  "accepted_image_count": 6,
+  "videos": 2,
+  "podcasts": 2,
+  "watchlist": {
+    "new": 0,
+    "updated": 3,
+    "carried_forward": 13
+  },
+  "history": {
+    "editions": 38,
+    "archive_items": 221,
+    "html_pages": 342
+  },
+  "candidate_qa": "passed",
+  "known_critical_defects": 0,
+  "known_high_defects": 0,
+  "live_reader_routes_verified": 17,
+  "live_mobile_css_viewport": 390,
+  "live_feedback": {
+    "event_writes": "confirmed in D1",
+    "watchlist_reads": "confirmed",
+    "copy_link": "confirmed",
+    "rating_comment_write_tests": "passed in isolated preview"
+  },
+  "remaining_verification": [
+    "Direct live RSS/Atom/JSON retrieval blocked for verification clients; packaged feeds validated."
+  ],
+  "legacy_modified": false,
+  "command_center_modified": false,
+  "resume": "Do not redo completed work or republish on retry; continue only outstanding verification."
+}
