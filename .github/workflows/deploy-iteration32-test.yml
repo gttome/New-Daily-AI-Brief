@@ -1,4 +1,4 @@
-name: Greenfield Test Access Deploy
+name: Reader Parity Engineering Preview
 
 on:
   workflow_run:
@@ -12,7 +12,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: greenfield-test-pages
+  group: reader-parity-engineering-preview
   cancel-in-progress: false
 
 jobs:
@@ -31,32 +31,48 @@ jobs:
           else
             echo "source_sha=${{ github.sha }}" >> "$GITHUB_OUTPUT"
           fi
+
       - uses: actions/checkout@v4
         with:
           ref: ${{ steps.meta.outputs.source_sha }}
-      - name: Assemble static test surface
-        shell: bash
+          submodules: recursive
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
+      - name: Install bounded reader build dependencies
+        run: gem install jekyll jekyll-theme-cayman webrick --no-document
+
+      - name: Reconcile historical migration
         run: |
-          set -euo pipefail
-          rm -rf _site
-          cp -R site _site
-          python - <<'PY'
-          import json, os, datetime
-          payload = {
-              "source_sha": os.environ["SOURCE_SHA"],
-              "deployed_at": datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00","Z"),
-              "environment": "greenfield-owner-acceptance",
-              "production_cutover": False
-          }
-          with open("_site/build.json","w",encoding="utf-8") as f:
-              json.dump(payload,f,separators=(",",":"))
-          PY
-        env:
-          SOURCE_SHA: ${{ steps.meta.outputs.source_sha }}
+          python scripts/build_reader_parity_manifest.py \
+            --legacy-root legacy_snapshot \
+            --output _artifacts/data-parity-manifest.json
+
+      - name: Assemble parity engineering preview
+        run: |
+          python scripts/build_reader_bundle.py \
+            --legacy-root legacy_snapshot \
+            --destination _site \
+            --config migration/github-pages-preview.yml \
+            --site-url https://gttome.github.io/New-Daily-AI-Brief \
+            --base-path New-Daily-AI-Brief \
+            --greenfield-sha "${{ steps.meta.outputs.source_sha }}"
+          python scripts/validate_reader_bundle.py \
+            --site-root _site \
+            --target-url https://gttome.github.io/New-Daily-AI-Brief
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -71,7 +87,7 @@ jobs:
     outputs:
       page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy greenfield owner-test site
+      - name: Deploy engineering preview
         id: deployment
         uses: actions/deploy-pages@v4
 
@@ -79,7 +95,7 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Verify actual deployed URLs for desktop and phone user agents
+      - name: Verify actual deployed parity preview on desktop and phone user agents
         shell: bash
         env:
           PAGE_URL: ${{ needs.deploy.outputs.page_url }}
@@ -89,11 +105,16 @@ jobs:
           desktop="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/154 Safari/537.36"
           mobile="Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 Chrome/154 Mobile Safari/537.36"
           for ua in "$desktop" "$mobile"; do
-            curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 -A "$ua" "$base" | grep -q "GREENFIELD TEST"
-            curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 -A "$ua" "${base}command-center/" | grep -q "GREENFIELD COMMAND CENTER"
+            html="$(curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 -A "$ua" "$base")"
+            grep -q "Daily Generative AI Brief" <<<"$html"
+            grep -q "September 23, 2026" <<<"$html"
+            ! grep -q "GREENFIELD TEST" <<<"$html"
+            ! grep -qi "command-center" <<<"$html"
           done
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}archive.html" | grep -q "Archive / History"
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}watchlist.html" | grep -q "Emerging AI Watchlist"
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}media.html" | grep -q "Media Brief"
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}article.html?id=context-graphs" | grep -q "Representative greenfield article surface"
-          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}build.json" | grep -q '"production_cutover":false'
+          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}briefs-archive/" | grep -q "221 items"
+          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}watchlist/" | grep -q "Emerging AI Watchlist"
+          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}about/" | grep -q "About the Daily Generative AI Brief"
+          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}briefs/2026-09-23/" | grep -q "How useful was this?"
+          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}assets/js/comments.js" | grep -q "/api/comments"
+          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}assets/js/feedback.js" | grep -q "/api/ratings"
+          curl --fail --location --retry 12 --retry-all-errors --retry-delay 5 "${base}assets/js/share.js" | grep -q "/api/events"
