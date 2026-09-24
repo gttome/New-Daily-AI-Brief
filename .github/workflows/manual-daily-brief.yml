@@ -22,6 +22,11 @@ on:
         required: false
         default: ""
         type: string
+      force_replace_existing_edition:
+        description: "Replace this live edition from fresh discovery instead of resuming its saved checkpoint"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -55,6 +60,7 @@ jobs:
           EDITION_DATE: ${{ inputs.edition_date }}
           EDITION_JSON: ${{ inputs.edition_json }}
           APPROVED_IMAGE_MANIFEST: ${{ inputs.approved_image_manifest }}
+          FORCE_REPLACE: ${{ inputs.force_replace_existing_edition }}
         run: |
           set -euo pipefail
           [[ "$EDITION_DATE" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || {
@@ -64,6 +70,18 @@ jobs:
           if [[ -n "$APPROVED_IMAGE_MANIFEST" && ! -f "$APPROVED_IMAGE_MANIFEST" ]]; then
             echo "approved_image_manifest does not exist: $APPROVED_IMAGE_MANIFEST" >&2
             exit 2
+          fi
+          if [[ "$FORCE_REPLACE" == "true" ]]; then
+            if [[ "$EDITION_DATE" < "2026-09-24" ]]; then
+              echo "force_replace_existing_edition is only allowed for live editions on or after 2026-09-24; migrated history through 2026-09-23 is protected" >&2
+              exit 2
+            fi
+            if [[ -n "$EDITION_JSON" || -n "$APPROVED_IMAGE_MANIFEST" ]]; then
+              echo "force_replace_existing_edition starts a fresh live discovery run; leave edition_json and approved_image_manifest blank" >&2
+              exit 2
+            fi
+            echo "mode=live_editorial" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
           if [[ -n "$EDITION_JSON" ]]; then
             [[ -f "$EDITION_JSON" ]] || {
@@ -87,6 +105,18 @@ jobs:
           key: manual-daily-brief-v2-${{ inputs.edition_date }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
             manual-daily-brief-v2-${{ inputs.edition_date }}-
+
+      - name: Force-replace this live edition checkpoint
+        if: steps.mode.outputs.mode == 'live_editorial' && inputs.force_replace_existing_edition == true
+        shell: bash
+        env:
+          EDITION_DATE: ${{ inputs.edition_date }}
+        run: |
+          set -euo pipefail
+          echo "Force replace enabled for $EDITION_DATE"
+          rm -rf ".state/manual/${EDITION_DATE}__production" ".runtime-inputs/${EDITION_DATE}"
+          mkdir -p .state/manual ".runtime-inputs/${EDITION_DATE}"
+          printf '%s\n'             '{'             '  "schema_version": "1.0.0",'             '  "edition_date": "'"$EDITION_DATE"'",'             '  "force_replace": true,'             '  "effect": "discarded prior cached checkpoint for this edition only",'             '  "historical_editions_protected_through": "2026-09-23"'             '}' > ".runtime-inputs/${EDITION_DATE}/force-replace-receipt.json"
 
       - name: Resolve durable live-run checkpoint
         if: steps.mode.outputs.mode == 'live_editorial'
@@ -298,11 +328,13 @@ jobs:
           INPUT_MODE: ${{ steps.mode.outputs.mode }}
           EDITION_DATE: ${{ inputs.edition_date }}
           APPROVED_IMAGE_MANIFEST: ${{ inputs.approved_image_manifest }}
+          FORCE_REPLACE: ${{ inputs.force_replace_existing_edition }}
         run: |
           {
             echo "### Manual Daily Brief"
             echo "- Edition: **$EDITION_DATE**"
             echo "- Input mode: **$INPUT_MODE**"
+            echo "- Force replace requested: **$FORCE_REPLACE**"
             if [[ "$INPUT_MODE" == "live_editorial" ]]; then
               echo "- Fresh article discovery/evidence: **locked**"
               echo "- Videos/podcasts: **2 + 2 verified and locked**"
