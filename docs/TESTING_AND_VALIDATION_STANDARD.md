@@ -229,9 +229,7 @@ Full System Validation may include:
 
 ### Evidence package
 
-Every Full System Validation run must produce a durable evidence package such as:
-
-`evidence/full-system-validation/YYYY-MM-DD/<run-id>/`
+Every Full System Validation run must produce a durable evidence package grouped under a dedicated full-system-validation evidence area by validation date and run ID.
 
 Minimum contents:
 
@@ -254,9 +252,7 @@ Minimum contents:
 
 A machine-readable change-impact map must control Development and Integration Validation.
 
-Recommended location:
-
-`config/test-impact-map.json`
+A machine-readable impact map should be created during implementation in the repository's configuration area under the filename **test-impact-map.json**.
 
 The map must relate changed paths/components to:
 
@@ -369,9 +365,7 @@ This makes slow-growth regressions visible.
 
 ## 7. Full System Validation workflow design
 
-The repository should contain a dedicated workflow such as:
-
-`.github/workflows/full-system-validation.yml`
+The repository should contain a dedicated manually dispatched workflow named **Full System Validation**; its workflow filename should be established during implementation.
 
 Required characteristics:
 
@@ -405,7 +399,7 @@ The repository should expose:
 
 This validation compares the current and new Command Centers by data family rather than by visual appearance.
 
-For every row in `config/command-center-data-parity.json`, it should verify:
+For every row in the machine-readable Command Center data-parity matrix, it should verify:
 
 - presence;
 - semantic equivalence/improvement;
