@@ -29,27 +29,32 @@ class Iteration32AccessTests(unittest.TestCase):
             self.assertIn('name="viewport"', (SITE/name).read_text())
         self.assertRegex(css, r"@media\(max-width:720px\)")
 
-    def test_command_center_is_direct_access_and_safe(self):
+    def test_command_center_is_full_private_source_and_safe(self):
         page=(SITE/"command-center"/"index.html").read_text()
         cc=(SITE/"command-center"/"cc.js").read_text()
-        self.assertIn("GREENFIELD COMMAND CENTER", page)
-        self.assertNotIn("PRIVATE OWNER TEST", page)
+        state=__import__("json").loads((SITE/"command-center"/"state.json").read_text())
+        self.assertIn("PRIVATE OPERATIONS", page)
+        self.assertIn("noindex,nofollow,noarchive", page)
         self.assertNotIn("crypto.subtle.decrypt", cc)
         self.assertNotIn("AES-GCM", cc)
         self.assertNotIn("location.hash", cc)
-        self.assertIn("representative_test_data", cc)
-        self.assertIn("production_isolation", cc)
+        self.assertIn("state.json", cc)
+        self.assertEqual(state["privacy"]["surface"], "private-owner-only")
+        self.assertFalse(state["privacy"]["public_reader_exposure"])
+        self.assertFalse(state["command_center_site"]["public_pages_deployment_allowed"])
+        self.assertFalse(state["schedules"]["creation_permitted"])
+        self.assertTrue(all(not x["created"] and not x["enabled"] for x in state["schedules"]["planned"]))
         self.assertNotIn("password", cc.lower())
         self.assertNotIn("secret", cc.lower())
 
-    def test_deployment_is_pages_only_and_has_live_smoke(self):
+    def test_deployment_is_reader_preview_only_and_has_live_smoke(self):
         wf=(ROOT/".github/workflows/deploy-iteration32-test.yml").read_text()
         self.assertIn("actions/deploy-pages@v4", wf)
         self.assertIn("Greenfield Contracts", wf)
         self.assertIn("workflow_run", wf)
         self.assertIn("live-smoke", wf)
         self.assertIn("Mobile Safari", wf)
-        self.assertIn("GREENFIELD COMMAND CENTER", wf)
+        self.assertNotIn("site/command-center", wf)
         self.assertNotIn("Daily-AI-Brief", wf.replace("New-Daily-AI-Brief",""))
 
 if __name__ == "__main__":
