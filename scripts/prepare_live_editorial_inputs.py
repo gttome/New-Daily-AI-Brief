@@ -170,13 +170,25 @@ def build_editorial_inputs(
     output_root: Path,
 ) -> dict[str, Any]:
     selected = select_candidates(metadata, evidence)
+    selected_candidate_ids = {row["candidate_id"] for row in selected}
     evidence_by_id = {x["candidate_id"]: x for x in evidence.get("model_visible", [])}
+    available = [
+        row for row in metadata.get("candidates", [])
+        if row.get("candidate_id") in evidence_by_id
+        and evidence_by_id[row["candidate_id"]].get("excerpt")
+        and row.get("background_only") is not True
+    ]
     registry_sources = []
     catalog_candidates = []
     selected_manifest = []
 
     for focus in CATEGORIES:
-        members = [row for row in selected if row.get("focus_hint") == focus]
+        members = sorted(
+            [row for row in available if row.get("focus_hint") == focus],
+            key=lambda row: (-int(row.get("prefilter_score") or 0), str(row.get("candidate_id"))),
+        )
+        if len(members) < 3:
+            raise SystemExit(f"live canonical candidate pool requires at least three evidenced candidates for {focus}")
         source_id = f"live-{focus}"
         ids: list[str] = []
         for row in members:
@@ -220,17 +232,18 @@ def build_editorial_inputs(
                     }]
                 },
             })
-            selected_manifest.append({
-                "story_id": sid,
-                "candidate_id": row["candidate_id"],
-                "focus": focus,
-                "headline": clean_text(row.get("headline"), 220),
-                "url": canonical,
-                "published_at": str(row.get("published_at") or row.get("metadata_event_at")),
-                "agent_skills": skill,
-                "source_reliability": row.get("source_reliability"),
-                "prefilter_score": int(row.get("prefilter_score") or 0),
-            })
+            if row["candidate_id"] in selected_candidate_ids:
+                selected_manifest.append({
+                    "story_id": sid,
+                    "candidate_id": row["candidate_id"],
+                    "focus": focus,
+                    "headline": clean_text(row.get("headline"), 220),
+                    "url": canonical,
+                    "published_at": str(row.get("published_at") or row.get("metadata_event_at")),
+                    "agent_skills": skill,
+                    "source_reliability": row.get("source_reliability"),
+                    "prefilter_score": int(row.get("prefilter_score") or 0),
+                })
         registry_sources.append({
             "source_id": source_id,
             "category_id": focus,
