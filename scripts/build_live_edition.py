@@ -169,7 +169,10 @@ def image_entries(
             raise SystemExit(f"image is not quality accepted and locked: {key}")
         if entry.get("generation_method") != "openai_image_generation":
             raise SystemExit(f"image generation method must be openai_image_generation: {key}")
-        src = source_root / str(entry.get("file") or "")
+        source_base = source_root.resolve()
+        src = (source_root / str(entry.get("file") or "")).resolve()
+        if src != source_base and source_base not in src.parents:
+            raise SystemExit(f"approved image path escapes approved image root: {key}")
         if not src.is_file():
             raise SystemExit(f"approved image bytes missing: {src}")
         ext = src.suffix.lower()
@@ -464,6 +467,7 @@ def main() -> int:
     ap.add_argument("--state-root", required=True)
     ap.add_argument("--approved-image-manifest", required=True)
     ap.add_argument("--approved-image-root", default=".")
+    ap.add_argument("--allow-fixture-images", action="store_true")
     args = ap.parse_args()
 
     input_root = Path(args.input_root)
@@ -473,6 +477,8 @@ def main() -> int:
     operational = load(input_root / "operational-input-manifest.json")
     media = load(input_root / "live-media.json")
     approved = load(Path(args.approved_image_manifest))
+    if approved.get("fixture_only") is True and not args.allow_fixture_images:
+        raise SystemExit("CI fixture image manifests are forbidden in a live publication run")
     cutoff = str(live_manifest.get("metadata_cutoff") or media.get("cutoff"))
     if not cutoff:
         raise SystemExit("live research cutoff is missing")
