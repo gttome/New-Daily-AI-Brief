@@ -100,6 +100,10 @@ jobs:
             scripts/validate_live_reader_candidate.py \
             scripts/manual_canonical_run.py
 
+      - name: Verify targeted reader corrections
+        if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader == 'true'
+        run: python scripts/build_reader_corrections_test.py
+
       - name: Reconcile pinned historical snapshot
         if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader == 'true'
         run: |

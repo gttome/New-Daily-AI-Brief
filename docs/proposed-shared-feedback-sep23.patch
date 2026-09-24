@@ -1,0 +1,59 @@
+--- a/lib/counter.ts
++++ b/lib/counter.ts
+@@ -1,5 +1,6 @@
+ import {env} from 'cloudflare:workers';
+-const ORIGIN='https://gttome.github.io';
++const ORIGINS=new Set(['https://gttome.github.io','https://ndaib.gtome.chatgpt.site']);
++export function allowedOrigin(origin:string|null):origin is string{return origin!==null&&ORIGINS.has(origin);}
+ const OP=/^[a-f0-9-]{36}$/i;
+ const cache=new Map<string,{until:number,ids:Set<string>}>();
+ export async function allowedItem(date:string,id:string){
+@@ -19,16 +20,17 @@
+     if(e.worth_watching?.general?.status==='included')ids.add(`dab-video-${date}-general`);
+     if(e.worth_watching?.agents_non_technical_people?.status==='included')ids.add(`dab-video-${date}-agent-skills`);
+     if(e.podcast?.status==='included')ids.add(e.podcast.item_id);
++    for(const podcast of e.podcasts||[]){if(podcast.status==='included'&&typeof podcast.item_id==='string')ids.add(podcast.item_id);}
+     record={until:Date.now()+60000,ids};cache.set(date,record);
+     if(cache.size>100)cache.delete(cache.keys().next().value!);
+   }
+   return record.ids.has(id);
+ }
+-export function cors(origin:string|null){return {'access-control-allow-origin':origin===ORIGIN?origin:'null','access-control-allow-methods':'GET, POST, OPTIONS','access-control-allow-headers':'content-type, x-operation-id, x-rating-revision','cache-control':'no-store','vary':'Origin'};}
++export function cors(origin:string|null){return {'access-control-allow-origin':allowedOrigin(origin)?origin:'null','access-control-allow-methods':'GET, POST, OPTIONS','access-control-allow-headers':'content-type, x-operation-id, x-rating-revision','cache-control':'no-store','vary':'Origin'};}
+ export function response(body:unknown,status:number,origin:string|null){return Response.json(body,{status,headers:cors(origin)});}
+ async function validatedCounterRequest(request:Request,kind:'rating'|'metric',allowed:Set<string>){
+  const origin=request.headers.get('origin');
+- if(origin!==ORIGIN)return {error:response({error:'origin_not_allowed'},403,origin)};
++ if(!allowedOrigin(origin))return {error:response({error:'origin_not_allowed'},403,origin)};
+  if(!request.headers.get('content-type')?.startsWith('application/json'))return {error:response({error:'json_required'},415,origin)};
+  if(Number(request.headers.get('content-length')||0)>2048)return {error:response({error:'payload_too_large'},413,origin)};
+  let p;try{const text=await request.text();if(text.length>2048)throw Error();p=JSON.parse(text);}catch{return {error:response({error:'invalid_json'},400,origin)};}
+--- a/app/api/comments/route.ts
++++ b/app/api/comments/route.ts
+@@ -1,8 +1,9 @@
++import {allowedOrigin} from '../../../lib/counter';
+ import {env} from 'cloudflare:workers';
+ import {allowedItem,cors,response} from '../../../lib/counter';
+ export async function OPTIONS(r:Request){return new Response(null,{status:204,headers:cors(r.headers.get('origin'))});}
+ export async function POST(r:Request){
+- const origin=r.headers.get('origin');if(origin!=='https://gttome.github.io')return response({error:'origin_not_allowed'},403,origin);
++ const origin=r.headers.get('origin');if(!allowedOrigin(origin))return response({error:'origin_not_allowed'},403,origin);
+  if(!r.headers.get('content-type')?.startsWith('application/json'))return response({error:'json_required'},415,origin);
+  const text=await r.text();if(text.length>5000)return response({error:'too_large'},413,origin);
+  let p;try{p=JSON.parse(text);}catch{return response({error:'invalid_json'},400,origin);}
+--- a/app/api/watchlist/route.ts
++++ b/app/api/watchlist/route.ts
+@@ -1,3 +1,4 @@
++import {allowedOrigin} from '../../../lib/counter';
+ import {env} from 'cloudflare:workers';
+ import {cors,response} from '../../../lib/counter';
+ import {validVote} from '../../../lib/watchlist-contract';
+@@ -8,7 +9,7 @@
+  try{const rows=await env.DB.prepare('SELECT topic_id,choice,COUNT(*) AS count FROM watchlist_ballots GROUP BY topic_id,choice').all();return response({totals:rows.results,observed_at:new Date().toISOString(),measurement:'Anonymous topic ballots; not unique people.'},200,origin);}catch{return response({error:'watchlist_votes_unavailable'},503,origin);}
+ }
+ export async function POST(r:Request){
+- const origin=r.headers.get('origin');if(origin!=='https://gttome.github.io')return response({error:'origin_not_allowed'},403,origin);
++ const origin=r.headers.get('origin');if(!allowedOrigin(origin))return response({error:'origin_not_allowed'},403,origin);
+  if(!r.headers.get('content-type')?.startsWith('application/json'))return response({error:'json_required'},415,origin);
+  let p;try{const text=await r.text();if(text.length>1000)return response({error:'too_large'},413,origin);p=JSON.parse(text);}catch{return response({error:'invalid_json'},400,origin);}
+  if(!validVote(p))return response({error:'invalid_vote'},422,origin);

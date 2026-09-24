@@ -8,6 +8,7 @@ import re
 import shutil
 import subprocess
 from pathlib import Path
+from build_reader_corrections import apply_reader_corrections
 
 LEGACY_BASE = "https://gttome.github.io/Daily-AI-Brief"
 TEXT_SUFFIXES = {".html", ".xml", ".json", ".js", ".css", ".txt", ".webmanifest"}
@@ -70,6 +71,9 @@ def main() -> int:
         text = rewrite_root_routes(text, args.base_path)
         if text != original:
             path.write_text(text, encoding="utf-8")
+
+    corrections = apply_reader_corrections(dest, legacy)
+    (dest / "reader-corrections.json").write_text(json.dumps(corrections, indent=2) + "\n", encoding="utf-8")
 
     metadata = {
         "schema_version": "1.0.0",
