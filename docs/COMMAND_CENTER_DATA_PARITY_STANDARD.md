@@ -517,9 +517,7 @@ The browser clock must never be used as proof that data was successfully refresh
 
 ## 8. Machine-readable parity matrix
 
-A companion machine-readable matrix should be maintained at:
-
-`config/command-center-data-parity.json`
+A companion machine-readable matrix should be created during implementation and maintained in the repository's configuration area under the filename **command-center-data-parity.json**.
 
 Each record must include at least:
 
