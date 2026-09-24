@@ -20,7 +20,10 @@
         "description": "A concise walkthrough of agent evaluation and verification.",
         "agent_signal": true,
         "score": 80,
-        "available": true
+        "available": true,
+        "reachable": true,
+        "http_status": 200,
+        "resolved_url": "https://example.com/video/agent-evaluation"
       },
       {
         "kind": "video",
@@ -35,7 +38,10 @@
         "description": "A practical explanation of grounded retrieval and provenance.",
         "agent_signal": false,
         "score": 76,
-        "available": true
+        "available": true,
+        "reachable": true,
+        "http_status": 200,
+        "resolved_url": "https://example.com/video/grounded-retrieval"
       }
     ],
     "podcasts": [
@@ -54,7 +60,10 @@
         "freshness_tier": "primary_48h",
         "freshness_exception_reason": null,
         "score": 70,
-        "available": true
+        "available": true,
+        "reachable": true,
+        "http_status": 200,
+        "resolved_url": "https://example.com/podcast/enterprise-ai"
       },
       {
         "kind": "podcast",
@@ -71,7 +80,10 @@
         "freshness_tier": "primary_48h",
         "freshness_exception_reason": null,
         "score": 68,
-        "available": true
+        "available": true,
+        "reachable": true,
+        "http_status": 200,
+        "resolved_url": "https://example.org/podcast/reliable-agents"
       }
     ]
   },
