@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-import base64
 import hashlib
 import json
 import re
@@ -176,20 +175,10 @@ def image_entries(
             raise SystemExit(f"approved image path escapes approved image root: {key}")
         if not src.is_file():
             raise SystemExit(f"approved image bytes missing: {src}")
-        if src.suffix.lower() == ".b64":
-            decoded_ext = str(entry.get("decoded_extension") or "").lower()
-            if decoded_ext not in {".webp", ".png"}:
-                raise SystemExit(f"base64 approved image requires decoded_extension .webp or .png: {key}")
-            try:
-                data = base64.b64decode(src.read_text(encoding="ascii"), validate=True)
-            except Exception as exc:
-                raise SystemExit(f"approved image base64 decode failed: {key}: {exc}") from exc
-            ext = decoded_ext
-        else:
-            ext = src.suffix.lower()
-            if ext not in {".webp", ".png"}:
-                raise SystemExit(f"approved image must be WebP or PNG: {src}")
-            data = src.read_bytes()
+        ext = src.suffix.lower()
+        if ext not in {".webp", ".png"}:
+            raise SystemExit(f"approved image must be WebP or PNG: {src}")
+        data = src.read_bytes()
         digest = sha256_bytes(data)
         expected = str(entry.get("sha256") or "")
         if expected and expected != digest:
@@ -199,7 +188,7 @@ def image_entries(
         rel = f"briefs/images/{edition_date}/{target_name}"
         dest = runtime_root / rel
         dest.parent.mkdir(parents=True, exist_ok=True)
-        dest.write_bytes(data)
+        shutil.copyfile(src, dest)
         alt = str(entry.get("alt") or f"Professional textbook-style editorial diagram for {candidate['title']}.")
         image_records.append({
             "path": rel,
