@@ -39,7 +39,8 @@
         ".github/workflows/reader-parity.yml",
         "docs/TESTING_AND_VALIDATION_STANDARD.md",
         ".gitignore",
-        "scripts/validate_approved_image_packages.py"
+        "scripts/validate_approved_image_packages.py",
+        ".github/workflows/deploy-iteration32-test.yml"
       ],
       "development_suites": [
         "validation-routing",
