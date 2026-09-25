@@ -609,7 +609,7 @@ The 2026-09-24 testing-architecture revision implements this standard with these
 
 ### Implemented dependency-cone semantics
 
-RunEngine stage modules map to the existing Iteration-aligned test that owns the stage plus its immediate predecessor/core dependency. Command Center UI and adapter changes map to Command Center contracts and a bounded snapshot-to-state integration. Reader runtime changes map to reader runtime/access checks without automatic historical replay. Unknown material paths fail closed until the impact map is deliberately updated.
+RunEngine stage modules map to the existing Iteration-aligned test that owns the stage plus its immediate predecessor/core dependency. Command Center UI and adapter changes map to Command Center contracts and a bounded snapshot-to-state integration. Reader runtime changes map to reader runtime/access checks without automatic historical replay. Approved-image packages retain their six-image/lock/digest integrity validation, and publication-adapter/manual-run changes retain representative adapter fixtures. Unknown material paths fail closed until the impact map is deliberately updated.
 
 ### Full System Validation operator contract
 
@@ -621,4 +621,4 @@ The ordinary development workflow must not dispatch or invoke Full System Valida
 
 | Date | Change |
 |---|---|
-| 2026-09-24 | Implemented centralized fail-closed change-impact routing, bounded Development/Integration Validation, narrowed automatic historical reader parity, and manual-only Full System Validation workflow. |
+| 2026-09-24 | Implemented centralized fail-closed change-impact routing, bounded Development/Integration Validation, narrowed automatic historical reader parity, manual-only Full System Validation, and preserved approved-image/publication-adapter/manual-run validation in routed suites. |
