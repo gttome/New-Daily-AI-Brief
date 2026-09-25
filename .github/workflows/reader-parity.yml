@@ -86,19 +86,23 @@ jobs:
             --state-root /tmp/ndaib-live-state \
             --editorial-only
           cp fixtures/live-manual/media-discovery.json /tmp/ndaib-live-inputs/live-media.json
+          cp legacy_snapshot/_data/watchlist.json /tmp/ndaib-live-inputs/watchlist-baseline.json
+          cp evidence/watchlist/2026-09-24-review.json /tmp/ndaib-live-inputs/watchlist-review.json
           PYTHONPATH=src python scripts/prepare_live_operational_inputs.py \
             --edition-date 2026-09-24 \
             --input-root /tmp/ndaib-live-inputs \
             --state-root /tmp/ndaib-live-state \
             --media-json /tmp/ndaib-live-inputs/live-media.json \
-            --legacy-root legacy_snapshot
+            --legacy-root legacy_snapshot \
+            --watchlist-baseline-json /tmp/ndaib-live-inputs/watchlist-baseline.json \
+            --watchlist-review-json /tmp/ndaib-live-inputs/watchlist-review.json
           PYTHONPATH=src python scripts/manual_canonical_run.py \
             --edition-date 2026-09-24 \
             --input-root /tmp/ndaib-live-inputs \
             --state-root /tmp/ndaib-live-state \
             --build-only
           cp -a legacy_snapshot /tmp/ndaib-live-source
-          python scripts/build_live_edition.py \
+          PYTHONPATH=src python scripts/build_live_edition.py \
             --edition-date 2026-09-24 \
             --input-root /tmp/ndaib-live-inputs \
             --state-root /tmp/ndaib-live-state \
@@ -122,10 +126,11 @@ jobs:
             --site-url https://ndaib.gtome.chatgpt.site \
             --greenfield-sha "$GITHUB_SHA" \
             --live-edition-date 2026-09-24
-          python scripts/validate_live_reader_candidate.py \
+          PYTHONPATH=src python scripts/validate_live_reader_candidate.py \
             --site-root /tmp/ndaib-live-site \
             --edition-json /tmp/ndaib-live-source/_data/editions/2026-09-24.json \
             --edition-date 2026-09-24 \
+            --canonical-watchlist-json /tmp/ndaib-live-state/2026-09-24__production/watchlist.json \
             --target-url https://ndaib.gtome.chatgpt.site
 
       - name: Upload parity evidence and reader bundle
