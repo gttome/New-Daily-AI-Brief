@@ -100,11 +100,15 @@ class CommandCenterDataParityTests(unittest.TestCase):
     def test_private_values_are_not_committed_to_public_command_center_state(self):
         state = json.loads((ROOT / "site" / "command-center" / "state.json").read_text(encoding="utf-8"))
         text = json.dumps(state).lower()
-        self.assertNotIn('"book_change_proposals"', text)
         self.assertNotIn('"usage_history_records"', text)
+        self.assertNotIn('"private_usage_records"', text)
+        self.assertNotIn('"proposal_records_private"', text)
         self.assertFalse(state["privacy"]["public_reader_exposure"])
-        self.assertEqual(state["private_owner_data"]["transport"], "authenticated-private-runtime")
-        self.assertFalse(state["private_owner_data"]["values_committed_to_repository"])
+        private = state["private_owner_data"]
+        self.assertEqual(private["transport"], "authenticated-private-runtime")
+        self.assertFalse(private["values_committed_to_repository"])
+        self.assertNotIn("records", private["usage_history"])
+        self.assertNotIn("records", private["book_change_proposals"])
 
 
 if __name__ == "__main__":
