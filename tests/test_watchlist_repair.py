@@ -161,6 +161,13 @@ class WatchlistRepairTests(unittest.TestCase):
         self.assertEqual(len(manifest["updated_today"]), 3)
         self.assertEqual(len(manifest["carried_forward"]), 13)
 
+    def test_repair_workflow_reuses_validated_publication_stage(self):
+        workflow = (ROOT / ".github" / "workflows" / "repair-sep24-watchlist.yml").read_text(encoding="utf-8")
+        self.assertIn(".repair-artifact/.publication-stage", workflow)
+        repair_block = workflow.split("- name: Reassemble only affected live reader output", 1)[1].split("- name: Build and validate Site-ready repaired reader", 1)[0]
+        self.assertNotIn("build_live_edition.py", repair_block)
+        self.assertNotIn("_generator/cli.mjs", repair_block)
+
     def test_greenfield_watchlist_presentation_is_owned(self):
         page = (ROOT / "migration" / "watchlist-current" / "watchlist" / "index.md").read_text(encoding="utf-8")
         js = (ROOT / "migration" / "watchlist-current" / "assets" / "js" / "watchlist.js").read_text(encoding="utf-8")
