@@ -17,15 +17,16 @@ const listItem=(title,note="")=>`<div class="list-item"><strong>${esc(title)}</s
 async function fetchJson(url){const r=await fetch(url,{cache:"no-store",headers:{Accept:"application/vnd.github+json"}});if(!r.ok)throw new Error(`${r.status} ${r.statusText}`);return r.json()}
 async function loadSnapshot(){const r=await fetch("state.json",{cache:"no-store"});if(!r.ok)throw new Error("state.json unavailable");return r.json()}
 async function refreshLive(){
-  const result={branch:null,manual:null,ci:null,parity:null,error:null};
+  const result={branch:null,manual:null,ci:null,parity:null,dataParity:null,error:null};
   try{
-    const [branch,manual,ci,parity]=await Promise.all([
+    const [branch,manual,ci,parity,dataParity]=await Promise.all([
       fetchJson(`${API}/branches/main`),
       fetchJson(`${API}/actions/workflows/manual-daily-brief.yml/runs?per_page=12`),
       fetchJson(`${API}/actions/workflows/ci.yml/runs?branch=main&per_page=8`),
-      fetchJson(`${API}/actions/workflows/reader-parity.yml/runs?branch=main&per_page=8`)
+      fetchJson(`${API}/actions/workflows/reader-parity.yml/runs?branch=main&per_page=8`),
+      fetchJson(`${API}/actions/workflows/command-center-data-parity-validation.yml/runs?branch=main&per_page=8`)
     ]);
-    result.branch=branch;result.manual=manual;result.ci=ci;result.parity=parity;
+    result.branch=branch;result.manual=manual;result.ci=ci;result.parity=parity;result.dataParity=dataParity;
   }catch(err){result.error=err instanceof Error?err.message:String(err)}
   return result;
 }
@@ -65,6 +66,29 @@ function renderReadiness(){const gates=snapshot.readiness_gates;const all=gates.
 function renderSchedules(){const s=snapshot.schedules;$("schedule-blocker").textContent=s.blocker;$("schedule-list").innerHTML=s.planned.map(x=>listItem(`${x.name} · ${x.time} ${x.timezone}`,`${x.status} · created ${x.created} · enabled ${x.enabled}`)).join("")}
 function durationSeconds(run){if(!run?.run_started_at||!run?.updated_at)return null;const v=(Date.parse(run.updated_at)-Date.parse(run.run_started_at))/1000;return Number.isFinite(v)&&v>=0?v:null}
 function svgBars(values,labels){if(!values.length)return '<div class="chart-empty">No authoritative duration series is available yet.</div>';const max=Math.max(...values,1),w=520,h=130,p=18,bw=Math.max(12,(w-p*2)/values.length-8);return `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Recent run duration bars">${values.map((v,i)=>{const bh=(v/max)*(h-38),x=p+i*((w-p*2)/values.length)+4,y=h-22-bh;return `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="3" fill="currentColor" opacity=".65"><title>${esc(labels[i])}: ${Math.round(v/60)} min</title></rect>`}).join("")}<line x1="${p}" y1="${h-22}" x2="${w-p}" y2="${h-22}" stroke="currentColor" opacity=".25"/></svg>`}
+function renderParity(live){
+  const d=snapshot.data_parity||{},h=snapshot.historical_data||{},p=snapshot.private_owner_data||{},domains=snapshot.data_domains||{};
+  const latest=live?.dataParity?.workflow_runs?.[0];
+  const pass=d.unresolved_required_families===0&&d.privacy_leakage_defects===0;
+  $("parity-pill").className=`pill ${pass?"safe":"blocked"}`;$("parity-pill").textContent=pass?"Mapped · no unexplained gaps":"Parity attention required";
+  $("parity-metrics").innerHTML=[
+    metric("Required domains",d.required_domain_count),metric("Mapped families",d.mapped_family_count),
+    metric("Unresolved required",d.unresolved_required_families),metric("Privacy leakage",d.privacy_leakage_defects),
+    metric("Legacy families",h.family_count),metric("Parity validation",latest?.conclusion||latest?.status||"Committed contract","Full System Validation: NOT REQUESTED")
+  ].join("");
+  $("parity-domains").innerHTML=Object.entries(domains).map(([name,row])=>listItem(name.replaceAll("_"," "),`${row.status} · current: ${row.current_source||"not applicable"} · history: ${row.historical_source||"private"}`)).join("");
+  $("history-parity").innerHTML=[
+    listItem("Legacy source",`${h.legacy_repository||"Unavailable"} @ ${(h.legacy_reference_sha||"").slice(0,12)}`),
+    listItem("Preservation",h.preservation_mode||"Unavailable"),
+    ...Object.entries(h.families||{}).map(([name,row])=>listItem(name,`${row.file_count} files · ${row.first_path} → ${row.last_path}`))
+  ].join("");
+  $("private-owner-data").innerHTML=[
+    listItem("Transport",p.transport||"Unavailable"),
+    listItem("Repository values",p.values_committed_to_repository?"ERROR — private values present":"None — private values remain outside public GitHub"),
+    listItem("Usage History",`dedupe ${p.usage_history?.dedupe_key||"Unavailable"} · missingness ${p.usage_history?.missingness||"Unavailable"} · estimates ${p.usage_history?.estimated_values_allowed?"allowed":"prohibited"}`),
+    listItem("Book Change Proposals",`dedupe ${p.book_change_proposals?.dedupe_key||"Unavailable"} · states ${(p.book_change_proposals?.states||[]).join(" / ")} · prior decisions preserved ${p.book_change_proposals?.prior_owner_decisions_preserved}`)
+  ].join("");
+}
 function renderHistory(live){const runs=live?.manual?.workflow_runs||[];liveRuns=runs;const vals=runs.map(durationSeconds).filter(v=>v!=null).reverse(),labels=runs.filter(r=>durationSeconds(r)!=null).map(r=>r.name||r.created_at).reverse();$("run-chart").innerHTML=svgBars(vals,labels);const rows=runs.length?runs.slice(0,8).map(r=>({edition:r.display_title||r.name,start:r.run_started_at,end:r.updated_at,elapsed:durationSeconds(r),state:r.conclusion||r.status,url:r.html_url})):snapshot.run_history;$("run-history").innerHTML=`<table><thead><tr><th>Run / edition</th><th>Start</th><th>End</th><th>Elapsed</th><th>State</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r.url?`<a class="text-link" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(r.edition||"Canonical run")} ↗</a>`:esc(r.edition)}</td><td>${esc(r.start||"not recorded")}</td><td>${esc(r.end||"not recorded")}</td><td>${esc(r.elapsed==null&&r.elapsed_seconds==null?"not recorded":`${Math.round((r.elapsed??r.elapsed_seconds)/60)} min`)}</td><td>${pill(r.state||r.completion_state)}</td></tr>`).join("")}</tbody></table>`}
 function renderSourceHealth(){const s=snapshot.source_health;$("source-health").innerHTML=[metric("Source registry",s.source_registry_total),metric("Watchlist sources",s.watchlist_source_total),metric("Video registry",s.video_source_registry_total),metric("Podcast registry",s.podcast_source_registry_total)].join("");const entries=Object.entries(s.source_registry_status||{}),vals=entries.map(([,v])=>v),labels=entries.map(([k])=>k);$("source-chart").innerHTML=svgBars(vals,labels)}
 function renderIncidents(){const i=snapshot.incidents;const current=i.current?.length?i.current.map(x=>listItem(x.title||"Incident",x.detail||"")):[listItem("No current Critical/High incident recorded",i.repair_outcome),listItem("Recovery checkpoint",i.latest_recovery_checkpoint||"Unavailable"),listItem("Anti-rework",`Rework avoided: ${i.rework_avoided}`)];$("incidents").innerHTML=current.join("")}
@@ -72,6 +96,6 @@ function renderUsage(){const u=snapshot.usage_cost;$("usage-cost").innerHTML=[li
 function renderEngagement(){const e=snapshot.engagement;$("engagement").innerHTML=[metric("Ratings",e.ratings.count??"Unavailable",e.ratings.status),metric("Rating distribution",e.rating_distribution??"Unavailable","Not inferred"),metric("Shares",e.shares.count??"Unavailable",e.shares.status),metric("Private comments",e.private_comments.count??"Unavailable",e.private_comments.status),metric("Watchlist interest",e.watchlist_interest.count??"Unavailable",e.watchlist_interest.status),metric("Read events",e.read_event_activity??"Unavailable",e.note)].join("")}
 function renderPrivacy(){const p=snapshot.privacy,c=snapshot.command_center_site;$("privacy").innerHTML=[listItem("Surface",p.surface),listItem("Public reader exposure",String(p.public_reader_exposure)),listItem("Credentials / private IDs / prompts",`${p.contains_credentials}/${p.contains_private_ids}/${p.contains_internal_prompts}`),listItem("Private Site target",`${c.identifier} · ${c.publication_state}`),listItem("Public Pages deployment",c.public_pages_deployment_allowed?"Allowed":"Prohibited for full Command Center")].join("")}
 function updateLiveState(live){const ok=Boolean(live?.branch);$("live-state").className=`pill ${ok?"safe":"warn"}`;$("live-state").textContent=ok?"Live GitHub metadata connected":"Committed snapshot · live metadata unavailable";$("footer-meta").textContent=ok?`Live main ${live.branch.commit.sha.slice(0,12)} · snapshot ${snapshot.source.main_sha.slice(0,12)}`:`Snapshot main ${snapshot.source.main_sha.slice(0,12)} · GitHub live refresh unavailable`}
-function renderAll(live){renderExecutive(live);renderPipeline();renderStories();renderImages();renderMedia();renderWatchlist();renderBooks();renderReader();renderControls(live);renderReadiness();renderSchedules();renderHistory(live);renderSourceHealth();renderIncidents();renderUsage();renderEngagement();renderPrivacy();updateLiveState(live)}
+function renderAll(live){renderExecutive(live);renderPipeline();renderStories();renderImages();renderMedia();renderWatchlist();renderBooks();renderReader();renderControls(live);renderReadiness();renderSchedules();renderParity(live);renderHistory(live);renderSourceHealth();renderIncidents();renderUsage();renderEngagement();renderPrivacy();updateLiveState(live)}
 async function refreshAll(){const btn=$("refresh");btn.disabled=true;btn.textContent="Refreshing…";try{if(!snapshot)snapshot=await loadSnapshot();const live=await refreshLive();renderAll(live)}catch(err){$("live-state").className="pill blocked";$("live-state").textContent="State load failed";$("warning-banner").hidden=false;$("warning-banner").textContent=`Command Center state could not be loaded: ${err instanceof Error?err.message:String(err)}`}finally{btn.disabled=false;btn.textContent="Refresh state"}}
 $("refresh").addEventListener("click",refreshAll);refreshAll();
