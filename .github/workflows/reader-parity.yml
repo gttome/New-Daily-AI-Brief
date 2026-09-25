@@ -32,9 +32,18 @@ jobs:
         with:
           python-version: "3.11"
 
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
+      - name: Install bounded reader build dependencies
+        run: gem install jekyll jekyll-theme-cayman webrick --no-document
+
       - name: Reconcile historical migration
         run: |
-          python scripts/build_reader_parity_manifest.py             --legacy-root legacy_snapshot             --output _artifacts/data-parity-manifest.json
+          python scripts/build_reader_parity_manifest.py \
+            --legacy-root legacy_snapshot \
+            --output _artifacts/data-parity-manifest.json
           python - <<'PY'
           import json
           p=json.load(open("_artifacts/data-parity-manifest.json",encoding="utf-8"))
@@ -43,8 +52,89 @@ jobs:
           assert p["post_cutoff_editions_imported"] is False
           PY
 
-      - name: Upload historical parity evidence
+      - name: Build final target reader bundle
+        run: |
+          python scripts/build_reader_bundle.py \
+            --legacy-root legacy_snapshot \
+            --destination _site \
+            --config migration/ndaib-jekyll.yml \
+            --site-url https://ndaib.gtome.chatgpt.site \
+            --greenfield-sha "$GITHUB_SHA"
+          python scripts/build_reader_parity_manifest.py \
+            --legacy-root legacy_snapshot \
+            --site-root _site \
+            --output _artifacts/data-parity-manifest.json
+
+      - name: Validate final reader bundle
+        run: python scripts/validate_reader_bundle.py --site-root _site --target-url https://ndaib.gtome.chatgpt.site
+
+      - name: Validate live operational publication plumbing
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ndaib-live-inputs /tmp/ndaib-live-state /tmp/ndaib-live-source /tmp/ndaib-live-stage /tmp/ndaib-live-site
+          PYTHONPATH=src python scripts/prepare_live_editorial_inputs.py \
+            --edition-date 2026-09-24 \
+            --metadata-json fixtures/live-manual/metadata-candidates.json \
+            --evidence-json fixtures/live-manual/article-evidence.json \
+            --evidence-receipt-json fixtures/live-manual/article-evidence-receipt.json \
+            --legacy-root legacy_snapshot \
+            --output-root /tmp/ndaib-live-inputs
+          PYTHONPATH=src python scripts/manual_canonical_run.py \
+            --edition-date 2026-09-24 \
+            --input-root /tmp/ndaib-live-inputs \
+            --state-root /tmp/ndaib-live-state \
+            --editorial-only
+          cp fixtures/live-manual/media-discovery.json /tmp/ndaib-live-inputs/live-media.json
+          PYTHONPATH=src python scripts/prepare_live_operational_inputs.py \
+            --edition-date 2026-09-24 \
+            --input-root /tmp/ndaib-live-inputs \
+            --state-root /tmp/ndaib-live-state \
+            --media-json /tmp/ndaib-live-inputs/live-media.json \
+            --legacy-root legacy_snapshot
+          PYTHONPATH=src python scripts/manual_canonical_run.py \
+            --edition-date 2026-09-24 \
+            --input-root /tmp/ndaib-live-inputs \
+            --state-root /tmp/ndaib-live-state \
+            --build-only
+          cp -a legacy_snapshot /tmp/ndaib-live-source
+          python scripts/build_live_edition.py \
+            --edition-date 2026-09-24 \
+            --input-root /tmp/ndaib-live-inputs \
+            --state-root /tmp/ndaib-live-state \
+            --runtime-root /tmp/ndaib-live-source \
+            --approved-image-manifest fixtures/live-manual/approved-images.json \
+            --approved-image-root legacy_snapshot \
+            --allow-fixture-images
+          node legacy_snapshot/_generator/cli.mjs generate \
+            --root /tmp/ndaib-live-source \
+            --edition /tmp/ndaib-live-source/_data/editions/2026-09-24.json \
+            --out /tmp/ndaib-live-stage \
+            --baseline-sha "$GITHUB_SHA" \
+            --observed-at 2026-09-24T02:00:00Z \
+            --run-id greenfield-ci-2026-09-24 \
+            --image-review _records/image-quality/2026-09-24-greenfield-handoff.json
+          cp -a /tmp/ndaib-live-stage/. /tmp/ndaib-live-source/
+          python scripts/build_reader_bundle.py \
+            --legacy-root /tmp/ndaib-live-source \
+            --destination /tmp/ndaib-live-site \
+            --config migration/ndaib-jekyll.yml \
+            --site-url https://ndaib.gtome.chatgpt.site \
+            --greenfield-sha "$GITHUB_SHA" \
+            --live-edition-date 2026-09-24
+          python scripts/validate_live_reader_candidate.py \
+            --site-root /tmp/ndaib-live-site \
+            --edition-json /tmp/ndaib-live-source/_data/editions/2026-09-24.json \
+            --edition-date 2026-09-24 \
+            --target-url https://ndaib.gtome.chatgpt.site
+
+      - name: Upload parity evidence and reader bundle
         uses: actions/upload-artifact@v4
         with:
-          name: ndaib-reader-history-parity-${{ github.sha }}
-          path: _artifacts/data-parity-manifest.json
+          name: ndaib-reader-parity-${{ github.sha }}
+          path: |
+            _site
+            _site.runtime
+            _artifacts/data-parity-manifest.json
+          if-no-files-found: error
+          retention-days: 30
