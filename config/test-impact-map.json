@@ -1,0 +1,1374 @@
+{
+  "schema_version": "1.0",
+  "policy": "docs/TESTING_AND_VALIDATION_STANDARD.md",
+  "fail_closed": true,
+  "full_system_validation": {
+    "workflow": ".github/workflows/full-system-validation.yml",
+    "automatic": false,
+    "suite_inventory": [
+      "python-comprehensive",
+      "reader-comprehensive",
+      "command-center-comprehensive"
+    ],
+    "note": "Recommendation flags never auto-dispatch Full System Validation."
+  },
+  "components": {
+    "metadata-only": {
+      "paths": [
+        "docs/**",
+        "evidence/**",
+        "README.md"
+      ],
+      "development_suites": [
+        "closure-metadata"
+      ],
+      "integration_suites": [],
+      "dependencies": [],
+      "only_when_exclusive": true,
+      "rationale": "Documentation/evidence metadata only; preserve a lightweight closure guard without system regression."
+    },
+    "testing-infrastructure": {
+      "paths": [
+        "config/test-impact-map.json",
+        "scripts/select_validation.py",
+        "scripts/run_validation.py",
+        "tests/test_validation_routing.py",
+        "tests/test_process_hardening.py",
+        ".github/workflows/ci.yml",
+        ".github/workflows/full-system-validation.yml",
+        ".github/workflows/reader-parity.yml",
+        "docs/TESTING_AND_VALIDATION_STANDARD.md",
+        ".gitignore"
+      ],
+      "development_suites": [
+        "validation-routing",
+        "process-hardening"
+      ],
+      "integration_suites": [
+        "validation-routing-integration"
+      ],
+      "dependencies": [],
+      "rationale": "Validation control-plane changes require router/process contract checks and one CLI-level routing integration proof."
+    },
+    "changed-tests": {
+      "paths": [
+        "tests/**"
+      ],
+      "development_suites": [
+        "changed-tests"
+      ],
+      "integration_suites": [],
+      "dependencies": [],
+      "rationale": "A changed Python test file executes itself; unrelated historical tests remain excluded."
+    },
+    "command-center-ui": {
+      "paths": [
+        "site/command-center/index.html",
+        "site/command-center/cc.css",
+        "site/command-center/cc.js"
+      ],
+      "development_suites": [
+        "command-center"
+      ],
+      "integration_suites": [
+        "command-center-integration"
+      ],
+      "dependencies": [],
+      "rationale": "Private Command Center UI changes need bounded DOM/privacy/mobile checks plus state-to-render integration."
+    },
+    "command-center-adapter": {
+      "paths": [
+        "scripts/build_command_center_snapshot.py",
+        "site/command-center/state.json",
+        "schemas/command-center-state.schema.json",
+        "schemas/command-center-projection.schema.json",
+        "schemas/projection-watermark.schema.json"
+      ],
+      "development_suites": [
+        "command-center"
+      ],
+      "integration_suites": [
+        "command-center-integration"
+      ],
+      "dependencies": [
+        "shared-contracts"
+      ],
+      "rationale": "Command Center projection/state changes cross the canonical artifact to private state boundary."
+    },
+    "reader-runtime": {
+      "paths": [
+        "site/index.html",
+        "site/archive.html",
+        "site/watchlist.html",
+        "site/media.html",
+        "site/article.html",
+        "site/styles.css",
+        "site/app.js",
+        "migration/reader-runtime/**",
+        "scripts/build_reader_runtime.py",
+        "scripts/build_reader_corrections.py",
+        "scripts/build_reader_corrections_test.py",
+        "scripts/build_reader_bundle.py",
+        "scripts/validate_reader_bundle.py",
+        "scripts/validate_live_reader_candidate.py",
+        ".github/workflows/deploy-iteration32-test.yml"
+      ],
+      "development_suites": [
+        "reader-runtime"
+      ],
+      "integration_suites": [
+        "reader-access"
+      ],
+      "dependencies": [],
+      "rationale": "Reader changes validate affected runtime/access surfaces without historical replay."
+    },
+    "reader-history": {
+      "paths": [
+        ".gitmodules",
+        "legacy_snapshot",
+        "migration/ndaib-jekyll.yml",
+        "scripts/build_reader_parity_manifest.py"
+      ],
+      "development_suites": [
+        "reader-access"
+      ],
+      "integration_suites": [
+        "reader-history-parity"
+      ],
+      "dependencies": [],
+      "recommend_full_system_validation": true,
+      "rationale": "History/migration changes directly affect parity; bounded historical reconciliation is relevant."
+    },
+    "manual-publication": {
+      "paths": [
+        "approved-images/**",
+        "config/live-media-sources.json",
+        "fixtures/live-manual/**",
+        "ops/**",
+        "scripts/prepare_legacy_run_inputs.py",
+        "scripts/prepare_live_editorial_inputs.py",
+        "scripts/discover_live_media.py",
+        "scripts/prepare_live_operational_inputs.py",
+        "scripts/build_live_edition.py",
+        "scripts/manual_canonical_run.py",
+        "scripts/patch_publication_adapter.py",
+        ".github/workflows/manual-daily-brief.yml"
+      ],
+      "development_suites": [
+        "manual-publication-compile"
+      ],
+      "integration_suites": [
+        "manual-publication-integration"
+      ],
+      "dependencies": [
+        "runengine-core"
+      ],
+      "rationale": "Canonical manual publication adapters require local deterministic compile/integration checks only."
+    },
+    "shared-contracts": {
+      "paths": [
+        "schemas/*.json",
+        "src/new_daily_ai_brief/contracts.py",
+        "pyproject.toml"
+      ],
+      "development_suites": [
+        "shared-contracts"
+      ],
+      "integration_suites": [],
+      "dependencies": [],
+      "rationale": "Shared schemas/contracts require core compatibility; overlapping component rules add direct consumer coverage."
+    },
+    "runengine-core": {
+      "paths": [
+        "src/new_daily_ai_brief/engine.py",
+        "src/new_daily_ai_brief/store.py",
+        "src/new_daily_ai_brief/cli.py",
+        "src/new_daily_ai_brief/__init__.py",
+        "src/new_daily_ai_brief/__main__.py",
+        "schemas/run.schema.json",
+        "schemas/lease.schema.json",
+        "schemas/source-registry.schema.json",
+        "schemas/novelty-index.schema.json",
+        "schemas/rating-contract.schema.json",
+        "schemas/iteration-progress.schema.json"
+      ],
+      "development_suites": [
+        "iteration-1"
+      ],
+      "integration_suites": [
+        "iteration-1"
+      ],
+      "dependencies": [],
+      "rationale": "RunEngine state machine/core storage changes require the core lifecycle dependency cone."
+    },
+    "fixtures": {
+      "paths": [
+        "fixtures/**"
+      ],
+      "development_suites": [
+        "iteration-1"
+      ],
+      "integration_suites": [],
+      "dependencies": [],
+      "rationale": "Repository fixtures are treated conservatively as core contract inputs unless a more specific rule also matches."
+    },
+    "validation-utility": {
+      "paths": [
+        "scripts/validate_closure_metadata.py"
+      ],
+      "development_suites": [
+        "process-hardening"
+      ],
+      "integration_suites": [],
+      "dependencies": [],
+      "rationale": "Closure validation utility changes require process-hardening tests."
+    },
+    "runengine-editorial": {
+      "paths": [
+        "src/new_daily_ai_brief/editorial.py",
+        "schemas/discovery.schema.json",
+        "schemas/evidence-packet.schema.json",
+        "schemas/edition.schema.json"
+      ],
+      "development_suites": [
+        "iteration-2"
+      ],
+      "integration_suites": [
+        "iteration-2"
+      ],
+      "dependencies": [
+        "runengine-core",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine editorial stage maps to Iteration 2 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-build": {
+      "paths": [
+        "src/new_daily_ai_brief/build.py",
+        "schemas/media.schema.json",
+        "schemas/media-registry.schema.json",
+        "schemas/watchlist.schema.json",
+        "schemas/watchlist-registry.schema.json",
+        "schemas/book-bridge-map.schema.json",
+        "schemas/book-bridges.schema.json"
+      ],
+      "development_suites": [
+        "iteration-3"
+      ],
+      "integration_suites": [
+        "iteration-3"
+      ],
+      "dependencies": [
+        "runengine-editorial",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine build stage maps to Iteration 3 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-pre-release": {
+      "paths": [
+        "src/new_daily_ai_brief/pre_release.py",
+        "schemas/images.schema.json",
+        "schemas/image-catalog.schema.json",
+        "schemas/publication-bundle.schema.json"
+      ],
+      "development_suites": [
+        "iteration-4"
+      ],
+      "integration_suites": [
+        "iteration-4"
+      ],
+      "dependencies": [
+        "runengine-build",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine pre-release stage maps to Iteration 4 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-render": {
+      "paths": [
+        "src/new_daily_ai_brief/render.py",
+        "schemas/reader-render.schema.json",
+        "schemas/route-render-manifest.schema.json"
+      ],
+      "development_suites": [
+        "iteration-5"
+      ],
+      "integration_suites": [
+        "iteration-5"
+      ],
+      "dependencies": [
+        "runengine-pre-release",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine render stage maps to Iteration 5 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-release": {
+      "paths": [
+        "src/new_daily_ai_brief/release.py",
+        "schemas/release-package.schema.json",
+        "schemas/live-verification.schema.json",
+        "schemas/shadow-deployment.schema.json"
+      ],
+      "development_suites": [
+        "iteration-6"
+      ],
+      "integration_suites": [
+        "iteration-6"
+      ],
+      "dependencies": [
+        "runengine-render",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine release stage maps to Iteration 6 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-evaluation": {
+      "paths": [
+        "src/new_daily_ai_brief/evaluation.py",
+        "schemas/book-change-evaluation.schema.json"
+      ],
+      "development_suites": [
+        "iteration-7"
+      ],
+      "integration_suites": [
+        "iteration-7"
+      ],
+      "dependencies": [
+        "runengine-release",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine evaluation stage maps to Iteration 7 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-operations": {
+      "paths": [
+        "src/new_daily_ai_brief/operations.py",
+        "schemas/command-center-projection.schema.json",
+        "schemas/projection-watermark.schema.json"
+      ],
+      "development_suites": [
+        "iteration-8"
+      ],
+      "integration_suites": [
+        "iteration-8"
+      ],
+      "dependencies": [
+        "runengine-evaluation",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine operations stage maps to Iteration 8 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-completion": {
+      "paths": [
+        "src/new_daily_ai_brief/completion.py",
+        "schemas/completion.schema.json",
+        "schemas/final-completion-event.schema.json"
+      ],
+      "development_suites": [
+        "iteration-9"
+      ],
+      "integration_suites": [
+        "iteration-9"
+      ],
+      "dependencies": [
+        "runengine-operations",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine completion stage maps to Iteration 9 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-readiness": {
+      "paths": [
+        "src/new_daily_ai_brief/readiness.py",
+        "schemas/readiness-admission.schema.json"
+      ],
+      "development_suites": [
+        "iteration-10"
+      ],
+      "integration_suites": [
+        "iteration-10"
+      ],
+      "dependencies": [
+        "runengine-completion",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine readiness stage maps to Iteration 10 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-integration-preflight": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_preflight.py",
+        "schemas/production-integration-preflight.schema.json"
+      ],
+      "development_suites": [
+        "iteration-11"
+      ],
+      "integration_suites": [
+        "iteration-11"
+      ],
+      "dependencies": [
+        "runengine-readiness",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine integration-preflight stage maps to Iteration 11 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-integration-plan": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_plan.py",
+        "schemas/production-integration-plan.schema.json"
+      ],
+      "development_suites": [
+        "iteration-12"
+      ],
+      "integration_suites": [
+        "iteration-12"
+      ],
+      "dependencies": [
+        "runengine-integration-preflight",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine integration-plan stage maps to Iteration 12 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-integration-admission": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_admission.py",
+        "schemas/production-integration-admission.schema.json"
+      ],
+      "development_suites": [
+        "iteration-13"
+      ],
+      "integration_suites": [
+        "iteration-13"
+      ],
+      "dependencies": [
+        "runengine-integration-plan",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine integration-admission stage maps to Iteration 13 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-integration-execution-preflight": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_preflight.py",
+        "schemas/production-integration-execution-preflight.schema.json"
+      ],
+      "development_suites": [
+        "iteration-14"
+      ],
+      "integration_suites": [
+        "iteration-14"
+      ],
+      "dependencies": [
+        "runengine-integration-admission",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine integration-execution-preflight stage maps to Iteration 14 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-integration-execution-rehearsal": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_rehearsal.py",
+        "schemas/production-integration-execution-rehearsal.schema.json"
+      ],
+      "development_suites": [
+        "iteration-15"
+      ],
+      "integration_suites": [
+        "iteration-15"
+      ],
+      "dependencies": [
+        "runengine-integration-execution-preflight",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine integration-execution-rehearsal stage maps to Iteration 15 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-integration-execution-authorization-review": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_authorization_review.py",
+        "schemas/production-integration-execution-authorization-review.schema.json"
+      ],
+      "development_suites": [
+        "iteration-16"
+      ],
+      "integration_suites": [
+        "iteration-16"
+      ],
+      "dependencies": [
+        "runengine-integration-execution-rehearsal",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine integration-execution-authorization-review stage maps to Iteration 16 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-integration-execution-authorization-decision": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_authorization_decision.py",
+        "schemas/production-integration-execution-authorization-decision.schema.json"
+      ],
+      "development_suites": [
+        "iteration-17"
+      ],
+      "integration_suites": [
+        "iteration-17"
+      ],
+      "dependencies": [
+        "runengine-integration-execution-authorization-review",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine integration-execution-authorization-decision stage maps to Iteration 17 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-integration-execution-authorization-package": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_authorization_package.py",
+        "schemas/production-integration-execution-authorization-package.schema.json"
+      ],
+      "development_suites": [
+        "iteration-18"
+      ],
+      "integration_suites": [
+        "iteration-18"
+      ],
+      "dependencies": [
+        "runengine-integration-execution-authorization-decision",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine integration-execution-authorization-package stage maps to Iteration 18 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-integration-execution-authority-readiness": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_authority_readiness.py",
+        "schemas/production-integration-execution-authority-readiness.schema.json"
+      ],
+      "development_suites": [
+        "iteration-19"
+      ],
+      "integration_suites": [
+        "iteration-19"
+      ],
+      "dependencies": [
+        "runengine-integration-execution-authorization-package",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine integration-execution-authority-readiness stage maps to Iteration 19 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-executor-binding-readiness": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_executor_binding_readiness.py",
+        "schemas/production-integration-execution-executor-binding-readiness.schema.json"
+      ],
+      "development_suites": [
+        "iteration-20"
+      ],
+      "integration_suites": [
+        "iteration-20"
+      ],
+      "dependencies": [
+        "runengine-integration-execution-authority-readiness",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine executor-binding-readiness stage maps to Iteration 20 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-executor-binding-preflight": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_executor_binding_preflight.py",
+        "schemas/production-integration-execution-executor-binding-preflight.schema.json"
+      ],
+      "development_suites": [
+        "iteration-21"
+      ],
+      "integration_suites": [
+        "iteration-21"
+      ],
+      "dependencies": [
+        "runengine-executor-binding-readiness",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine executor-binding-preflight stage maps to Iteration 21 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-executor-binding-rehearsal": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_executor_binding_rehearsal.py",
+        "schemas/production-integration-execution-executor-binding-rehearsal.schema.json"
+      ],
+      "development_suites": [
+        "iteration-22"
+      ],
+      "integration_suites": [
+        "iteration-22"
+      ],
+      "dependencies": [
+        "runengine-executor-binding-preflight",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine executor-binding-rehearsal stage maps to Iteration 22 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-executor-binding-authorization-review": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_executor_binding_authorization_review.py",
+        "schemas/production-integration-execution-executor-binding-authorization-review.schema.json"
+      ],
+      "development_suites": [
+        "iteration-23"
+      ],
+      "integration_suites": [
+        "iteration-23"
+      ],
+      "dependencies": [
+        "runengine-executor-binding-rehearsal",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine executor-binding-authorization-review stage maps to Iteration 23 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-executor-binding-authorization-decision": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_executor_binding_authorization_decision.py",
+        "schemas/production-integration-execution-executor-binding-authorization-decision.schema.json"
+      ],
+      "development_suites": [
+        "iteration-24"
+      ],
+      "integration_suites": [
+        "iteration-24"
+      ],
+      "dependencies": [
+        "runengine-executor-binding-authorization-review",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine executor-binding-authorization-decision stage maps to Iteration 24 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-executor-binding-authorization-package": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_executor_binding_authorization_package.py",
+        "schemas/production-integration-execution-executor-binding-authorization-package.schema.json"
+      ],
+      "development_suites": [
+        "iteration-25"
+      ],
+      "integration_suites": [
+        "iteration-25"
+      ],
+      "dependencies": [
+        "runengine-executor-binding-authorization-decision",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine executor-binding-authorization-package stage maps to Iteration 25 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-executor-binding-package-readiness": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_executor_binding_authorization_package_readiness.py",
+        "schemas/production-integration-execution-executor-binding-authorization-package-readiness.schema.json"
+      ],
+      "development_suites": [
+        "iteration-26"
+      ],
+      "integration_suites": [
+        "iteration-26"
+      ],
+      "dependencies": [
+        "runengine-executor-binding-authorization-package",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine executor-binding-package-readiness stage maps to Iteration 26 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-executor-binding-package-readiness-preflight": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_executor_binding_authorization_package_readiness_preflight.py",
+        "schemas/production-integration-execution-executor-binding-authorization-package-readiness-preflight.schema.json"
+      ],
+      "development_suites": [
+        "iteration-27"
+      ],
+      "integration_suites": [
+        "iteration-27"
+      ],
+      "dependencies": [
+        "runengine-executor-binding-package-readiness",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine executor-binding-package-readiness-preflight stage maps to Iteration 27 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-executor-binding-package-readiness-rehearsal": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_executor_binding_authorization_package_readiness_rehearsal.py",
+        "schemas/production-integration-execution-executor-binding-authorization-package-readiness-rehearsal.schema.json"
+      ],
+      "development_suites": [
+        "iteration-28"
+      ],
+      "integration_suites": [
+        "iteration-28"
+      ],
+      "dependencies": [
+        "runengine-executor-binding-package-readiness-preflight",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine executor-binding-package-readiness-rehearsal stage maps to Iteration 28 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-executor-binding-package-readiness-authorization-review": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_executor_binding_authorization_package_readiness_authorization_review.py",
+        "schemas/production-integration-execution-executor-binding-authorization-package-readiness-authorization-review.schema.json"
+      ],
+      "development_suites": [
+        "iteration-29"
+      ],
+      "integration_suites": [
+        "iteration-29"
+      ],
+      "dependencies": [
+        "runengine-executor-binding-package-readiness-rehearsal",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine executor-binding-package-readiness-authorization-review stage maps to Iteration 29 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-executor-binding-package-readiness-authorization-decision": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_executor_binding_authorization_package_readiness_authorization_decision.py",
+        "schemas/production-integration-execution-executor-binding-authorization-package-readiness-authorization-decision.schema.json"
+      ],
+      "development_suites": [
+        "iteration-30"
+      ],
+      "integration_suites": [
+        "iteration-30"
+      ],
+      "dependencies": [
+        "runengine-executor-binding-package-readiness-authorization-review",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine executor-binding-package-readiness-authorization-decision stage maps to Iteration 30 plus its immediate predecessor/core dependency cone."
+    },
+    "runengine-executor-binding-package-readiness-authorization-package": {
+      "paths": [
+        "src/new_daily_ai_brief/integration_execution_executor_binding_authorization_package_readiness_authorization_package.py",
+        "schemas/production-integration-execution-executor-binding-authorization-package-readiness-authorization-package.schema.json"
+      ],
+      "development_suites": [
+        "iteration-31"
+      ],
+      "integration_suites": [
+        "iteration-31"
+      ],
+      "dependencies": [
+        "runengine-executor-binding-package-readiness-authorization-decision",
+        "runengine-core"
+      ],
+      "rationale": "RunEngine executor-binding-package-readiness-authorization-package stage maps to Iteration 31 plus its immediate predecessor/core dependency cone."
+    }
+  },
+  "suites": {
+    "validation-routing": {
+      "level": "development",
+      "description": "Change-impact router and manual Full System Validation contract tests.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_validation_routing.py",
+        "-v"
+      ]
+    },
+    "validation-routing-integration": {
+      "level": "integration",
+      "description": "CLI-level change-impact routing proof using safe synthetic changed-file lists.",
+      "command": [
+        "{python}",
+        "tests/test_validation_routing.py",
+        "ValidationRoutingTests.test_selector_cli_emits_bounded_scope",
+        "-v"
+      ]
+    },
+    "process-hardening": {
+      "level": "development",
+      "description": "Workflow/process hardening contract tests.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_process_hardening.py",
+        "-v"
+      ]
+    },
+    "changed-tests": {
+      "level": "development",
+      "kind": "changed-tests",
+      "description": "Execute changed Python test files only."
+    },
+    "closure-metadata": {
+      "level": "development",
+      "kind": "closure-metadata",
+      "description": "Lightweight closure metadata validation for documentation/evidence-only changes."
+    },
+    "command-center": {
+      "level": "development",
+      "description": "Private Command Center UI, privacy, accessibility, and snapshot contracts.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_command_center.py",
+        "-v"
+      ]
+    },
+    "command-center-integration": {
+      "level": "integration",
+      "description": "Canonical snapshot to private Command Center state bounded integration.",
+      "command": [
+        "{python}",
+        "tests/test_command_center.py",
+        "CommandCenterTests.test_snapshot_builder_sanitizes_private_identifiers",
+        "-v"
+      ]
+    },
+    "reader-runtime": {
+      "level": "development",
+      "description": "Reader interaction/runtime contracts.",
+      "command": [
+        "node",
+        "--test",
+        "migration/reader-runtime/runtime.test.mjs"
+      ],
+      "requires_node": true
+    },
+    "reader-access": {
+      "level": "integration",
+      "description": "Representative reader/access surface integration.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration32_access.py",
+        "-v"
+      ]
+    },
+    "reader-history-parity": {
+      "level": "integration",
+      "description": "Historical reader parity reconciliation only when history/migration itself changes.",
+      "command": [
+        "bash",
+        "-lc",
+        "python scripts/build_reader_parity_manifest.py --legacy-root legacy_snapshot --output /tmp/data-parity-manifest.json && python -c 'import json; p=json.load(open(\"/tmp/data-parity-manifest.json\")); assert p[\"parity_status\"]==\"reconciled\"; assert p[\"unexplained_mismatches\"]==[]'"
+      ],
+      "requires_submodules": true
+    },
+    "manual-publication-compile": {
+      "level": "development",
+      "description": "Compile canonical manual publication adapters without network or production mutation.",
+      "command": [
+        "{python}",
+        "-m",
+        "py_compile",
+        "scripts/prepare_legacy_run_inputs.py",
+        "scripts/prepare_live_editorial_inputs.py",
+        "scripts/discover_live_media.py",
+        "scripts/prepare_live_operational_inputs.py",
+        "scripts/build_live_edition.py",
+        "scripts/validate_live_reader_candidate.py",
+        "scripts/manual_canonical_run.py"
+      ]
+    },
+    "manual-publication-integration": {
+      "level": "integration",
+      "description": "Representative canonical Daily Brief lifecycle using deterministic local fixtures.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration3.py",
+        "-v"
+      ]
+    },
+    "shared-contracts": {
+      "level": "development",
+      "description": "Core contract/store/engine compatibility.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration1.py",
+        "-v"
+      ]
+    },
+    "iteration-1": {
+      "level": "development",
+      "description": "Existing bounded Iteration 1 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration1.py",
+        "-v"
+      ]
+    },
+    "iteration-2": {
+      "level": "development",
+      "description": "Existing bounded Iteration 2 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration2.py",
+        "-v"
+      ]
+    },
+    "iteration-3": {
+      "level": "development",
+      "description": "Existing bounded Iteration 3 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration3.py",
+        "-v"
+      ]
+    },
+    "iteration-4": {
+      "level": "development",
+      "description": "Existing bounded Iteration 4 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration4.py",
+        "-v"
+      ]
+    },
+    "iteration-5": {
+      "level": "development",
+      "description": "Existing bounded Iteration 5 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration5.py",
+        "-v"
+      ]
+    },
+    "iteration-6": {
+      "level": "development",
+      "description": "Existing bounded Iteration 6 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration6.py",
+        "-v"
+      ]
+    },
+    "iteration-7": {
+      "level": "development",
+      "description": "Existing bounded Iteration 7 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration7.py",
+        "-v"
+      ]
+    },
+    "iteration-8": {
+      "level": "development",
+      "description": "Existing bounded Iteration 8 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration8.py",
+        "-v"
+      ]
+    },
+    "iteration-9": {
+      "level": "development",
+      "description": "Existing bounded Iteration 9 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration9.py",
+        "-v"
+      ]
+    },
+    "iteration-10": {
+      "level": "development",
+      "description": "Existing bounded Iteration 10 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration10.py",
+        "-v"
+      ]
+    },
+    "iteration-11": {
+      "level": "development",
+      "description": "Existing bounded Iteration 11 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration11.py",
+        "-v"
+      ]
+    },
+    "iteration-12": {
+      "level": "development",
+      "description": "Existing bounded Iteration 12 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration12.py",
+        "-v"
+      ]
+    },
+    "iteration-13": {
+      "level": "development",
+      "description": "Existing bounded Iteration 13 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration13.py",
+        "-v"
+      ]
+    },
+    "iteration-14": {
+      "level": "development",
+      "description": "Existing bounded Iteration 14 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration14.py",
+        "-v"
+      ]
+    },
+    "iteration-15": {
+      "level": "development",
+      "description": "Existing bounded Iteration 15 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration15.py",
+        "-v"
+      ]
+    },
+    "iteration-16": {
+      "level": "development",
+      "description": "Existing bounded Iteration 16 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration16.py",
+        "-v"
+      ]
+    },
+    "iteration-17": {
+      "level": "development",
+      "description": "Existing bounded Iteration 17 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration17.py",
+        "-v"
+      ]
+    },
+    "iteration-18": {
+      "level": "development",
+      "description": "Existing bounded Iteration 18 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration18.py",
+        "-v"
+      ]
+    },
+    "iteration-19": {
+      "level": "development",
+      "description": "Existing bounded Iteration 19 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration19.py",
+        "-v"
+      ]
+    },
+    "iteration-20": {
+      "level": "development",
+      "description": "Existing bounded Iteration 20 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration20.py",
+        "-v"
+      ]
+    },
+    "iteration-21": {
+      "level": "development",
+      "description": "Existing bounded Iteration 21 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration21.py",
+        "-v"
+      ]
+    },
+    "iteration-22": {
+      "level": "development",
+      "description": "Existing bounded Iteration 22 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration22.py",
+        "-v"
+      ]
+    },
+    "iteration-23": {
+      "level": "development",
+      "description": "Existing bounded Iteration 23 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration23.py",
+        "-v"
+      ]
+    },
+    "iteration-24": {
+      "level": "development",
+      "description": "Existing bounded Iteration 24 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration24.py",
+        "-v"
+      ]
+    },
+    "iteration-25": {
+      "level": "development",
+      "description": "Existing bounded Iteration 25 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration25.py",
+        "-v"
+      ]
+    },
+    "iteration-26": {
+      "level": "development",
+      "description": "Existing bounded Iteration 26 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration26.py",
+        "-v"
+      ]
+    },
+    "iteration-27": {
+      "level": "development",
+      "description": "Existing bounded Iteration 27 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration27.py",
+        "-v"
+      ]
+    },
+    "iteration-28": {
+      "level": "development",
+      "description": "Existing bounded Iteration 28 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration28.py",
+        "-v"
+      ]
+    },
+    "iteration-29": {
+      "level": "development",
+      "description": "Existing bounded Iteration 29 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration29.py",
+        "-v"
+      ]
+    },
+    "iteration-30": {
+      "level": "development",
+      "description": "Existing bounded Iteration 30 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration30.py",
+        "-v"
+      ]
+    },
+    "iteration-31": {
+      "level": "development",
+      "description": "Existing bounded Iteration 31 suite aligned to its owning component.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_iteration31.py",
+        "-v"
+      ]
+    }
+  }
+}

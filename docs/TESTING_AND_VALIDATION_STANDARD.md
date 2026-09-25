@@ -592,3 +592,33 @@ The document must be reviewed before production cutover and after every major te
 | Date | Change |
 |---|---|
 | 2026-09-24 | Initial living testing standard created to separate bounded development/integration testing from explicitly requested Full System Validation. |
+
+
+---
+
+## 16. Implemented validation control plane
+
+The 2026-09-24 testing-architecture revision implements this standard with these authoritative controls:
+
+- `config/test-impact-map.json` — centralized machine-readable path/component/dependency/suite map.
+- `scripts/select_validation.py` — fail-closed changed-path classifier and suite selector.
+- `scripts/run_validation.py` — bounded Development/Integration suite runner and telemetry/evidence writer.
+- `.github/workflows/ci.yml` — ordinary PR/main Development and Integration Validation only.
+- `.github/workflows/full-system-validation.yml` — manual-only **Full System Validation** entry point.
+- `.github/workflows/reader-parity.yml` — historical reconciliation runs automatically only when historical migration inputs themselves change; it is no longer a general reader-development regression path.
+
+### Implemented dependency-cone semantics
+
+RunEngine stage modules map to the existing Iteration-aligned test that owns the stage plus its immediate predecessor/core dependency. Command Center UI and adapter changes map to Command Center contracts and a bounded snapshot-to-state integration. Reader runtime changes map to reader runtime/access checks without automatic historical replay. Unknown material paths fail closed until the impact map is deliberately updated.
+
+### Full System Validation operator contract
+
+Full System Validation supports explicit manual selection of `all`, `python-comprehensive`, `reader-comprehensive`, or `command-center-comprehensive`, records the tested ref/SHA and reason, writes evidence under `evidence/full-system-validation/<run-id>/` in the workflow artifact, and does not mutate production.
+
+The ordinary development workflow must not dispatch or invoke Full System Validation.
+
+## 17. Change log additions
+
+| Date | Change |
+|---|---|
+| 2026-09-24 | Implemented centralized fail-closed change-impact routing, bounded Development/Integration Validation, narrowed automatic historical reader parity, and manual-only Full System Validation workflow. |

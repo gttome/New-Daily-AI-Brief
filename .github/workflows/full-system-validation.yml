@@ -1,0 +1,122 @@
+name: Full System Validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: Comprehensive suite or rerun scope
+        required: true
+        type: choice
+        default: all
+        options:
+          - all
+          - python-comprehensive
+          - reader-comprehensive
+          - command-center-comprehensive
+      reason:
+        description: Reason/context for this explicitly requested validation
+        required: true
+        type: string
+      tested_ref:
+        description: Branch, tag, or SHA to test
+        required: true
+        default: main
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  full-system-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tested_ref }}
+          fetch-depth: 0
+          submodules: recursive
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Initialize evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "evidence/full-system-validation/${GITHUB_RUN_ID}"
+          python - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          p=Path("evidence/full-system-validation") / os.environ["GITHUB_RUN_ID"] / "manifest.json"
+          p.write_text(json.dumps({
+              "run_id": os.environ["GITHUB_RUN_ID"],
+              "tested_sha": subprocess.check_output(["git","rev-parse","HEAD"], text=True).strip(),
+              "reason": """${{ inputs.reason }}""",
+              "requested_suite": "${{ inputs.suite }}",
+              "workflow": "Full System Validation",
+              "production_mutation": False,
+              "test_inventory": [
+                  "python-comprehensive",
+                  "reader-comprehensive",
+                  "command-center-comprehensive"
+              ]
+          }, indent=2) + "\n", encoding="utf-8")
+          PY
+
+      - name: Python comprehensive
+        if: inputs.suite == 'all' || inputs.suite == 'python-comprehensive'
+        shell: bash
+        run: |
+          set -o pipefail
+          python -m compileall -q src tests scripts
+          PYTHONPATH=src python -m unittest discover -s tests -v 2>&1 | tee "evidence/full-system-validation/${GITHUB_RUN_ID}/python-comprehensive.log"
+
+      - name: Reader comprehensive
+        if: inputs.suite == 'all' || inputs.suite == 'reader-comprehensive'
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test migration/reader-runtime/runtime.test.mjs 2>&1 | tee "evidence/full-system-validation/${GITHUB_RUN_ID}/reader-runtime.log"
+          python scripts/build_reader_parity_manifest.py             --legacy-root legacy_snapshot             --output "evidence/full-system-validation/${GITHUB_RUN_ID}/reader-parity-manifest.json"
+          python scripts/build_reader_corrections_test.py
+          PYTHONPATH=src python -m unittest discover -s tests -p 'test_iteration32_access.py' -v
+
+      - name: Command Center comprehensive
+        if: inputs.suite == 'all' || inputs.suite == 'command-center-comprehensive'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/build_command_center_snapshot.py             --repo-root .             --main-sha "$(git rev-parse HEAD)"             --output "/tmp/command-center-state.json"
+          PYTHONPATH=src python -m unittest discover -s tests -p 'test_command_center.py' -v 2>&1 | tee "evidence/full-system-validation/${GITHUB_RUN_ID}/command-center.log"
+          node --check site/command-center/cc.js
+
+      - name: Final evidence metadata
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import datetime as dt, json, os
+          from pathlib import Path
+          p=Path("evidence/full-system-validation") / os.environ["GITHUB_RUN_ID"] / "run-metadata.json"
+          p.write_text(json.dumps({
+              "completed_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
+              "tested_sha": os.environ["GITHUB_SHA"],
+              "requested_suite": "${{ inputs.suite }}",
+              "reason": """${{ inputs.reason }}""",
+              "production_mutation": False
+          }, indent=2) + "\n", encoding="utf-8")
+          PY
+
+      - name: Upload Full System Validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-system-validation-${{ github.run_id }}
+          path: evidence/full-system-validation/${{ github.run_id }}/
+          if-no-files-found: error
+          retention-days: 90

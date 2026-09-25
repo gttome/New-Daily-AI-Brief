@@ -15,248 +15,42 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          submodules: recursive
+          submodules: false
 
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Classify change scope
-        id: scope
+      - name: Classify changed paths and validation scope
         shell: bash
         run: |
           set -euo pipefail
           if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
             git fetch --no-tags origin "$GITHUB_BASE_REF"
-            BASE_REF="origin/$GITHUB_BASE_REF"
-            git diff --name-only "$BASE_REF...HEAD" > changed-files.txt
+            git diff --name-only "origin/$GITHUB_BASE_REF...HEAD" > changed-files.txt
           else
             BEFORE="${{ github.event.before }}"
             if [[ -z "$BEFORE" || "$BEFORE" == "0000000000000000000000000000000000000000" ]]; then
-              BASE_REF=""
               git ls-files > changed-files.txt
             else
-              BASE_REF="$BEFORE"
               git diff --name-only "$BEFORE" "$GITHUB_SHA" > changed-files.txt
             fi
           fi
-
-          full=false
-          reader=false
-          command_center=false
-          while IFS= read -r path; do
-            [[ -z "$path" ]] && continue
-            case "$path" in
-              docs/*|evidence/*)
-                ;;
-              site/command-center/*|scripts/build_command_center_snapshot.py|schemas/command-center-state.schema.json|tests/test_command_center.py|tests/test_iteration32_access.py)
-                command_center=true
-                ;;
-              approved-images/*|ops/manual-daily-brief-continuation.json|.gitmodules|legacy_snapshot|migration/*|config/live-media-sources.json|fixtures/live-manual/*|scripts/build_reader_*|scripts/prepare_legacy_run_inputs.py|scripts/prepare_live_editorial_inputs.py|scripts/discover_live_media.py|scripts/prepare_live_operational_inputs.py|scripts/build_live_edition.py|scripts/patch_publication_adapter.py|scripts/manual_canonical_run.py|scripts/validate_reader_bundle.py|scripts/validate_live_reader_candidate.py|.github/workflows/ci.yml|.github/workflows/reader-parity.yml|.github/workflows/manual-daily-brief.yml|.github/workflows/deploy-iteration32-test.yml)
-                reader=true
-                ;;
-              *)
-                full=true
-                ;;
-            esac
-          done < changed-files.txt
-
-          echo "full=$full" >> "$GITHUB_OUTPUT"
-          echo "reader=$reader" >> "$GITHUB_OUTPUT"
-          echo "command_center=$command_center" >> "$GITHUB_OUTPUT"
-          echo "base_ref=$BASE_REF" >> "$GITHUB_OUTPUT"
           echo "Changed files:"
           cat changed-files.txt
-          echo "Full regression required: $full"
-          echo "Reader-parity validation required: $reader"
-          echo "Command Center targeted validation required: $command_center"
+          python scripts/select_validation.py             --changed-file-list changed-files.txt             --output validation-selection.json
 
-      - name: Compile full runtime
-        if: steps.scope.outputs.full == 'true'
-        run: PYTHONPATH=src python -m compileall -q src tests scripts
-
-      - name: Targeted process and Iteration tests
-        if: steps.scope.outputs.full == 'true'
-        shell: bash
+      - name: Run bounded Development and Integration Validation
         run: |
-          set -euo pipefail
-          if [[ -f tests/test_process_hardening.py ]]; then
-            PYTHONPATH=src python -m unittest discover -s tests -p 'test_process_hardening.py' -v
-          fi
-          if [[ -f tests/test_iteration31.py ]]; then
-            PYTHONPATH=src python -m unittest discover -s tests -p 'test_iteration31.py' -v
-          fi
+          python scripts/run_validation.py             --selection validation-selection.json             --evidence validation-evidence.json
 
-      - name: Contract, discovery, editorial, and recovery tests
-        if: steps.scope.outputs.full == 'true'
-        run: PYTHONPATH=src python -m unittest discover -s tests -v
-
-      - name: Verify approved image packages
-        if: steps.scope.outputs.reader == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          import hashlib, json
-          from pathlib import Path
-
-          root = Path("approved-images")
-          if not root.exists():
-              raise SystemExit(0)
-          manifests = sorted(root.glob("*/approved-image-manifest.json"))
-          for manifest_path in manifests:
-              manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-              images = manifest.get("images")
-              if not isinstance(images, list) or len(images) != 6:
-                  raise SystemExit(f"{manifest_path}: exactly six images required")
-              digests = set()
-              for entry in images:
-                  if entry.get("quality_accepted") is not True or entry.get("accepted_locked") is not True:
-                      raise SystemExit(f"{manifest_path}: image is not accepted/locked")
-                  if entry.get("generation_method") != "openai_image_generation":
-                      raise SystemExit(f"{manifest_path}: invalid generation_method")
-                  rel = str(entry.get("file") or "")
-                  p = Path(rel)
-                  if not p.is_file():
-                      raise SystemExit(f"{manifest_path}: missing image {rel}")
-                  if p.suffix.lower() not in {".webp", ".png"}:
-                      raise SystemExit(f"{manifest_path}: invalid image format {rel}")
-                  digest = hashlib.sha256(p.read_bytes()).hexdigest()
-                  if digest != str(entry.get("sha256") or ""):
-                      raise SystemExit(f"{manifest_path}: sha256 mismatch {rel}")
-                  digests.add(digest)
-              if len(digests) != 6:
-                  raise SystemExit(f"{manifest_path}: images must have six distinct byte streams")
-              print(f"{manifest_path}: approved image package PASS")
-          PY
-
-      - name: Compile reader migration tools
-        if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader == 'true'
-        run: |
-          python -m py_compile \
-            scripts/build_reader_parity_manifest.py \
-            scripts/build_reader_bundle.py \
-            scripts/validate_reader_bundle.py \
-            scripts/prepare_legacy_run_inputs.py \
-            scripts/prepare_live_editorial_inputs.py \
-            scripts/discover_live_media.py \
-            scripts/prepare_live_operational_inputs.py \
-            scripts/build_live_edition.py \
-            scripts/validate_live_reader_candidate.py \
-            scripts/manual_canonical_run.py
-
-      - uses: actions/setup-node@v4
-        if: steps.scope.outputs.reader == 'true'
+      - name: Upload bounded validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          node-version: '24'
-
-      - name: Verify NDAIB feedback contracts
-        if: steps.scope.outputs.reader == 'true'
-        run: node --test migration/reader-runtime/runtime.test.mjs
-
-      - name: Verify targeted reader corrections
-        if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader == 'true'
-        run: python scripts/build_reader_corrections_test.py
-
-      - name: Reconcile pinned historical snapshot
-        if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader == 'true'
-        run: |
-          python scripts/build_reader_parity_manifest.py \
-            --legacy-root legacy_snapshot \
-            --output /tmp/data-parity-manifest.json
-          python - <<'PY'
-          import json
-          p=json.load(open("/tmp/data-parity-manifest.json",encoding="utf-8"))
-          assert p["parity_status"]=="reconciled", p
-          assert p["unexplained_mismatches"]==[], p
-          assert p["post_cutoff_editions_imported"] is False
-          PY
-
-      - name: Verify publication adapter freshness compatibility
-        if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader == 'true'
-        run: python scripts/patch_publication_adapter.py --adapter-root legacy_snapshot --check
-
-      - name: Verify authorized manual canonical run without duplicate pipeline
-        if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader == 'true'
-        run: |
-          rm -rf /tmp/ndaib-inputs /tmp/ndaib-state
-          PYTHONPATH=src python scripts/prepare_legacy_run_inputs.py \
-            --edition-date 2026-09-23 \
-            --legacy-root legacy_snapshot \
-            --output-root /tmp/ndaib-inputs
-          PYTHONPATH=src python scripts/manual_canonical_run.py \
-            --edition-date 2026-09-23 \
-            --input-root /tmp/ndaib-inputs \
-            --state-root /tmp/ndaib-state
-
-      - name: Verify live manual editorial path without network calls
-        if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader == 'true'
-        run: |
-          rm -rf /tmp/ndaib-live-inputs /tmp/ndaib-live-state
-          PYTHONPATH=src python scripts/prepare_live_editorial_inputs.py \
-            --edition-date 2026-09-24 \
-            --metadata-json fixtures/live-manual/metadata-candidates.json \
-            --evidence-json fixtures/live-manual/article-evidence.json \
-            --evidence-receipt-json fixtures/live-manual/article-evidence-receipt.json \
-            --legacy-root legacy_snapshot \
-            --output-root /tmp/ndaib-live-inputs
-          PYTHONPATH=src python scripts/manual_canonical_run.py \
-            --edition-date 2026-09-24 \
-            --input-root /tmp/ndaib-live-inputs \
-            --state-root /tmp/ndaib-live-state \
-            --editorial-only
-          cp fixtures/live-manual/media-discovery.json /tmp/ndaib-live-inputs/live-media.json
-          PYTHONPATH=src python scripts/prepare_live_operational_inputs.py \
-            --edition-date 2026-09-24 \
-            --input-root /tmp/ndaib-live-inputs \
-            --state-root /tmp/ndaib-live-state \
-            --media-json /tmp/ndaib-live-inputs/live-media.json \
-            --legacy-root legacy_snapshot
-          PYTHONPATH=src python scripts/manual_canonical_run.py \
-            --edition-date 2026-09-24 \
-            --input-root /tmp/ndaib-live-inputs \
-            --state-root /tmp/ndaib-live-state \
-            --build-only
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          p=json.load(open("/tmp/ndaib-live-inputs/live-input-manifest.json",encoding="utf-8"))
-          o=json.load(open("/tmp/ndaib-live-inputs/operational-input-manifest.json",encoding="utf-8"))
-          q=json.load(open("/tmp/ndaib-live-inputs/image-generation-request.json",encoding="utf-8"))
-          run=json.load(open("/tmp/ndaib-live-state/2026-09-24__production/run.json",encoding="utf-8"))
-          assert p["selected_story_count"] == 6, p
-          assert sum(bool(x["agent_skills"]) for x in p["selected_stories"]) == 1, p
-          assert o["media"] == {"video_count": 2, "podcast_count": 2}, o
-          assert q["story_count"] == 6 and len(q["requests"]) == 6, q
-          assert run["completion_status"] == "build_locked", run
-          assert Path("/tmp/ndaib-live-inputs/live-editorial-draft.md").exists()
-          PY
-
-      - name: Verify private Command Center contracts
-        if: steps.scope.outputs.command_center == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          python -m py_compile scripts/build_command_center_snapshot.py tests/test_command_center.py
-          python scripts/build_command_center_snapshot.py \
-            --repo-root . \
-            --main-sha "$GITHUB_SHA" \
-            --output /tmp/command-center-state.json
-          PYTHONPATH=src python -m unittest discover -s tests -p 'test_command_center.py' -v
-          node --check site/command-center/cc.js
-          python - <<'PY'
-          import json
-          p=json.load(open("/tmp/command-center-state.json",encoding="utf-8"))
-          assert p["privacy"]["surface"] == "private-owner-only"
-          assert p["privacy"]["public_reader_exposure"] is False
-          assert p["command_center_site"]["public_pages_deployment_allowed"] is False
-          assert p["schedules"]["creation_permitted"] is False
-          assert all(not x["created"] and not x["enabled"] for x in p["schedules"]["planned"])
-          PY
-
-      - name: Closure metadata validation
-        if: steps.scope.outputs.full != 'true' && steps.scope.outputs.reader != 'true' && steps.scope.outputs.command_center != 'true'
-        run: |
-          PYTHONPATH=src python scripts/validate_closure_metadata.py \
-            --changed-file-list changed-files.txt \
-            --base-ref "${{ steps.scope.outputs.base_ref }}"
+          name: bounded-validation-${{ github.sha }}
+          path: |
+            changed-files.txt
+            validation-selection.json
+            validation-evidence.json
+          if-no-files-found: warn
