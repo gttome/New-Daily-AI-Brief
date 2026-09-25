@@ -321,6 +321,9 @@ class BuildStagePipeline:
                 "last_changed": topic["last_changed"],
                 "source_id": source_id,
                 "source_evidence_digest": state["source_evidence_digests"][source_id],
+                "presentation_order": int(topic.get("presentation_order") or 999999),
+                "public_topic": deepcopy(topic.get("public_topic") or {}),
+                "qualifying_evidence": deepcopy(topic.get("qualifying_evidence") or []),
             }
             if first_seen == today:
                 buckets["new_today"].append(item)
@@ -342,6 +345,11 @@ class BuildStagePipeline:
             "edition_digest": edition["content_digest"],
             "registry_digest": digest(registry),
             "catalog_digest": digest(self.watch_catalog),
+            "reviewed_at": self.watch_catalog.get("reviewed_at"),
+            "baseline_note": self.watch_catalog.get("baseline_note"),
+            "review_policy": deepcopy(self.watch_catalog.get("review_policy") or {}),
+            "source_checks": deepcopy(self.watch_catalog.get("source_checks") or []),
+            "candidate_dispositions": deepcopy(self.watch_catalog.get("candidate_dispositions") or []),
             **buckets,
             "counts": {k: len(v) for k, v in buckets.items()},
             "decision_metrics": stable_metrics,
