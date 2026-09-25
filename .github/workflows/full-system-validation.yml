@@ -106,6 +106,7 @@ jobs:
           PYTHONPATH=src python scripts/manual_canonical_run.py             --edition-date 2026-09-23             --input-root /tmp/ndaib-inputs             --state-root /tmp/ndaib-state
 
       - name: Reconcile historical migration
+        if: inputs.suite == 'all' || inputs.suite == 'reader-comprehensive'
         run: |
           python scripts/build_reader_parity_manifest.py \
             --legacy-root legacy_snapshot \
@@ -119,6 +120,7 @@ jobs:
           PY
 
       - name: Build final target reader bundle
+        if: inputs.suite == 'all' || inputs.suite == 'reader-comprehensive'
         run: |
           python scripts/build_reader_bundle.py \
             --legacy-root legacy_snapshot \
@@ -132,9 +134,11 @@ jobs:
             --output _artifacts/data-parity-manifest.json
 
       - name: Validate final reader bundle
+        if: inputs.suite == 'all' || inputs.suite == 'reader-comprehensive'
         run: python scripts/validate_reader_bundle.py --site-root _site --target-url https://ndaib.gtome.chatgpt.site
 
       - name: Validate live operational publication plumbing
+        if: inputs.suite == 'all' || inputs.suite == 'reader-comprehensive'
         shell: bash
         run: |
           set -euo pipefail
