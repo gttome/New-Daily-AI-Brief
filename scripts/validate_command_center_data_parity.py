@@ -22,8 +22,8 @@ PRIVATE_FAMILIES = {
     "private_comments_annotations",
 }
 PUBLIC_FORBIDDEN_PRIVATE_KEYS = {
-    "private_usage_records", "usage_history_records", "book_change_proposals",
-    "proposal_records_private", "owner_annotations",
+    "private_usage_records", "usage_history_records",
+    "proposal_records_private", "owner_annotations", "private_record_values",
 }
 
 
