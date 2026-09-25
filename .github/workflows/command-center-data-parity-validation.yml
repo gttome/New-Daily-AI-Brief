@@ -1,0 +1,46 @@
+name: Command Center Data Parity Validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'config/command-center-data-parity.json'
+      - 'config/command-center-legacy-history.json'
+      - 'src/new_daily_ai_brief/command_center_private.py'
+      - 'src/new_daily_ai_brief/operations.py'
+      - 'scripts/build_command_center_snapshot.py'
+      - 'scripts/validate_command_center_data_parity.py'
+      - 'schemas/command-center-projection.schema.json'
+      - 'schemas/command-center-state.schema.json'
+      - 'site/command-center/**'
+      - 'tests/test_command_center.py'
+      - 'tests/test_command_center_data_parity.py'
+      - 'docs/COMMAND_CENTER_DATA_PARITY_STANDARD.md'
+
+permissions:
+  contents: read
+
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run dedicated data parity validation
+        env:
+          PYTHONPATH: src
+        run: |
+          python tests/test_command_center_data_parity.py -v
+          python scripts/validate_command_center_data_parity.py --output command-center-data-parity-validation.json
+      - name: Upload parity evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: command-center-data-parity-${{ github.sha }}
+          path: command-center-data-parity-validation.json
+          if-no-files-found: warn
