@@ -3,30 +3,345 @@
   "$id": "https://gttome.github.io/New-Daily-AI-Brief/schemas/command-center-state.schema.json",
   "title": "New Daily AI Brief Command Center State",
   "type": "object",
-  "required": ["schema_version","source","privacy","executive","pipeline","stories","images","media","watchlist","book_bridges","reader_site","readiness_gates","manual_controls","schedules","run_history","source_health","usage_cost","incidents","engagement","command_center_site"],
+  "required": [
+    "schema_version",
+    "source",
+    "privacy",
+    "executive",
+    "pipeline",
+    "stories",
+    "images",
+    "media",
+    "watchlist",
+    "book_bridges",
+    "reader_site",
+    "readiness_gates",
+    "manual_controls",
+    "schedules",
+    "run_history",
+    "source_health",
+    "usage_cost",
+    "incidents",
+    "engagement",
+    "command_center_site",
+    "data_parity",
+    "historical_data",
+    "private_owner_data",
+    "data_domains"
+  ],
   "properties": {
-    "schema_version": {"const": "1.0.0"},
-    "snapshot_generated_at": {"type": "string"},
-    "source": {"type": "object","required":["repository","branch","main_sha"],"properties":{"repository":{"const":"gttome/New-Daily-AI-Brief"},"branch":{"const":"main"},"main_sha":{"type":"string","pattern":"^[0-9a-f]{40}$"}}},
-    "privacy": {"type":"object","required":["surface","contains_credentials","contains_private_ids","contains_internal_prompts","public_reader_exposure"],"properties":{"surface":{"const":"private-owner-only"},"contains_credentials":{"const":false},"contains_private_ids":{"const":false},"contains_internal_prompts":{"const":false},"public_reader_exposure":{"const":false}}},
-    "executive": {"type":"object"},
-    "pipeline": {"type":"array","minItems":11,"maxItems":11},
-    "stories": {"type":"object","required":["count","allocation","agent_skills_count","allocation_pass","items"],"properties":{"count":{"const":6},"agent_skills_count":{"const":1},"allocation_pass":{"type":"boolean"},"items":{"type":"array","minItems":6,"maxItems":6}}},
-    "images": {"type":"object","required":["accepted_count","items"],"properties":{"accepted_count":{"type":"integer","minimum":0,"maximum":6},"items":{"type":"array","minItems":6,"maxItems":6}}},
-    "media": {"type":"object"},
-    "watchlist": {"type":"object"},
-    "book_bridges": {"type":"object"},
-    "reader_site": {"type":"object"},
-    "readiness_gates": {"type":"array","minItems":13},
-    "manual_controls": {"type":"array","minItems":8},
-    "schedules": {"type":"object","required":["creation_permitted","old_system_decommissioned","blocker","planned"],"properties":{"creation_permitted":{"const":false},"old_system_decommissioned":{"const":false},"planned":{"type":"array","minItems":2,"maxItems":2,"items":{"type":"object","required":["name","created","enabled","status"],"properties":{"created":{"const":false},"enabled":{"const":false}}}}}},
-    "run_history": {"type":"array"},
-    "source_health": {"type":"object"},
-    "usage_cost": {"type":"object","required":["estimated"],"properties":{"estimated":{"const":false}}},
-    "incidents": {"type":"object"},
-    "engagement": {"type":"object"},
-    "warnings": {"type":"array"},
-    "command_center_site": {"type":"object","required":["identifier","publication_state","public_pages_deployment_allowed"],"properties":{"identifier":{"const":"npccs"},"public_pages_deployment_allowed":{"const":false}}}
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "snapshot_generated_at": {
+      "type": "string"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "repository",
+        "branch",
+        "main_sha"
+      ],
+      "properties": {
+        "repository": {
+          "const": "gttome/New-Daily-AI-Brief"
+        },
+        "branch": {
+          "const": "main"
+        },
+        "main_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "required": [
+        "surface",
+        "contains_credentials",
+        "contains_private_ids",
+        "contains_internal_prompts",
+        "public_reader_exposure"
+      ],
+      "properties": {
+        "surface": {
+          "const": "private-owner-only"
+        },
+        "contains_credentials": {
+          "const": false
+        },
+        "contains_private_ids": {
+          "const": false
+        },
+        "contains_internal_prompts": {
+          "const": false
+        },
+        "public_reader_exposure": {
+          "const": false
+        }
+      }
+    },
+    "executive": {
+      "type": "object"
+    },
+    "pipeline": {
+      "type": "array",
+      "minItems": 11,
+      "maxItems": 11
+    },
+    "stories": {
+      "type": "object",
+      "required": [
+        "count",
+        "allocation",
+        "agent_skills_count",
+        "allocation_pass",
+        "items"
+      ],
+      "properties": {
+        "count": {
+          "const": 6
+        },
+        "agent_skills_count": {
+          "const": 1
+        },
+        "allocation_pass": {
+          "type": "boolean"
+        },
+        "items": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6
+        }
+      }
+    },
+    "images": {
+      "type": "object",
+      "required": [
+        "accepted_count",
+        "items"
+      ],
+      "properties": {
+        "accepted_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6
+        },
+        "items": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6
+        }
+      }
+    },
+    "media": {
+      "type": "object"
+    },
+    "watchlist": {
+      "type": "object"
+    },
+    "book_bridges": {
+      "type": "object"
+    },
+    "reader_site": {
+      "type": "object"
+    },
+    "readiness_gates": {
+      "type": "array",
+      "minItems": 13
+    },
+    "manual_controls": {
+      "type": "array",
+      "minItems": 8
+    },
+    "schedules": {
+      "type": "object",
+      "required": [
+        "creation_permitted",
+        "old_system_decommissioned",
+        "blocker",
+        "planned"
+      ],
+      "properties": {
+        "creation_permitted": {
+          "const": false
+        },
+        "old_system_decommissioned": {
+          "const": false
+        },
+        "planned": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "created",
+              "enabled",
+              "status"
+            ],
+            "properties": {
+              "created": {
+                "const": false
+              },
+              "enabled": {
+                "const": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "run_history": {
+      "type": "array"
+    },
+    "source_health": {
+      "type": "object"
+    },
+    "usage_cost": {
+      "type": "object",
+      "required": [
+        "estimated"
+      ],
+      "properties": {
+        "estimated": {
+          "const": false
+        }
+      }
+    },
+    "incidents": {
+      "type": "object"
+    },
+    "engagement": {
+      "type": "object"
+    },
+    "warnings": {
+      "type": "array"
+    },
+    "command_center_site": {
+      "type": "object",
+      "required": [
+        "identifier",
+        "publication_state",
+        "public_pages_deployment_allowed"
+      ],
+      "properties": {
+        "identifier": {
+          "const": "npccs"
+        },
+        "public_pages_deployment_allowed": {
+          "const": false
+        }
+      }
+    },
+    "data_parity": {
+      "type": "object",
+      "required": [
+        "matrix_version",
+        "required_domain_count",
+        "mapped_family_count",
+        "unresolved_required_families",
+        "privacy_leakage_defects",
+        "currentness",
+        "full_system_validation"
+      ],
+      "properties": {
+        "matrix_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_domain_count": {
+          "const": 10
+        },
+        "mapped_family_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "unresolved_required_families": {
+          "const": 0
+        },
+        "privacy_leakage_defects": {
+          "const": 0
+        },
+        "currentness": {
+          "const": "identity-bound"
+        },
+        "full_system_validation": {
+          "const": "NOT REQUESTED"
+        }
+      }
+    },
+    "historical_data": {
+      "type": "object",
+      "required": [
+        "preservation_mode",
+        "legacy_repository",
+        "legacy_reference_sha",
+        "private_values_included",
+        "families"
+      ],
+      "properties": {
+        "preservation_mode": {
+          "const": "immutable_reference_not_rewrite"
+        },
+        "legacy_repository": {
+          "const": "gttome/Daily-AI-Brief"
+        },
+        "legacy_reference_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "private_values_included": {
+          "const": false
+        },
+        "families": {
+          "type": "object",
+          "minProperties": 1
+        }
+      }
+    },
+    "private_owner_data": {
+      "type": "object",
+      "required": [
+        "transport",
+        "adapter",
+        "values_committed_to_repository",
+        "usage_history",
+        "book_change_proposals"
+      ],
+      "properties": {
+        "transport": {
+          "const": "authenticated-private-runtime"
+        },
+        "values_committed_to_repository": {
+          "const": false
+        },
+        "usage_history": {
+          "type": "object"
+        },
+        "book_change_proposals": {
+          "type": "object"
+        }
+      }
+    },
+    "data_domains": {
+      "type": "object",
+      "required": [
+        "editorial_discovery",
+        "edition_story_image_media",
+        "watchlist",
+        "quality_qa_accessibility",
+        "publication_infrastructure",
+        "run_production_telemetry",
+        "reader_signals_analytics",
+        "intelligence_editorial_learning",
+        "governance_incidents_automation",
+        "private_owner_only"
+      ]
+    }
   },
   "additionalProperties": true
 }
