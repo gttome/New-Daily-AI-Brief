@@ -772,6 +772,27 @@
         "reader-history"
       ],
       "rationale": "Publication adapter changes verify freshness compatibility against the pinned snapshot and its reader-history dependency."
+    },
+    "command-center-data-parity": {
+      "paths": [
+        "config/command-center-data-parity.json",
+        "config/command-center-legacy-history.json",
+        "src/new_daily_ai_brief/command_center_private.py",
+        "scripts/validate_command_center_data_parity.py",
+        "tests/test_command_center_data_parity.py",
+        ".github/workflows/command-center-data-parity-validation.yml"
+      ],
+      "development_suites": [
+        "command-center"
+      ],
+      "integration_suites": [
+        "command-center-integration",
+        "command-center-data-parity"
+      ],
+      "dependencies": [
+        "shared-contracts"
+      ],
+      "rationale": "Command Center parity changes require bounded cockpit/privacy checks, canonical snapshot integration, dedicated data-family parity validation, and shared contract compatibility."
     }
   },
   "suites": {
@@ -1425,6 +1446,15 @@
         "rm -rf /tmp/ndaib-inputs /tmp/ndaib-state && PYTHONPATH=src python scripts/prepare_legacy_run_inputs.py --edition-date 2026-09-23 --legacy-root legacy_snapshot --output-root /tmp/ndaib-inputs && PYTHONPATH=src python scripts/manual_canonical_run.py --edition-date 2026-09-23 --input-root /tmp/ndaib-inputs --state-root /tmp/ndaib-state"
       ],
       "requires_submodules": true
+    },
+    "command-center-data-parity": {
+      "level": "integration",
+      "description": "Dedicated Command Center Data Parity Validation across the machine-readable family matrix, public/private boundary, legacy reference pin, and private-store contracts.",
+      "command": [
+        "{python}",
+        "tests/test_command_center_data_parity.py",
+        "-v"
+      ]
     }
   }
 }
