@@ -615,10 +615,10 @@ RunEngine stage modules map to the existing Iteration-aligned test that owns the
 
 Full System Validation supports explicit manual selection of `all`, `python-comprehensive`, `reader-comprehensive`, or `command-center-comprehensive`, records the tested ref/SHA and reason, writes evidence under `evidence/full-system-validation/<run-id>/` in the workflow artifact, and does not mutate production.
 
-The ordinary development workflow must not dispatch or invoke Full System Validation.
+The ordinary development workflow must not dispatch or invoke Full System Validation. The downstream Reader Parity Engineering Preview performs a lightweight change-impact check before its historical build/deploy work and skips that expensive path for unrelated main-branch changes; manual dispatch remains available.
 
 ## 17. Change log additions
 
 | Date | Change |
 |---|---|
-| 2026-09-24 | Implemented centralized fail-closed change-impact routing, bounded Development/Integration Validation, narrowed automatic historical reader parity, manual-only Full System Validation, and preserved approved-image/publication-adapter/manual-run validation in routed suites. |
+| 2026-09-24 | Implemented centralized fail-closed change-impact routing, bounded Development/Integration Validation, narrowed automatic historical reader parity, change-impact-gated reader preview deployment, manual-only Full System Validation, and preserved approved-image/publication-adapter/manual-run validation in routed suites. |
