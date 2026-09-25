@@ -5,19 +5,143 @@
   "type": "object",
   "additionalProperties": true,
   "properties": {
-    "schema_version": {"const": "1.0.0"},
-    "artifact_id": {"type": "string", "minLength": 1},
-    "artifact_type": {"const": "command-center-projection"},
-    "edition_date": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
-    "mode": {"enum": ["synthetic", "shadow", "production"]},
-    "content_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
-    "produced_by_stage": {"type": "string", "minLength": 1},
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "artifact_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_type": {
+      "const": "command-center-projection"
+    },
+    "edition_date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "mode": {
+      "enum": [
+        "synthetic",
+        "shadow",
+        "production"
+      ]
+    },
+    "content_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "produced_by_stage": {
+      "type": "string",
+      "minLength": 1
+    },
     "input_digests": {
       "type": "array",
-      "items": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[0-9a-f]{64}$"
+      }
     },
-    "status": {"enum": ["locked", "invalidated"]},
-    "data": {"type": "object"}
+    "status": {
+      "enum": [
+        "locked",
+        "invalidated"
+      ]
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "projection_contract_version",
+        "edition_date",
+        "run_id",
+        "bindings",
+        "canonical_chain_digest",
+        "stories",
+        "category_allocation",
+        "agent_skills_count",
+        "media",
+        "watchlist",
+        "book_bridges",
+        "image_bindings",
+        "rating_contract",
+        "release",
+        "book_change_evaluation",
+        "missingness",
+        "operational_domains"
+      ],
+      "properties": {
+        "projection_contract_version": {
+          "const": "1.0.0"
+        },
+        "edition_date": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bindings": {
+          "type": "object",
+          "minProperties": 14
+        },
+        "canonical_chain_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "stories": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6
+        },
+        "category_allocation": {
+          "type": "object"
+        },
+        "agent_skills_count": {
+          "const": 1
+        },
+        "media": {
+          "type": "object"
+        },
+        "watchlist": {
+          "type": "object"
+        },
+        "book_bridges": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6
+        },
+        "image_bindings": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6
+        },
+        "rating_contract": {
+          "type": "object"
+        },
+        "release": {
+          "type": "object"
+        },
+        "book_change_evaluation": {
+          "type": "object"
+        },
+        "missingness": {
+          "type": "object"
+        },
+        "operational_domains": {
+          "type": "object",
+          "required": [
+            "editorial_discovery",
+            "edition_content",
+            "media_content",
+            "watchlist_content",
+            "image_content",
+            "publication_infrastructure",
+            "artifact_provenance"
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
   },
   "required": [
     "schema_version",

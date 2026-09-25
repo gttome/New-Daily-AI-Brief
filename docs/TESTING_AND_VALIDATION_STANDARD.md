@@ -605,6 +605,7 @@ The 2026-09-24 testing-architecture revision implements this standard with these
 - `scripts/run_validation.py` — bounded Development/Integration suite runner and telemetry/evidence writer.
 - `.github/workflows/ci.yml` — ordinary PR/main Development and Integration Validation only.
 - `.github/workflows/full-system-validation.yml` — manual-only **Full System Validation** entry point.
+- `.github/workflows/command-center-data-parity-validation.yml` — dedicated bounded **Command Center Data Parity Validation** entry point; it validates the parity matrix, legacy reference pin, public/private boundary, and private-store contracts without dispatching Full System Validation.
 - `.github/workflows/reader-parity.yml` — historical reconciliation runs automatically only when historical migration inputs themselves change; it is no longer a general reader-development regression path.
 
 ### Implemented dependency-cone semantics
@@ -622,3 +623,4 @@ The ordinary development workflow must not dispatch or invoke Full System Valida
 | Date | Change |
 |---|---|
 | 2026-09-24 | Implemented centralized fail-closed change-impact routing, bounded Development/Integration Validation, narrowed automatic historical reader parity, change-impact-gated reader preview deployment, manual-only Full System Validation, and preserved approved-image/publication-adapter/manual-run validation in routed suites. |
+| 2026-09-24 | Added dedicated Command Center Data Parity Validation as a bounded integration activity and manual/PR workflow; Full System Validation remains separate and is not auto-dispatched. |

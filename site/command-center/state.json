@@ -4,7 +4,7 @@
   "source": {
     "repository": "gttome/New-Daily-AI-Brief",
     "branch": "main",
-    "main_sha": "7a069ba12c4547305487758daeb9875b5d9024ca",
+    "main_sha": "2755d6ed42f2f95c7c2f4f3844748959a9cb3adf",
     "publication_receipt": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
     "reader_source_sha": "a23992f94eda864455501dcd67b51d27ed2192b8"
   },
@@ -715,5 +715,226 @@
     "publication_state": "source_ready_private_publish_required",
     "live_url": null,
     "public_pages_deployment_allowed": false
+  },
+  "data_parity": {
+    "matrix_version": "2026-09-24.1",
+    "standard": "docs/COMMAND_CENTER_DATA_PARITY_STANDARD.md",
+    "required_domain_count": 10,
+    "mapped_family_count": 30,
+    "unresolved_required_families": 0,
+    "deliberate_retirements": 0,
+    "privacy_leakage_defects": 0,
+    "legacy_reference_sha": "4ac06268048a3241d2ecaa5ce7c2638266500d75",
+    "currentness": "identity-bound",
+    "validation": "scripts/validate_command_center_data_parity.py",
+    "full_system_validation": "NOT REQUESTED"
+  },
+  "historical_data": {
+    "preservation_mode": "immutable_reference_not_rewrite",
+    "legacy_repository": "gttome/Daily-AI-Brief",
+    "legacy_reference_sha": "4ac06268048a3241d2ecaa5ce7c2638266500d75",
+    "private_values_included": false,
+    "family_count": 25,
+    "families": {
+      "accessibility": {
+        "file_count": 12,
+        "first_path": "_records/accessibility/2026-09-07.json",
+        "last_path": "_records/accessibility/2026-09-18.json"
+      },
+      "analytics": {
+        "file_count": 18,
+        "first_path": "_records/analytics/2026-09-06.json",
+        "last_path": "_records/analytics/2026-09-23.json"
+      },
+      "attempts": {
+        "file_count": 12,
+        "first_path": "_records/attempts/2026-09-10/dab-attempt-2026-09-10-validation-20260910195426288.json",
+        "last_path": "_records/attempts/2026-09-19/dab-attempt-2026-09-19-publication-kernel-35458882398.json"
+      },
+      "command-center": {
+        "file_count": 2,
+        "first_path": "_records/command-center/2026-09-19-incident-and-recovery.json",
+        "last_path": "_records/command-center/2026-09-22-reconciliation.json"
+      },
+      "discovery-preflight": {
+        "file_count": 1,
+        "first_path": "_records/discovery-preflight/result/article-evidence-receipt.json",
+        "last_path": "_records/discovery-preflight/result/article-evidence-receipt.json"
+      },
+      "discovery": {
+        "file_count": 7,
+        "first_path": "_records/discovery/2026-09-11.json",
+        "last_path": "_records/discovery/2026-09-17.json"
+      },
+      "editorial-feedback": {
+        "file_count": 1,
+        "first_path": "_records/editorial-feedback/2026-09.json",
+        "last_path": "_records/editorial-feedback/2026-09.json"
+      },
+      "editorial-handoff": {
+        "file_count": 14,
+        "first_path": "_records/editorial-handoff/article-evidence.json",
+        "last_path": "_records/editorial-handoff/metadata-candidates.json"
+      },
+      "editorial-learning": {
+        "file_count": 1,
+        "first_path": "_records/editorial-learning/current.json",
+        "last_path": "_records/editorial-learning/current.json"
+      },
+      "editorial": {
+        "file_count": 43,
+        "first_path": "_records/editorial/candidates/2026-09-07.json",
+        "last_path": "_records/editorial/videos/2026-09-18.json"
+      },
+      "efficiency": {
+        "file_count": 12,
+        "first_path": "_records/efficiency/2026-09-15/dab-efficiency-2026-09-15-20260915t1305z-publication_generation.json",
+        "last_path": "_records/efficiency/2026-09-23/dab-efficiency-2026-09-23-kernel-35893259428-publication_generation.json"
+      },
+      "image-quality": {
+        "file_count": 11,
+        "first_path": "_records/image-quality/2026-09-10-premium3.json",
+        "last_path": "_records/image-quality/2026-09-19-professional-locked.json"
+      },
+      "images": {
+        "file_count": 2,
+        "first_path": "_records/images/2026-09-16/approval.json",
+        "last_path": "_records/images/2026-09-17/approval.json"
+      },
+      "ledgers": {
+        "file_count": 2,
+        "first_path": "_records/ledgers/README.md",
+        "last_path": "_records/ledgers/corrections.jsonl"
+      },
+      "operations": {
+        "file_count": 4,
+        "first_path": "_records/operations/2026-09-13-reader-operations.json",
+        "last_path": "_records/operations/eleven-items-live-qa.json"
+      },
+      "personal-feedback": {
+        "file_count": 1,
+        "first_path": "_records/personal-feedback/README.md",
+        "last_path": "_records/personal-feedback/README.md"
+      },
+      "publication": {
+        "file_count": 47,
+        "first_path": "_records/publication/2026-09-08/recovery-20260908.validated.json",
+        "last_path": "_records/publication/2026-09-23/kernel-35893259428.validated.json"
+      },
+      "qa-history": {
+        "file_count": 3,
+        "first_path": "_records/qa-history/2026-09-10-before-premium3.json",
+        "last_path": "_records/qa-history/2026-09-11/dab-qa-20260911T170740Z-7603da2f.json"
+      },
+      "qa": {
+        "file_count": 16,
+        "first_path": "_records/qa/2026-09-07.json",
+        "last_path": "_records/qa/2026-09-18.json"
+      },
+      "releases": {
+        "file_count": 14,
+        "first_path": "_records/releases/2026-09-10.json",
+        "last_path": "_records/releases/2026-09-23.json"
+      },
+      "source-reliability": {
+        "file_count": 2,
+        "first_path": "_records/source-reliability/2026-09-13-20260913052738926.json",
+        "last_path": "_records/source-reliability/2026-09-13-initial-observations.json"
+      },
+      "trends": {
+        "file_count": 17,
+        "first_path": "_records/trends/2026-09-07.json",
+        "last_path": "_records/trends/2026-09-23.json"
+      },
+      "watchlist-discovery": {
+        "file_count": 11,
+        "first_path": "_records/watchlist-discovery/2026-09-11-20260912020804186.json",
+        "last_path": "_records/watchlist-discovery/2026-09-18-20260918143107655.json"
+      },
+      "watchlist-sweeps": {
+        "file_count": 1,
+        "first_path": "_records/watchlist-sweeps/2026-09-23.json",
+        "last_path": "_records/watchlist-sweeps/2026-09-23.json"
+      },
+      "watchlist": {
+        "file_count": 9,
+        "first_path": "_records/watchlist/2026-09-12-20260912020804109758.json",
+        "last_path": "_records/watchlist/2026-09-19-20260919170907447.json"
+      }
+    }
+  },
+  "private_owner_data": {
+    "transport": "authenticated-private-runtime",
+    "adapter": "src/new_daily_ai_brief/command_center_private.py",
+    "values_committed_to_repository": false,
+    "usage_history": {
+      "dedupe_key": "attempt_id",
+      "missingness": "metric-level",
+      "incompatible_boundaries": "preserved separately",
+      "estimated_values_allowed": false
+    },
+    "book_change_proposals": {
+      "dedupe_key": "stable proposal_id",
+      "states": [
+        "Pending review",
+        "Approved",
+        "Rejected"
+      ],
+      "prior_owner_decisions_preserved": true,
+      "default_new_state": "Pending review"
+    }
+  },
+  "data_domains": {
+    "editorial_discovery": {
+      "status": "mapped",
+      "current_source": "canonical discovery/edition artifacts",
+      "historical_source": "legacy editorial/discovery/Story Memory references"
+    },
+    "edition_story_image_media": {
+      "status": "mapped",
+      "current_source": "canonical edition/media/images/book-bridges artifacts",
+      "historical_source": "legacy edition/media/image references"
+    },
+    "watchlist": {
+      "status": "mapped",
+      "current_source": "canonical watchlist artifact",
+      "historical_source": "legacy Watchlist/discovery/sweep/source-state references"
+    },
+    "quality_qa_accessibility": {
+      "status": "mapped",
+      "current_source": "bounded validation/native receipts",
+      "historical_source": "legacy QA/QA-history/accessibility records"
+    },
+    "publication_infrastructure": {
+      "status": "mapped",
+      "current_source": "canonical release chain/publication receipts/GitHub workflow metadata",
+      "historical_source": "legacy publication/releases records"
+    },
+    "run_production_telemetry": {
+      "status": "mapped",
+      "current_source": "canonical run/completion/validation evidence",
+      "historical_source": "legacy attempts/efficiency records"
+    },
+    "reader_signals_analytics": {
+      "status": "mapped",
+      "current_source": "authoritative native runtime aggregates when available",
+      "historical_source": "legacy analytics references",
+      "missingness": "unavailable stays unavailable"
+    },
+    "intelligence_editorial_learning": {
+      "status": "mapped",
+      "current_source": "native records when produced",
+      "historical_source": "legacy trends/editorial-learning/editorial-feedback references"
+    },
+    "governance_incidents_automation": {
+      "status": "mapped",
+      "current_source": "canonical incidents/recovery/repo/workflow evidence",
+      "historical_source": "legacy command-center/corrections/releases/source-reliability references"
+    },
+    "private_owner_only": {
+      "status": "mapped-private",
+      "current_source": "authenticated private runtime only",
+      "repository_values": false
+    }
   }
 }

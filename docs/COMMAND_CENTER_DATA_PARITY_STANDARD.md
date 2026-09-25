@@ -420,35 +420,40 @@ These records must not be moved into the public GitHub repository merely to simp
 
 ---
 
-## 6. Current parity-gap register
+## 6. Current parity implementation register
 
-The following areas are currently known to be incomplete in the new Command Center and are therefore tracked as `not_yet_implemented` until proven otherwise:
+The 2026-09-24 data-parity implementation maps every required family in
+`config/command-center-data-parity.json`. The repository carries public-safe
+canonical data and immutable historical references; authenticated owner-only
+values remain outside the public repository.
 
-| Area | Current state |
+| Area | Implemented state |
 |---|---|
-| Candidate funnel and scoring | Not fully projected |
-| Evidence packets and detailed novelty/Story Memory | Not fully projected |
-| Discovery/retrieval telemetry | Not fully projected |
-| Full attempt/run history | Not fully projected |
-| Exact stage timings | Mostly absent from current Site snapshot |
-| Image generation/rejection history | Not fully projected |
-| Full QA/repair history | Not fully projected |
-| Accessibility history | Not fully projected |
-| Efficiency/production-effort history | Not fully projected |
-| Usage/credit evidence path | Not connected |
-| Ratings/distribution | Transport exists; authoritative values not fully projected |
-| Shares/clicks/read events/video engagement | Not fully projected |
-| Editorial feedback/learning | Not projected |
-| Trend Radar | Not projected |
-| Correction ledger | Not projected |
-| Detailed incident/alert history | Not fully projected |
-| Component/configuration history | Not fully projected |
-| Automation history | Not fully projected |
-| Private Book Change Proposals | Not connected |
-| Multi-edition operational history | Not fully projected |
-| Production greenfield Command Center projection | Shadow-only / production adapter not configured |
+| Candidate funnel and scoring | Improved — canonical discovery is projected and legacy candidate/discovery history is referenced at the pinned legacy SHA. |
+| Evidence packets and detailed novelty/Story Memory | Improved — canonical discovery payload is projected; authoritative legacy Story Memory/evidence history is preserved by reference. |
+| Discovery/retrieval telemetry | Improved — native run/validation evidence is used where available and legacy discovery/efficiency records remain referenced without invented values. |
+| Full attempt/run history | Improved — canonical run/completion evidence is combined with immutable legacy attempt references; private usage merges only through the authenticated adapter. |
+| Exact stage timings | Equivalent where recorded — exact native/legacy timing is surfaced when authoritative; missing timing remains unavailable. |
+| Image generation/rejection history | Improved — canonical image payload is projected and legacy image/image-quality history is referenced. |
+| Full QA/repair history | Improved — native bounded-validation evidence plus immutable legacy QA/QA-history references. |
+| Accessibility history | Equivalent — authoritative legacy accessibility history is retained by reference and native checks append going forward. |
+| Efficiency/production-effort history | Improved — legacy efficiency boundaries are preserved and never silently merged. |
+| Usage/credit evidence path | Improved — `PrivateOwnerDataStore` supplies an authenticated-private persistence contract; credits remain unavailable without authoritative evidence. |
+| Ratings/distribution | Equivalent/improved — native authoritative aggregates may be used; legacy analytics remain referenced; unknown values are never fabricated. |
+| Shares/clicks/read events/video engagement | Equivalent — authoritative runtime values only, with legacy analytics references and suppression/missingness preserved. |
+| Editorial feedback/learning | Equivalent — legacy learning/feedback history is referenced and native records can supersede it. |
+| Trend Radar | Equivalent — complete legacy trend history remains available by immutable reference. |
+| Correction ledger | Equivalent — append-only legacy correction ledger is preserved by reference. |
+| Detailed incident/alert history | Improved — canonical incident/recovery evidence plus legacy Command Center/operations history. |
+| Component/configuration history | Improved — repository/workflow evidence plus legacy release/source-reliability references. |
+| Automation history | Improved — GitHub workflow metadata plus legacy attempt/release history; new schedules remain cutover-blocked. |
+| Private Book Change Proposals | Improved — authenticated-private CRUD/dedupe/status/reload contract implemented; proposal values are never committed publicly. |
+| Multi-edition operational history | Improved — `config/command-center-legacy-history.json` pins the authoritative historical families to the legacy SHA. |
+| Production greenfield Command Center projection | Improved — the existing canonical projection now includes complete operational-domain payloads and provenance; live/private materialization remains intentionally cutover-gated rather than bypassing the production-safety gate. |
 
-This table must be updated as each gap is implemented, tested, or deliberately retired.
+No required family is marked `not_yet_implemented` in the machine-readable
+matrix. A future cutover still requires the separately requested Full System
+Validation and the other cutover gates in this standard.
 
 ---
 
@@ -674,3 +679,4 @@ A PR that materially changes Command Center data without updating this document 
 | Date | Change |
 |---|---|
 | 2026-09-24 | Initial living standard created from current-vs-new Command Center data audit and parity plan. |
+| 2026-09-24 | Implemented the machine-readable parity matrix, immutable legacy-history index, enriched canonical projection domains, authenticated-private owner-data store contract, public-safe state bindings, and dedicated Command Center Data Parity Validation. |

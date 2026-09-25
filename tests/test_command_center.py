@@ -19,11 +19,12 @@ class CommandCenterTests(unittest.TestCase):
         self.state = json.loads((CC / "state.json").read_text(encoding="utf-8"))
 
     def test_full_required_sections_exist(self):
-        for section in ["today","pipeline","content","reader","controls","readiness","operations"]:
+        for section in ["today","pipeline","content","reader","controls","readiness","parity","operations"]:
             self.assertIn(f'id="{section}"', self.html)
         for heading in [
             "Publication pipeline","Six-story allocation","Images","Videos & podcasts","Watchlist",
             "Book bridges","Reader and Site","Manual controls","Production readiness","Schedule readiness",
+            "Command Center data parity","Legacy operational history","Private owner data",
             "Run history & timing","Source health","Incidents & recovery","Usage & cost","Reader engagement",
         ]:
             self.assertIn(heading, self.html)
@@ -89,8 +90,20 @@ class CommandCenterTests(unittest.TestCase):
         self.assertIn('state.json', self.js)
         self.assertIn('/branches/main', self.js)
         self.assertIn('manual-daily-brief.yml/runs', self.js)
+        self.assertIn('command-center-data-parity-validation.yml/runs', self.js)
         self.assertIn('Committed snapshot', self.js)
         self.assertIn('live metadata unavailable', self.js)
+
+    def test_data_parity_contract_is_public_safe_and_complete(self):
+        parity = self.state["data_parity"]
+        self.assertEqual(parity["required_domain_count"], 10)
+        self.assertEqual(parity["unresolved_required_families"], 0)
+        self.assertEqual(parity["privacy_leakage_defects"], 0)
+        self.assertEqual(parity["full_system_validation"], "NOT REQUESTED")
+        self.assertFalse(self.state["historical_data"]["private_values_included"])
+        self.assertFalse(self.state["private_owner_data"]["values_committed_to_repository"])
+        self.assertEqual(len(self.state["data_domains"]), 10)
+
 
     def test_snapshot_builder_sanitizes_private_identifiers(self):
         with tempfile.TemporaryDirectory() as td:

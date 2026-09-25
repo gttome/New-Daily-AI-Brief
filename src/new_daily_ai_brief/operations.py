@@ -427,6 +427,32 @@ class OperationsReconciliationPipeline:
                 "numeric_zero_is_distinct_from_missing": True,
                 "unknown_unavailable_suppressed_are_distinct": True,
             },
+            "operational_domains": {
+                "editorial_discovery": deepcopy(records["discovery"]["data"]),
+                "edition_content": deepcopy(edition),
+                "media_content": deepcopy(media),
+                "watchlist_content": deepcopy(watch),
+                "image_content": {
+                    "accepted_count": records["images"]["data"].get("accepted_count"),
+                    "quality_contract": deepcopy(records["images"]["data"].get("quality_contract")),
+                    "images": deepcopy(images),
+                },
+                "publication_infrastructure": {
+                    "publication_bundle": deepcopy(records["publication-bundle"]["data"]),
+                    "reader_render": deepcopy(records["reader-render"]["data"]),
+                    "route_manifest": deepcopy(records["route-manifest"]["data"]),
+                    "release_package": deepcopy(records["release-package"]["data"]),
+                    "live_verification": deepcopy(records["live-verification"]["data"]),
+                },
+                "artifact_provenance": {
+                    name: {
+                        "content_digest": records[name]["content_digest"],
+                        "schema_version": records[name]["schema_version"],
+                        "produced_by_stage": records[name].get("produced_by_stage"),
+                    }
+                    for name in self.CANONICAL_CHAIN
+                },
+            },
             "bounded_lifecycle": {
                 "state": "OperationsReconciled",
                 "completion_status": "operations_reconciled_locked",

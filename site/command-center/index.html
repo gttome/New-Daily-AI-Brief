@@ -22,7 +22,7 @@
   </div>
 </header>
 <nav class="section-nav" aria-label="Command Center sections">
-  <a href="#today">Today</a><a href="#pipeline">Pipeline</a><a href="#content">Content</a><a href="#reader">Reader</a><a href="#controls">Controls</a><a href="#readiness">Readiness</a><a href="#operations">Operations</a>
+  <a href="#today">Today</a><a href="#pipeline">Pipeline</a><a href="#content">Content</a><a href="#reader">Reader</a><a href="#controls">Controls</a><a href="#readiness">Readiness</a><a href="#parity">Data parity</a><a href="#operations">Operations</a>
 </nav>
 <main id="main">
   <section id="today" class="panel hero-panel" aria-labelledby="today-title">
@@ -58,6 +58,12 @@
   <section id="readiness" class="split-grid">
     <article class="panel" aria-labelledby="gates-title"><div class="section-heading"><div><p class="eyebrow">Production gates</p><h2 id="gates-title">Production readiness</h2></div><span id="readiness-pill" class="pill"></span></div><div id="readiness-list" class="gate-list"></div></article>
     <article class="panel schedule-panel" aria-labelledby="schedule-title"><div class="section-heading"><div><p class="eyebrow">Cutover constraint</p><h2 id="schedule-title">Schedule readiness</h2></div><span class="pill blocked">Blocked</span></div><div id="schedule-blocker" class="blocked-callout"></div><div id="schedule-list" class="compact-list"></div></article>
+  </section>
+
+  <section id="parity" class="split-grid">
+    <article class="panel" aria-labelledby="parity-title"><div class="section-heading"><div><p class="eyebrow">Data contract</p><h2 id="parity-title">Command Center data parity</h2></div><span id="parity-pill" class="pill"></span></div><div id="parity-metrics" class="metric-grid"></div><div id="parity-domains" class="compact-list"></div></article>
+    <article class="panel" aria-labelledby="history-parity-title"><div class="section-heading"><div><p class="eyebrow">Historical continuity</p><h2 id="history-parity-title">Legacy operational history</h2></div></div><div id="history-parity" class="compact-list"></div></article>
+    <article class="panel" aria-labelledby="private-data-title"><div class="section-heading"><div><p class="eyebrow">Owner-only boundary</p><h2 id="private-data-title">Private owner data</h2></div><span class="pill safe">Repository-safe</span></div><div id="private-owner-data" class="compact-list"></div></article>
   </section>
 
   <section id="operations" class="split-grid">

@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "command-center-legacy-history-index",
+  "legacy_repository": "gttome/Daily-AI-Brief",
+  "legacy_reference_sha": "4ac06268048a3241d2ecaa5ce7c2638266500d75",
+  "audited_at": "2026-09-24",
+  "preservation_mode": "immutable_reference_not_rewrite",
+  "private_values_included": false,
+  "families": {
+    "accessibility": {
+      "file_count": 12,
+      "first_path": "_records/accessibility/2026-09-07.json",
+      "last_path": "_records/accessibility/2026-09-18.json"
+    },
+    "analytics": {
+      "file_count": 18,
+      "first_path": "_records/analytics/2026-09-06.json",
+      "last_path": "_records/analytics/2026-09-23.json"
+    },
+    "attempts": {
+      "file_count": 12,
+      "first_path": "_records/attempts/2026-09-10/dab-attempt-2026-09-10-validation-20260910195426288.json",
+      "last_path": "_records/attempts/2026-09-19/dab-attempt-2026-09-19-publication-kernel-35458882398.json"
+    },
+    "command-center": {
+      "file_count": 2,
+      "first_path": "_records/command-center/2026-09-19-incident-and-recovery.json",
+      "last_path": "_records/command-center/2026-09-22-reconciliation.json"
+    },
+    "discovery-preflight": {
+      "file_count": 1,
+      "first_path": "_records/discovery-preflight/result/article-evidence-receipt.json",
+      "last_path": "_records/discovery-preflight/result/article-evidence-receipt.json"
+    },
+    "discovery": {
+      "file_count": 7,
+      "first_path": "_records/discovery/2026-09-11.json",
+      "last_path": "_records/discovery/2026-09-17.json"
+    },
+    "editorial-feedback": {
+      "file_count": 1,
+      "first_path": "_records/editorial-feedback/2026-09.json",
+      "last_path": "_records/editorial-feedback/2026-09.json"
+    },
+    "editorial-handoff": {
+      "file_count": 14,
+      "first_path": "_records/editorial-handoff/article-evidence.json",
+      "last_path": "_records/editorial-handoff/metadata-candidates.json"
+    },
+    "editorial-learning": {
+      "file_count": 1,
+      "first_path": "_records/editorial-learning/current.json",
+      "last_path": "_records/editorial-learning/current.json"
+    },
+    "editorial": {
+      "file_count": 43,
+      "first_path": "_records/editorial/candidates/2026-09-07.json",
+      "last_path": "_records/editorial/videos/2026-09-18.json"
+    },
+    "efficiency": {
+      "file_count": 12,
+      "first_path": "_records/efficiency/2026-09-15/dab-efficiency-2026-09-15-20260915t1305z-publication_generation.json",
+      "last_path": "_records/efficiency/2026-09-23/dab-efficiency-2026-09-23-kernel-35893259428-publication_generation.json"
+    },
+    "image-quality": {
+      "file_count": 11,
+      "first_path": "_records/image-quality/2026-09-10-premium3.json",
+      "last_path": "_records/image-quality/2026-09-19-professional-locked.json"
+    },
+    "images": {
+      "file_count": 2,
+      "first_path": "_records/images/2026-09-16/approval.json",
+      "last_path": "_records/images/2026-09-17/approval.json"
+    },
+    "ledgers": {
+      "file_count": 2,
+      "first_path": "_records/ledgers/README.md",
+      "last_path": "_records/ledgers/corrections.jsonl"
+    },
+    "operations": {
+      "file_count": 4,
+      "first_path": "_records/operations/2026-09-13-reader-operations.json",
+      "last_path": "_records/operations/eleven-items-live-qa.json"
+    },
+    "personal-feedback": {
+      "file_count": 1,
+      "first_path": "_records/personal-feedback/README.md",
+      "last_path": "_records/personal-feedback/README.md"
+    },
+    "publication": {
+      "file_count": 47,
+      "first_path": "_records/publication/2026-09-08/recovery-20260908.validated.json",
+      "last_path": "_records/publication/2026-09-23/kernel-35893259428.validated.json"
+    },
+    "qa-history": {
+      "file_count": 3,
+      "first_path": "_records/qa-history/2026-09-10-before-premium3.json",
+      "last_path": "_records/qa-history/2026-09-11/dab-qa-20260911T170740Z-7603da2f.json"
+    },
+    "qa": {
+      "file_count": 16,
+      "first_path": "_records/qa/2026-09-07.json",
+      "last_path": "_records/qa/2026-09-18.json"
+    },
+    "releases": {
+      "file_count": 14,
+      "first_path": "_records/releases/2026-09-10.json",
+      "last_path": "_records/releases/2026-09-23.json"
+    },
+    "source-reliability": {
+      "file_count": 2,
+      "first_path": "_records/source-reliability/2026-09-13-20260913052738926.json",
+      "last_path": "_records/source-reliability/2026-09-13-initial-observations.json"
+    },
+    "trends": {
+      "file_count": 17,
+      "first_path": "_records/trends/2026-09-07.json",
+      "last_path": "_records/trends/2026-09-23.json"
+    },
+    "watchlist-discovery": {
+      "file_count": 11,
+      "first_path": "_records/watchlist-discovery/2026-09-11-20260912020804186.json",
+      "last_path": "_records/watchlist-discovery/2026-09-18-20260918143107655.json"
+    },
+    "watchlist-sweeps": {
+      "file_count": 1,
+      "first_path": "_records/watchlist-sweeps/2026-09-23.json",
+      "last_path": "_records/watchlist-sweeps/2026-09-23.json"
+    },
+    "watchlist": {
+      "file_count": 9,
+      "first_path": "_records/watchlist/2026-09-12-20260912020804109758.json",
+      "last_path": "_records/watchlist/2026-09-19-20260919170907447.json"
+    }
+  }
+}
