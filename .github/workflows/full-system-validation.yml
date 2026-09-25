@@ -46,6 +46,9 @@ jobs:
 
       - name: Initialize evidence
         shell: bash
+        env:
+          FSV_REASON: ${{ inputs.reason }}
+          FSV_SUITE: ${{ inputs.suite }}
         run: |
           set -euo pipefail
           mkdir -p "evidence/full-system-validation/${GITHUB_RUN_ID}"
@@ -56,8 +59,8 @@ jobs:
           p.write_text(json.dumps({
               "run_id": os.environ["GITHUB_RUN_ID"],
               "tested_sha": subprocess.check_output(["git","rev-parse","HEAD"], text=True).strip(),
-              "reason": """${{ inputs.reason }}""",
-              "requested_suite": "${{ inputs.suite }}",
+              "reason": os.environ["FSV_REASON"],
+              "requested_suite": os.environ["FSV_SUITE"],
               "workflow": "Full System Validation",
               "production_mutation": False,
               "test_inventory": [
@@ -98,16 +101,19 @@ jobs:
       - name: Final evidence metadata
         if: always()
         shell: bash
+        env:
+          FSV_REASON: ${{ inputs.reason }}
+          FSV_SUITE: ${{ inputs.suite }}
         run: |
           python - <<'PY'
-          import datetime as dt, json, os
+          import datetime as dt, json, os, subprocess
           from pathlib import Path
           p=Path("evidence/full-system-validation") / os.environ["GITHUB_RUN_ID"] / "run-metadata.json"
           p.write_text(json.dumps({
               "completed_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
-              "tested_sha": os.environ["GITHUB_SHA"],
-              "requested_suite": "${{ inputs.suite }}",
-              "reason": """${{ inputs.reason }}""",
+              "tested_sha": subprocess.check_output(["git","rev-parse","HEAD"], text=True).strip(),
+              "requested_suite": os.environ["FSV_SUITE"],
+              "reason": os.environ["FSV_REASON"],
               "production_mutation": False
           }, indent=2) + "\n", encoding="utf-8")
           PY
