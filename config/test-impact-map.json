@@ -113,10 +113,14 @@
         "scripts/build_reader_bundle.py",
         "scripts/validate_reader_bundle.py",
         "scripts/validate_live_reader_candidate.py",
-        ".github/workflows/deploy-iteration32-test.yml"
+        ".github/workflows/deploy-iteration32-test.yml",
+        "migration/watchlist-current/**",
+        "src/new_daily_ai_brief/watchlist_live.py",
+        "tests/test_watchlist_repair.py"
       ],
       "development_suites": [
-        "reader-runtime"
+        "reader-runtime",
+        "watchlist-repair"
       ],
       "integration_suites": [
         "reader-access"
@@ -153,10 +157,18 @@
         "scripts/build_live_edition.py",
         "scripts/manual_canonical_run.py",
         "scripts/patch_publication_adapter.py",
-        ".github/workflows/manual-daily-brief.yml"
+        ".github/workflows/manual-daily-brief.yml",
+        "scripts/prepare_live_watchlist_review.py",
+        "scripts/fetch_live_watchlist_baseline.py",
+        "scripts/prepare_watchlist_repair_inputs.py",
+        "scripts/repair_locked_watchlist.py",
+        "src/new_daily_ai_brief/watchlist_live.py",
+        "evidence/watchlist/**",
+        "tests/test_watchlist_repair.py"
       ],
       "development_suites": [
-        "manual-publication-compile"
+        "manual-publication-compile",
+        "watchlist-repair"
       ],
       "integration_suites": [
         "manual-publication-integration",
@@ -937,7 +949,11 @@
         "scripts/prepare_live_operational_inputs.py",
         "scripts/build_live_edition.py",
         "scripts/validate_live_reader_candidate.py",
-        "scripts/manual_canonical_run.py"
+        "scripts/manual_canonical_run.py",
+        "scripts/prepare_live_watchlist_review.py",
+        "scripts/fetch_live_watchlist_baseline.py",
+        "scripts/prepare_watchlist_repair_inputs.py",
+        "scripts/repair_locked_watchlist.py"
       ]
     },
     "manual-publication-integration": {
@@ -1489,6 +1505,21 @@
       "command": [
         "{python}",
         "tests/test_command_center_v2.py"
+      ]
+    },
+    "watchlist-repair": {
+      "level": "development",
+      "description": "Current-date Watchlist evidence, canonical binding, presentation ownership, and stale-data regression tests.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_watchlist_repair.py",
+        "-v"
       ]
     }
   }
