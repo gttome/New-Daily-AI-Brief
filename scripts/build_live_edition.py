@@ -11,6 +11,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit, urlunsplit
 
+from new_daily_ai_brief.watchlist_live import public_watchlist_from_canonical
+
 TECHNICAL = "technical_ai_engineering"
 APPLIED = "applied_genai_knowledge_workers"
 AGENTS = "agents_non_technical_people"
@@ -366,34 +368,12 @@ def build_media(edition_date: str, media: dict[str, Any]) -> tuple[dict[str, Any
     return worth, podcast_out, video_out
 
 
-def update_watchlist(runtime_root: Path, edition_date: str, cutoff: str, operational: dict[str, Any], stories: list[dict[str, Any]]) -> None:
-    path = runtime_root / "_data" / "watchlist.json"
-    data = load(path)
-    data["edition_date"] = edition_date
-    data["updated_at"] = cutoff
-    updated_ids = set((operational.get("watchlist") or {}).get("updated_today") or [])
-    story_by_terms = [(story, set(re.findall(r"[a-z0-9][a-z0-9-]{3,}", (story["headline"] + " " + story["summary"]).lower()))) for story in stories]
-    for topic in data.get("topics", []):
-        if topic.get("topic_id") not in updated_ids:
-            continue
-        topic["updated_at"] = cutoff
-        topic_terms = set(re.findall(r"[a-z0-9][a-z0-9-]{3,}", " ".join(str(topic.get(k, "")) for k in ("name","summary","why_now")).lower()))
-        best = max(story_by_terms, key=lambda pair: len(pair[1] & topic_terms), default=(None, set()))[0]
-        if best:
-            evidence = topic.setdefault("evidence", [])
-            if not any(x.get("url") == best["source"]["url"] for x in evidence):
-                evidence.append({
-                    "title": best["headline"],
-                    "url": best["source"]["url"],
-                    "publisher": best["source"]["organization"],
-                    "kind": "primary",
-                    "publication_date": best["source"]["publication_date"],
-                    "checked_at": cutoff,
-                    "development_id": f"daily-brief-{best['story_id']}",
-                    "review_depth": "full source retrieved in bounded live editorial evidence packet",
-                })
-    dump(path, data)
-
+def update_watchlist(runtime_root: Path, edition_date: str, canonical_watchlist: dict[str, Any]) -> None:
+    public = public_watchlist_from_canonical(canonical_watchlist)
+    if public.get("edition_date") != edition_date:
+        raise SystemExit("canonical Watchlist edition date does not match live edition")
+    dump(runtime_root / "_data" / "watchlist.json", public)
+    dump(runtime_root / "data" / "watchlist.json", public)
 
 def update_book_reading(runtime_root: Path, edition_date: str, build_root: Path, stories: list[dict[str, Any]]) -> None:
     path = runtime_root / "_data" / "book-reading.json"
@@ -580,7 +560,7 @@ def main() -> int:
 
     review_path = runtime_root / "_records" / "image-quality" / f"{args.edition_date}-greenfield-handoff.json"
     dump(review_path, handoff)
-    update_watchlist(runtime_root, args.edition_date, cutoff, operational, stories)
+    update_watchlist(runtime_root, args.edition_date, canonical_watchlist)
     update_book_reading(runtime_root, args.edition_date, input_root / "build", stories)
     write_media_preflight(runtime_root, args.edition_date, cutoff, edition, media, video_out)
 
