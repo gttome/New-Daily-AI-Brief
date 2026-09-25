@@ -99,26 +99,29 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf .repair-runtime-source .repair-publication-stage .repair-runtime-site .repair-preview-site
+          rm -rf .repair-runtime-source .repair-runtime-site .repair-preview-site
           cp -a legacy_snapshot .repair-runtime-source
-          python scripts/patch_publication_adapter.py --adapter-root .repair-runtime-source
-          PYTHONPATH=src python scripts/build_live_edition.py \
-            --edition-date 2026-09-24 \
-            --input-root .repair-artifact/.runtime-inputs/2026-09-24 \
-            --state-root .repair-artifact/.state/manual \
-            --runtime-root .repair-runtime-source \
-            --approved-image-manifest approved-images/2026-09-24/approved-image-manifest.json \
-            --approved-image-root .
-          observed="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          node .repair-runtime-source/_generator/cli.mjs generate \
-            --root .repair-runtime-source \
-            --edition .repair-runtime-source/_data/editions/2026-09-24.json \
-            --out .repair-publication-stage \
-            --baseline-sha "$GITHUB_SHA" \
-            --observed-at "$observed" \
-            --run-id greenfield-watchlist-repair-2026-09-24 \
-            --image-review _records/image-quality/2026-09-24-greenfield-handoff.json
-          cp -a .repair-publication-stage/. .repair-runtime-source/
+          cp -a .repair-artifact/.publication-stage/. .repair-runtime-source/
+          PYTHONPATH=src python - <<'PY'
+          import json
+          from pathlib import Path
+          from new_daily_ai_brief.watchlist_live import public_watchlist_from_canonical
+
+          canonical_path=Path(".repair-artifact/.state/manual/2026-09-24__production/watchlist.json")
+          canonical=json.loads(canonical_path.read_text(encoding="utf-8"))
+          public=public_watchlist_from_canonical(canonical)
+          root=Path(".repair-runtime-source")
+          for rel in ("_data/watchlist.json", "data/watchlist.json"):
+              path=root/rel
+              path.parent.mkdir(parents=True, exist_ok=True)
+              path.write_text(json.dumps(public, indent=2, ensure_ascii=False)+"\n", encoding="utf-8")
+          print(json.dumps({
+              "edition_date": public["edition_date"],
+              "counts": public["counts"],
+              "canonical_watchlist_digest": public["canonical_watchlist_digest"],
+              "reused_publication_stage": True,
+          }, sort_keys=True))
+          PY
 
       - name: Build and validate Site-ready repaired reader
         shell: bash
