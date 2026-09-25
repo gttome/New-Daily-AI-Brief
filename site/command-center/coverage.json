@@ -1,1 +1,10 @@
-{"contract_mapping":"10 domains","deployed_passed":0,"live_passed":0,"total":69,"status":"Acceptance in progress; no parity claim"}
+{
+  "contract_mapping": "10 domains / 30 families; mapping only",
+  "deployed_passed": 52,
+  "live_passed": 48,
+  "total": 69,
+  "intentional_exclusions_preserved": 4,
+  "partial": 13,
+  "status": "Partial closure; see function-ledger.json",
+  "ledger_url": "https://github.com/gttome/New-Daily-AI-Brief/blob/main/evidence/command-center/function-ledger.json"
+}

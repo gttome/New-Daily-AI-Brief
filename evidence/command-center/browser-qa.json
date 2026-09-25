@@ -1,0 +1,48 @@
+{
+  "checked_at": "2026-09-25T04:47:34.425229+00:00",
+  "surface": "Managed preview of deployed source; cloud browser cannot navigate live Sites URLs",
+  "desktop": {
+    "viewport": 1363,
+    "body_client_width": 1348,
+    "body_scroll_width": 1348
+  },
+  "mobile": {
+    "iframe_width": 390,
+    "body_client_width": 375,
+    "body_scroll_width": 375
+  },
+  "areas_checked": [
+    "Candidates & Story Memory",
+    "Media & image history",
+    "Book Change Proposals",
+    "Watchlist research & reviews",
+    "Source diagnostics",
+    "QA & reader health",
+    "Incidents & corrections",
+    "Edition archive",
+    "Production effort & efficiency",
+    "Reader feedback & retention",
+    "Editorial learning & Trend Radar",
+    "Audience & subscriptions",
+    "Component health",
+    "Automation evidence",
+    "Exact evidence explorer"
+  ],
+  "interactions": {
+    "proposal_save_readback": "PASS preview and anonymous live",
+    "watchlist_save_reopen": "PASS preview",
+    "comment_save_readback": "PASS preview revision1",
+    "retention_verify": "PASS preview receipt read-back imported scope only",
+    "empty_filters": "PASS",
+    "keyboard_arrow_tabs": "PASS",
+    "dialog_escape": "PASS",
+    "focus_visibility": "PASS visual",
+    "concurrent_draft_conflict": "PASS desktop write then mobile409; draft retained",
+    "partial_refresh": "PASS sources unavailable; saved state retained",
+    "manual_controls": "11 canonical/contextual controls inspected; no production dispatch"
+  },
+  "limitations": [
+    "Live desktop/390px browser rendering unavailable from the managed browser; anonymous live HTTP verifies HTML/assets/API and production logs verify unauthenticated requests",
+    "Latest canonical artifact lacks post-build completion telemetry; current QA is not inferred"
+  ]
+}

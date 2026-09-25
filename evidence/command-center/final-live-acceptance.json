@@ -1,0 +1,1516 @@
+{
+  "anonymous": true,
+  "credentials_used": false,
+  "checked_at": "2026-09-25T04:49:03.170717+00:00",
+  "checks": [
+    {
+      "path": "/api/cc/v1/health",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/cc/v1/feedback?edition=2026-09-24&limit=1",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/cc/v1/watchlist?edition=2026-09-24&limit=1",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/cc/v1/components?edition=2026-09-24&limit=1",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/cc/v1/automation?edition=2026-09-24&limit=1",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/cc/v1/watchlist?q=watchlist&limit=100",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/cc/v1/watchlist/dab-topic-adaptive-agent-safeguards/reviews",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/cc/v1/evidence?id=dab-topic-adaptive-agent-safeguards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/cc/v1/feedback?q=comments&limit=100",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/cc/v1/comments/5a68f48d-1402-4395-8461-e49910a732ef/reviews",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/cc/v1/evidence?id=5a68f48d-1402-4395-8461-e49910a732ef",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/cc/v1/book-proposals?status=Pending%20review&limit=100",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/cc/v1/book-proposals/book-change%3A1c31df1a8377ce13085a/revisions",
+      "method": "POST",
+      "status": 400
+    },
+    {
+      "path": "/api/cc/v1/book-proposals/book-change%3A1c31df1a8377ce13085a/revisions",
+      "method": "POST",
+      "status": 403
+    },
+    {
+      "path": "/api/cc/v1/book-proposals/book-change%3A1c31df1a8377ce13085a/revisions",
+      "method": "POST",
+      "status": 413
+    }
+  ],
+  "live_signals": {
+    "edition_date": "2026-09-24",
+    "observed_at": "2026-09-25T04:49:15.390Z",
+    "items": [
+      {
+        "item_id": "dab-story-2026-09-24-906dd6ad",
+        "title": "Node 20 is no longer available in GitHub Actions",
+        "edition_date": "2026-09-24",
+        "ratings": {},
+        "events": {},
+        "stars": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "rating_count": 0,
+        "mean": null,
+        "views": 0,
+        "source_clicks": 0,
+        "shares": 0,
+        "availability": "available",
+        "source_ref": "https://ndaib.gtome.chatgpt.site/api/ratings?brief_date=2026-09-24&item_id=dab-story-2026-09-24-906dd6ad",
+        "coverage": "Native reader aggregate since its deployment; separate from legacy totals; no cross-source addition"
+      },
+      {
+        "item_id": "dab-story-2026-09-24-90912ec5",
+        "title": "Validate GPU Cluster Readiness Before AI Workloads Land",
+        "edition_date": "2026-09-24",
+        "ratings": {},
+        "events": {},
+        "stars": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "rating_count": 0,
+        "mean": null,
+        "views": 0,
+        "source_clicks": 0,
+        "shares": 0,
+        "availability": "available",
+        "source_ref": "https://ndaib.gtome.chatgpt.site/api/ratings?brief_date=2026-09-24&item_id=dab-story-2026-09-24-90912ec5",
+        "coverage": "Native reader aggregate since its deployment; separate from legacy totals; no cross-source addition"
+      },
+      {
+        "item_id": "dab-story-2026-09-24-63a2ad41",
+        "title": "More ways to request and configure Copilot code reviews",
+        "edition_date": "2026-09-24",
+        "ratings": {},
+        "events": {},
+        "stars": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "rating_count": 0,
+        "mean": null,
+        "views": 0,
+        "source_clicks": 0,
+        "shares": 0,
+        "availability": "available",
+        "source_ref": "https://ndaib.gtome.chatgpt.site/api/ratings?brief_date=2026-09-24&item_id=dab-story-2026-09-24-63a2ad41",
+        "coverage": "Native reader aggregate since its deployment; separate from legacy totals; no cross-source addition"
+      },
+      {
+        "item_id": "dab-story-2026-09-24-dddd1a2e",
+        "title": "Building the system for AI at work",
+        "edition_date": "2026-09-24",
+        "ratings": {},
+        "events": {},
+        "stars": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "rating_count": 0,
+        "mean": null,
+        "views": 0,
+        "source_clicks": 0,
+        "shares": 0,
+        "availability": "available",
+        "source_ref": "https://ndaib.gtome.chatgpt.site/api/ratings?brief_date=2026-09-24&item_id=dab-story-2026-09-24-dddd1a2e",
+        "coverage": "Native reader aggregate since its deployment; separate from legacy totals; no cross-source addition"
+      },
+      {
+        "item_id": "dab-story-2026-09-24-4aa18653",
+        "title": "Evaluate skill-equipped agents with Strands Evals and Amazon Bedrock AgentCore",
+        "edition_date": "2026-09-24",
+        "ratings": {},
+        "events": {},
+        "stars": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "rating_count": 0,
+        "mean": null,
+        "views": 0,
+        "source_clicks": 0,
+        "shares": 0,
+        "availability": "available",
+        "source_ref": "https://ndaib.gtome.chatgpt.site/api/ratings?brief_date=2026-09-24&item_id=dab-story-2026-09-24-4aa18653",
+        "coverage": "Native reader aggregate since its deployment; separate from legacy totals; no cross-source addition"
+      },
+      {
+        "item_id": "dab-story-2026-09-24-cca310b8",
+        "title": "Build a multi-account AI agent with AgentCore Gateway and MCP",
+        "edition_date": "2026-09-24",
+        "ratings": {},
+        "events": {},
+        "stars": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "rating_count": 0,
+        "mean": null,
+        "views": 0,
+        "source_clicks": 0,
+        "shares": 0,
+        "availability": "available",
+        "source_ref": "https://ndaib.gtome.chatgpt.site/api/ratings?brief_date=2026-09-24&item_id=dab-story-2026-09-24-cca310b8",
+        "coverage": "Native reader aggregate since its deployment; separate from legacy totals; no cross-source addition"
+      },
+      {
+        "item_id": "dab-video-2026-09-24-agent-skills",
+        "title": "Are developers mourning the craft of coding in the AI era?",
+        "edition_date": "2026-09-24",
+        "ratings": {},
+        "events": {
+          "source_clicks": 1,
+          "worth_watching_clicks": 1
+        },
+        "stars": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "rating_count": 0,
+        "mean": null,
+        "views": 0,
+        "source_clicks": 1,
+        "shares": 0,
+        "availability": "available",
+        "source_ref": "https://ndaib.gtome.chatgpt.site/api/ratings?brief_date=2026-09-24&item_id=dab-video-2026-09-24-agent-skills",
+        "coverage": "Native reader aggregate since its deployment; separate from legacy totals; no cross-source addition"
+      },
+      {
+        "item_id": "dab-video-2026-09-24-general",
+        "title": "Today\u2019s forecast? Nothing but 80s, baby.",
+        "edition_date": "2026-09-24",
+        "ratings": {},
+        "events": {
+          "source_clicks": 1,
+          "worth_watching_clicks": 1
+        },
+        "stars": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "rating_count": 0,
+        "mean": null,
+        "views": 0,
+        "source_clicks": 1,
+        "shares": 0,
+        "availability": "available",
+        "source_ref": "https://ndaib.gtome.chatgpt.site/api/ratings?brief_date=2026-09-24&item_id=dab-video-2026-09-24-general",
+        "coverage": "Native reader aggregate since its deployment; separate from legacy totals; no cross-source addition"
+      },
+      {
+        "item_id": "dab-podcast-2026-09-24-bbc10ca8",
+        "title": "Opus 5.5 is our favorite AI model (so far).",
+        "edition_date": "2026-09-24",
+        "ratings": {},
+        "events": {},
+        "stars": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "rating_count": 0,
+        "mean": null,
+        "views": 0,
+        "source_clicks": 0,
+        "shares": 0,
+        "availability": "available",
+        "source_ref": "https://ndaib.gtome.chatgpt.site/api/ratings?brief_date=2026-09-24&item_id=dab-podcast-2026-09-24-bbc10ca8",
+        "coverage": "Native reader aggregate since its deployment; separate from legacy totals; no cross-source addition"
+      },
+      {
+        "item_id": "dab-podcast-2026-09-24-53e5ade6",
+        "title": "#241: Pacing the Frontier Gets Political, Why AI Labs Could Keep the Best Models for Themselves & Introducing the AI Transformation Blueprint",
+        "edition_date": "2026-09-24",
+        "ratings": {},
+        "events": {},
+        "stars": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "rating_count": 0,
+        "mean": null,
+        "views": 0,
+        "source_clicks": 0,
+        "shares": 0,
+        "availability": "available",
+        "source_ref": "https://ndaib.gtome.chatgpt.site/api/ratings?brief_date=2026-09-24&item_id=dab-podcast-2026-09-24-53e5ade6",
+        "coverage": "Native reader aggregate since its deployment; separate from legacy totals; no cross-source addition"
+      }
+    ],
+    "watchlist_interest": [
+      {
+        "topic_id": "dab-topic-collaborative-vibe-coding",
+        "title": "Collaborative vibe coding",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      },
+      {
+        "topic_id": "dab-topic-repairable-generative-design",
+        "title": "Repairable AI-generated 3D designs",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      },
+      {
+        "topic_id": "dab-topic-image-edit-restoration",
+        "title": "Restoring images after repeated AI edits",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      },
+      {
+        "topic_id": "dab-topic-adaptive-agent-safeguards",
+        "title": "Agent safeguards tailored to the task",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      },
+      {
+        "topic_id": "dab-topic-concept-level-language-models",
+        "title": "Language models that also predict concepts",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      },
+      {
+        "topic_id": "dab-topic-memory-guided-planning",
+        "title": "Turning agent memory into compact plans",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      },
+      {
+        "topic_id": "dab-topic-recursive-scene-programs",
+        "title": "Building 3D worlds through recursive code",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      },
+      {
+        "topic_id": "dab-topic-selective-precision-attention",
+        "title": "Smaller model memory through selective precision",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      },
+      {
+        "topic_id": "dab-topic-agent-skills-observability",
+        "title": "Reusable agent skills become observable",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      },
+      {
+        "topic_id": "dab-topic-long-horizon-agents",
+        "title": "Agents that persist across sessions",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      },
+      {
+        "topic_id": "dab-topic-ai-adoption-telemetry",
+        "title": "AI adoption measured at the feature level",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      },
+      {
+        "topic_id": "dab-topic-harness-engineering",
+        "title": "AI harness engineering becomes a first-class layer",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      },
+      {
+        "topic_id": "dab-topic-agentic-edge-inference",
+        "title": "Agentic workloads move toward measured edge inference",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      },
+      {
+        "topic_id": "dab-topic-model-lifecycle-governance",
+        "title": "Model lifecycle governance for AI products",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      },
+      {
+        "topic_id": "dab-topic-agent-overclaiming",
+        "title": "Agents that overclaim task completion",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      },
+      {
+        "topic_id": "dab-topic-system-one-decision-models",
+        "title": "Decision models emerge as a separate AI systems layer",
+        "very": 0,
+        "somewhat": 0,
+        "not_interested": 0,
+        "coverage": "Complete native aggregate query; empty groups are measured zero"
+      }
+    ],
+    "availability": "available"
+  },
+  "components": [
+    {
+      "name": "Publisher",
+      "dependencies": [
+        "Reader QA",
+        "Media",
+        "Images"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-24",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "publication:cb2fe7872b96bccfa64689b3",
+          "url": "/api/cc/v1/evidence?id=publication%3Acb2fe7872b96bccfa64689b3"
+        }
+      ]
+    },
+    {
+      "name": "Ranker",
+      "dependencies": [
+        "Sources"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-24",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "live-4aa18653035bc8a3",
+          "url": "/api/cc/v1/evidence?id=live-4aa18653035bc8a3"
+        },
+        {
+          "id": "live-63a2ad410a3d1bd1",
+          "url": "/api/cc/v1/evidence?id=live-63a2ad410a3d1bd1"
+        },
+        {
+          "id": "live-906dd6ad8541fe08",
+          "url": "/api/cc/v1/evidence?id=live-906dd6ad8541fe08"
+        }
+      ]
+    },
+    {
+      "name": "Story Memory",
+      "dependencies": [
+        "Ranker"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-24",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "story-memory:940423322f5190a53d8b3ac4",
+          "url": "/api/cc/v1/evidence?id=story-memory%3A940423322f5190a53d8b3ac4"
+        }
+      ]
+    },
+    {
+      "name": "Sources",
+      "dependencies": [],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-24",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "sources:40cb9e45a6e0aca3c1694eda",
+          "url": "/api/cc/v1/evidence?id=sources%3A40cb9e45a6e0aca3c1694eda"
+        },
+        {
+          "id": "sources:1a599bdf2c9857edf87df494",
+          "url": "/api/cc/v1/evidence?id=sources%3A1a599bdf2c9857edf87df494"
+        }
+      ]
+    },
+    {
+      "name": "Media",
+      "dependencies": [
+        "Sources"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-24",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "media:558c20166789e5eaa5688705",
+          "url": "/api/cc/v1/evidence?id=media%3A558c20166789e5eaa5688705"
+        },
+        {
+          "id": "media:2b351b094e895b349a599195",
+          "url": "/api/cc/v1/evidence?id=media%3A2b351b094e895b349a599195"
+        },
+        {
+          "id": "media:c3f9306354f418d149bf7308",
+          "url": "/api/cc/v1/evidence?id=media%3Ac3f9306354f418d149bf7308"
+        }
+      ]
+    },
+    {
+      "name": "Images",
+      "dependencies": [
+        "Ranker"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-24",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "images:15ea1596b7262fe15964f691",
+          "url": "/api/cc/v1/evidence?id=images%3A15ea1596b7262fe15964f691"
+        }
+      ]
+    },
+    {
+      "name": "Reader QA",
+      "dependencies": [
+        "Media",
+        "Images"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-18",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "qa:2d82d29f2d2abc4455df4046",
+          "url": "/api/cc/v1/evidence?id=qa%3A2d82d29f2d2abc4455df4046"
+        }
+      ]
+    },
+    {
+      "name": "Accessibility",
+      "dependencies": [
+        "Reader QA"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-18",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "accessibility:db2e79d00888d0c7fbf5af6b",
+          "url": "/api/cc/v1/evidence?id=accessibility%3Adb2e79d00888d0c7fbf5af6b"
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "dependencies": [
+        "Reader"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-24",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "native-feedback:ab105b85f147837a70f78558",
+          "url": "/api/cc/v1/evidence?id=native-feedback%3Aab105b85f147837a70f78558"
+        },
+        {
+          "id": "native-feedback:729f57061c970cf9e500b920",
+          "url": "/api/cc/v1/evidence?id=native-feedback%3A729f57061c970cf9e500b920"
+        },
+        {
+          "id": "native-feedback:1dc9d10e7cdb3c274a43f7c2",
+          "url": "/api/cc/v1/evidence?id=native-feedback%3A1dc9d10e7cdb3c274a43f7c2"
+        }
+      ]
+    },
+    {
+      "name": "Editorial Learning",
+      "dependencies": [
+        "Analytics"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": null,
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "learning:951d3748064453c71524b440",
+          "url": "/api/cc/v1/evidence?id=learning%3A951d3748064453c71524b440"
+        },
+        {
+          "id": "learning:39addcc5a6bd5248ace3dde6",
+          "url": "/api/cc/v1/evidence?id=learning%3A39addcc5a6bd5248ace3dde6"
+        }
+      ]
+    },
+    {
+      "name": "Trend Radar",
+      "dependencies": [
+        "Sources",
+        "Analytics"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-23",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "trends:68b904a5605ce70e92367847",
+          "url": "/api/cc/v1/evidence?id=trends%3A68b904a5605ce70e92367847"
+        }
+      ]
+    },
+    {
+      "name": "Canonical workflow",
+      "dependencies": [],
+      "status": "success",
+      "last_verified_at": "2026-09-25T04:49:24.629Z",
+      "last_run_id": 36051784007,
+      "source_sha": "4a0faf7bc3637bab7d27ee95bfa0dc542e0f958c",
+      "known_issue": null,
+      "evidence": [
+        {
+          "url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051784007"
+        }
+      ],
+      "history": [
+        {
+          "id": 36051784007,
+          "head_sha": "4a0faf7bc3637bab7d27ee95bfa0dc542e0f958c",
+          "name": "Manual Daily Brief \u2014 canonical greenfield run",
+          "display_title": "Preserve validated Site bundle in canonical artifact",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T19:58:55Z",
+          "created_at": "2026-09-24T19:58:55Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051784007",
+          "completed_at": "2026-09-24T19:59:46Z"
+        },
+        {
+          "id": 36051440661,
+          "head_sha": "447e379f96b54e513ef760b0351b9d14020a5509",
+          "name": "Manual Daily Brief \u2014 canonical greenfield run",
+          "display_title": "Align podcast freshness validation with verified timestamps",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T19:55:45Z",
+          "created_at": "2026-09-24T19:55:45Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051440661",
+          "completed_at": "2026-09-24T19:56:34Z"
+        },
+        {
+          "id": 36050849676,
+          "head_sha": "2ff3ccc377ff0c6ab14f5f4d1e1d5bc1df029a9c",
+          "name": "Manual Daily Brief \u2014 canonical greenfield run",
+          "display_title": "Resume canonical Brief after approved image lock",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_started_at": "2026-09-24T19:50:28Z",
+          "created_at": "2026-09-24T19:50:28Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36050849676",
+          "completed_at": "2026-09-24T19:51:09Z"
+        },
+        {
+          "id": 36047086258,
+          "head_sha": "d78aca36acc6f21f6dfa8e7504a7470267703db4",
+          "name": "Manual Daily Brief \u2014 canonical greenfield run",
+          "display_title": "Manual Daily Brief \u2014 canonical greenfield run",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T19:17:04Z",
+          "created_at": "2026-09-24T19:17:04Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36047086258",
+          "completed_at": "2026-09-24T19:18:04Z"
+        },
+        {
+          "id": 36045398568,
+          "head_sha": "9a1cb16642bc60ba4b05cdbb91e8b2517afcb528",
+          "name": "Manual Daily Brief \u2014 canonical greenfield run",
+          "display_title": "Manual Daily Brief \u2014 canonical greenfield run",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_started_at": "2026-09-24T19:02:25Z",
+          "created_at": "2026-09-24T19:02:25Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36045398568",
+          "completed_at": "2026-09-24T19:03:32Z"
+        },
+        {
+          "id": 35948475648,
+          "head_sha": "3b839ba2fbdb012b5e42501adfc70e4c606b160e",
+          "name": "Manual Daily Brief \u2014 canonical greenfield run",
+          "display_title": "Manual Daily Brief \u2014 canonical greenfield run",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_started_at": "2026-09-24T02:43:50Z",
+          "created_at": "2026-09-24T02:43:50Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/35948475648",
+          "completed_at": "2026-09-24T02:44:26Z"
+        }
+      ]
+    },
+    {
+      "name": "CI",
+      "dependencies": [],
+      "status": "success",
+      "last_verified_at": "2026-09-25T04:49:24.629Z",
+      "last_run_id": 36093938004,
+      "source_sha": "5b094f02bd65dad28819a58b5d16824ce6bb6fe0",
+      "known_issue": null,
+      "evidence": [
+        {
+          "url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36093938004"
+        }
+      ],
+      "history": [
+        {
+          "id": 36093938004,
+          "head_sha": "5b094f02bd65dad28819a58b5d16824ce6bb6fe0",
+          "name": "Greenfield Contracts",
+          "display_title": "Implement public Command Center runtime, review persistence and histo\u2026",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-25T04:18:50Z",
+          "created_at": "2026-09-25T04:18:50Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36093938004"
+        },
+        {
+          "id": 36082891607,
+          "head_sha": "ffae7b31e3cd7f86428ab4811245cabe0eed7a9c",
+          "name": "Greenfield Contracts",
+          "display_title": "Record Command Center data parity closure",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-25T01:38:20Z",
+          "created_at": "2026-09-25T01:38:20Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36082891607"
+        },
+        {
+          "id": 36082816200,
+          "head_sha": "dcef72e07c02a020c8ec8d1d74644328ede7c3d8",
+          "name": "Greenfield Contracts",
+          "display_title": "Merge PR #116: Command Center data parity architecture",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-25T01:37:16Z",
+          "created_at": "2026-09-25T01:37:16Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36082816200"
+        },
+        {
+          "id": 36080204626,
+          "head_sha": "2755d6ed42f2f95c7c2f4f3844748959a9cb3adf",
+          "name": "Greenfield Contracts",
+          "display_title": "Merge testing architecture revision closure",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-25T01:01:49Z",
+          "created_at": "2026-09-25T01:01:49Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36080204626"
+        },
+        {
+          "id": 36078359442,
+          "head_sha": "90a0324729d00e21deccc3b4d3549be6fe512b87",
+          "name": "Greenfield Contracts",
+          "display_title": "Merge reader preview change-impact gating",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-25T00:37:03Z",
+          "created_at": "2026-09-25T00:37:03Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36078359442"
+        }
+      ]
+    },
+    {
+      "name": "Reader Parity",
+      "dependencies": [],
+      "status": "success",
+      "last_verified_at": "2026-09-25T04:49:24.629Z",
+      "last_run_id": 36051784095,
+      "source_sha": "4a0faf7bc3637bab7d27ee95bfa0dc542e0f958c",
+      "known_issue": null,
+      "evidence": [
+        {
+          "url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051784095"
+        }
+      ],
+      "history": [
+        {
+          "id": 36051784095,
+          "head_sha": "4a0faf7bc3637bab7d27ee95bfa0dc542e0f958c",
+          "name": "Reader Parity Validation",
+          "display_title": "Preserve validated Site bundle in canonical artifact",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T19:58:55Z",
+          "created_at": "2026-09-24T19:58:55Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051784095"
+        },
+        {
+          "id": 36051440791,
+          "head_sha": "447e379f96b54e513ef760b0351b9d14020a5509",
+          "name": "Reader Parity Validation",
+          "display_title": "Align podcast freshness validation with verified timestamps",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T19:55:45Z",
+          "created_at": "2026-09-24T19:55:45Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051440791"
+        },
+        {
+          "id": 36050849701,
+          "head_sha": "2ff3ccc377ff0c6ab14f5f4d1e1d5bc1df029a9c",
+          "name": "Reader Parity Validation",
+          "display_title": "Resume canonical Brief after approved image lock",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T19:50:28Z",
+          "created_at": "2026-09-24T19:50:28Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36050849701"
+        },
+        {
+          "id": 36046706826,
+          "head_sha": "d78aca36acc6f21f6dfa8e7504a7470267703db4",
+          "name": "Reader Parity Validation",
+          "display_title": "Repair September 24 podcast feed discovery",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T19:13:46Z",
+          "created_at": "2026-09-24T19:13:46Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36046706826"
+        },
+        {
+          "id": 35953552591,
+          "head_sha": "a23992f94eda864455501dcd67b51d27ed2192b8",
+          "name": "Reader Parity Validation",
+          "display_title": "Merge pull request #103 from gttome/repair/sep23-reader-qa-20260924",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T03:56:47Z",
+          "created_at": "2026-09-24T03:56:47Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/35953552591"
+        }
+      ]
+    },
+    {
+      "name": "Data Parity",
+      "dependencies": [],
+      "status": "unavailable",
+      "last_verified_at": "2026-09-25T04:49:24.629Z",
+      "last_run_id": null,
+      "source_sha": null,
+      "known_issue": null,
+      "evidence": [],
+      "history": []
+    },
+    {
+      "name": "Reader",
+      "dependencies": [
+        "Publisher"
+      ],
+      "status": "available",
+      "last_verified_at": "2026-09-25T04:49:24.629Z",
+      "known_issue": null,
+      "evidence": [
+        {
+          "url": "https://ndaib.gtome.chatgpt.site/",
+          "status": 200,
+          "available": true,
+          "content_type": "text/html",
+          "latency_ms": 69,
+          "checked_at": "2026-09-25T04:49:24.588Z"
+        },
+        {
+          "url": "https://ndaib.gtome.chatgpt.site/briefs/2026-09-24/",
+          "status": 200,
+          "available": true,
+          "content_type": "text/html",
+          "latency_ms": 75,
+          "checked_at": "2026-09-25T04:49:24.594Z"
+        },
+        {
+          "url": "https://ndaib.gtome.chatgpt.site/briefs-archive/",
+          "status": 200,
+          "available": true,
+          "content_type": "text/html",
+          "latency_ms": 79,
+          "checked_at": "2026-09-25T04:49:24.598Z"
+        },
+        {
+          "url": "https://ndaib.gtome.chatgpt.site/feed.json",
+          "status": 200,
+          "available": true,
+          "content_type": "application/json",
+          "latency_ms": 72,
+          "checked_at": "2026-09-25T04:49:24.591Z"
+        },
+        {
+          "url": "https://ndaib.gtome.chatgpt.site/feed.xml",
+          "status": 200,
+          "available": true,
+          "content_type": "text/xml",
+          "latency_ms": 73,
+          "checked_at": "2026-09-25T04:49:24.592Z"
+        },
+        {
+          "url": "https://ndaib.gtome.chatgpt.site/daily-feed.xml",
+          "status": 200,
+          "available": true,
+          "content_type": "text/xml",
+          "latency_ms": 76,
+          "checked_at": "2026-09-25T04:49:24.595Z"
+        },
+        {
+          "url": "https://ndaib.gtome.chatgpt.site/watchlist/",
+          "status": 200,
+          "available": true,
+          "content_type": "text/html",
+          "latency_ms": 110,
+          "checked_at": "2026-09-25T04:49:24.629Z"
+        }
+      ]
+    },
+    {
+      "name": "Command Center storage",
+      "dependencies": [],
+      "status": "verified",
+      "last_verified_at": "2026-09-25T04:49:24.629Z",
+      "evidence": [
+        {
+          "id": "cc-snapshot:2026-09-24:062f548669068f7841adf6fa629c1864314c788f1225e4f3aae83048d038e36f",
+          "read_back": true
+        }
+      ]
+    }
+  ],
+  "automation": [
+    {
+      "name": "Publisher",
+      "dependencies": [
+        "Reader QA",
+        "Media",
+        "Images"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-24",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "publication:cb2fe7872b96bccfa64689b3",
+          "url": "/api/cc/v1/evidence?id=publication%3Acb2fe7872b96bccfa64689b3"
+        }
+      ]
+    },
+    {
+      "name": "Ranker",
+      "dependencies": [
+        "Sources"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-24",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "live-4aa18653035bc8a3",
+          "url": "/api/cc/v1/evidence?id=live-4aa18653035bc8a3"
+        },
+        {
+          "id": "live-63a2ad410a3d1bd1",
+          "url": "/api/cc/v1/evidence?id=live-63a2ad410a3d1bd1"
+        },
+        {
+          "id": "live-906dd6ad8541fe08",
+          "url": "/api/cc/v1/evidence?id=live-906dd6ad8541fe08"
+        }
+      ]
+    },
+    {
+      "name": "Story Memory",
+      "dependencies": [
+        "Ranker"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-24",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "story-memory:940423322f5190a53d8b3ac4",
+          "url": "/api/cc/v1/evidence?id=story-memory%3A940423322f5190a53d8b3ac4"
+        }
+      ]
+    },
+    {
+      "name": "Sources",
+      "dependencies": [],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-24",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "sources:40cb9e45a6e0aca3c1694eda",
+          "url": "/api/cc/v1/evidence?id=sources%3A40cb9e45a6e0aca3c1694eda"
+        },
+        {
+          "id": "sources:1a599bdf2c9857edf87df494",
+          "url": "/api/cc/v1/evidence?id=sources%3A1a599bdf2c9857edf87df494"
+        }
+      ]
+    },
+    {
+      "name": "Media",
+      "dependencies": [
+        "Sources"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-24",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "media:558c20166789e5eaa5688705",
+          "url": "/api/cc/v1/evidence?id=media%3A558c20166789e5eaa5688705"
+        },
+        {
+          "id": "media:2b351b094e895b349a599195",
+          "url": "/api/cc/v1/evidence?id=media%3A2b351b094e895b349a599195"
+        },
+        {
+          "id": "media:c3f9306354f418d149bf7308",
+          "url": "/api/cc/v1/evidence?id=media%3Ac3f9306354f418d149bf7308"
+        }
+      ]
+    },
+    {
+      "name": "Images",
+      "dependencies": [
+        "Ranker"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-24",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "images:15ea1596b7262fe15964f691",
+          "url": "/api/cc/v1/evidence?id=images%3A15ea1596b7262fe15964f691"
+        }
+      ]
+    },
+    {
+      "name": "Reader QA",
+      "dependencies": [
+        "Media",
+        "Images"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-18",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "qa:2d82d29f2d2abc4455df4046",
+          "url": "/api/cc/v1/evidence?id=qa%3A2d82d29f2d2abc4455df4046"
+        }
+      ]
+    },
+    {
+      "name": "Accessibility",
+      "dependencies": [
+        "Reader QA"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-18",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "accessibility:db2e79d00888d0c7fbf5af6b",
+          "url": "/api/cc/v1/evidence?id=accessibility%3Adb2e79d00888d0c7fbf5af6b"
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "dependencies": [
+        "Reader"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-24",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "native-feedback:ab105b85f147837a70f78558",
+          "url": "/api/cc/v1/evidence?id=native-feedback%3Aab105b85f147837a70f78558"
+        },
+        {
+          "id": "native-feedback:729f57061c970cf9e500b920",
+          "url": "/api/cc/v1/evidence?id=native-feedback%3A729f57061c970cf9e500b920"
+        },
+        {
+          "id": "native-feedback:1dc9d10e7cdb3c274a43f7c2",
+          "url": "/api/cc/v1/evidence?id=native-feedback%3A1dc9d10e7cdb3c274a43f7c2"
+        }
+      ]
+    },
+    {
+      "name": "Editorial Learning",
+      "dependencies": [
+        "Analytics"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": null,
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "learning:951d3748064453c71524b440",
+          "url": "/api/cc/v1/evidence?id=learning%3A951d3748064453c71524b440"
+        },
+        {
+          "id": "learning:39addcc5a6bd5248ace3dde6",
+          "url": "/api/cc/v1/evidence?id=learning%3A39addcc5a6bd5248ace3dde6"
+        }
+      ]
+    },
+    {
+      "name": "Trend Radar",
+      "dependencies": [
+        "Sources",
+        "Analytics"
+      ],
+      "status": "recorded_evidence",
+      "latest_edition": "2026-09-23",
+      "last_verified_at": null,
+      "known_issue": "Historical evidence is not a current health assertion",
+      "evidence": [
+        {
+          "id": "trends:68b904a5605ce70e92367847",
+          "url": "/api/cc/v1/evidence?id=trends%3A68b904a5605ce70e92367847"
+        }
+      ]
+    },
+    {
+      "name": "Canonical workflow",
+      "dependencies": [],
+      "status": "success",
+      "last_verified_at": "2026-09-25T04:49:28.958Z",
+      "last_run_id": 36051784007,
+      "source_sha": "4a0faf7bc3637bab7d27ee95bfa0dc542e0f958c",
+      "known_issue": null,
+      "evidence": [
+        {
+          "url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051784007"
+        }
+      ],
+      "history": [
+        {
+          "id": 36051784007,
+          "head_sha": "4a0faf7bc3637bab7d27ee95bfa0dc542e0f958c",
+          "name": "Manual Daily Brief \u2014 canonical greenfield run",
+          "display_title": "Preserve validated Site bundle in canonical artifact",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T19:58:55Z",
+          "created_at": "2026-09-24T19:58:55Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051784007",
+          "completed_at": "2026-09-24T19:59:46Z"
+        },
+        {
+          "id": 36051440661,
+          "head_sha": "447e379f96b54e513ef760b0351b9d14020a5509",
+          "name": "Manual Daily Brief \u2014 canonical greenfield run",
+          "display_title": "Align podcast freshness validation with verified timestamps",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T19:55:45Z",
+          "created_at": "2026-09-24T19:55:45Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051440661",
+          "completed_at": "2026-09-24T19:56:34Z"
+        },
+        {
+          "id": 36050849676,
+          "head_sha": "2ff3ccc377ff0c6ab14f5f4d1e1d5bc1df029a9c",
+          "name": "Manual Daily Brief \u2014 canonical greenfield run",
+          "display_title": "Resume canonical Brief after approved image lock",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_started_at": "2026-09-24T19:50:28Z",
+          "created_at": "2026-09-24T19:50:28Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36050849676",
+          "completed_at": "2026-09-24T19:51:09Z"
+        },
+        {
+          "id": 36047086258,
+          "head_sha": "d78aca36acc6f21f6dfa8e7504a7470267703db4",
+          "name": "Manual Daily Brief \u2014 canonical greenfield run",
+          "display_title": "Manual Daily Brief \u2014 canonical greenfield run",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T19:17:04Z",
+          "created_at": "2026-09-24T19:17:04Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36047086258",
+          "completed_at": "2026-09-24T19:18:04Z"
+        },
+        {
+          "id": 36045398568,
+          "head_sha": "9a1cb16642bc60ba4b05cdbb91e8b2517afcb528",
+          "name": "Manual Daily Brief \u2014 canonical greenfield run",
+          "display_title": "Manual Daily Brief \u2014 canonical greenfield run",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_started_at": "2026-09-24T19:02:25Z",
+          "created_at": "2026-09-24T19:02:25Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36045398568",
+          "completed_at": "2026-09-24T19:03:32Z"
+        },
+        {
+          "id": 35948475648,
+          "head_sha": "3b839ba2fbdb012b5e42501adfc70e4c606b160e",
+          "name": "Manual Daily Brief \u2014 canonical greenfield run",
+          "display_title": "Manual Daily Brief \u2014 canonical greenfield run",
+          "status": "completed",
+          "conclusion": "failure",
+          "run_started_at": "2026-09-24T02:43:50Z",
+          "created_at": "2026-09-24T02:43:50Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/35948475648",
+          "completed_at": "2026-09-24T02:44:26Z"
+        }
+      ]
+    },
+    {
+      "name": "CI",
+      "dependencies": [],
+      "status": "success",
+      "last_verified_at": "2026-09-25T04:49:28.958Z",
+      "last_run_id": 36093938004,
+      "source_sha": "5b094f02bd65dad28819a58b5d16824ce6bb6fe0",
+      "known_issue": null,
+      "evidence": [
+        {
+          "url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36093938004"
+        }
+      ],
+      "history": [
+        {
+          "id": 36093938004,
+          "head_sha": "5b094f02bd65dad28819a58b5d16824ce6bb6fe0",
+          "name": "Greenfield Contracts",
+          "display_title": "Implement public Command Center runtime, review persistence and histo\u2026",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-25T04:18:50Z",
+          "created_at": "2026-09-25T04:18:50Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36093938004"
+        },
+        {
+          "id": 36082891607,
+          "head_sha": "ffae7b31e3cd7f86428ab4811245cabe0eed7a9c",
+          "name": "Greenfield Contracts",
+          "display_title": "Record Command Center data parity closure",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-25T01:38:20Z",
+          "created_at": "2026-09-25T01:38:20Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36082891607"
+        },
+        {
+          "id": 36082816200,
+          "head_sha": "dcef72e07c02a020c8ec8d1d74644328ede7c3d8",
+          "name": "Greenfield Contracts",
+          "display_title": "Merge PR #116: Command Center data parity architecture",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-25T01:37:16Z",
+          "created_at": "2026-09-25T01:37:16Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36082816200"
+        },
+        {
+          "id": 36080204626,
+          "head_sha": "2755d6ed42f2f95c7c2f4f3844748959a9cb3adf",
+          "name": "Greenfield Contracts",
+          "display_title": "Merge testing architecture revision closure",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-25T01:01:49Z",
+          "created_at": "2026-09-25T01:01:49Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36080204626"
+        },
+        {
+          "id": 36078359442,
+          "head_sha": "90a0324729d00e21deccc3b4d3549be6fe512b87",
+          "name": "Greenfield Contracts",
+          "display_title": "Merge reader preview change-impact gating",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-25T00:37:03Z",
+          "created_at": "2026-09-25T00:37:03Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36078359442"
+        }
+      ]
+    },
+    {
+      "name": "Reader Parity",
+      "dependencies": [],
+      "status": "success",
+      "last_verified_at": "2026-09-25T04:49:28.958Z",
+      "last_run_id": 36051784095,
+      "source_sha": "4a0faf7bc3637bab7d27ee95bfa0dc542e0f958c",
+      "known_issue": null,
+      "evidence": [
+        {
+          "url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051784095"
+        }
+      ],
+      "history": [
+        {
+          "id": 36051784095,
+          "head_sha": "4a0faf7bc3637bab7d27ee95bfa0dc542e0f958c",
+          "name": "Reader Parity Validation",
+          "display_title": "Preserve validated Site bundle in canonical artifact",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T19:58:55Z",
+          "created_at": "2026-09-24T19:58:55Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051784095"
+        },
+        {
+          "id": 36051440791,
+          "head_sha": "447e379f96b54e513ef760b0351b9d14020a5509",
+          "name": "Reader Parity Validation",
+          "display_title": "Align podcast freshness validation with verified timestamps",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T19:55:45Z",
+          "created_at": "2026-09-24T19:55:45Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051440791"
+        },
+        {
+          "id": 36050849701,
+          "head_sha": "2ff3ccc377ff0c6ab14f5f4d1e1d5bc1df029a9c",
+          "name": "Reader Parity Validation",
+          "display_title": "Resume canonical Brief after approved image lock",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T19:50:28Z",
+          "created_at": "2026-09-24T19:50:28Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36050849701"
+        },
+        {
+          "id": 36046706826,
+          "head_sha": "d78aca36acc6f21f6dfa8e7504a7470267703db4",
+          "name": "Reader Parity Validation",
+          "display_title": "Repair September 24 podcast feed discovery",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T19:13:46Z",
+          "created_at": "2026-09-24T19:13:46Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36046706826"
+        },
+        {
+          "id": 35953552591,
+          "head_sha": "a23992f94eda864455501dcd67b51d27ed2192b8",
+          "name": "Reader Parity Validation",
+          "display_title": "Merge pull request #103 from gttome/repair/sep23-reader-qa-20260924",
+          "status": "completed",
+          "conclusion": "success",
+          "run_started_at": "2026-09-24T03:56:47Z",
+          "created_at": "2026-09-24T03:56:47Z",
+          "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/35953552591"
+        }
+      ]
+    },
+    {
+      "name": "Data Parity",
+      "dependencies": [],
+      "status": "unavailable",
+      "last_verified_at": "2026-09-25T04:49:28.958Z",
+      "last_run_id": null,
+      "source_sha": null,
+      "known_issue": null,
+      "evidence": [],
+      "history": []
+    },
+    {
+      "name": "Reader",
+      "dependencies": [
+        "Publisher"
+      ],
+      "status": "available",
+      "last_verified_at": "2026-09-25T04:49:28.958Z",
+      "known_issue": null,
+      "evidence": [
+        {
+          "url": "https://ndaib.gtome.chatgpt.site/",
+          "status": 200,
+          "available": true,
+          "content_type": "text/html",
+          "latency_ms": 69,
+          "checked_at": "2026-09-25T04:49:28.930Z"
+        },
+        {
+          "url": "https://ndaib.gtome.chatgpt.site/briefs/2026-09-24/",
+          "status": 200,
+          "available": true,
+          "content_type": "text/html",
+          "latency_ms": 73,
+          "checked_at": "2026-09-25T04:49:28.934Z"
+        },
+        {
+          "url": "https://ndaib.gtome.chatgpt.site/briefs-archive/",
+          "status": 200,
+          "available": true,
+          "content_type": "text/html",
+          "latency_ms": 74,
+          "checked_at": "2026-09-25T04:49:28.935Z"
+        },
+        {
+          "url": "https://ndaib.gtome.chatgpt.site/feed.json",
+          "status": 200,
+          "available": true,
+          "content_type": "application/json",
+          "latency_ms": 69,
+          "checked_at": "2026-09-25T04:49:28.930Z"
+        },
+        {
+          "url": "https://ndaib.gtome.chatgpt.site/feed.xml",
+          "status": 200,
+          "available": true,
+          "content_type": "text/xml",
+          "latency_ms": 65,
+          "checked_at": "2026-09-25T04:49:28.926Z"
+        },
+        {
+          "url": "https://ndaib.gtome.chatgpt.site/daily-feed.xml",
+          "status": 200,
+          "available": true,
+          "content_type": "text/xml",
+          "latency_ms": 66,
+          "checked_at": "2026-09-25T04:49:28.927Z"
+        },
+        {
+          "url": "https://ndaib.gtome.chatgpt.site/watchlist/",
+          "status": 200,
+          "available": true,
+          "content_type": "text/html",
+          "latency_ms": 97,
+          "checked_at": "2026-09-25T04:49:28.958Z"
+        }
+      ]
+    },
+    {
+      "name": "Command Center storage",
+      "dependencies": [],
+      "status": "verified",
+      "last_verified_at": "2026-09-25T04:49:28.958Z",
+      "evidence": [
+        {
+          "id": "cc-snapshot:2026-09-24:062f548669068f7841adf6fa629c1864314c788f1225e4f3aae83048d038e36f",
+          "read_back": true
+        }
+      ]
+    }
+  ],
+  "watchlist_revision": "dab-topic-adaptive-agent-safeguards:r1",
+  "comments_revision": "5a68f48d-1402-4395-8461-e49910a732ef:r1",
+  "applied_guard": {
+    "status": 400,
+    "error": "Applied requires a verified change affecting the proposal target"
+  },
+  "result": "PASS"
+}

@@ -1,0 +1,213 @@
+{
+  "errors": [],
+  "source_errors": {},
+  "dataParity": {
+    "workflow_runs": []
+  },
+  "ci": {
+    "workflow_runs": [
+      {
+        "id": 36093938004,
+        "head_sha": "5b094f02bd65dad28819a58b5d16824ce6bb6fe0",
+        "name": "Greenfield Contracts",
+        "display_title": "Implement public Command Center runtime, review persistence and histo\u2026",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-09-25T04:18:50Z",
+        "created_at": "2026-09-25T04:18:50Z",
+        "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36093938004"
+      },
+      {
+        "id": 36082891607,
+        "head_sha": "ffae7b31e3cd7f86428ab4811245cabe0eed7a9c",
+        "name": "Greenfield Contracts",
+        "display_title": "Record Command Center data parity closure",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-09-25T01:38:20Z",
+        "created_at": "2026-09-25T01:38:20Z",
+        "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36082891607"
+      },
+      {
+        "id": 36082816200,
+        "head_sha": "dcef72e07c02a020c8ec8d1d74644328ede7c3d8",
+        "name": "Greenfield Contracts",
+        "display_title": "Merge PR #116: Command Center data parity architecture",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-09-25T01:37:16Z",
+        "created_at": "2026-09-25T01:37:16Z",
+        "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36082816200"
+      },
+      {
+        "id": 36080204626,
+        "head_sha": "2755d6ed42f2f95c7c2f4f3844748959a9cb3adf",
+        "name": "Greenfield Contracts",
+        "display_title": "Merge testing architecture revision closure",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-09-25T01:01:49Z",
+        "created_at": "2026-09-25T01:01:49Z",
+        "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36080204626"
+      },
+      {
+        "id": 36078359442,
+        "head_sha": "90a0324729d00e21deccc3b4d3549be6fe512b87",
+        "name": "Greenfield Contracts",
+        "display_title": "Merge reader preview change-impact gating",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-09-25T00:37:03Z",
+        "created_at": "2026-09-25T00:37:03Z",
+        "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36078359442"
+      }
+    ]
+  },
+  "parity": {
+    "workflow_runs": [
+      {
+        "id": 36051784095,
+        "head_sha": "4a0faf7bc3637bab7d27ee95bfa0dc542e0f958c",
+        "name": "Reader Parity Validation",
+        "display_title": "Preserve validated Site bundle in canonical artifact",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-09-24T19:58:55Z",
+        "created_at": "2026-09-24T19:58:55Z",
+        "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051784095"
+      },
+      {
+        "id": 36051440791,
+        "head_sha": "447e379f96b54e513ef760b0351b9d14020a5509",
+        "name": "Reader Parity Validation",
+        "display_title": "Align podcast freshness validation with verified timestamps",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-09-24T19:55:45Z",
+        "created_at": "2026-09-24T19:55:45Z",
+        "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051440791"
+      },
+      {
+        "id": 36050849701,
+        "head_sha": "2ff3ccc377ff0c6ab14f5f4d1e1d5bc1df029a9c",
+        "name": "Reader Parity Validation",
+        "display_title": "Resume canonical Brief after approved image lock",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-09-24T19:50:28Z",
+        "created_at": "2026-09-24T19:50:28Z",
+        "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36050849701"
+      },
+      {
+        "id": 36046706826,
+        "head_sha": "d78aca36acc6f21f6dfa8e7504a7470267703db4",
+        "name": "Reader Parity Validation",
+        "display_title": "Repair September 24 podcast feed discovery",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-09-24T19:13:46Z",
+        "created_at": "2026-09-24T19:13:46Z",
+        "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36046706826"
+      },
+      {
+        "id": 35953552591,
+        "head_sha": "a23992f94eda864455501dcd67b51d27ed2192b8",
+        "name": "Reader Parity Validation",
+        "display_title": "Merge pull request #103 from gttome/repair/sep23-reader-qa-20260924",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-09-24T03:56:47Z",
+        "created_at": "2026-09-24T03:56:47Z",
+        "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/35953552591"
+      }
+    ]
+  },
+  "latest_attempted_run": {
+    "id": 36051784007,
+    "head_sha": "4a0faf7bc3637bab7d27ee95bfa0dc542e0f958c",
+    "name": "Manual Daily Brief \u2014 canonical greenfield run",
+    "display_title": "Preserve validated Site bundle in canonical artifact",
+    "status": "completed",
+    "conclusion": "success",
+    "run_started_at": "2026-09-24T19:58:55Z",
+    "created_at": "2026-09-24T19:58:55Z",
+    "html_url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051784007",
+    "completed_at": "2026-09-24T19:59:46Z"
+  },
+  "reader_health": [
+    {
+      "url": "https://ndaib.gtome.chatgpt.site/",
+      "status": 200,
+      "available": true,
+      "content_type": "text/html",
+      "latency_ms": 62,
+      "checked_at": "2026-09-25T04:35:20.276Z"
+    },
+    {
+      "url": "https://ndaib.gtome.chatgpt.site/briefs/2026-09-24/",
+      "status": 200,
+      "available": true,
+      "content_type": "text/html",
+      "latency_ms": 70,
+      "checked_at": "2026-09-25T04:35:20.284Z"
+    },
+    {
+      "url": "https://ndaib.gtome.chatgpt.site/briefs-archive/",
+      "status": 200,
+      "available": true,
+      "content_type": "text/html",
+      "latency_ms": 68,
+      "checked_at": "2026-09-25T04:35:20.282Z"
+    },
+    {
+      "url": "https://ndaib.gtome.chatgpt.site/feed.json",
+      "status": 200,
+      "available": true,
+      "content_type": "application/json",
+      "latency_ms": 65,
+      "checked_at": "2026-09-25T04:35:20.279Z"
+    },
+    {
+      "url": "https://ndaib.gtome.chatgpt.site/feed.xml",
+      "status": 200,
+      "available": true,
+      "content_type": "text/xml",
+      "latency_ms": 64,
+      "checked_at": "2026-09-25T04:35:20.278Z"
+    },
+    {
+      "url": "https://ndaib.gtome.chatgpt.site/daily-feed.xml",
+      "status": 200,
+      "available": true,
+      "content_type": "text/xml",
+      "latency_ms": 64,
+      "checked_at": "2026-09-25T04:35:20.278Z"
+    },
+    {
+      "url": "https://ndaib.gtome.chatgpt.site/watchlist/",
+      "status": 200,
+      "available": true,
+      "content_type": "text/html",
+      "latency_ms": 97,
+      "checked_at": "2026-09-25T04:35:20.311Z"
+    }
+  ],
+  "identity": {
+    "selected_edition": "2026-09-24",
+    "published_edition": "2026-09-24",
+    "source_sha": "ffae7b31e3cd7f86428ab4811245cabe0eed7a9c",
+    "repository_sha": "5b094f02bd65dad28819a58b5d16824ce6bb6fe0",
+    "status": "edition_match",
+    "reason": null,
+    "repository_advanced": true,
+    "canonical_workflow_run": "36051784007",
+    "canonical_source_sha": "4a0faf7bc3637bab7d27ee95bfa0dc542e0f958c",
+    "artifact_digest": "sha256:24463a8356510dc5036376ff05b3c113d79701cc6b8c03f20edf277c8dcc4a2e",
+    "publication_item_count_agreement": true,
+    "publication_content_agreement": true
+  },
+  "persistence": {
+    "id": "cc-snapshot:2026-09-24:ddc56f98454ea52c66f530563d923723044605e3494303ca3e1d77becef7e9fb",
+    "read_back": true
+  }
+}

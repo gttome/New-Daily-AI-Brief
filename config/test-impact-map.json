@@ -799,7 +799,8 @@
         "site/command-center/**",
         "scripts/migrate_command_center_state_v1_to_v2.py",
         "scripts/prepare_command_center_records.py",
-        "scripts/test_command_center_runtime.py"
+        "scripts/test_command_center_runtime.py",
+        "scripts/accept_command_center_public.py"
       ],
       "development_suites": [
         "command-center",

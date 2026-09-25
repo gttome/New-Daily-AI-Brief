@@ -4,27 +4,50 @@
   "prior_sites_version": 5,
   "reconciliation": "Copied v5 cc.js/index.html and worker into GitHub branch; GitHub CSS and state unchanged. v5 server Refresh and partial-source error behavior preserved.",
   "tests": {
-    "node": "18 PASS",
+    "node": "20 PASS",
     "python_focused": "17 PASS",
     "json_schema": "PASS",
     "desktop_overflow": "1348 / 1348",
-    "mobile_overflow": "375 / 375 in 390px frame"
+    "mobile_overflow": "375 / 375 in 390px frame",
+    "anonymous_live": "25 initial +15 final checks PASS; actual proposal, Watchlist and comment D1 write/read-back"
   },
   "ci_baseline": {
     "Greenfield Contracts": 36082891607,
     "Reader Parity": 36082910469,
     "conclusion": "success"
   },
-  "migrations": [],
-  "remaining": [
-    "Publish existing npccs with D1; public access after scan",
-    "GitHub source push and CI",
-    "Live anonymous verification blocked so far by Cloudflare 1010",
-    "69-row final evidence ledger/report"
+  "migrations": [
+    "seed:cdf80a460eab2312f6fc93e8e274f97979ae23576ea0d2994626d19f312dfa72"
   ],
-  "checkpoint_at": "2026-09-25T04:11:44.887894+00:00",
-  "current_sha": "ffae7b31e3cd7f86428ab4811245cabe0eed7a9c",
+  "remaining": [
+    "13 partial functions itemized in final report; do not claim full parity",
+    "Final GitHub follow-up commit/CI verification"
+  ],
+  "checkpoint_at": "2026-09-25T04:51:57.689531+00:00",
+  "current_sha": "5b094f02bd65dad28819a58b5d16824ce6bb6fe0",
   "implementation": "Public runtime, D1 review/snapshot storage, immutable historical records, v2 migration, evidence explorer and live read adapters",
-  "prepared_records": 2959,
-  "migrations_completed": "Local actual SQL import/read-back; production pending"
+  "prepared_records": 2974,
+  "migrations_completed": "Live D1:117 core records; ID/digest read-back117; seed replay idempotent",
+  "changed_files": [
+    "config/test-impact-map.json",
+    "evidence/command-center/exposure-scan.json",
+    "evidence/command-center/runtime-tests.txt",
+    "scripts/prepare_command_center_records.py",
+    "site/command-center/analytics.mjs",
+    "site/command-center/build.mjs",
+    "site/command-center/cc.js",
+    "site/command-center/coverage.json",
+    "site/command-center/explorer.js",
+    "site/command-center/import-manifest.json",
+    "site/command-center/live.mjs",
+    "site/command-center/projection.mjs",
+    "site/command-center/records.json.gz",
+    "site/command-center/store.mjs",
+    "site/command-center/test/api.mjs",
+    "site/command-center/test/public-runtime.mjs",
+    "site/command-center/worker.mjs"
+  ],
+  "sites_version": 9,
+  "sites_source": "8071779c62404fbfc6ab094a407724c17aa600f4",
+  "public": true
 }

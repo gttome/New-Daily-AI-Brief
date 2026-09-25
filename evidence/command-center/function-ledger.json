@@ -1,0 +1,565 @@
+{
+  "assessment": "Command_Center_Functional_Parity_Assessment_2026-09-25.md",
+  "prepared_packet": "2026-09-24 implementation packet",
+  "label_reconciliation": "Exact assessment names/statuses used. Prepared packet working labels for 03/04 and other retained rows are not presumed equivalent by number; all packet acceptance requirements remain controlling. In particular publication identity, last-good persistence, 11-stage visibility and public access are each separately checked. No acceptance requirement was removed.",
+  "counts": {
+    "Implemented": 52,
+    "Partial": 13,
+    "Preserved exclusion": 4
+  },
+  "live_accepted": 48,
+  "rows": [
+    {
+      "id": "01",
+      "function": "Latest published edition and item links",
+      "original": "Present",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Live reader feed and selected Sep 24 edition: six stories, two videos, two podcasts; exact item links."
+    },
+    {
+      "id": "02",
+      "function": "Refresh operational edition data",
+      "original": "Partial",
+      "status": "Partial",
+      "live_acceptance": "Not complete",
+      "evidence": "Current Sep 24 reconciliation and Refresh work. Future canonical artifact ingestion still requires an authenticated publication handoff; public artifact ZIP download is unavailable."
+    },
+    {
+      "id": "03",
+      "function": "Publication/repository synchronization evidence",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Live edition/content/count agreement; repository SHA, canonical SHA/run/artifact and latest attempted run are distinct."
+    },
+    {
+      "id": "04",
+      "function": "Preserve last good data across a page reload",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "D1 verified snapshot survived later independent requests; injected all-source failure retained it. Schema compatibility tested."
+    },
+    {
+      "id": "05",
+      "function": "Failure display and same-session stale-data protection",
+      "original": "Present",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Independent failures retained bundled/last-good state; preview displayed unavailable and stale states."
+    },
+    {
+      "id": "06",
+      "function": "Overview, attention list and recommended next action",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Attention derives from identity mismatch, failed runs, route failures, source errors and recorded blockers."
+    },
+    {
+      "id": "07",
+      "function": "Selected story allocation and Agent Skills",
+      "original": "Present",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Actual canonical six-story allocation passes 2/2/2 and one Agent Skills."
+    },
+    {
+      "id": "08",
+      "function": "Candidate funnel and selection count",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Sep 24 API reports 9 retained, 6 selected; denominator and record drill-down visible."
+    },
+    {
+      "id": "09",
+      "function": "Candidate rationale/evidence drill-down",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "All nine actual candidate inputs retained; six evidence packets and recorded rejection reasons searchable. Unrecorded tie-break reasons explicitly unavailable."
+    },
+    {
+      "id": "10",
+      "function": "Article evidence-class mix",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Evidence mix uses actual candidate source classes with candidate denominator; no time units."
+    },
+    {
+      "id": "11",
+      "function": "Novelty distribution and Story Memory inspection",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Actual novelty index and recorded novelty rejection exposed; unrecorded per-candidate dispositions remain unknown."
+    },
+    {
+      "id": "12",
+      "function": "Freshness/source/reading-time summary",
+      "original": "Present",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Existing freshness/source/date/reading estimates retained, bound to selected structured edition."
+    },
+    {
+      "id": "13",
+      "function": "Video role, channel, runtime and exception details",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Actual two-role video selection, channel, runtime, verification and source history; canonical reader item IDs used for signals."
+    },
+    {
+      "id": "14",
+      "function": "Podcast selection details",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Actual two podcasts with selection metadata and historical media evidence."
+    },
+    {
+      "id": "15",
+      "function": "Image acceptance summary",
+      "original": "Present",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Per-story image dimensions/format and actual accepted-image evidence retained."
+    },
+    {
+      "id": "16",
+      "function": "Image attempts/rejections and quality history",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "15 image records plus media histories expose recorded attempts/rejections/QA; absent counts remain null."
+    },
+    {
+      "id": "17",
+      "function": "Book Bridge counts",
+      "original": "Present",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Canonical book-bridge artifact decision count exposed; absent cross-book counts remain unavailable."
+    },
+    {
+      "id": "18",
+      "function": "Browse Book Change Proposals",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "41 proposal records browse/detail plus receipt records; browser and public GET verified."
+    },
+    {
+      "id": "19",
+      "function": "Search/filter proposals",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Text/book/status filters and eight-state counts implemented; empty-result behavior browser verified."
+    },
+    {
+      "id": "20",
+      "function": "Review proposal rationale, placement and teaching assets",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Actual proposal rationale, placement, teaching assets, caveats and provenance shown in detail."
+    },
+    {
+      "id": "21",
+      "function": "Save proposal decisions and notes",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Real public D1 revision 1 saved, replayed, conflicted and read back; anonymous actor and append-only history."
+    },
+    {
+      "id": "22",
+      "function": "Applied/deferred proposal lifecycle",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Not complete",
+      "evidence": "All eight states tested in local SQL; Applied rejects unsupported evidence and requires a real matching repository commit. No real book edit was fabricated to test a positive transition; manuscript targets are not mapped."
+    },
+    {
+      "id": "23",
+      "function": "Import/recover proposals and evaluation receipts",
+      "original": "Missing",
+      "status": "Partial",
+      "live_acceptance": "Not complete",
+      "evidence": "41 accessible proposals, 18 import receipts and 2 evaluation receipts recovered. No ongoing authenticated recovery of future inaccessible artifact inputs is connected."
+    },
+    {
+      "id": "24",
+      "function": "Watchlist topic counts and change summary",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Current canonical Watchlist has 16 updated topics; source research timestamps retained separately."
+    },
+    {
+      "id": "25",
+      "function": "Watchlist research detail",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "16 topic research records include rubric/confidence/limits/evidence; older research is explicitly dated."
+    },
+    {
+      "id": "26",
+      "function": "Watchlist reader-interest totals",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Live native aggregate query; all 16 topics and three choices show measured zero on successful empty query, null on retrieval failure."
+    },
+    {
+      "id": "27",
+      "function": "Save Watchlist priorities, decisions and private notes",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Public Watchlist review form and D1 append-only revision path; preview save/reopen verified."
+    },
+    {
+      "id": "28",
+      "function": "Ranked early-signal channels",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "10 ranked signal channels with monitoring and evidence treatment; source directory searchable."
+    },
+    {
+      "id": "29",
+      "function": "Per-source retrieval diagnostics",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Actual dated source diagnostic and discovery records, failed/empty outcomes and coverage inspected."
+    },
+    {
+      "id": "30",
+      "function": "Source reliability history inspection",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Historical source reliability records are searchable with exact source links."
+    },
+    {
+      "id": "31",
+      "function": "QA check-by-check results",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "18 QA and 12 accessibility records retain check-level IDs/results/severity and evidence."
+    },
+    {
+      "id": "32",
+      "function": "Initial/final QA, repair counts and deploy latency",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Not complete",
+      "evidence": "Historical initial/final QA, repair and latency evidence browsable; latest canonical artifact stops at build_locked, so unrecorded later boundaries stay unavailable."
+    },
+    {
+      "id": "33",
+      "function": "Accessibility evidence review",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "12 actual accessibility records with disposition/alt-review evidence; no carry-forward current QA claim."
+    },
+    {
+      "id": "34",
+      "function": "Reader feeds/archive/routes health",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Seven live reader route/feed/archive GETs all 200; each reports HTTP result, content type and measured latency."
+    },
+    {
+      "id": "35",
+      "function": "Current incidents and recovery summary",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Actual incident/recovery records plus evidence-derived failed-run/route findings; no invented current incident counts."
+    },
+    {
+      "id": "36",
+      "function": "Corrections ledger",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Nine corrections records, raw/unique counts and exact immutable references."
+    },
+    {
+      "id": "37",
+      "function": "Searchable content/edition archive",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "20 edition packages plus 114 story records searchable by text/edition/focus/role/date."
+    },
+    {
+      "id": "38",
+      "function": "Recent run history, timings and run links",
+      "original": "Present",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Canonical run history and links retained; completion derived only from complete job boundaries, never updated_at."
+    },
+    {
+      "id": "39",
+      "function": "Full production-effort history",
+      "original": "Missing",
+      "status": "Partial",
+      "live_acceptance": "Not complete",
+      "evidence": "32 raw usage records retained. Two legacy usage payloads were truncated by the source export and remain unmigrated."
+    },
+    {
+      "id": "40",
+      "function": "Per-stage efficiency and research metrics",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Measured stage/source/cache/context/repair metrics exposed with source boundaries; absent measurements remain unknown."
+    },
+    {
+      "id": "41",
+      "function": "7/30-day efficiency analysis and baselines",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "7/30-day baselines tested for compatible boundaries, deduplication, conflicts, observation denominators and measured zero."
+    },
+    {
+      "id": "42",
+      "function": "Private Usage History persistence/reconciliation",
+      "original": "Missing",
+      "status": "Partial",
+      "live_acceptance": "Not complete",
+      "evidence": "D1 preserves accessible raw usage; repeat import verified. Two truncated raw usage records cannot be reconciled without complete source payloads."
+    },
+    {
+      "id": "43",
+      "function": "Private analytics snapshots and read-back verification",
+      "original": "Missing",
+      "status": "Partial",
+      "live_acceptance": "Not complete",
+      "evidence": "Current verified last-good and native signal snapshot persistence work. Five historical private snapshot payloads were truncated and remain unmigrated."
+    },
+    {
+      "id": "44",
+      "function": "Per-item ratings and star distribution",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Per-item native ratings use ten canonical item IDs, five star bins, counts and mean; historical reactions stay separate."
+    },
+    {
+      "id": "45",
+      "function": "Per-item views, source clicks and shares",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Native views/source clicks/share initiations separated from legacy totals; successful empty aggregate is measured zero."
+    },
+    {
+      "id": "46",
+      "function": "Private reader-comment review",
+      "original": "Missing",
+      "status": "Partial",
+      "live_acceptance": "Not complete",
+      "evidence": "24 historical comments migrated; public review writes connected. New ndaib comments have no public read export, so continuing collection is not connected."
+    },
+    {
+      "id": "47",
+      "function": "Comment retention maintenance",
+      "original": "Missing",
+      "status": "Partial",
+      "live_acceptance": "Not complete",
+      "evidence": "Non-destructive imported-comment verification creates a read-back receipt and due state. No authenticated cleanup workflow exists in the authorized canonical paths; expired-record cleanup is not implemented."
+    },
+    {
+      "id": "48",
+      "function": "Editorial-learning sufficiency and recommendations",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Actual sufficiency thresholds, focus coverage, shadow readiness and bounded recommendations visible; dated evidence only."
+    },
+    {
+      "id": "49",
+      "function": "Editorial-weight activation",
+      "original": "Intentional",
+      "status": "Preserved exclusion",
+      "live_acceptance": "Preserved exclusion",
+      "evidence": "Automatic editorial weighting remains disabled; no activation route."
+    },
+    {
+      "id": "50",
+      "function": "Trend Radar",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "17 dated Trend Radar records include 7/30-day evidence counts, confidence and supporting story IDs."
+    },
+    {
+      "id": "51",
+      "function": "Audience reporting/filtering",
+      "original": "Missing",
+      "status": "Partial",
+      "live_acceptance": "Not complete",
+      "evidence": "1,332 actual historical audience aggregates support preset/custom ranges. Current native reader has no compatible audience event collector/export."
+    },
+    {
+      "id": "52",
+      "function": "Audience device/referral/geography breakdowns",
+      "original": "Missing",
+      "status": "Partial",
+      "live_acceptance": "Not complete",
+      "evidence": "Historical dimensions and filters work; no new native device/referral/geography collection is connected."
+    },
+    {
+      "id": "53",
+      "function": "Calendar/RSS subscription-action analytics",
+      "original": "Missing",
+      "status": "Partial",
+      "live_acceptance": "Not complete",
+      "evidence": "Historical calendar/RSS actions reported. Native current subscription action telemetry is unavailable; delivery remains disabled."
+    },
+    {
+      "id": "54",
+      "function": "Reminder-time preference analysis",
+      "original": "Missing",
+      "status": "Partial",
+      "live_acceptance": "Not complete",
+      "evidence": "Historical reminder choices reportable where recorded; no current native collection exists."
+    },
+    {
+      "id": "55",
+      "function": "Help/error and attributed-return analytics",
+      "original": "Missing",
+      "status": "Partial",
+      "live_acceptance": "Not complete",
+      "evidence": "Historical help/errors/attributed returns retain dimensions and dates; current native collection unavailable."
+    },
+    {
+      "id": "56",
+      "function": "Analytics provenance/coverage catalog",
+      "original": "Missing",
+      "status": "Partial",
+      "live_acceptance": "Not complete",
+      "evidence": "Two metadata records and manifest expose collection bounds, source exclusions and complete historical pagination. No current native audience coverage catalog is available."
+    },
+    {
+      "id": "57",
+      "function": "System-component health inventory",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Not complete",
+      "evidence": "Component inventory includes dependencies, dated source evidence, live workflows/routes/storage; historical evidence is not labeled current health."
+    },
+    {
+      "id": "58",
+      "function": "Automation status/history/runbook",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Not complete",
+      "evidence": "Read-only workflow history, scope, last check and runbook; planned schedules explicitly uncreated and disabled."
+    },
+    {
+      "id": "59",
+      "function": "Create/enable new production schedules",
+      "original": "Intentional",
+      "status": "Preserved exclusion",
+      "live_acceptance": "Preserved exclusion",
+      "evidence": "No new schedules created or enabled; old schedules untouched."
+    },
+    {
+      "id": "60",
+      "function": "Email/text subscriber delivery",
+      "original": "Intentional",
+      "status": "Preserved exclusion",
+      "live_acceptance": "Preserved exclusion",
+      "evidence": "Email/text delivery remains disabled; no service added."
+    },
+    {
+      "id": "61",
+      "function": "Quick-start walkthrough and user guide",
+      "original": "Missing",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Five-step walkthrough and downloadable HTML guide linked in the preserved UI."
+    },
+    {
+      "id": "62",
+      "function": "Mobile/responsive and basic accessibility design",
+      "original": "Present",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Desktop width 1348/1348 and 390px iframe body 375/375; keyboard tabs, focus, Escape and conflict-draft retention checked."
+    },
+    {
+      "id": "63",
+      "function": "Direct publishing/repair engine inside dashboard",
+      "original": "Intentional",
+      "status": "Preserved exclusion",
+      "live_acceptance": "Preserved exclusion",
+      "evidence": "No dashboard publishing/repair engine, workflow proxy or anonymous production endpoint."
+    },
+    {
+      "id": "64",
+      "function": "Canonical manual-workflow launch links",
+      "original": "Improved",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Eleven controls resolve existing canonical GitHub/evidence paths; no production workflow dispatched to test them."
+    },
+    {
+      "id": "65",
+      "function": "Eleven-stage pipeline and explicit cutover gates",
+      "original": "Improved",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "All eleven stages retained; stage status comes from actual canonical artifacts, later unrecorded stages are unavailable."
+    },
+    {
+      "id": "66",
+      "function": "Whole-Site privacy boundary",
+      "original": "Improved",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Changed requirement: native Site access is PUBLIC, no owner sign-in; anonymous UI/assets/API requests and D1 write verified."
+    },
+    {
+      "id": "67",
+      "function": "Exact evidence/publication artifact navigation",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Selected records resolve exact IDs, source SHAs, canonical run/artifact URLs and dated evidence; no generic receipt substitution."
+    },
+    {
+      "id": "68",
+      "function": "Historical operational data access",
+      "original": "Partial",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "2,974 sanitized records browsable, with stable IDs and provenance. Excluded inaccessible records disclosed."
+    },
+    {
+      "id": "69",
+      "function": "Missing measurements remain unavailable",
+      "original": "Present",
+      "status": "Implemented",
+      "live_acceptance": "Passed bounded acceptance",
+      "evidence": "Null/missing and measured zero remain distinct in metrics, baselines, native signals and schemas."
+    }
+  ]
+}

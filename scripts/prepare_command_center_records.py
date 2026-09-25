@@ -63,6 +63,20 @@ def main():
     add('canonical',d,ref,newsha,identity=d['artifact_id'],date=d['edition_date'])
     if d.get('artifact_type')=='discovery':
      for c in d.get('data',{}).get('candidates',[]):add('candidate',c,ref,newsha,identity=c.get('candidate_id') or c.get('id'),date=d['edition_date'])
+ # Canonical source inputs preserve unselected candidates and the actual novelty index.
+ inputs=can/'.runtime-inputs/2026-09-24'
+ discovery=json.loads((can/'.state/manual/2026-09-24__production/discovery.json').read_text())['data']
+ for p in sorted(inputs.rglob('*.json')):
+  if p.name=='image-generation-request.json':continue
+  d=json.loads(p.read_text());ref='https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051784007/artifacts/10829999743#'+str(p.relative_to(can))
+  family='story-memory' if p.name=='novelty-index.json' else 'media' if 'media' in p.name else 'sources' if 'registry' in p.name else 'publication' if 'publication' in p.name else 'candidates' if 'catalog' in p.name else 'evidence'
+  add(family,d,ref,newsha,date='2026-09-24',run_id='36051784007')
+  if p.name=='source-catalog.json':
+   for c in d['candidates']:
+    cid=c['candidate_id'];selected=cid in discovery['selected_candidate_ids']
+    if cid in records:
+     records[cid]['data']={**clean(c,counts),**records[cid]['data']};records[cid]['provenance'].append({'source_ref':ref,'source_type':'canonical-source-input','observed_at':now})
+    else:add('candidate',{**c,'selected':selected,'decision':'selected' if selected else 'not_selected','selection_rationale':discovery['rejections'].get(cid,'Not selected in the locked edition; detailed tie-break reason not recorded')},ref,newsha,identity=cid,date='2026-09-24',run_id='36051784007')
  # Full structured latest edition copied from actual validated canonical artifact.
  current=json.loads((can/'.runtime-source/_data/editions/2026-09-24.json').read_text());add('editions',current,'https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051784007/artifacts/10829999743',newsha,identity='edition:2026-09-24')
  reader=Path(a.reader_source)

@@ -1,0 +1,75 @@
+# 69-function execution ledger
+
+Exact original assessment labels and statuses; the changed public requirement supersedes row 66's prior privacy behavior. “Implemented” is bounded to accessible evidence; it is not a claim of complete live parity. Four intentional exclusions are tracked separately.
+
+| ID | Exact assessment function | Original | Deployed result | Live acceptance | Evidence / remaining limitation |
+|---|---|---|---|---|---|
+| 01 | Latest published edition and item links | Present | Implemented | Passed bounded acceptance | Live reader feed and selected Sep 24 edition: six stories, two videos, two podcasts; exact item links. |
+| 02 | Refresh operational edition data | Partial | Partial | Not complete | Current Sep 24 reconciliation and Refresh work. Future canonical artifact ingestion still requires an authenticated publication handoff; public artifact ZIP download is unavailable. |
+| 03 | Publication/repository synchronization evidence | Partial | Implemented | Passed bounded acceptance | Live edition/content/count agreement; repository SHA, canonical SHA/run/artifact and latest attempted run are distinct. |
+| 04 | Preserve last good data across a page reload | Missing | Implemented | Passed bounded acceptance | D1 verified snapshot survived later independent requests; injected all-source failure retained it. Schema compatibility tested. |
+| 05 | Failure display and same-session stale-data protection | Present | Implemented | Passed bounded acceptance | Independent failures retained bundled/last-good state; preview displayed unavailable and stale states. |
+| 06 | Overview, attention list and recommended next action | Partial | Implemented | Passed bounded acceptance | Attention derives from identity mismatch, failed runs, route failures, source errors and recorded blockers. |
+| 07 | Selected story allocation and Agent Skills | Present | Implemented | Passed bounded acceptance | Actual canonical six-story allocation passes 2/2/2 and one Agent Skills. |
+| 08 | Candidate funnel and selection count | Missing | Implemented | Passed bounded acceptance | Sep 24 API reports 9 retained, 6 selected; denominator and record drill-down visible. |
+| 09 | Candidate rationale/evidence drill-down | Missing | Implemented | Passed bounded acceptance | All nine actual candidate inputs retained; six evidence packets and recorded rejection reasons searchable. Unrecorded tie-break reasons explicitly unavailable. |
+| 10 | Article evidence-class mix | Missing | Implemented | Passed bounded acceptance | Evidence mix uses actual candidate source classes with candidate denominator; no time units. |
+| 11 | Novelty distribution and Story Memory inspection | Partial | Implemented | Passed bounded acceptance | Actual novelty index and recorded novelty rejection exposed; unrecorded per-candidate dispositions remain unknown. |
+| 12 | Freshness/source/reading-time summary | Present | Implemented | Passed bounded acceptance | Existing freshness/source/date/reading estimates retained, bound to selected structured edition. |
+| 13 | Video role, channel, runtime and exception details | Partial | Implemented | Passed bounded acceptance | Actual two-role video selection, channel, runtime, verification and source history; canonical reader item IDs used for signals. |
+| 14 | Podcast selection details | Partial | Implemented | Passed bounded acceptance | Actual two podcasts with selection metadata and historical media evidence. |
+| 15 | Image acceptance summary | Present | Implemented | Passed bounded acceptance | Per-story image dimensions/format and actual accepted-image evidence retained. |
+| 16 | Image attempts/rejections and quality history | Partial | Implemented | Passed bounded acceptance | 15 image records plus media histories expose recorded attempts/rejections/QA; absent counts remain null. |
+| 17 | Book Bridge counts | Present | Implemented | Passed bounded acceptance | Canonical book-bridge artifact decision count exposed; absent cross-book counts remain unavailable. |
+| 18 | Browse Book Change Proposals | Missing | Implemented | Passed bounded acceptance | 41 proposal records browse/detail plus receipt records; browser and public GET verified. |
+| 19 | Search/filter proposals | Missing | Implemented | Passed bounded acceptance | Text/book/status filters and eight-state counts implemented; empty-result behavior browser verified. |
+| 20 | Review proposal rationale, placement and teaching assets | Missing | Implemented | Passed bounded acceptance | Actual proposal rationale, placement, teaching assets, caveats and provenance shown in detail. |
+| 21 | Save proposal decisions and notes | Missing | Implemented | Passed bounded acceptance | Real public D1 revision 1 saved, replayed, conflicted and read back; anonymous actor and append-only history. |
+| 22 | Applied/deferred proposal lifecycle | Missing | Implemented | Not complete | All eight states tested in local SQL; Applied rejects unsupported evidence and requires a real matching repository commit. No real book edit was fabricated to test a positive transition; manuscript targets are not mapped. |
+| 23 | Import/recover proposals and evaluation receipts | Missing | Partial | Not complete | 41 accessible proposals, 18 import receipts and 2 evaluation receipts recovered. No ongoing authenticated recovery of future inaccessible artifact inputs is connected. |
+| 24 | Watchlist topic counts and change summary | Partial | Implemented | Passed bounded acceptance | Current canonical Watchlist has 16 updated topics; source research timestamps retained separately. |
+| 25 | Watchlist research detail | Missing | Implemented | Passed bounded acceptance | 16 topic research records include rubric/confidence/limits/evidence; older research is explicitly dated. |
+| 26 | Watchlist reader-interest totals | Missing | Implemented | Passed bounded acceptance | Live native aggregate query; all 16 topics and three choices show measured zero on successful empty query, null on retrieval failure. |
+| 27 | Save Watchlist priorities, decisions and private notes | Missing | Implemented | Passed bounded acceptance | Public Watchlist review form and D1 append-only revision path; preview save/reopen verified. |
+| 28 | Ranked early-signal channels | Missing | Implemented | Passed bounded acceptance | 10 ranked signal channels with monitoring and evidence treatment; source directory searchable. |
+| 29 | Per-source retrieval diagnostics | Partial | Implemented | Passed bounded acceptance | Actual dated source diagnostic and discovery records, failed/empty outcomes and coverage inspected. |
+| 30 | Source reliability history inspection | Partial | Implemented | Passed bounded acceptance | Historical source reliability records are searchable with exact source links. |
+| 31 | QA check-by-check results | Partial | Implemented | Passed bounded acceptance | 18 QA and 12 accessibility records retain check-level IDs/results/severity and evidence. |
+| 32 | Initial/final QA, repair counts and deploy latency | Partial | Implemented | Not complete | Historical initial/final QA, repair and latency evidence browsable; latest canonical artifact stops at build_locked, so unrecorded later boundaries stay unavailable. |
+| 33 | Accessibility evidence review | Partial | Implemented | Passed bounded acceptance | 12 actual accessibility records with disposition/alt-review evidence; no carry-forward current QA claim. |
+| 34 | Reader feeds/archive/routes health | Partial | Implemented | Passed bounded acceptance | Seven live reader route/feed/archive GETs all 200; each reports HTTP result, content type and measured latency. |
+| 35 | Current incidents and recovery summary | Partial | Implemented | Passed bounded acceptance | Actual incident/recovery records plus evidence-derived failed-run/route findings; no invented current incident counts. |
+| 36 | Corrections ledger | Missing | Implemented | Passed bounded acceptance | Nine corrections records, raw/unique counts and exact immutable references. |
+| 37 | Searchable content/edition archive | Missing | Implemented | Passed bounded acceptance | 20 edition packages plus 114 story records searchable by text/edition/focus/role/date. |
+| 38 | Recent run history, timings and run links | Present | Implemented | Passed bounded acceptance | Canonical run history and links retained; completion derived only from complete job boundaries, never updated_at. |
+| 39 | Full production-effort history | Missing | Partial | Not complete | 32 raw usage records retained. Two legacy usage payloads were truncated by the source export and remain unmigrated. |
+| 40 | Per-stage efficiency and research metrics | Missing | Implemented | Passed bounded acceptance | Measured stage/source/cache/context/repair metrics exposed with source boundaries; absent measurements remain unknown. |
+| 41 | 7/30-day efficiency analysis and baselines | Missing | Implemented | Passed bounded acceptance | 7/30-day baselines tested for compatible boundaries, deduplication, conflicts, observation denominators and measured zero. |
+| 42 | Private Usage History persistence/reconciliation | Missing | Partial | Not complete | D1 preserves accessible raw usage; repeat import verified. Two truncated raw usage records cannot be reconciled without complete source payloads. |
+| 43 | Private analytics snapshots and read-back verification | Missing | Partial | Not complete | Current verified last-good and native signal snapshot persistence work. Five historical private snapshot payloads were truncated and remain unmigrated. |
+| 44 | Per-item ratings and star distribution | Missing | Implemented | Passed bounded acceptance | Per-item native ratings use ten canonical item IDs, five star bins, counts and mean; historical reactions stay separate. |
+| 45 | Per-item views, source clicks and shares | Missing | Implemented | Passed bounded acceptance | Native views/source clicks/share initiations separated from legacy totals; successful empty aggregate is measured zero. |
+| 46 | Private reader-comment review | Missing | Partial | Not complete | 24 historical comments migrated; public review writes connected. New ndaib comments have no public read export, so continuing collection is not connected. |
+| 47 | Comment retention maintenance | Missing | Partial | Not complete | Non-destructive imported-comment verification creates a read-back receipt and due state. No authenticated cleanup workflow exists in the authorized canonical paths; expired-record cleanup is not implemented. |
+| 48 | Editorial-learning sufficiency and recommendations | Missing | Implemented | Passed bounded acceptance | Actual sufficiency thresholds, focus coverage, shadow readiness and bounded recommendations visible; dated evidence only. |
+| 49 | Editorial-weight activation | Intentional | Preserved exclusion | Preserved exclusion | Automatic editorial weighting remains disabled; no activation route. |
+| 50 | Trend Radar | Missing | Implemented | Passed bounded acceptance | 17 dated Trend Radar records include 7/30-day evidence counts, confidence and supporting story IDs. |
+| 51 | Audience reporting/filtering | Missing | Partial | Not complete | 1,332 actual historical audience aggregates support preset/custom ranges. Current native reader has no compatible audience event collector/export. |
+| 52 | Audience device/referral/geography breakdowns | Missing | Partial | Not complete | Historical dimensions and filters work; no new native device/referral/geography collection is connected. |
+| 53 | Calendar/RSS subscription-action analytics | Missing | Partial | Not complete | Historical calendar/RSS actions reported. Native current subscription action telemetry is unavailable; delivery remains disabled. |
+| 54 | Reminder-time preference analysis | Missing | Partial | Not complete | Historical reminder choices reportable where recorded; no current native collection exists. |
+| 55 | Help/error and attributed-return analytics | Missing | Partial | Not complete | Historical help/errors/attributed returns retain dimensions and dates; current native collection unavailable. |
+| 56 | Analytics provenance/coverage catalog | Missing | Partial | Not complete | Two metadata records and manifest expose collection bounds, source exclusions and complete historical pagination. No current native audience coverage catalog is available. |
+| 57 | System-component health inventory | Partial | Implemented | Not complete | Component inventory includes dependencies, dated source evidence, live workflows/routes/storage; historical evidence is not labeled current health. |
+| 58 | Automation status/history/runbook | Partial | Implemented | Not complete | Read-only workflow history, scope, last check and runbook; planned schedules explicitly uncreated and disabled. |
+| 59 | Create/enable new production schedules | Intentional | Preserved exclusion | Preserved exclusion | No new schedules created or enabled; old schedules untouched. |
+| 60 | Email/text subscriber delivery | Intentional | Preserved exclusion | Preserved exclusion | Email/text delivery remains disabled; no service added. |
+| 61 | Quick-start walkthrough and user guide | Missing | Implemented | Passed bounded acceptance | Five-step walkthrough and downloadable HTML guide linked in the preserved UI. |
+| 62 | Mobile/responsive and basic accessibility design | Present | Implemented | Passed bounded acceptance | Desktop width 1348/1348 and 390px iframe body 375/375; keyboard tabs, focus, Escape and conflict-draft retention checked. |
+| 63 | Direct publishing/repair engine inside dashboard | Intentional | Preserved exclusion | Preserved exclusion | No dashboard publishing/repair engine, workflow proxy or anonymous production endpoint. |
+| 64 | Canonical manual-workflow launch links | Improved | Implemented | Passed bounded acceptance | Eleven controls resolve existing canonical GitHub/evidence paths; no production workflow dispatched to test them. |
+| 65 | Eleven-stage pipeline and explicit cutover gates | Improved | Implemented | Passed bounded acceptance | All eleven stages retained; stage status comes from actual canonical artifacts, later unrecorded stages are unavailable. |
+| 66 | Whole-Site privacy boundary | Improved | Implemented | Passed bounded acceptance | Changed requirement: native Site access is PUBLIC, no owner sign-in; anonymous UI/assets/API requests and D1 write verified. |
+| 67 | Exact evidence/publication artifact navigation | Partial | Implemented | Passed bounded acceptance | Selected records resolve exact IDs, source SHAs, canonical run/artifact URLs and dated evidence; no generic receipt substitution. |
+| 68 | Historical operational data access | Partial | Implemented | Passed bounded acceptance | 2,974 sanitized records browsable, with stable IDs and provenance. Excluded inaccessible records disclosed. |
+| 69 | Missing measurements remain unavailable | Present | Implemented | Passed bounded acceptance | Null/missing and measured zero remain distinct in metrics, baselines, native signals and schemas. |
