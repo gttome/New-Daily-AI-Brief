@@ -24,14 +24,14 @@ class CommandCenterTests(unittest.TestCase):
         for heading in [
             "Publication pipeline","Six-story allocation","Images","Videos & podcasts","Watchlist",
             "Book bridges","Reader and Site","Manual controls","Production readiness","Schedule readiness",
-            "Command Center data parity","Legacy operational history","Private owner data",
+            "Command Center data parity","Legacy operational history","Public review & application data",
             "Run history & timing","Source health","Incidents & recovery","Usage & cost","Reader engagement",
         ]:
             self.assertIn(heading, self.html)
 
-    def test_private_access_and_public_reader_isolation_contract(self):
+    def test_public_access_and_public_reader_isolation_contract(self):
         self.assertIn('noindex,nofollow,noarchive', self.html)
-        self.assertEqual(self.state["privacy"]["surface"], "private-owner-only")
+        self.assertEqual(self.state["privacy"]["surface"], "public-command-center")
         self.assertFalse(self.state["privacy"]["public_reader_exposure"])
         self.assertFalse(self.state["command_center_site"]["public_pages_deployment_allowed"])
         for forbidden in ["site_project_id", "site_version_id", "deployment_id", "PRIVATE-DO-NOT-COPY"]:
@@ -88,11 +88,11 @@ class CommandCenterTests(unittest.TestCase):
 
     def test_live_refresh_has_safe_committed_fallback(self):
         self.assertIn('state.json', self.js)
-        self.assertIn('/branches/main', self.js)
-        self.assertIn('manual-daily-brief.yml/runs', self.js)
-        self.assertIn('command-center-data-parity-validation.yml/runs', self.js)
-        self.assertIn('Committed snapshot', self.js)
-        self.assertIn('live metadata unavailable', self.js)
+        self.assertIn('/branches/main', (CC / 'worker.mjs').read_text())
+        self.assertIn('manual-daily-brief.yml/runs', (CC / 'worker.mjs').read_text())
+        self.assertIn('command-center-data-parity-validation.yml/runs', (CC / 'worker.mjs').read_text())
+        self.assertIn('saved snapshot retained', self.js)
+        self.assertIn('Refresh failed', self.js)
 
     def test_data_parity_contract_is_public_safe_and_complete(self):
         parity = self.state["data_parity"]
@@ -101,7 +101,7 @@ class CommandCenterTests(unittest.TestCase):
         self.assertEqual(parity["privacy_leakage_defects"], 0)
         self.assertEqual(parity["full_system_validation"], "NOT REQUESTED")
         self.assertFalse(self.state["historical_data"]["private_values_included"])
-        self.assertFalse(self.state["private_owner_data"]["values_committed_to_repository"])
+        self.assertFalse(self.state["legacy_import_source"]["values_committed_to_repository"])
         self.assertEqual(len(self.state["data_domains"]), 10)
 
 

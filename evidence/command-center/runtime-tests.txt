@@ -1,0 +1,31 @@
+
+> test
+> node --test test/*.mjs
+
+✔ real imported proposal API: migration, safe write, read-back, replay, conflict and no production authority (62.369035ms)
+✔ request boundary rejects foreign origin, oversized body and unknown fields (28.402446ms)
+✔ simultaneous compare-and-swap writes commit exactly one revision (4.294916ms)
+✔ real raw measurements yield numeric baselines without converting unknown or reactions to zero stars (55.99252ms)
+✔ last-good state retained across independently unavailable refresh sources (37.968984ms)
+✔ every read area works against actual imports when reader APIs fail (78.144296ms)
+✔ migration replay and actual SQL read-back preserve stable IDs, zero and null (11.20377ms)
+✔ all eight states, Applied proof, idempotency, conflicts and anonymous history (19.794233ms)
+✔ validation, bounded text and sensitive data (0.788395ms)
+✔ atomic network rate limits persist independently of process memory (3.586741ms)
+✔ unknown completion never uses updated_at (0.369746ms)
+✔ metric denominators and compatible baseline boundaries (0.952302ms)
+✔ edition mismatch explicit and persisted last-good survives adapter reload (1.767957ms)
+✔ custom date, status, text and dimension filters (0.550157ms)
+✔ published edition uses only canonical reader URLs and newest date (1.077189ms)
+✔ one unavailable source does not suppress published reader or snapshot (14.303029ms)
+✔ total source failure never generates a success timestamp (2.45513ms)
+✔ endpoint refuses writes and unknown paths (2.409832ms)
+✔ Refresh refetches edition state on every click; rejects regressions and unsafe schedule state (7.888247ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 667.926004

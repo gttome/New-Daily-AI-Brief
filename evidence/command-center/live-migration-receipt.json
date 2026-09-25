@@ -1,0 +1,28 @@
+{
+  "source": "Native Sites D1 read-back",
+  "project_id": "appgprj_6ab08a3a6c808191bfeea0371244ee57",
+  "binding_name": "DB",
+  "table_name": "cc_migrations",
+  "columns": [
+    "id",
+    "payload",
+    "completed_at"
+  ],
+  "rows": [
+    {
+      "id": "seed:cdf80a460eab2312f6fc93e8e274f97979ae23576ea0d2994626d19f312dfa72",
+      "payload": "{\"migration_id\":\"seed:cdf80a460eab2312f6fc93e8e274f97979ae23576ea0d2994626d19f312dfa72\",\"source_count\":117,\"destination_before\":0,\"destination_after\":117,\"inserted\":117,\"duplicates\":0,\"conflicts\":0,\"excluded\":0,\"read_back\":{\"status\":\"passed\",\"ids_checksum\":\"ced24ec89d61bccc12dc9a2ccd093e484f0e5955931720dcec9696ed28711662\",\"record_count\":117,\"payload_digests_verified\":117,\"conflicted_payloads\":0},\"completed_at\":\"2026-09-25T04:17:11.800Z\"}",
+      "completed_at": "2026-09-25T04:17:11.800Z"
+    }
+  ],
+  "limit": 25,
+  "offset": 0,
+  "has_more": false,
+  "model_projection": {
+    "truncated": false,
+    "truncated_values": 0,
+    "omitted_columns": 0,
+    "omitted_rows": 0,
+    "next_offset": null
+  }
+}

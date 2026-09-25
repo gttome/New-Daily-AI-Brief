@@ -370,12 +370,12 @@
       "data_family": "usage_recorded_production_effort",
       "current_source": "private Command Center usage store; public legacy _records/attempts/** as non-private supplement",
       "current_private_or_public": "private",
-      "new_authoritative_source": "PrivateOwnerDataStore at authenticated private runtime + canonical public attempt receipts",
-      "new_command_center_destination": "private usage history panel (never committed to public state)",
+      "new_authoritative_source": "Sites D1 public application records; sanitized historical import",
+      "new_command_center_destination": "Public read API, anonymous review revisions and history",
       "historical_requirement": "Idempotently import authenticated private records; merge only compatible boundaries; preserve private-only attempts.",
       "status": "improved",
       "validation_method": "private-store CRUD/dedupe/missingness tests",
-      "notes": "Stable attempt_id; measured zero preserved; missing metric unavailable; credits never inferred.",
+      "notes": "Stable attempt_id; measured zero preserved; missing metric unavailable; credits never inferred. Public application access supersedes the owner-only destination; historical source classification is retained.",
       "last_reviewed_at": "2026-09-24"
     },
     {
@@ -383,12 +383,12 @@
       "data_family": "book_change_proposals_owner_decisions",
       "current_source": "private Command Center proposal store; canonical book-change evaluation IDs",
       "current_private_or_public": "private",
-      "new_authoritative_source": "PrivateOwnerDataStore at authenticated private runtime + canonical evaluation identities",
-      "new_command_center_destination": "private Book Change Proposals panel (never committed to public state)",
+      "new_authoritative_source": "Sites D1 public application records; sanitized historical import",
+      "new_command_center_destination": "Public read API, anonymous review revisions and history",
       "historical_requirement": "Idempotent private import; preserve Approved/Rejected decisions/timestamps; new valid proposals default Pending review.",
       "status": "improved",
       "validation_method": "private-store CRUD/status/dedupe/reload tests",
-      "notes": "Proposal content must never appear in repository state or public delta.",
+      "notes": "Proposal content must never appear in repository state or public delta. Public application access supersedes the owner-only destination; historical source classification is retained.",
       "last_reviewed_at": "2026-09-24"
     },
     {
@@ -396,13 +396,15 @@
       "data_family": "private_comments_annotations",
       "current_source": "authenticated private runtime records",
       "current_private_or_public": "private",
-      "new_authoritative_source": "authenticated private owner-data runtime",
-      "new_command_center_destination": "private annotation/comment surface",
+      "new_authoritative_source": "Sites D1 public application records; sanitized historical import",
+      "new_command_center_destination": "Public read API, anonymous review revisions and history",
       "historical_requirement": "Preserve owner-only annotations where authoritative; do not create public copies.",
       "status": "equivalent",
       "validation_method": "privacy boundary tests",
-      "notes": "Public projection carries availability/status only, not private content.",
+      "notes": "Public projection carries availability/status only, not private content. Public application access supersedes the owner-only destination; historical source classification is retained.",
       "last_reviewed_at": "2026-09-24"
     }
-  ]
+  ],
+  "public_access_policy": "2026-09-25 user override: application records public; credentials/account/third-party identifying fields excluded",
+  "coverage_meaning": "contract mapping only; deployed and live acceptance tracked separately"
 }

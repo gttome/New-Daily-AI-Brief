@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 
 SCHEMA_VERSION = "1.0.0"
-PROPOSAL_STATUSES = {"Pending review", "Approved", "Rejected"}
+PROPOSAL_STATUSES = {"Pending review", "Approved", "Rejected", "Proposed", "Accepted", "Applied", "Deferred", "Dismissed"}
 
 
 class PrivateOwnerDataError(ValueError):
@@ -184,13 +184,16 @@ class PrivateOwnerDataStore:
             self.upsert_proposal(record)
         return self.list_proposals()
 
-    def decide_proposal(self, proposal_id: str, status: str, decision_at: str) -> dict[str, Any]:
-        if status not in {"Approved", "Rejected", "Pending review"}:
+    def decide_proposal(self, proposal_id: str, status: str, decision_at: str, *, application_evidence=None, verify_evidence=None) -> dict[str, Any]:
+        if status not in PROPOSAL_STATUSES:
             raise PrivateOwnerDataError("invalid proposal decision")
         payload = _load(self.proposals_path, "book-change-proposals")
         row = next((x for x in payload["records"] if x.get("proposal_id") == proposal_id), None)
         if row is None:
             raise PrivateOwnerDataError("unknown proposal_id")
+        if status == "Applied" and (verify_evidence is None or not verify_evidence(row, application_evidence)):
+            raise PrivateOwnerDataError("Applied requires verified application evidence")
+        row.setdefault("history", []).append({"previous_status":row["status"], "status":status, "decision_at":decision_at, "application_evidence":application_evidence})
         row["status"] = status
         row["decision_at"] = decision_at
         _atomic_write(self.proposals_path, payload)

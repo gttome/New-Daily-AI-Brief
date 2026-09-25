@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
+from migrate_command_center_state_v1_to_v2 import migrate
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -285,6 +287,15 @@ def build(root: Path, main_sha: str) -> dict[str, Any]:
     sanitize_guard(p)
     if p["schedules"]["creation_permitted"] or any(x["created"] or x["enabled"] for x in p["schedules"]["planned"]):
         raise ValueError("schedule hard-cutover invariant violated")
+    p["schema_version"] = "1.0.0"
+    p = migrate(p)
+    records_path = root / "site/command-center/records.json"
+    if not records_path.exists():records_path=records_path.with_suffix(".json.gz")
+    projector = root / "site/command-center/projection.mjs"
+    if records_path.exists() and projector.exists():
+        code = "import fs from 'node:fs'; const {assemble}=await import(process.argv[1]); const z=await import('node:zlib');const raw=fs.readFileSync(process.argv[2]);const records=JSON.parse(process.argv[2].endsWith('.gz')?z.gunzipSync(raw):raw); const template=JSON.parse(fs.readFileSync(0,'utf8')); const latest=records.filter(r=>r.family==='editions'&&r.edition_date).map(r=>r.edition_date).sort().at(-1); console.log(JSON.stringify(await assemble(template,records,latest,template.source.main_sha)));"
+        p = json.loads(subprocess.check_output(["node","--input-type=module","-e",code,projector.as_uri(),str(records_path)],input=json.dumps(p),text=True))
+    sanitize_guard(p)
     return p
 
 

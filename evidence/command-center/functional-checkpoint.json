@@ -1,0 +1,30 @@
+{
+  "baseline_sha": "ffae7b31e3cd7f86428ab4811245cabe0eed7a9c",
+  "prior_sites_source": "3a20629262b8e581c11aeab818f3bce7ae7b18f3",
+  "prior_sites_version": 5,
+  "reconciliation": "Copied v5 cc.js/index.html and worker into GitHub branch; GitHub CSS and state unchanged. v5 server Refresh and partial-source error behavior preserved.",
+  "tests": {
+    "node": "18 PASS",
+    "python_focused": "17 PASS",
+    "json_schema": "PASS",
+    "desktop_overflow": "1348 / 1348",
+    "mobile_overflow": "375 / 375 in 390px frame"
+  },
+  "ci_baseline": {
+    "Greenfield Contracts": 36082891607,
+    "Reader Parity": 36082910469,
+    "conclusion": "success"
+  },
+  "migrations": [],
+  "remaining": [
+    "Publish existing npccs with D1; public access after scan",
+    "GitHub source push and CI",
+    "Live anonymous verification blocked so far by Cloudflare 1010",
+    "69-row final evidence ledger/report"
+  ],
+  "checkpoint_at": "2026-09-25T04:11:44.887894+00:00",
+  "current_sha": "ffae7b31e3cd7f86428ab4811245cabe0eed7a9c",
+  "implementation": "Public runtime, D1 review/snapshot storage, immutable historical records, v2 migration, evidence explorer and live read adapters",
+  "prepared_records": 2959,
+  "migrations_completed": "Local actual SQL import/read-back; production pending"
+}

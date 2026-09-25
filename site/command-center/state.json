@@ -1,184 +1,336 @@
 {
-  "schema_version": "1.0.0",
-  "snapshot_generated_at": "2026-09-24T14:22:00Z",
+  "schema_version": "2.0.0",
+  "snapshot_generated_at": "2026-09-25T03:45:22.963525+00:00",
   "source": {
     "repository": "gttome/New-Daily-AI-Brief",
     "branch": "main",
-    "main_sha": "2755d6ed42f2f95c7c2f4f3844748959a9cb3adf",
-    "publication_receipt": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
-    "reader_source_sha": "a23992f94eda864455501dcd67b51d27ed2192b8"
+    "main_sha": "ffae7b31e3cd7f86428ab4811245cabe0eed7a9c",
+    "publication_receipt": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051784007/artifacts/10829999743",
+    "reader_source_sha": "4a0faf7bc3637bab7d27ee95bfa0dc542e0f958c"
   },
   "privacy": {
-    "surface": "private-owner-only",
+    "surface": "public-command-center",
     "robots": "noindex,nofollow",
     "contains_credentials": false,
     "contains_private_ids": false,
     "contains_internal_prompts": false,
-    "public_reader_exposure": false
+    "public_reader_exposure": false,
+    "application_data_classification": "public",
+    "contains_payment_account_details": false,
+    "contains_third_party_identifying_information": false
   },
   "executive": {
-    "edition_date": "2026-09-23",
-    "overall_state": "Verified",
+    "edition_date": "2026-09-24",
+    "overall_state": "Evidence loaded — live check required",
     "production_readiness": "Not Production Ready",
-    "current_run_stage": "No active durable run observed; latest edition verified",
+    "current_run_stage": "See canonical stage evidence",
     "last_completed_stage": "Live Verification",
-    "current_checkpoint": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
-    "latest_successful_edition": "2026-09-23",
-    "latest_publication_timestamp": "2026-09-23T17:06:09Z",
-    "site_version": 3,
-    "critical_defects": 0,
-    "high_defects": 0,
-    "warning_count": 1,
-    "reader_health": "Verified with live-feed retrieval limitation",
+    "current_checkpoint": "/workspace/scratch/951cb357171f/repo/docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
+    "latest_successful_edition": "2026-09-24",
+    "latest_publication_timestamp": "2026-09-24T19:02:47.000Z",
+    "site_version": 4,
+    "critical_defects": null,
+    "high_defects": null,
+    "warning_count": null,
+    "reader_health": "Live checks pending",
     "schedule_readiness": "Blocked pending old-system decommissioning",
     "old_system_decommissioned": false
   },
   "pipeline": [
     {
       "name": "Discovery",
-      "status": "verified",
+      "status": "locked",
       "started_at": null,
       "ended_at": null,
       "elapsed_seconds": null,
       "attempt_count": null,
       "resumed_or_reused": null,
-      "checkpoint": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
+      "checkpoint": "dab-2026-09-24-production:discovery",
       "artifact": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
       "failure_reason": null,
-      "timing_note": "exact per-stage timing is unavailable in the current durable receipt"
+      "timing_note": "exact per-stage timing is unavailable in the current durable receipt",
+      "id": "discovery",
+      "edition_date": "2026-09-24",
+      "evidence": [
+        "dab-2026-09-24-production:discovery"
+      ]
     },
     {
       "name": "Evidence",
-      "status": "verified",
+      "status": "locked",
       "started_at": null,
       "ended_at": null,
       "elapsed_seconds": null,
       "attempt_count": null,
       "resumed_or_reused": null,
-      "checkpoint": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
+      "checkpoint": "dab-2026-09-24-production:discovery",
       "artifact": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
       "failure_reason": null,
-      "timing_note": "exact per-stage timing is unavailable in the current durable receipt"
+      "timing_note": "exact per-stage timing is unavailable in the current durable receipt",
+      "id": "discovery",
+      "edition_date": "2026-09-24",
+      "evidence": [
+        "dab-2026-09-24-production:discovery"
+      ]
     },
     {
       "name": "Editorial Lock",
-      "status": "verified",
+      "status": "locked",
       "started_at": null,
       "ended_at": null,
       "elapsed_seconds": null,
       "attempt_count": null,
       "resumed_or_reused": null,
-      "checkpoint": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
+      "checkpoint": "dab-2026-09-24-production:edition",
       "artifact": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
       "failure_reason": null,
-      "timing_note": "exact per-stage timing is unavailable in the current durable receipt"
+      "timing_note": "exact per-stage timing is unavailable in the current durable receipt",
+      "id": "edition",
+      "edition_date": "2026-09-24",
+      "evidence": [
+        "dab-2026-09-24-production:edition"
+      ]
     },
     {
       "name": "Media",
-      "status": "verified",
+      "status": "locked",
       "started_at": null,
       "ended_at": null,
       "elapsed_seconds": null,
       "attempt_count": null,
       "resumed_or_reused": null,
-      "checkpoint": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
+      "checkpoint": "dab-2026-09-24-production:media",
       "artifact": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
       "failure_reason": null,
-      "timing_note": "exact per-stage timing is unavailable in the current durable receipt"
+      "timing_note": "exact per-stage timing is unavailable in the current durable receipt",
+      "id": "media",
+      "edition_date": "2026-09-24",
+      "evidence": [
+        "dab-2026-09-24-production:media"
+      ]
     },
     {
       "name": "Watchlist",
-      "status": "verified",
+      "status": "locked",
       "started_at": null,
       "ended_at": null,
       "elapsed_seconds": null,
       "attempt_count": null,
       "resumed_or_reused": null,
-      "checkpoint": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
+      "checkpoint": "dab-2026-09-24-production:watchlist",
       "artifact": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
       "failure_reason": null,
-      "timing_note": "exact per-stage timing is unavailable in the current durable receipt"
+      "timing_note": "exact per-stage timing is unavailable in the current durable receipt",
+      "id": "watchlist",
+      "edition_date": "2026-09-24",
+      "evidence": [
+        "dab-2026-09-24-production:watchlist"
+      ]
     },
     {
       "name": "Book Bridges",
-      "status": "verified",
+      "status": "locked",
       "started_at": null,
       "ended_at": null,
       "elapsed_seconds": null,
       "attempt_count": null,
       "resumed_or_reused": null,
-      "checkpoint": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
+      "checkpoint": "dab-2026-09-24-production:book-bridges",
       "artifact": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
       "failure_reason": null,
-      "timing_note": "exact per-stage timing is unavailable in the current durable receipt"
+      "timing_note": "exact per-stage timing is unavailable in the current durable receipt",
+      "id": "book-bridges",
+      "edition_date": "2026-09-24",
+      "evidence": [
+        "dab-2026-09-24-production:book-bridges"
+      ]
     },
     {
       "name": "Image Generation/QA",
-      "status": "verified",
+      "status": "Evidence not recorded for this stage",
       "started_at": null,
       "ended_at": null,
       "elapsed_seconds": null,
       "attempt_count": null,
       "resumed_or_reused": null,
-      "checkpoint": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
+      "checkpoint": null,
       "artifact": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
       "failure_reason": null,
-      "timing_note": "exact per-stage timing is unavailable in the current durable receipt"
+      "timing_note": "exact per-stage timing is unavailable in the current durable receipt",
+      "id": "images",
+      "edition_date": "2026-09-24",
+      "evidence": []
     },
     {
       "name": "Reader Build",
-      "status": "verified",
+      "status": "Evidence not recorded for this stage",
       "started_at": null,
       "ended_at": null,
       "elapsed_seconds": null,
       "attempt_count": null,
       "resumed_or_reused": null,
-      "checkpoint": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
+      "checkpoint": null,
       "artifact": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
       "failure_reason": null,
-      "timing_note": "exact per-stage timing is unavailable in the current durable receipt"
+      "timing_note": "exact per-stage timing is unavailable in the current durable receipt",
+      "id": "reader-render",
+      "edition_date": "2026-09-24",
+      "evidence": []
     },
     {
       "name": "Reader QA",
-      "status": "verified",
+      "status": "Evidence not recorded for this stage",
       "started_at": null,
       "ended_at": null,
       "elapsed_seconds": null,
       "attempt_count": null,
       "resumed_or_reused": null,
-      "checkpoint": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
+      "checkpoint": null,
       "artifact": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
       "failure_reason": null,
-      "timing_note": "exact per-stage timing is unavailable in the current durable receipt"
+      "timing_note": "exact per-stage timing is unavailable in the current durable receipt",
+      "id": "qa",
+      "edition_date": "2026-09-24",
+      "evidence": []
     },
     {
       "name": "Site Publish",
-      "status": "verified",
+      "status": "Evidence not recorded for this stage",
       "started_at": null,
       "ended_at": null,
       "elapsed_seconds": null,
       "attempt_count": null,
       "resumed_or_reused": null,
-      "checkpoint": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
+      "checkpoint": null,
       "artifact": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
       "failure_reason": null,
-      "timing_note": "exact per-stage timing is unavailable in the current durable receipt"
+      "timing_note": "exact per-stage timing is unavailable in the current durable receipt",
+      "id": "publication",
+      "edition_date": "2026-09-24",
+      "evidence": []
     },
     {
       "name": "Live Verification",
-      "status": "verified",
+      "status": "Evidence not recorded for this stage",
       "started_at": null,
       "ended_at": null,
       "elapsed_seconds": null,
       "attempt_count": null,
       "resumed_or_reused": null,
-      "checkpoint": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
+      "checkpoint": null,
       "artifact": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
       "failure_reason": null,
-      "timing_note": "exact per-stage timing is unavailable in the current durable receipt"
+      "timing_note": "exact per-stage timing is unavailable in the current durable receipt",
+      "id": "live-verification",
+      "edition_date": "2026-09-24",
+      "evidence": []
     }
   ],
   "stories": {
+    "items": [
+      {
+        "ordinal": 1,
+        "headline": "Node 20 is no longer available in GitHub Actions",
+        "focus": "technical_ai_engineering",
+        "story_id": "dab-story-2026-09-24-906dd6ad",
+        "agent_skills": false,
+        "source_organization": "GitHub Changelog",
+        "source_publication_date": "2026-09-23",
+        "source_url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions",
+        "reading_minutes": 3,
+        "freshness": "primary",
+        "novelty": "new",
+        "book_bridge": false,
+        "image_path": "briefs/images/2026-09-24/01-node-20-is-no-longer-available-in-github-actions.webp",
+        "image_width": 1200,
+        "image_height": 630
+      },
+      {
+        "ordinal": 2,
+        "headline": "Validate GPU Cluster Readiness Before AI Workloads Land",
+        "focus": "technical_ai_engineering",
+        "story_id": "dab-story-2026-09-24-90912ec5",
+        "agent_skills": false,
+        "source_organization": "NVIDIA Developer",
+        "source_publication_date": "2026-09-23",
+        "source_url": "https://developer.nvidia.com/blog/validate-gpu-cluster-readiness-before-ai-workloads-land",
+        "reading_minutes": 13,
+        "freshness": "primary",
+        "novelty": "new",
+        "book_bridge": false,
+        "image_path": "briefs/images/2026-09-24/02-validate-gpu-cluster-readiness-before-ai-workloads-l.webp",
+        "image_width": 1200,
+        "image_height": 630
+      },
+      {
+        "ordinal": 3,
+        "headline": "More ways to request and configure Copilot code reviews",
+        "focus": "applied_genai_knowledge_workers",
+        "story_id": "dab-story-2026-09-24-63a2ad41",
+        "agent_skills": false,
+        "source_organization": "GitHub Changelog",
+        "source_publication_date": "2026-09-23",
+        "source_url": "https://github.blog/changelog/2026-09-23-copilot-code-review-more-ways-to-request-and-configure-reviews",
+        "reading_minutes": 4,
+        "freshness": "primary",
+        "novelty": "new",
+        "book_bridge": false,
+        "image_path": "briefs/images/2026-09-24/03-more-ways-to-request-and-configure-copilot-code-revi.webp",
+        "image_width": 1200,
+        "image_height": 630
+      },
+      {
+        "ordinal": 4,
+        "headline": "Building the system for AI at work",
+        "focus": "applied_genai_knowledge_workers",
+        "story_id": "dab-story-2026-09-24-dddd1a2e",
+        "agent_skills": false,
+        "source_organization": "Microsoft 365",
+        "source_publication_date": "2026-09-23",
+        "source_url": "https://microsoft.com/en-us/copilot/blog/2026/09/23/building-the-system-for-ai-at-work",
+        "reading_minutes": 7,
+        "freshness": "fallback",
+        "novelty": "new",
+        "book_bridge": false,
+        "image_path": "briefs/images/2026-09-24/04-building-the-system-for-ai-at-work.webp",
+        "image_width": 1200,
+        "image_height": 630
+      },
+      {
+        "ordinal": 5,
+        "headline": "Evaluate skill-equipped agents with Strands Evals and Amazon Bedrock AgentCore",
+        "focus": "agents_non_technical_people",
+        "story_id": "dab-story-2026-09-24-4aa18653",
+        "agent_skills": true,
+        "source_organization": "AWS Machine Learning",
+        "source_publication_date": "2026-09-22",
+        "source_url": "https://aws.amazon.com/blogs/machine-learning/evaluate-skill-equipped-agents-with-strands-evals-and-amazon-bedrock-agentcore",
+        "reading_minutes": 20,
+        "freshness": "fallback",
+        "novelty": "new",
+        "book_bridge": false,
+        "image_path": "briefs/images/2026-09-24/05-evaluate-skill-equipped-agents-with-strands-evals-an.webp",
+        "image_width": 1200,
+        "image_height": 630
+      },
+      {
+        "ordinal": 6,
+        "headline": "Build a multi-account AI agent with AgentCore Gateway and MCP",
+        "focus": "agents_non_technical_people",
+        "story_id": "dab-story-2026-09-24-cca310b8",
+        "agent_skills": false,
+        "source_organization": "AWS Machine Learning",
+        "source_publication_date": "2026-09-24",
+        "source_url": "https://aws.amazon.com/blogs/machine-learning/build-a-multi-account-ai-agent-with-agentcore-gateway-and-mcp",
+        "reading_minutes": 25,
+        "freshness": "primary",
+        "novelty": "new",
+        "book_bridge": false,
+        "image_path": "briefs/images/2026-09-24/06-build-a-multi-account-ai-agent-with-agentcore-gatewa.webp",
+        "image_width": 1200,
+        "image_height": 630
+      }
+    ],
     "count": 6,
     "allocation": {
       "technical_ai_engineering": 2,
@@ -186,198 +338,82 @@
       "agents_non_technical_people": 2
     },
     "agent_skills_count": 1,
-    "allocation_pass": true,
-    "items": [
-      {
-        "ordinal": 1,
-        "focus": "technical_ai_engineering",
-        "headline": "Nemotron 3 brings real-time speaker diarization to open-weight voice AI",
-        "agent_skills": false,
-        "freshness": "primary",
-        "novelty": "new",
-        "authoritative_source": true,
-        "source_organization": "Hugging Face / NVIDIA",
-        "source_publication_date": "2026-09-23",
-        "reading_minutes": 18,
-        "book_bridge": false,
-        "image_path": "briefs/images/2026-09-23/01-nemotron-diarization.webp",
-        "image_width": 1200,
-        "image_height": 630
-      },
-      {
-        "ordinal": 2,
-        "focus": "technical_ai_engineering",
-        "headline": "GPT-6 Sol and Luna expand model choice inside GitHub Copilot",
-        "agent_skills": false,
-        "freshness": "primary",
-        "novelty": "new",
-        "authoritative_source": true,
-        "source_organization": "GitHub Changelog",
-        "source_publication_date": "2026-09-22",
-        "reading_minutes": 3,
-        "book_bridge": false,
-        "image_path": "briefs/images/2026-09-23/02-gpt6-sol-luna-copilot.webp",
-        "image_width": 1200,
-        "image_height": 630
-      },
-      {
-        "ordinal": 3,
-        "focus": "applied_genai_knowledge_workers",
-        "headline": "GitHub Copilot adds OpenTelemetry for agent observability",
-        "agent_skills": false,
-        "freshness": "primary",
-        "novelty": "new",
-        "authoritative_source": true,
-        "source_organization": "GitHub Changelog",
-        "source_publication_date": "2026-09-23",
-        "reading_minutes": 2,
-        "book_bridge": false,
-        "image_path": "briefs/images/2026-09-23/03-copilot-opentelemetry.webp",
-        "image_width": 1200,
-        "image_height": 630
-      },
-      {
-        "ordinal": 4,
-        "focus": "applied_genai_knowledge_workers",
-        "headline": "Confidential computing targets private production AI inference without giving up acceleration",
-        "agent_skills": false,
-        "freshness": "primary",
-        "novelty": "new",
-        "authoritative_source": true,
-        "source_organization": "NVIDIA Developer",
-        "source_publication_date": "2026-09-22",
-        "reading_minutes": 8,
-        "book_bridge": false,
-        "image_path": "briefs/images/2026-09-23/04-nvidia-confidential-inference.webp",
-        "image_width": 1200,
-        "image_height": 630
-      },
-      {
-        "ordinal": 5,
-        "focus": "agents_non_technical_people",
-        "headline": "Copilot for JetBrains adds shared skills, instructions, plan review, and tool approvals",
-        "agent_skills": true,
-        "freshness": "primary",
-        "novelty": "new",
-        "authoritative_source": true,
-        "source_organization": "GitHub Changelog",
-        "source_publication_date": "2026-09-23",
-        "reading_minutes": 5,
-        "book_bridge": false,
-        "image_path": "briefs/images/2026-09-23/05-copilot-jetbrains-skills.webp",
-        "image_width": 1200,
-        "image_height": 630
-      },
-      {
-        "ordinal": 6,
-        "focus": "agents_non_technical_people",
-        "headline": "Agentforce and AWS connect unstructured public-sector evidence to governed agent workflows",
-        "agent_skills": false,
-        "freshness": "primary",
-        "novelty": "new",
-        "authoritative_source": true,
-        "source_organization": "AWS Machine Learning",
-        "source_publication_date": "2026-09-22",
-        "reading_minutes": 20,
-        "book_bridge": false,
-        "image_path": "briefs/images/2026-09-23/06-agentforce-aws-public-sector.webp",
-        "image_width": 1200,
-        "image_height": 630
-      }
-    ]
+    "allocation_pass": true
   },
   "images": {
     "accepted_count": 6,
     "items": [
       {
         "ordinal": 1,
-        "story": "Nemotron 3 brings real-time speaker diarization to open-weight voice AI",
-        "path": "briefs/images/2026-09-23/01-nemotron-diarization.webp",
+        "story": "Node 20 is no longer available in GitHub Actions",
+        "path": "briefs/images/2026-09-24/01-node-20-is-no-longer-available-in-github-actions.webp",
         "dimensions": [
           1200,
           630
         ],
         "format": "WebP",
-        "generation_method": "per-slot generation method not separately encoded in durable receipt",
-        "visual_qa": "accepted",
-        "locked": true,
-        "regeneration_count": null,
-        "quality_failure_reason": null
+        "visual_qa": "See image quality evidence",
+        "regeneration_count": null
       },
       {
         "ordinal": 2,
-        "story": "GPT-6 Sol and Luna expand model choice inside GitHub Copilot",
-        "path": "briefs/images/2026-09-23/02-gpt6-sol-luna-copilot.webp",
+        "story": "Validate GPU Cluster Readiness Before AI Workloads Land",
+        "path": "briefs/images/2026-09-24/02-validate-gpu-cluster-readiness-before-ai-workloads-l.webp",
         "dimensions": [
           1200,
           630
         ],
         "format": "WebP",
-        "generation_method": "per-slot generation method not separately encoded in durable receipt",
-        "visual_qa": "accepted",
-        "locked": true,
-        "regeneration_count": null,
-        "quality_failure_reason": null
+        "visual_qa": "See image quality evidence",
+        "regeneration_count": null
       },
       {
         "ordinal": 3,
-        "story": "GitHub Copilot adds OpenTelemetry for agent observability",
-        "path": "briefs/images/2026-09-23/03-copilot-opentelemetry.webp",
+        "story": "More ways to request and configure Copilot code reviews",
+        "path": "briefs/images/2026-09-24/03-more-ways-to-request-and-configure-copilot-code-revi.webp",
         "dimensions": [
           1200,
           630
         ],
         "format": "WebP",
-        "generation_method": "per-slot generation method not separately encoded in durable receipt",
-        "visual_qa": "accepted",
-        "locked": true,
-        "regeneration_count": null,
-        "quality_failure_reason": null
+        "visual_qa": "See image quality evidence",
+        "regeneration_count": null
       },
       {
         "ordinal": 4,
-        "story": "Confidential computing targets private production AI inference without giving up acceleration",
-        "path": "briefs/images/2026-09-23/04-nvidia-confidential-inference.webp",
+        "story": "Building the system for AI at work",
+        "path": "briefs/images/2026-09-24/04-building-the-system-for-ai-at-work.webp",
         "dimensions": [
           1200,
           630
         ],
         "format": "WebP",
-        "generation_method": "per-slot generation method not separately encoded in durable receipt",
-        "visual_qa": "accepted",
-        "locked": true,
-        "regeneration_count": null,
-        "quality_failure_reason": null
+        "visual_qa": "See image quality evidence",
+        "regeneration_count": null
       },
       {
         "ordinal": 5,
-        "story": "Copilot for JetBrains adds shared skills, instructions, plan review, and tool approvals",
-        "path": "briefs/images/2026-09-23/05-copilot-jetbrains-skills.webp",
+        "story": "Evaluate skill-equipped agents with Strands Evals and Amazon Bedrock AgentCore",
+        "path": "briefs/images/2026-09-24/05-evaluate-skill-equipped-agents-with-strands-evals-an.webp",
         "dimensions": [
           1200,
           630
         ],
         "format": "WebP",
-        "generation_method": "per-slot generation method not separately encoded in durable receipt",
-        "visual_qa": "accepted",
-        "locked": true,
-        "regeneration_count": null,
-        "quality_failure_reason": null
+        "visual_qa": "See image quality evidence",
+        "regeneration_count": null
       },
       {
         "ordinal": 6,
-        "story": "Agentforce and AWS connect unstructured public-sector evidence to governed agent workflows",
-        "path": "briefs/images/2026-09-23/06-agentforce-aws-public-sector.webp",
+        "story": "Build a multi-account AI agent with AgentCore Gateway and MCP",
+        "path": "briefs/images/2026-09-24/06-build-a-multi-account-ai-agent-with-agentcore-gatewa.webp",
         "dimensions": [
           1200,
           630
         ],
         "format": "WebP",
-        "generation_method": "per-slot generation method not separately encoded in durable receipt",
-        "visual_qa": "accepted",
-        "locked": true,
-        "regeneration_count": null,
-        "quality_failure_reason": null
+        "visual_qa": "See image quality evidence",
+        "regeneration_count": null
       }
     ]
   },
@@ -386,28 +422,124 @@
     "podcast_count": 2,
     "videos": [
       {
-        "slot": 1,
-        "details": "Latest selected-video metadata is not separately encoded in the current durable publication receipt."
+        "role": "agents_non_technical_people",
+        "status": "included",
+        "title": "Are developers mourning the craft of coding in the AI era?",
+        "channel": "GitHub",
+        "upload_date": "2026-09-24",
+        "runtime_seconds": 55,
+        "why_useful": "As AI tools evolve, many developers feel like they are mourning the craft of manually writing software. In this clip from the GitHub Podcast, the team discusses the blog post \"We mourn our craft\" and explores whether traditional coding skills are truly losing their value. While viral social media takes push extreme viewpoints, many engineering teams still rely on hand-written code. Watch the full episode to hear more perspectives on developer culture and AI. #AI #AICoding #GitHubPodcast Stay up-to-date on all things GitHub by connecting with us: YouTube: https://gh.io/subgithub Blog: https://github.blog X: https://twitter.com/github LinkedIn: https://linkedin.com/company/github Insider…",
+        "connection": "Adds a concise practitioner or engineering perspective connected to the day's selected developments.",
+        "url": "https://www.youtube.com/shorts/arhEVn0bAdM",
+        "duration_tier": "short",
+        "short_search_evidence": [
+          "Live bounded source search completed before selection."
+        ],
+        "duration_minutes": 1,
+        "evidence_digest": "sha256:77f9b9e291db5f39283d25eba7d36c2e200f985929cc539f69d501d39ca88b03",
+        "kind": "video",
+        "media_id": "live-video-1-github-youtube",
+        "published_at": "2026-09-24",
+        "verified": true
       },
       {
-        "slot": 2,
-        "details": "Latest selected-video metadata is not separately encoded in the current durable publication receipt."
+        "role": "general",
+        "status": "included",
+        "title": "Today’s forecast? Nothing but 80s, baby.",
+        "channel": "OpenAI",
+        "upload_date": "2026-09-23",
+        "runtime_seconds": 50,
+        "why_useful": "Create your own with ChatGPT Images.",
+        "connection": "Adds a concise practitioner or engineering perspective connected to the day's selected developments.",
+        "url": "https://www.youtube.com/shorts/rmDu2sSBIrw",
+        "duration_tier": "short",
+        "short_search_evidence": [
+          "Live bounded source search completed before selection."
+        ],
+        "duration_minutes": 1,
+        "evidence_digest": "sha256:a4794c36725bade6fd012085484f710a9526cd68d16ba314fafcd80701f9a298",
+        "kind": "video",
+        "media_id": "live-video-2-openai-youtube",
+        "published_at": "2026-09-23",
+        "verified": true
       }
     ],
     "podcasts": [
       {
-        "title": "Are AI agents changing the rules of business?",
-        "source": null,
-        "publication_date": "2026-09-22",
-        "runtime": null,
-        "verification": "confirmed in canonical edition"
+        "status": "included",
+        "ordinal": 9,
+        "item_id": "dab-podcast-2026-09-24-bbc10ca8",
+        "title": "Opus 5.5 is our favorite AI model (so far).",
+        "show": "AI for Humans",
+        "host": "AI for Humans",
+        "publication_date": "2026-09-24",
+        "published_at": "2026-09-24",
+        "runtime_seconds": 2901,
+        "focus": "applied_genai_knowledge_workers",
+        "topics": [
+          "benchmark",
+          "favorite",
+          "model"
+        ],
+        "url": "https://www.aiforhumans.show/",
+        "permanent_url": "/podcasts/2026-09-24/opus-5-5-is-our-favorite-ai-model-so-far/",
+        "summary": "AI news this week: Claude Opus 5.5 is INSANE and we love it. Faster, cheaper, better. So much for the AI slowdown. Oh and OpenAI's new thing is good too. On today's AI For Humans, Kevin Pereira and Gavin Purcell go hands on with Claude Opus 5.5, which might be the best model we've ever used (for now). Anthropic says it hits Fable-level performance on most things at about 40% less cost than Opus 5, the writing is clearer, and yes, the five hour usage limits went up and you can now bank your resets. Then we get into what people are already making with it: a guitar store sim, a music-based side-scroller, a Mario Kart benchmark, an underwater exploration game in 3MB, claymation built in…",
+        "why_useful": "Adds a current practitioner or industry perspective to the day's selected developments.",
+        "connection": "Extends the Brief with a longer-form discussion of practical AI systems, workflows, or governance.",
+        "selection_rationale": "Selected by bounded live podcast discovery with source diversity and freshness gates.",
+        "verification_note": "Publication date and source URL were verified through the publisher-linked feed during the live media preflight.",
+        "coverage_note": "Current source-diverse podcast selection.",
+        "freshness_tier": "primary_48h",
+        "platforms": [
+          {
+            "name": "AI for Humans",
+            "url": "https://www.aiforhumans.show/"
+          }
+        ],
+        "duration_minutes": 48,
+        "evidence_digest": "sha256:ab24bca12e1f3c8e0167c285bbce7a6408d917cfcb59d0e51686415f9a11faed",
+        "kind": "podcast",
+        "media_id": "live-podcast-1-ai-for-humans",
+        "verified": true
       },
       {
-        "title": "Gemini’s Internet Escape, AI Chemistry, and the Test for Game-Playing Agents",
-        "source": null,
+        "status": "included",
+        "ordinal": 10,
+        "item_id": "dab-podcast-2026-09-24-53e5ade6",
+        "title": "#241: Pacing the Frontier Gets Political, Why AI Labs Could Keep the Best Models for Themselves & Introducing the AI Transformation Blueprint",
+        "show": "The Artificial Intelligence Show",
+        "host": "The Artificial Intelligence Show",
         "publication_date": "2026-09-22",
-        "runtime": null,
-        "verification": "confirmed in canonical edition"
+        "published_at": "2026-09-22",
+        "runtime_seconds": 5790,
+        "focus": "technical_ai_engineering",
+        "topics": [
+          "pacing",
+          "frontier",
+          "political",
+          "could"
+        ],
+        "url": "https://podcast.smarterx.ai/",
+        "permanent_url": "/podcasts/2026-09-24/241-pacing-the-frontier-gets-political-why-ai-labs-could-keep-the-best-models-for-themselves-introdu/",
+        "summary": "AI-safety pacing became a political fight this week: Trump versus a bipartisan push, with data centers and the midterms in the middle. Paul and Mike go deeper on the part that matters more: the widening gap between the models labs keep and the ones you can use, Noam Brown's warning about it, and OpenAI's six new rogue-agent disclosures. Plus Paul's surprise book announcement and a full rapid-fire slate. AI-Pulse Survey: Fill out this week’s AI-Pulse Survey here. Show Notes: Access the show notes and show links here Timestamps: 00:00:00 — Intro 00:04:29 — The AI Slowdown Gets (Very) Political 00:25:18 — AI Labs Could Keep the Best Models to Themselves 00:54:33 — The AI Transformation…",
+        "why_useful": "Adds a current practitioner or industry perspective to the day's selected developments.",
+        "connection": "Extends the Brief with a longer-form discussion of practical AI systems, workflows, or governance.",
+        "selection_rationale": "Selected by bounded live podcast discovery with source diversity and freshness gates.",
+        "verification_note": "Publication date and source URL were verified through the publisher-linked feed during the live media preflight.",
+        "coverage_note": "Current source-diverse podcast selection.",
+        "freshness_tier": "fallback_7d",
+        "platforms": [
+          {
+            "name": "The Artificial Intelligence Show",
+            "url": "https://podcast.smarterx.ai/"
+          }
+        ],
+        "freshness_exception_reason": "No second sufficiently relevant verified episode from a distinct source qualified inside the preferred 48-hour window.",
+        "duration_minutes": 96,
+        "evidence_digest": "sha256:163946f4eae5fccc71e119c757f8e18ff456743938624ac302403a591bb7e480",
+        "kind": "podcast",
+        "media_id": "live-podcast-2-artificial-intelligence-show",
+        "verified": true
       }
     ],
     "video_source_registry_count": 6,
@@ -416,38 +548,51 @@
   "watchlist": {
     "active_topics": 16,
     "new_today": 0,
-    "updated_today": 3,
-    "carried_forward": 13,
+    "updated_today": 16,
+    "carried_forward": 0,
     "changed_topics": [
+      "Agent safeguards tailored to the task",
+      "Agents that overclaim task completion",
       "Reusable agent skills become observable",
+      "Agentic workloads move toward measured edge inference",
+      "AI adoption measured at the feature level",
+      "Collaborative vibe coding",
+      "Language models that also predict concepts",
       "AI harness engineering becomes a first-class layer",
-      "Model lifecycle governance for AI products"
+      "Restoring images after repeated AI edits",
+      "Agents that persist across sessions",
+      "Turning agent memory into compact plans",
+      "Model lifecycle governance for AI products",
+      "Building 3D worlds through recursive code",
+      "Repairable AI-generated 3D designs",
+      "Smaller model memory through selective precision",
+      "Decision models emerge as a separate AI systems layer"
     ],
-    "source_state_updated_at": "2026-09-18T14:31:07.655Z"
+    "source_state_updated_at": "2026-09-24T19:17:58Z"
   },
   "book_bridges": {
-    "reference_count": 3,
-    "edition_mapping_count": 9,
-    "historical_reader_bridge_records": 33,
-    "latest_edition_explicit_bridge_count": 0
+    "reference_count": null,
+    "edition_mapping_count": null,
+    "historical_reader_bridge_records": null,
+    "latest_edition_explicit_bridge_count": 1
   },
   "reader_site": {
-    "reader_bundle_status": "passed",
-    "html_page_count": 342,
-    "archive_item_count": 221,
-    "edition_count": 38,
+    "reader_bundle_status": "See selected artifact",
+    "html_page_count": null,
+    "archive_item_count": null,
+    "edition_count": null,
     "archive_feed_parity": "packaged validation passed; direct live RSS/Atom/JSON retrieval limited for some clients",
-    "desktop_qa": "passed",
-    "small_screen_qa": "passed at 390px supervised viewport",
-    "accessibility": "reader accessibility preserved; no separate new accessibility claim is inferred from the September 23 receipt",
-    "ratings": "confirmed in D1",
-    "sharing": "confirmed",
-    "comments": "passed in isolated preview",
-    "watchlist_interactions": "confirmed",
-    "site_deployment_state": "succeeded",
-    "site_version": 3,
+    "desktop_qa": "Not inferred from prior edition",
+    "small_screen_qa": "Not inferred from prior edition",
+    "accessibility": "See dated evidence",
+    "ratings": "See live/read-back evidence",
+    "sharing": "See live/read-back evidence",
+    "comments": "See public review evidence",
+    "watchlist_interactions": "See dated interest evidence",
+    "site_deployment_state": "Live verification required",
+    "site_version": 4,
     "live_verification": "passed with feed-retrieval limitation",
-    "live_edition_url": "https://ndaib.gtome.chatgpt.site/briefs/2026-09-23/"
+    "live_edition_url": "https://ndaib.gtome.chatgpt.site/briefs/2026-09-24/"
   },
   "readiness_gates": [
     {
@@ -577,7 +722,7 @@
       "id": "open-publication-artifact",
       "label": "Open publication artifact",
       "kind": "evidence",
-      "url": "https://github.com/gttome/New-Daily-AI-Brief/blob/main/docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
+      "url": "https://github.com/gttome/New-Daily-AI-Brief/actions/runs/36051784007/artifacts/10829999743",
       "enabled": true,
       "notes": "Opens the durable publication receipt, never a private deployment identifier."
     },
@@ -585,7 +730,7 @@
       "id": "open-live-brief",
       "label": "Open live Brief",
       "kind": "reader",
-      "url": "https://ndaib.gtome.chatgpt.site/briefs/2026-09-23/",
+      "url": "https://ndaib.gtome.chatgpt.site/briefs/2026-09-24/",
       "enabled": true,
       "notes": "Opens the current reader edition."
     },
@@ -601,7 +746,7 @@
       "id": "view-evidence",
       "label": "View exact evidence",
       "kind": "evidence",
-      "url": "https://github.com/gttome/New-Daily-AI-Brief/blob/main/docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
+      "url": "/api/cc/v1/evidence?edition=2026-09-24",
       "enabled": true,
       "notes": "Opens exact durable evidence."
     }
@@ -629,27 +774,7 @@
       }
     ]
   },
-  "run_history": [
-    {
-      "edition": "2026-09-23",
-      "start": null,
-      "end": "2026-09-23T17:06:09Z",
-      "elapsed_seconds": null,
-      "stages_reached": "Live Verification",
-      "completion_state": "published_verified",
-      "attempts": null,
-      "resumes": null,
-      "failures": 0,
-      "repairs": null,
-      "source_scans": null,
-      "deep_retrievals": null,
-      "image_generations": null,
-      "media_checks": null,
-      "qa_counts": null,
-      "site_publication_result": "succeeded",
-      "note": "Exact run timings/counts are not invented when absent from durable evidence; live GitHub Actions metadata is loaded separately by the private UI when available."
-    }
-  ],
+  "run_history": [],
   "source_health": {
     "source_registry_total": 43,
     "source_registry_status": {
@@ -679,10 +804,9 @@
   },
   "incidents": {
     "current": [],
-    "historical_source": "durable run/evidence records",
-    "latest_recovery_checkpoint": "docs/SEP23_PUBLICATION_RECEIPT_2026-09-24.json",
-    "rework_avoided": true,
-    "repair_outcome": "September 23 publication verified; no Critical/High defects remain."
+    "latest_recovery_checkpoint": "dab-2026-09-24-production:edition",
+    "rework_avoided": null,
+    "repair_outcome": "See canonical run evidence"
   },
   "engagement": {
     "ratings": {
@@ -695,7 +819,7 @@
       "count": null
     },
     "private_comments": {
-      "status": "private comment transport confirmed",
+      "status": "Public review history",
       "count": null
     },
     "watchlist_interest": {
@@ -703,18 +827,20 @@
       "count": null
     },
     "read_event_activity": null,
-    "date_range": "2026-09-23",
-    "data_source": "September 23 publication receipt and NDAIB-owned runtime checks",
-    "note": "Authoritative historical interaction counts are not present in repository evidence and are not fabricated."
+    "date_range": "2026-09-24",
+    "data_source": "Inspect independently dated imported and live reader aggregates",
+    "note": "Native and legacy totals have separate coverage; unknown remains unavailable."
   },
   "warnings": [
-    "Direct live RSS/Atom/JSON retrieval blocked for verification clients; packaged feeds validated."
+    "Measurements absent from this edition remain unavailable. Prior-edition QA is not carried forward."
   ],
   "command_center_site": {
     "identifier": "npccs",
-    "publication_state": "source_ready_private_publish_required",
-    "live_url": null,
-    "public_pages_deployment_allowed": false
+    "publication_state": "Public application runtime",
+    "live_url": "https://npccs.gtome.chatgpt.site",
+    "public_pages_deployment_allowed": false,
+    "public_access": true,
+    "requires_owner_sign_in": false
   },
   "data_parity": {
     "matrix_version": "2026-09-24.1",
@@ -863,27 +989,6 @@
       }
     }
   },
-  "private_owner_data": {
-    "transport": "authenticated-private-runtime",
-    "adapter": "src/new_daily_ai_brief/command_center_private.py",
-    "values_committed_to_repository": false,
-    "usage_history": {
-      "dedupe_key": "attempt_id",
-      "missingness": "metric-level",
-      "incompatible_boundaries": "preserved separately",
-      "estimated_values_allowed": false
-    },
-    "book_change_proposals": {
-      "dedupe_key": "stable proposal_id",
-      "states": [
-        "Pending review",
-        "Approved",
-        "Rejected"
-      ],
-      "prior_owner_decisions_preserved": true,
-      "default_new_state": "Pending review"
-    }
-  },
   "data_domains": {
     "editorial_discovery": {
       "status": "mapped",
@@ -931,10 +1036,69 @@
       "current_source": "canonical incidents/recovery/repo/workflow evidence",
       "historical_source": "legacy command-center/corrections/releases/source-reliability references"
     },
-    "private_owner_only": {
-      "status": "mapped-private",
-      "current_source": "authenticated private runtime only",
-      "repository_values": false
+    "public_application_records": {
+      "status": "runtime_required",
+      "current_source": "Sites D1"
     }
-  }
+  },
+  "legacy_import_source": {
+    "transport": "authenticated-private-runtime",
+    "adapter": "src/new_daily_ai_brief/command_center_private.py",
+    "values_committed_to_repository": false,
+    "usage_history": {
+      "dedupe_key": "attempt_id",
+      "missingness": "metric-level",
+      "incompatible_boundaries": "preserved separately",
+      "estimated_values_allowed": false
+    },
+    "book_change_proposals": {
+      "dedupe_key": "stable proposal_id",
+      "states": [
+        "Pending review",
+        "Approved",
+        "Rejected"
+      ],
+      "prior_owner_decisions_preserved": true,
+      "default_new_state": "Pending review"
+    }
+  },
+  "public_application_data": {
+    "transport": "Sites D1",
+    "values_public": true,
+    "review_writes": {
+      "anonymous_allowed": true,
+      "append_only_history": true,
+      "revision_protection": true,
+      "idempotency": true,
+      "rate_limited": true
+    },
+    "usage_history": {
+      "dedupe_key": "attempt_id + measurement_boundary",
+      "estimated_values_allowed": false
+    },
+    "book_change_proposals": {
+      "states": [
+        "Pending review",
+        "Approved",
+        "Rejected",
+        "Proposed",
+        "Accepted",
+        "Applied",
+        "Deferred",
+        "Dismissed"
+      ],
+      "dedupe_key": "stable proposal ID",
+      "prior_owner_decisions_preserved": true
+    }
+  },
+  "provenance": {
+    "edition_date": "2026-09-24",
+    "run_id": "36051784007",
+    "attempt_id": null,
+    "source_sha": "4a0faf7bc3637bab7d27ee95bfa0dc542e0f958c",
+    "artifact_id": null,
+    "artifact_digest": "sha256:24463a8356510dc5036376ff05b3c113d79701cc6b8c03f20edf277c8dcc4a2e",
+    "observed_at": "2026-09-25T03:45:22.963525+00:00"
+  },
+  "projection_digest": "sha256:c7c2f16d0604289d5258621dbcb59aba0e328791a189abfc760df83322d390cf"
 }

@@ -793,6 +793,24 @@
         "shared-contracts"
       ],
       "rationale": "Command Center parity changes require bounded cockpit/privacy checks, canonical snapshot integration, dedicated data-family parity validation, and shared contract compatibility."
+    },
+    "command-center-public-runtime": {
+      "paths": [
+        "site/command-center/**",
+        "scripts/migrate_command_center_state_v1_to_v2.py",
+        "scripts/prepare_command_center_records.py",
+        "scripts/test_command_center_runtime.py"
+      ],
+      "development_suites": [
+        "command-center",
+        "command-center-runtime",
+        "command-center-v2"
+      ],
+      "integration_suites": [
+        "command-center-integration"
+      ],
+      "dependencies": [],
+      "rationale": "Public D1 read/review runtime and historical projection require bounded API, storage and schema migration checks."
     }
   },
   "suites": {
@@ -1454,6 +1472,23 @@
         "{python}",
         "tests/test_command_center_data_parity.py",
         "-v"
+      ]
+    },
+    "command-center-runtime": {
+      "level": "development",
+      "description": "Public Command Center API, D1-compatible storage, migration, metrics and anonymous-authority boundary.",
+      "command": [
+        "{python}",
+        "scripts/test_command_center_runtime.py"
+      ],
+      "requires_node": true
+    },
+    "command-center-v2": {
+      "level": "development",
+      "description": "Non-destructive v1 to public v2 migration.",
+      "command": [
+        "{python}",
+        "tests/test_command_center_v2.py"
       ]
     }
   }

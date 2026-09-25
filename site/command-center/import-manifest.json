@@ -1,0 +1,181 @@
+{
+  "prepared_at": "2026-09-25T03:45:22.963525+00:00",
+  "record_count": 2959,
+  "families": {
+    "accessibility": 12,
+    "audience": 1332,
+    "audience-metadata": 2,
+    "book-proposals": 41,
+    "books": 1,
+    "candidate": 248,
+    "candidates": 25,
+    "canonical": 6,
+    "channels": 10,
+    "comments": 24,
+    "components": 4,
+    "corrections": 9,
+    "editions": 20,
+    "event-days": 311,
+    "events": 320,
+    "evidence": 35,
+    "feedback": 18,
+    "images": 15,
+    "incidents": 2,
+    "learning": 2,
+    "media": 32,
+    "migration-source-receipts": 18,
+    "native-feedback": 11,
+    "proposal-evaluations": 2,
+    "publication": 61,
+    "qa": 18,
+    "ratings": 133,
+    "retention": 3,
+    "snapshots": 1,
+    "sources": 24,
+    "stories": 114,
+    "story-memory": 13,
+    "trends": 17,
+    "usage": 32,
+    "watchlist": 16,
+    "watchlist-history": 24,
+    "watchlist-reviews": 3
+  },
+  "exclusions": {
+    "fields": 390,
+    "excluded_records": 9,
+    "duplicates": 0,
+    "conflicts": 0
+  },
+  "sources": [
+    {
+      "source": "legacy-audience_metadata",
+      "rows_received": 2,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "legacy-audience_totals-all",
+      "rows_received": 1332,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "legacy-edition_usage",
+      "rows_received": 8,
+      "remaining_offset": null,
+      "truncated_values": 2
+    },
+    {
+      "source": "legacy-event_days-all",
+      "rows_received": 311,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "legacy-event_totals-all",
+      "rows_received": 320,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "legacy-private_snapshots",
+      "rows_received": 6,
+      "remaining_offset": null,
+      "truncated_values": 5
+    },
+    {
+      "source": "legacy-rating_totals-all",
+      "rows_received": 133,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "legacy-reader_comments",
+      "rows_received": 24,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "legacy-watchlist_review_history",
+      "rows_received": 2,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "legacy-watchlist_reviews",
+      "rows_received": 1,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "old-book_evaluation_receipts",
+      "rows_received": 2,
+      "remaining_offset": null,
+      "truncated_values": 2
+    },
+    {
+      "source": "old-book_import_receipts",
+      "rows_received": 18,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "old-book_reviews-18",
+      "rows_received": 9,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "old-book_reviews-27",
+      "rows_received": 9,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "old-book_reviews-36",
+      "rows_received": 5,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "old-book_reviews-9",
+      "rows_received": 9,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "old-book_reviews",
+      "rows_received": 9,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "old-maintenance_receipts",
+      "rows_received": 3,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "reader-reader_comments",
+      "rows_received": 0,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "reader-reader_feedback",
+      "rows_received": 11,
+      "remaining_offset": null,
+      "truncated_values": 0
+    },
+    {
+      "source": "reader-reader_watchlist_ballots",
+      "rows_received": 0,
+      "remaining_offset": null,
+      "truncated_values": 0
+    }
+  ],
+  "source_sha": "4a0faf7bc3637bab7d27ee95bfa0dc542e0f958c",
+  "canonical_run": 36051784007,
+  "canonical_artifact": 10829999743,
+  "read_back": "pending deployed import"
+}

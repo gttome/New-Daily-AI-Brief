@@ -104,7 +104,7 @@ class CommandCenterDataParityTests(unittest.TestCase):
         self.assertNotIn('"private_usage_records"', text)
         self.assertNotIn('"proposal_records_private"', text)
         self.assertFalse(state["privacy"]["public_reader_exposure"])
-        private = state["private_owner_data"]
+        private = state["legacy_import_source"]
         self.assertEqual(private["transport"], "authenticated-private-runtime")
         self.assertFalse(private["values_committed_to_repository"])
         self.assertNotIn("records", private["usage_history"])

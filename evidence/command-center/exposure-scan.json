@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-09-25T04:14:47.770996+00:00",
+  "record_count": 2959,
+  "sensitive_value_matches": 0,
+  "excluded_fields": 390,
+  "identity_fields_in_comments": false,
+  "review_notice": true,
+  "targets": [
+    "entire imported projection",
+    "state.json",
+    "public API serializer and write allowlists",
+    "downloadable guide and bundled assets"
+  ],
+  "limits": "Pattern and field allowlist scan; cannot infer arbitrary identifying meaning in free text. Server refuses recognized sensitive forms."
+}

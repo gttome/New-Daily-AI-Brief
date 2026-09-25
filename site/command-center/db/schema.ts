@@ -1,0 +1,6 @@
+import {sqliteTable,text,integer,primaryKey} from 'drizzle-orm/sqlite-core';
+export const records=sqliteTable('cc_records',{id:text('id').primaryKey(),family:text('family').notNull(),edition:text('edition'),payload:text('payload').notNull(),digest:text('digest').notNull(),importedAt:text('imported_at').notNull()});
+export const revisions=sqliteTable('cc_revisions',{parentId:text('parent_id').notNull(),revision:integer('revision').notNull(),requestKey:text('request_key').notNull().unique(),requestDigest:text('request_digest').notNull(),payload:text('payload').notNull(),createdAt:text('created_at').notNull()},t=>[primaryKey({columns:[t.parentId,t.revision]})]);
+export const snapshots=sqliteTable('cc_snapshots',{id:text('id').primaryKey(),edition:text('edition').notNull(),sourceSha:text('source_sha').notNull(),payload:text('payload').notNull(),verifiedAt:text('verified_at').notNull()});
+export const migrations=sqliteTable('cc_migrations',{id:text('id').primaryKey(),payload:text('payload').notNull(),completedAt:text('completed_at').notNull()});
+export const rate=sqliteTable('cc_rate_buckets',{bucket:text('bucket').primaryKey(),count:integer('count').notNull(),expiresAt:integer('expires_at').notNull()});

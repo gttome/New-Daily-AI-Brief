@@ -3,7 +3,7 @@
 const REPO="gttome/New-Daily-AI-Brief";
 const API=`https://api.github.com/repos/${REPO}`;
 let snapshot=null;
-let liveRuns=[];
+let liveRuns=[];let functionCoverage=null;
 
 const $=id=>document.getElementById(id);
 const esc=value=>String(value??"Unavailable").replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
@@ -17,31 +17,42 @@ const listItem=(title,note="")=>`<div class="list-item"><strong>${esc(title)}</s
 async function fetchJson(url){const r=await fetch(url,{cache:"no-store",headers:{Accept:"application/vnd.github+json"}});if(!r.ok)throw new Error(`${r.status} ${r.statusText}`);return r.json()}
 async function loadSnapshot(){const r=await fetch("state.json",{cache:"no-store"});if(!r.ok)throw new Error("state.json unavailable");return r.json()}
 async function refreshLive(){
-  const result={branch:null,manual:null,ci:null,parity:null,dataParity:null,error:null};
-  try{
-    const [branch,manual,ci,parity,dataParity]=await Promise.all([
-      fetchJson(`${API}/branches/main`),
-      fetchJson(`${API}/actions/workflows/manual-daily-brief.yml/runs?per_page=12`),
-      fetchJson(`${API}/actions/workflows/ci.yml/runs?branch=main&per_page=8`),
-      fetchJson(`${API}/actions/workflows/reader-parity.yml/runs?branch=main&per_page=8`),
-      fetchJson(`${API}/actions/workflows/command-center-data-parity-validation.yml/runs?branch=main&per_page=8`)
-    ]);
-    result.branch=branch;result.manual=manual;result.ci=ci;result.parity=parity;result.dataParity=dataParity;
-  }catch(err){result.error=err instanceof Error?err.message:String(err)}
-  return result;
+  const response=await fetch("/api/refresh",{cache:"no-store",signal:AbortSignal.timeout(18000)});
+  if(!response.ok)throw new Error("Refresh service unavailable");
+  return response.json();
+}
+function validSnapshot(candidate){
+  if(!candidate?.executive?.edition_date||!candidate?.source?.main_sha||!Array.isArray(candidate.stories?.items)||!Array.isArray(candidate.pipeline))return false;
+  if(candidate.privacy?.surface!=="public-command-center"||candidate.privacy?.contains_credentials||candidate.privacy?.contains_private_ids||candidate.privacy?.contains_internal_prompts)return false;
+  return candidate.schedules?.creation_permitted===false&&candidate.schedules?.planned?.length===2&&candidate.schedules.planned.every(x=>x.created===false&&x.enabled===false);
+}
+function chooseSnapshot(current,candidate){
+  if(!validSnapshot(candidate))return current;
+  if(current&&candidate.executive.edition_date<current.executive.edition_date)return current;
+  if(current&&candidate.executive.edition_date===current.executive.edition_date&&candidate.snapshot_generated_at<current.snapshot_generated_at)return current;
+  return candidate;
+}
+function renderPublished(live){
+  const p=live?.published;
+  const target=$("published-status");
+  if(!p){target.innerHTML='<p class="warning-banner">Live publication check unavailable. Operational snapshot retained; its date is shown below.</p>';return;}
+  const lag=p.date>snapshot.executive.edition_date;
+  target.innerHTML=`<div class="section-heading"><h3>Latest published Brief: ${esc(p.date)}</h3><a class="text-link" href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Open published Brief ↗</a></div><div class="metric-row">${mini("Stories",p.stories)}${mini("Videos",p.videos)}${mini("Podcasts",p.podcasts)}</div><details><summary>Published stories and media</summary><div class="compact-list">${p.items.map(x=>`<div class="list-item"><a class="text-link" href="${esc(x.url)}" target="_blank" rel="noopener noreferrer">${esc(x.title)}</a><small>${esc(x.kind)}</small></div>`).join("")}</div></details><p class="${lag?"warning-banner":"muted"}">${lag?`Operational snapshot is still ${esc(snapshot.executive.edition_date)}. Sections below retain that evidence; they do not describe the newer edition.`:`Operational snapshot edition: ${esc(snapshot.executive.edition_date)}.`}</p>`;
+  $("live-brief-link").href=p.url;
+  const control=document.querySelector('#control-grid a[data-control="open-live-brief"]');if(control)control.href=p.url;
 }
 function renderExecutive(live){
   const e=snapshot.executive;
   $("executive-cards").innerHTML=[
-    metric("Edition",e.edition_date),metric("Overall state",e.overall_state),metric("Production readiness",e.production_readiness),
-    metric("Current stage",e.current_run_stage),metric("Latest edition",e.latest_successful_edition),metric("Reader health",e.reader_health),
+    metric("Selected operational edition",e.edition_date),metric("Overall state",e.overall_state),metric("Production readiness",e.production_readiness),
+    metric("Current stage",e.current_run_stage),metric("Latest published edition",live?.published?.date||e.latest_successful_edition),metric("Reader health",e.reader_health),
     metric("Critical defects",e.critical_defects),metric("High defects",e.high_defects),metric("Warnings",e.warning_count),
     metric("Reader Site version",e.site_version),metric("Schedule readiness",e.schedule_readiness),metric("Main SHA",live?.branch?.commit?.sha?.slice(0,12)||snapshot.source.main_sha.slice(0,12),live?.branch?"live GitHub metadata":"committed snapshot")
   ].join("");
   const warnings=snapshot.warnings||[];$("warning-banner").hidden=!warnings.length;$("warning-banner").innerHTML=warnings.length?`<strong>Attention:</strong> ${warnings.map(esc).join(" · ")}`:"";
   $("snapshot-note").textContent=`Snapshot ${snapshot.snapshot_generated_at} · publication ${e.latest_publication_timestamp||"timestamp unavailable"}`;
 }
-function renderPipeline(){
+function renderPipelineLegacy(){
   $("pipeline-list").innerHTML=snapshot.pipeline.map(s=>`<div class="stage" role="listitem"><h3>${esc(s.name)}</h3><div class="state">${esc(s.status)}</div><dl><dt>Time: </dt><dd>${esc(s.elapsed_seconds==null?"not recorded":`${s.elapsed_seconds}s`)}</dd><br><dt>Attempts: </dt><dd>${esc(s.attempt_count??"not recorded")}</dd><br><dt>Checkpoint: </dt><dd>${esc(s.checkpoint?"durable":"unavailable")}</dd></dl></div>`).join("");
 }
 function renderStories(){
@@ -53,24 +64,24 @@ function renderImages(){
   const i=snapshot.images;$("image-pill").className=`pill ${i.accepted_count===6?"safe":"blocked"}`;$("image-pill").textContent=`${i.accepted_count}/6 accepted`;
   $("images-grid").innerHTML=i.items.map(x=>listItem(`${x.ordinal}. ${x.story}`,`${x.dimensions?.join("×")||"dimensions unavailable"} · ${x.format} · QA ${x.visual_qa} · regeneration count ${x.regeneration_count??"not recorded"}`)).join("");
 }
-function renderMedia(){const m=snapshot.media;$("media-summary").innerHTML=[mini("Videos",m.video_count),mini("Podcasts",m.podcast_count),mini("Video sources",m.video_source_registry_count),mini("Podcast sources",m.podcast_source_registry_count)].join("");const rows=[...m.videos.map((x,i)=>listItem(`Video ${i+1}`,x.details)),...m.podcasts.map((x,i)=>listItem(`Podcast ${i+1}: ${x.title}`,`${x.source||"source not separately encoded"} · ${x.publication_date||"date unavailable"} · ${x.runtime||"runtime unavailable"}`))];$("media-list").innerHTML=rows.join("")}
+function renderMediaLegacy(){const m=snapshot.media;$("media-summary").innerHTML=[mini("Videos",m.video_count),mini("Podcasts",m.podcast_count),mini("Video sources",m.video_source_registry_count),mini("Podcast sources",m.podcast_source_registry_count)].join("");const rows=[...m.videos.map((x,i)=>listItem(`Video ${i+1}`,x.details)),...m.podcasts.map((x,i)=>listItem(`Podcast ${i+1}: ${x.title}`,`${x.source||"source not separately encoded"} · ${x.publication_date||"date unavailable"} · ${x.runtime||"runtime unavailable"}`))];$("media-list").innerHTML=rows.join("")}
 function renderWatchlist(){const w=snapshot.watchlist;$("watchlist-metrics").innerHTML=[mini("Active",w.active_topics),mini("New",w.new_today),mini("Updated",w.updated_today),mini("Carried",w.carried_forward)].join("");$("watchlist-changes").innerHTML=(w.changed_topics?.length?w.changed_topics:["Changed-topic names not separately encoded for this snapshot"]).map(x=>listItem(x,`Source-state record: ${w.source_state_updated_at||"timestamp unavailable"}`)).join("")}
 function renderBooks(){const b=snapshot.book_bridges;$("book-bridges").innerHTML=[mini("Verified references",b.reference_count),mini("Edition mappings",b.edition_mapping_count),mini("Historical bridges",b.historical_reader_bridge_records),mini("Latest explicit bridges",b.latest_edition_explicit_bridge_count)].join("")}
 function renderReader(){const r=snapshot.reader_site;$("live-brief-link").href=r.live_edition_url;$("reader-grid").innerHTML=[metric("Bundle",r.reader_bundle_status),metric("HTML pages",r.html_page_count),metric("Archive items",r.archive_item_count),metric("Editions",r.edition_count),metric("Desktop QA",r.desktop_qa),metric("Small-screen QA",r.small_screen_qa),metric("Accessibility",r.accessibility),metric("Ratings",r.ratings),metric("Sharing",r.sharing),metric("Comments",r.comments),metric("Watchlist activity",r.watchlist_interactions),metric("Deployment",r.site_deployment_state,`Site version ${r.site_version}`)].join("")}
-function renderControls(live){
+function renderControlsLegacy(live){
   const latest=live?.manual?.workflow_runs?.[0];
-  $("control-grid").innerHTML=snapshot.manual_controls.map(c=>{let url=c.url,enabled=c.enabled;if(c.id==="open-current-run"&&latest?.html_url)url=latest.html_url;if(c.id==="rerun-failed"){enabled=Boolean(latest&&latest.conclusion==="failure");if(enabled)url=latest.html_url}if(c.id==="refresh-state")return `<button class="control" type="button" data-refresh="true"><strong>${esc(c.label)}</strong><small>${esc(c.notes)}</small></button>`;return `<a class="control" href="${esc(url||"#")}" target="_blank" rel="noopener noreferrer" aria-disabled="${enabled?"false":"true"}"><strong>${esc(c.label)}</strong><small>${esc(c.notes)}</small></a>`}).join("");
+  $("control-grid").innerHTML=snapshot.manual_controls.map(c=>{let url=c.url,enabled=c.enabled;if(c.id==="open-current-run"&&latest?.html_url)url=latest.html_url;if(c.id==="rerun-failed"){enabled=Boolean(latest&&latest.conclusion==="failure");if(enabled)url=latest.html_url}if(c.id==="refresh-state")return `<button class="control" type="button" data-refresh="true"><strong>${esc(c.label)}</strong><small>${esc(c.notes)}</small></button>`;return `<a class="control" data-control="${esc(c.id)}" href="${esc(url||"#")}" target="_blank" rel="noopener noreferrer" aria-disabled="${enabled?"false":"true"}"><strong>${esc(c.label)}</strong><small>${esc(c.notes)}</small></a>`}).join("");
   document.querySelectorAll('[data-refresh="true"]').forEach(btn=>btn.addEventListener("click",refreshAll));
 }
 function renderReadiness(){const gates=snapshot.readiness_gates;const all=gates.filter(g=>!["not_created"].includes(g.state));const passed=all.filter(g=>g.state==="passed").length;$("readiness-pill").className="pill warn";$("readiness-pill").textContent=`${passed}/${all.length} passed · cutover blocked`;$("readiness-list").innerHTML=gates.map(g=>`<div class="gate">${pill(g.state)}<div><strong>${esc(g.name)}</strong><div class="muted">${esc(g.evidence)}</div></div></div>`).join("")}
 function renderSchedules(){const s=snapshot.schedules;$("schedule-blocker").textContent=s.blocker;$("schedule-list").innerHTML=s.planned.map(x=>listItem(`${x.name} · ${x.time} ${x.timezone}`,`${x.status} · created ${x.created} · enabled ${x.enabled}`)).join("")}
-function durationSeconds(run){if(!run?.run_started_at||!run?.updated_at)return null;const v=(Date.parse(run.updated_at)-Date.parse(run.run_started_at))/1000;return Number.isFinite(v)&&v>=0?v:null}
-function svgBars(values,labels){if(!values.length)return '<div class="chart-empty">No authoritative duration series is available yet.</div>';const max=Math.max(...values,1),w=520,h=130,p=18,bw=Math.max(12,(w-p*2)/values.length-8);return `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Recent run duration bars">${values.map((v,i)=>{const bh=(v/max)*(h-38),x=p+i*((w-p*2)/values.length)+4,y=h-22-bh;return `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="3" fill="currentColor" opacity=".65"><title>${esc(labels[i])}: ${Math.round(v/60)} min</title></rect>`}).join("")}<line x1="${p}" y1="${h-22}" x2="${w-p}" y2="${h-22}" stroke="currentColor" opacity=".25"/></svg>`}
+function durationSeconds(run){if(!run?.run_started_at||!run?.completed_at)return null;const v=(Date.parse(run.completed_at)-Date.parse(run.run_started_at))/1000;return Number.isFinite(v)&&v>=0?v:null}
+function svgBars(values,labels,unit="seconds"){if(!values.length)return '<div class="chart-empty">No authoritative duration series is available yet.</div>';const max=Math.max(...values,1),w=520,h=130,p=18,bw=Math.max(12,(w-p*2)/values.length-8);return `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${unit==="seconds"?"Recent run durations":"Source counts"}">${values.map((v,i)=>{const bh=(v/max)*(h-38),x=p+i*((w-p*2)/values.length)+4,y=h-22-bh;return `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="3" fill="currentColor" opacity=".65"><title>${esc(labels[i])}: ${unit==="seconds"?Math.round(v/60)+" min":v+" "+unit}</title></rect>`}).join("")}<line x1="${p}" y1="${h-22}" x2="${w-p}" y2="${h-22}" stroke="currentColor" opacity=".25"/></svg>`}
 function renderParity(live){
-  const d=snapshot.data_parity||{},h=snapshot.historical_data||{},p=snapshot.private_owner_data||{},domains=snapshot.data_domains||{};
+  const d=snapshot.data_parity||{},h=snapshot.historical_data||{},p=snapshot.public_application_data||{},domains=snapshot.data_domains||{};
   const latest=live?.dataParity?.workflow_runs?.[0];
   const pass=d.unresolved_required_families===0&&d.privacy_leakage_defects===0;
-  $("parity-pill").className=`pill ${pass?"safe":"blocked"}`;$("parity-pill").textContent=pass?"Mapped · no unexplained gaps":"Parity attention required";
+  $("parity-pill").className=`pill ${pass?"safe":"blocked"}`;$("parity-pill").textContent=pass?"Contract mapping only · function acceptance separate":"Parity attention required";
   $("parity-metrics").innerHTML=[
     metric("Required domains",d.required_domain_count),metric("Mapped families",d.mapped_family_count),
     metric("Unresolved required",d.unresolved_required_families),metric("Privacy leakage",d.privacy_leakage_defects),
@@ -84,18 +95,45 @@ function renderParity(live){
   ].join("");
   $("private-owner-data").innerHTML=[
     listItem("Transport",p.transport||"Unavailable"),
-    listItem("Repository values",p.values_committed_to_repository?"ERROR — private values present":"None — private values remain outside public GitHub"),
+    listItem("Repository values",p.values_committed_to_repository?"ERROR — private values present":"Public application records; sensitive fields excluded"),
     listItem("Usage History",`dedupe ${p.usage_history?.dedupe_key||"Unavailable"} · missingness ${p.usage_history?.missingness||"Unavailable"} · estimates ${p.usage_history?.estimated_values_allowed?"allowed":"prohibited"}`),
-    listItem("Book Change Proposals",`dedupe ${p.book_change_proposals?.dedupe_key||"Unavailable"} · states ${(p.book_change_proposals?.states||[]).join(" / ")} · prior decisions preserved ${p.book_change_proposals?.prior_owner_decisions_preserved}`)
+    listItem("Book Change Proposals",`dedupe ${p.book_change_proposals?.dedupe_key||"Unavailable"} · states ${(p.book_change_proposals?.states||[]).join(" / ")} · prior decisions preserved ${p.book_change_proposals?.prior_owner_decisions_preserved??"See migration receipts"}`)
   ].join("");
 }
-function renderHistory(live){const runs=live?.manual?.workflow_runs||[];liveRuns=runs;const vals=runs.map(durationSeconds).filter(v=>v!=null).reverse(),labels=runs.filter(r=>durationSeconds(r)!=null).map(r=>r.name||r.created_at).reverse();$("run-chart").innerHTML=svgBars(vals,labels);const rows=runs.length?runs.slice(0,8).map(r=>({edition:r.display_title||r.name,start:r.run_started_at,end:r.updated_at,elapsed:durationSeconds(r),state:r.conclusion||r.status,url:r.html_url})):snapshot.run_history;$("run-history").innerHTML=`<table><thead><tr><th>Run / edition</th><th>Start</th><th>End</th><th>Elapsed</th><th>State</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r.url?`<a class="text-link" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(r.edition||"Canonical run")} ↗</a>`:esc(r.edition)}</td><td>${esc(r.start||"not recorded")}</td><td>${esc(r.end||"not recorded")}</td><td>${esc(r.elapsed==null&&r.elapsed_seconds==null?"not recorded":`${Math.round((r.elapsed??r.elapsed_seconds)/60)} min`)}</td><td>${pill(r.state||r.completion_state)}</td></tr>`).join("")}</tbody></table>`}
-function renderSourceHealth(){const s=snapshot.source_health;$("source-health").innerHTML=[metric("Source registry",s.source_registry_total),metric("Watchlist sources",s.watchlist_source_total),metric("Video registry",s.video_source_registry_total),metric("Podcast registry",s.podcast_source_registry_total)].join("");const entries=Object.entries(s.source_registry_status||{}),vals=entries.map(([,v])=>v),labels=entries.map(([k])=>k);$("source-chart").innerHTML=svgBars(vals,labels)}
-function renderIncidents(){const i=snapshot.incidents;const current=i.current?.length?i.current.map(x=>listItem(x.title||"Incident",x.detail||"")):[listItem("No current Critical/High incident recorded",i.repair_outcome),listItem("Recovery checkpoint",i.latest_recovery_checkpoint||"Unavailable"),listItem("Anti-rework",`Rework avoided: ${i.rework_avoided}`)];$("incidents").innerHTML=current.join("")}
+function renderHistory(live){const runs=live?.manual?.workflow_runs||[];liveRuns=runs;const vals=runs.map(durationSeconds).filter(v=>v!=null).reverse(),labels=runs.filter(r=>durationSeconds(r)!=null).map(r=>r.name||r.created_at).reverse();$("run-chart").innerHTML=svgBars(vals,labels);const rows=runs.length?runs.slice(0,8).map(r=>({edition:r.display_title||r.name,start:r.run_started_at,end:r.completed_at,elapsed:durationSeconds(r),state:r.conclusion||r.status,url:r.html_url})):snapshot.run_history;$("run-history").innerHTML=`<table><thead><tr><th>Run / edition</th><th>Start</th><th>End</th><th>Elapsed</th><th>State</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r.url?`<a class="text-link" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(r.edition||"Canonical run")} ↗</a>`:esc(r.edition)}</td><td>${esc(r.start||"not recorded")}</td><td>${esc(r.end||"not recorded")}</td><td>${esc(r.elapsed==null&&r.elapsed_seconds==null?"not recorded":`${Math.round((r.elapsed??r.elapsed_seconds)/60)} min`)}</td><td>${pill(r.state||r.completion_state)}</td></tr>`).join("")}</tbody></table>`}
+function renderSourceHealth(){const s=snapshot.source_health;$("source-health").innerHTML=[metric("Source registry",s.source_registry_total),metric("Watchlist sources",s.watchlist_source_total),metric("Video registry",s.video_source_registry_total),metric("Podcast registry",s.podcast_source_registry_total)].join("");const entries=Object.entries(s.source_registry_status||{}),vals=entries.map(([,v])=>v),labels=entries.map(([k])=>k);$("source-chart").innerHTML=svgBars(vals,labels,"count")}
+function renderIncidents(){const i=snapshot.incidents;const current=i.current?.length?i.current.map(x=>listItem(x.title||"Incident",x.detail||"")):[listItem("Current incident coverage requires dated evidence",i.repair_outcome),listItem("Recovery checkpoint",i.latest_recovery_checkpoint||"Unavailable"),listItem("Anti-rework",`Rework avoided: ${i.rework_avoided??"not recorded"}`)];$("incidents").innerHTML=current.join("")}
 function renderUsage(){const u=snapshot.usage_cost;$("usage-cost").innerHTML=[listItem("Routine production target",u.routine_production_target),listItem("Verified Work usage",u.work_usage??"Unavailable — not estimated"),listItem("Verified credit usage",u.credit_usage??"Unavailable — not estimated"),listItem("Posture",u.note)].join("")}
-function renderEngagement(){const e=snapshot.engagement;$("engagement").innerHTML=[metric("Ratings",e.ratings.count??"Unavailable",e.ratings.status),metric("Rating distribution",e.rating_distribution??"Unavailable","Not inferred"),metric("Shares",e.shares.count??"Unavailable",e.shares.status),metric("Private comments",e.private_comments.count??"Unavailable",e.private_comments.status),metric("Watchlist interest",e.watchlist_interest.count??"Unavailable",e.watchlist_interest.status),metric("Read events",e.read_event_activity??"Unavailable",e.note)].join("")}
-function renderPrivacy(){const p=snapshot.privacy,c=snapshot.command_center_site;$("privacy").innerHTML=[listItem("Surface",p.surface),listItem("Public reader exposure",String(p.public_reader_exposure)),listItem("Credentials / private IDs / prompts",`${p.contains_credentials}/${p.contains_private_ids}/${p.contains_internal_prompts}`),listItem("Private Site target",`${c.identifier} · ${c.publication_state}`),listItem("Public Pages deployment",c.public_pages_deployment_allowed?"Allowed":"Prohibited for full Command Center")].join("")}
-function updateLiveState(live){const ok=Boolean(live?.branch);$("live-state").className=`pill ${ok?"safe":"warn"}`;$("live-state").textContent=ok?"Live GitHub metadata connected":"Committed snapshot · live metadata unavailable";$("footer-meta").textContent=ok?`Live main ${live.branch.commit.sha.slice(0,12)} · snapshot ${snapshot.source.main_sha.slice(0,12)}`:`Snapshot main ${snapshot.source.main_sha.slice(0,12)} · GitHub live refresh unavailable`}
-function renderAll(live){renderExecutive(live);renderPipeline();renderStories();renderImages();renderMedia();renderWatchlist();renderBooks();renderReader();renderControls(live);renderReadiness();renderSchedules();renderParity(live);renderHistory(live);renderSourceHealth();renderIncidents();renderUsage();renderEngagement();renderPrivacy();updateLiveState(live)}
-async function refreshAll(){const btn=$("refresh");btn.disabled=true;btn.textContent="Refreshing…";try{if(!snapshot)snapshot=await loadSnapshot();const live=await refreshLive();renderAll(live)}catch(err){$("live-state").className="pill blocked";$("live-state").textContent="State load failed";$("warning-banner").hidden=false;$("warning-banner").textContent=`Command Center state could not be loaded: ${err instanceof Error?err.message:String(err)}`}finally{btn.disabled=false;btn.textContent="Refresh state"}}
+function renderEngagement(){const e=snapshot.engagement;$("engagement").innerHTML=[metric("Ratings",e.ratings.count??"Unavailable",e.ratings.status),metric("Rating distribution",e.rating_distribution??"Unavailable","Not inferred"),metric("Shares",e.shares.count??"Unavailable",e.shares.status),metric("Public comment reviews",e.private_comments.count??"Unavailable","Public imported reviews; live native comment export unavailable"),metric("Watchlist interest",e.watchlist_interest.count??"Unavailable",e.watchlist_interest.status),metric("Read events",e.read_event_activity??"Unavailable",e.note)].join("")}
+function renderPrivacyLegacy(){const p=snapshot.privacy,c=snapshot.command_center_site;$("privacy").innerHTML=[listItem("Surface",p.surface),listItem("Public reader exposure",String(p.public_reader_exposure)),listItem("Credentials / private IDs / prompts",`${p.contains_credentials}/${p.contains_private_ids}/${p.contains_internal_prompts}`),listItem("Command Center",`${c.identifier} · ${c.publication_state}`),listItem("Public Pages deployment",c.public_pages_deployment_allowed?"Allowed":"Prohibited for full Command Center")].join("")}
+function updateLiveState(live){
+  const ok=Boolean(live?.published),partial=Boolean(live?.errors?.length);
+  $("live-state").className=`pill ${ok&&!partial?"safe":"warn"}`;
+  $("live-state").textContent=ok?`Published Brief ${live.published.date} checked${partial?" · some sources unavailable":""}`:"Refresh unavailable · snapshot retained";
+  $("footer-meta").textContent=`Selected operational edition ${snapshot.executive.edition_date} · snapshot ${snapshot.snapshot_generated_at}${live?.checked_at?` · live sources checked ${live.checked_at}`:" · no successful refresh recorded"}`;
+}
+function renderAll(live){renderExecutive(live);renderPipeline();renderStories();renderImages();renderMedia();renderWatchlist();renderBooks();renderReader();if(live?.reader_health)$("reader-grid").insertAdjacentHTML("beforeend",live.reader_health.map(r=>metric(new URL(r.url).pathname,r.status??"Unavailable",r.available===true?"Live GET passed":r.reason||"Live HTTP failure")).join(""));renderControls(live);renderReadiness();renderSchedules();renderParity(live);renderHistory(live);renderSourceHealth();renderIncidents();renderUsage();renderEngagement();renderPrivacy();renderPublished(live);renderCoverage();updateLiveState(live)}
+let refreshing=false;
+async function refreshAll(){
+  if(refreshing)return;refreshing=true;
+  const btn=$("refresh");btn.disabled=true;btn.textContent="Refreshing…";
+  try{
+    // Render saved evidence immediately; every click then requests fresh sources.
+    if(!snapshot){snapshot=await loadSnapshot();renderAll(null);}
+    const live=await refreshLive();
+    renderWorkflowEvidence(live);
+    snapshot=chooseSnapshot(snapshot,live.snapshot);
+    renderAll(live);
+  }catch(err){
+    if(snapshot)renderAll(null);
+    $("live-state").className="pill warn";$("live-state").textContent="Refresh failed · saved snapshot retained";
+  }finally{refreshing=false;btn.disabled=false;btn.textContent="Refresh state";}
+}
 $("refresh").addEventListener("click",refreshAll);refreshAll();
+
+function renderMedia(){const m=snapshot.media;$("media-summary").innerHTML=[mini("Videos",m.video_count),mini("Podcasts",m.podcast_count)].join("");$("media-list").innerHTML=[...m.videos.map(x=>({...x,kind:"Video"})),...m.podcasts.map(x=>({...x,kind:"Podcast"}))].map(x=>listItem(`${x.kind}: ${x.title||x.headline||x.media_id||"Unavailable"}`,`${x.role||x.kind||"Role unavailable"} · ${x.channel||x.show||x.publisher||x.source_id||x.source?.organization||"Source unavailable"} · runtime ${x.runtime_seconds??x.duration_seconds??x.duration_minutes??x.runtime??"unavailable"} ${(x.runtime_seconds!=null||x.duration_seconds!=null)?"seconds":x.duration_minutes!=null?"minutes":""} · verified ${x.verified??"not recorded"} · ${x.exception_reason||"No exception recorded"}`)).join("")}
+function renderPrivacy(){const c=snapshot.command_center_site;$("privacy").innerHTML=[listItem("Surface",snapshot.privacy.surface),listItem("Application records","Public; anonymous authorship on new reviews"),listItem("Review protection","Validation, size and rate limits, idempotency, revision conflicts, append-only history and read-back"),listItem("Publication access",c.publication_state),listItem("Production authority","Existing GitHub permissions; no anonymous dispatch")].join("")}
+function renderPipeline(){$("pipeline-list").innerHTML=snapshot.pipeline.map(s=>`<div class="stage" role="listitem"><h3>${esc(s.name)}</h3><div class="state">${esc(s.status)}</div><p>${esc(s.edition_date||snapshot.executive.edition_date)} · time ${esc(s.elapsed_seconds??"not recorded")} · attempts ${esc(s.attempt_count??"not recorded")}</p><a href="/api/cc/v1/evidence?edition=${esc(snapshot.executive.edition_date)}&q=${encodeURIComponent(s.id||s.name)}" target="_blank" rel="noopener">Inspect stage evidence</a></div>`).join("")}
+function renderControls(live){const latest=live?.manual?.workflow_runs?.[0];$("control-grid").innerHTML=snapshot.manual_controls.map(c=>{let url=c.url,enabled=c.enabled;if(c.id==="open-current-run"){enabled=!!latest?.html_url;url=latest?.html_url;}if(c.id==="rerun-failed"){enabled=latest?.conclusion==="failure";url=latest?.html_url;}if(c.id==="force-replace"&&snapshot.executive.edition_date<="2026-09-23")enabled=false;if(c.id==="refresh-state")return `<button class="control" data-refresh="true"><strong>${esc(c.label)}</strong><small>${esc(c.notes)}</small></button>`;if(!enabled||!url)return `<button class="control" disabled><strong>${esc(c.label)}</strong><small>${esc(c.notes)}</small></button>`;return `<a class="control" data-control="${esc(c.id)}" href="${esc(url)}" target="_blank" rel="noopener"><strong>${esc(c.label)}</strong><small>Selected edition ${esc(snapshot.executive.edition_date)}. ${esc(c.notes)}</small></a>`;}).join("");document.querySelectorAll('[data-refresh="true"]').forEach(b=>b.onclick=refreshAll);}
+function renderWorkflowEvidence(live){$("workflow-evidence").innerHTML='<h3>CI & Reader Parity evidence</h3>'+['ci','parity','dataParity'].map(k=>{const r=live[k]?.workflow_runs?.find(r=>r.head_sha===live.branch?.commit.sha)||live[k]?.workflow_runs?.[0];return `<div class="list-item"><strong>${esc(k==='ci'?'Greenfield Contracts':k==='parity'?'Reader Parity':'Data parity validation')}</strong><p>${esc(r?.conclusion||r?.status||'Unavailable')} · SHA ${esc(r?.head_sha||'Unavailable')} ${r&&r.head_sha!==live.branch?.commit.sha?' · historical result; current SHA not verified':''}</p>${r?`<a href="${esc(r.html_url)}" target="_blank" rel="noopener">Open exact workflow evidence</a>`:''}</div>`;}).join('');$("attention-list").innerHTML='<h3>Attention & next action</h3>'+(live.attention||[]).map(x=>listItem(x.severity+': '+x.message,x.action)).join('')+`<p>Identity: ${esc(live.identity?.status)} · last-good save/read-back ${esc(live.persistence?.read_back??'not confirmed')}</p>`;}
+function renderCoverage(){if(functionCoverage)$('parity-metrics').insertAdjacentHTML('beforeend',metric('Deployed function coverage',functionCoverage.deployed_passed+'/69')+metric('Live acceptance coverage',functionCoverage.live_passed+'/69'));}fetch('/coverage.json').then(r=>r.json()).then(d=>{functionCoverage=d;renderCoverage();}).catch(()=>{});

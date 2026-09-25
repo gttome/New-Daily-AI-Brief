@@ -6,7 +6,10 @@
   "additionalProperties": true,
   "properties": {
     "schema_version": {
-      "const": "1.0.0"
+      "enum": [
+        "1.0.0",
+        "2.0.0"
+      ]
     },
     "artifact_id": {
       "type": "string",
@@ -141,6 +144,31 @@
         }
       },
       "additionalProperties": true
+    },
+    "availability": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "available",
+            "partial",
+            "stale",
+            "unavailable",
+            "not_collected",
+            "not_applicable",
+            "conflict"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
     }
   },
   "required": [

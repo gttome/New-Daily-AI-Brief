@@ -1,0 +1,487 @@
+{
+  "schema_version": "1.0",
+  "tested_sha": "ffae7b31e3cd7f86428ab4811245cabe0eed7a9c",
+  "start_time_utc": "2026-09-25T04:17:16.021722+00:00",
+  "end_time_utc": "2026-09-25T04:17:22.106441+00:00",
+  "elapsed_seconds": 6.085,
+  "selection": {
+    "schema_version": "1.0",
+    "impact_map_version": "1.0",
+    "changed_paths": [
+      ".github/workflows/ci.yml",
+      "config/command-center-data-parity.json",
+      "config/test-impact-map.json",
+      "docs/COMMAND_CENTER_PUBLIC_RUNTIME_2026-09-25.md",
+      "evidence/command-center/exposure-scan.json",
+      "evidence/command-center/functional-checkpoint.json",
+      "evidence/command-center/runtime-tests.txt",
+      "schemas/command-center-projection.schema.json",
+      "schemas/command-center-state.schema.json",
+      "scripts/build_command_center_snapshot.py",
+      "scripts/migrate_command_center_state_v1_to_v2.py",
+      "scripts/prepare_command_center_records.py",
+      "scripts/test_command_center_runtime.py",
+      "scripts/validate_command_center_data_parity.py",
+      "site/command-center/.gitignore",
+      "site/command-center/analytics.mjs",
+      "site/command-center/build.mjs",
+      "site/command-center/cc.css",
+      "site/command-center/cc.js",
+      "site/command-center/coverage.json",
+      "site/command-center/db/schema.ts",
+      "site/command-center/drizzle.config.ts",
+      "site/command-center/drizzle/0000_demonic_carmella_unuscione.sql",
+      "site/command-center/drizzle/meta/0000_snapshot.json",
+      "site/command-center/drizzle/meta/_journal.json",
+      "site/command-center/explorer.js",
+      "site/command-center/guide.html",
+      "site/command-center/import-manifest.json",
+      "site/command-center/index.html",
+      "site/command-center/live.mjs",
+      "site/command-center/local-db.mjs",
+      "site/command-center/package-lock.json",
+      "site/command-center/package.json",
+      "site/command-center/projection.mjs",
+      "site/command-center/records.json.gz",
+      "site/command-center/safety.mjs",
+      "site/command-center/state.json",
+      "site/command-center/store.mjs",
+      "site/command-center/test/api.mjs",
+      "site/command-center/test/public-runtime.mjs",
+      "site/command-center/test/refresh.mjs",
+      "site/command-center/worker.mjs",
+      "src/new_daily_ai_brief/command_center_private.py",
+      "tests/test_command_center.py",
+      "tests/test_command_center_data_parity.py",
+      "tests/test_command_center_v2.py"
+    ],
+    "path_components": {
+      ".github/workflows/ci.yml": [
+        "testing-infrastructure"
+      ],
+      "config/command-center-data-parity.json": [
+        "command-center-data-parity"
+      ],
+      "config/test-impact-map.json": [
+        "testing-infrastructure"
+      ],
+      "docs/COMMAND_CENTER_PUBLIC_RUNTIME_2026-09-25.md": [
+        "metadata-only"
+      ],
+      "evidence/command-center/exposure-scan.json": [
+        "metadata-only"
+      ],
+      "evidence/command-center/functional-checkpoint.json": [
+        "metadata-only"
+      ],
+      "evidence/command-center/runtime-tests.txt": [
+        "metadata-only"
+      ],
+      "schemas/command-center-projection.schema.json": [
+        "command-center-adapter",
+        "shared-contracts",
+        "runengine-operations"
+      ],
+      "schemas/command-center-state.schema.json": [
+        "command-center-adapter",
+        "shared-contracts"
+      ],
+      "scripts/build_command_center_snapshot.py": [
+        "command-center-adapter"
+      ],
+      "scripts/migrate_command_center_state_v1_to_v2.py": [
+        "command-center-public-runtime"
+      ],
+      "scripts/prepare_command_center_records.py": [
+        "command-center-public-runtime"
+      ],
+      "scripts/test_command_center_runtime.py": [
+        "command-center-public-runtime"
+      ],
+      "scripts/validate_command_center_data_parity.py": [
+        "command-center-data-parity"
+      ],
+      "site/command-center/.gitignore": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/analytics.mjs": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/build.mjs": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/cc.css": [
+        "command-center-ui",
+        "command-center-public-runtime"
+      ],
+      "site/command-center/cc.js": [
+        "command-center-ui",
+        "command-center-public-runtime"
+      ],
+      "site/command-center/coverage.json": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/db/schema.ts": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/drizzle.config.ts": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/drizzle/0000_demonic_carmella_unuscione.sql": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/drizzle/meta/0000_snapshot.json": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/drizzle/meta/_journal.json": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/explorer.js": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/guide.html": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/import-manifest.json": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/index.html": [
+        "command-center-ui",
+        "command-center-public-runtime"
+      ],
+      "site/command-center/live.mjs": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/local-db.mjs": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/package-lock.json": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/package.json": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/projection.mjs": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/records.json.gz": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/safety.mjs": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/state.json": [
+        "command-center-adapter",
+        "command-center-public-runtime"
+      ],
+      "site/command-center/store.mjs": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/test/api.mjs": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/test/public-runtime.mjs": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/test/refresh.mjs": [
+        "command-center-public-runtime"
+      ],
+      "site/command-center/worker.mjs": [
+        "command-center-public-runtime"
+      ],
+      "src/new_daily_ai_brief/command_center_private.py": [
+        "command-center-data-parity"
+      ],
+      "tests/test_command_center.py": [
+        "changed-tests"
+      ],
+      "tests/test_command_center_data_parity.py": [
+        "changed-tests",
+        "command-center-data-parity"
+      ],
+      "tests/test_command_center_v2.py": [
+        "changed-tests"
+      ]
+    },
+    "direct_components": [
+      "testing-infrastructure",
+      "command-center-data-parity",
+      "command-center-adapter",
+      "shared-contracts",
+      "runengine-operations",
+      "command-center-public-runtime",
+      "command-center-ui",
+      "changed-tests"
+    ],
+    "dependency_components": [
+      "runengine-evaluation",
+      "runengine-core"
+    ],
+    "development_suites": [
+      "validation-routing",
+      "process-hardening",
+      "command-center",
+      "shared-contracts",
+      "iteration-8",
+      "command-center-runtime",
+      "command-center-v2",
+      "changed-tests",
+      "iteration-7",
+      "iteration-1"
+    ],
+    "integration_suites": [
+      "validation-routing-integration",
+      "command-center-integration",
+      "command-center-data-parity",
+      "iteration-8"
+    ],
+    "full_system_validation_requested": false,
+    "full_system_validation_recommended": false,
+    "full_system_validation_workflow": ".github/workflows/full-system-validation.yml",
+    "rationale": [
+      {
+        "component": "testing-infrastructure",
+        "role": "direct",
+        "reason": "Validation control-plane changes require router/process contract checks and one CLI-level routing integration proof.",
+        "development_suites": [
+          "validation-routing",
+          "process-hardening"
+        ],
+        "integration_suites": [
+          "validation-routing-integration"
+        ]
+      },
+      {
+        "component": "command-center-data-parity",
+        "role": "direct",
+        "reason": "Command Center parity changes require bounded cockpit/privacy checks, canonical snapshot integration, dedicated data-family parity validation, and shared contract compatibility.",
+        "development_suites": [
+          "command-center"
+        ],
+        "integration_suites": [
+          "command-center-integration",
+          "command-center-data-parity"
+        ]
+      },
+      {
+        "component": "command-center-adapter",
+        "role": "direct",
+        "reason": "Command Center projection/state changes cross the canonical artifact to private state boundary.",
+        "development_suites": [
+          "command-center"
+        ],
+        "integration_suites": [
+          "command-center-integration"
+        ]
+      },
+      {
+        "component": "shared-contracts",
+        "role": "direct",
+        "reason": "Shared schemas/contracts require core compatibility; overlapping component rules add direct consumer coverage.",
+        "development_suites": [
+          "shared-contracts"
+        ],
+        "integration_suites": []
+      },
+      {
+        "component": "runengine-operations",
+        "role": "direct",
+        "reason": "RunEngine operations stage maps to Iteration 8 plus its immediate predecessor/core dependency cone.",
+        "development_suites": [
+          "iteration-8"
+        ],
+        "integration_suites": [
+          "iteration-8"
+        ]
+      },
+      {
+        "component": "command-center-public-runtime",
+        "role": "direct",
+        "reason": "Public D1 read/review runtime and historical projection require bounded API, storage and schema migration checks.",
+        "development_suites": [
+          "command-center",
+          "command-center-runtime",
+          "command-center-v2"
+        ],
+        "integration_suites": [
+          "command-center-integration"
+        ]
+      },
+      {
+        "component": "command-center-ui",
+        "role": "direct",
+        "reason": "Private Command Center UI changes need bounded DOM/privacy/mobile checks plus state-to-render integration.",
+        "development_suites": [
+          "command-center"
+        ],
+        "integration_suites": [
+          "command-center-integration"
+        ]
+      },
+      {
+        "component": "changed-tests",
+        "role": "direct",
+        "reason": "A changed Python test file executes itself; unrelated historical tests remain excluded.",
+        "development_suites": [
+          "changed-tests"
+        ],
+        "integration_suites": []
+      },
+      {
+        "component": "runengine-evaluation",
+        "role": "immediate_dependency",
+        "reason": "RunEngine evaluation stage maps to Iteration 7 plus its immediate predecessor/core dependency cone.",
+        "development_suites": [
+          "iteration-7"
+        ],
+        "integration_suites": []
+      },
+      {
+        "component": "runengine-core",
+        "role": "immediate_dependency",
+        "reason": "RunEngine state machine/core storage changes require the core lifecycle dependency cone.",
+        "development_suites": [
+          "iteration-1"
+        ],
+        "integration_suites": []
+      }
+    ]
+  },
+  "suite_results": [
+    {
+      "suite": "validation-routing",
+      "levels": [
+        "development"
+      ],
+      "result": "PASS",
+      "elapsed_seconds": 0.097,
+      "description": "Change-impact router and manual Full System Validation contract tests.",
+      "note": ""
+    },
+    {
+      "suite": "process-hardening",
+      "levels": [
+        "development"
+      ],
+      "result": "PASS",
+      "elapsed_seconds": 0.112,
+      "description": "Workflow/process hardening contract tests.",
+      "note": ""
+    },
+    {
+      "suite": "command-center",
+      "levels": [
+        "development"
+      ],
+      "result": "PASS",
+      "elapsed_seconds": 0.234,
+      "description": "Private Command Center UI, privacy, accessibility, and snapshot contracts.",
+      "note": ""
+    },
+    {
+      "suite": "shared-contracts",
+      "levels": [
+        "development"
+      ],
+      "result": "PASS",
+      "elapsed_seconds": 0.373,
+      "description": "Core contract/store/engine compatibility.",
+      "note": ""
+    },
+    {
+      "suite": "iteration-8",
+      "levels": [
+        "development",
+        "integration"
+      ],
+      "result": "PASS",
+      "elapsed_seconds": 1.702,
+      "description": "Existing bounded Iteration 8 suite aligned to its owning component.",
+      "note": ""
+    },
+    {
+      "suite": "command-center-runtime",
+      "levels": [
+        "development"
+      ],
+      "result": "PASS",
+      "elapsed_seconds": 0.893,
+      "description": "Public Command Center API, D1-compatible storage, migration, metrics and anonymous-authority boundary.",
+      "note": ""
+    },
+    {
+      "suite": "command-center-v2",
+      "levels": [
+        "development"
+      ],
+      "result": "PASS",
+      "elapsed_seconds": 0.05,
+      "description": "Non-destructive v1 to public v2 migration.",
+      "note": ""
+    },
+    {
+      "suite": "changed-tests",
+      "levels": [
+        "development"
+      ],
+      "result": "PASS",
+      "elapsed_seconds": 0.377,
+      "description": "Execute changed Python test files only.",
+      "note": ""
+    },
+    {
+      "suite": "iteration-7",
+      "levels": [
+        "development"
+      ],
+      "result": "PASS",
+      "elapsed_seconds": 1.435,
+      "description": "Existing bounded Iteration 7 suite aligned to its owning component.",
+      "note": ""
+    },
+    {
+      "suite": "iteration-1",
+      "levels": [
+        "development"
+      ],
+      "result": "PASS",
+      "elapsed_seconds": 0.387,
+      "description": "Existing bounded Iteration 1 suite aligned to its owning component.",
+      "note": ""
+    },
+    {
+      "suite": "validation-routing-integration",
+      "levels": [
+        "integration"
+      ],
+      "result": "PASS",
+      "elapsed_seconds": 0.082,
+      "description": "CLI-level change-impact routing proof using safe synthetic changed-file lists.",
+      "note": ""
+    },
+    {
+      "suite": "command-center-integration",
+      "levels": [
+        "integration"
+      ],
+      "result": "PASS",
+      "elapsed_seconds": 0.225,
+      "description": "Canonical snapshot to private Command Center state bounded integration.",
+      "note": ""
+    },
+    {
+      "suite": "command-center-data-parity",
+      "levels": [
+        "integration"
+      ],
+      "result": "PASS",
+      "elapsed_seconds": 0.115,
+      "description": "Dedicated Command Center Data Parity Validation across the machine-readable family matrix, public/private boundary, legacy reference pin, and private-store contracts.",
+      "note": ""
+    }
+  ],
+  "Development Validation": "PASS",
+  "Integration Validation": "PASS",
+  "Full System Validation": "NOT REQUESTED",
+  "overall_result": "PASS"
+}

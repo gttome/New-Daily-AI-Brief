@@ -12,9 +12,9 @@
 <a class="skip-link" href="#main">Skip to command center</a>
 <header class="topbar">
   <div>
-    <p class="eyebrow">NEW DAILY AI BRIEF · PRIVATE OPERATIONS</p>
+    <p class="eyebrow">NEW DAILY AI BRIEF · PUBLIC OPERATIONS</p>
     <h1>Command Center</h1>
-    <p class="subtitle">Operational cockpit for the canonical greenfield RunEngine. No duplicate publisher. No new schedules before cutover.</p>
+    <p class="subtitle">Inspect publication evidence, investigate history and submit public reviews. Production actions use existing GitHub permissions.</p>
   </div>
   <div class="topbar-actions">
     <span id="live-state" class="pill neutral">Loading state…</span>
@@ -24,11 +24,13 @@
 <nav class="section-nav" aria-label="Command Center sections">
   <a href="#today">Today</a><a href="#pipeline">Pipeline</a><a href="#content">Content</a><a href="#reader">Reader</a><a href="#controls">Controls</a><a href="#readiness">Readiness</a><a href="#parity">Data parity</a><a href="#operations">Operations</a>
 </nav>
-<main id="main">
+<main id="main"><p class="warning-banner" role="note">This Command Center and submitted reviews are public. Do not submit credentials, payment/account details or personal information about another person.</p>
+<details class="panel"><summary>Quick start · five steps</summary><ol><li>Check the publication and operational edition identities.</li><li>Refresh and inspect source errors and CI evidence.</li><li>Use Investigate & review to search dated records and exact evidence.</li><li>Submit public reviews; check the returned revision and history.</li><li>Open canonical GitHub controls when production action is required. Schedules remain uncreated.</li></ol><a href="guide.html" download>Download the user guide</a></details>
   <section id="today" class="panel hero-panel" aria-labelledby="today-title">
     <div class="section-heading"><div><p class="eyebrow">Executive status</p><h2 id="today-title">Today</h2></div><p id="snapshot-note" class="muted"></p></div>
+    <div id="published-status" aria-live="polite"></div>
     <div id="executive-cards" class="metric-grid" aria-live="polite"></div>
-    <div id="warning-banner" class="warning-banner" hidden></div>
+    <div id="attention-list"></div><div id="workflow-evidence"></div><div id="warning-banner" class="warning-banner" hidden></div>
   </section>
 
   <section id="pipeline" class="panel" aria-labelledby="pipeline-title">
@@ -50,7 +52,7 @@
   </section>
 
   <section id="controls" class="panel" aria-labelledby="controls-title">
-    <div class="section-heading"><div><p class="eyebrow">Owner only</p><h2 id="controls-title">Manual controls</h2></div><span class="pill safe">Canonical workflows only</span></div>
+    <div class="section-heading"><div><p class="eyebrow">Canonical GitHub authority</p><h2 id="controls-title">Manual controls</h2></div><span class="pill safe">Canonical workflows only</span></div>
     <p class="muted">Controls open the existing canonical GitHub workflows or durable evidence. They do not implement a second editorial or publishing engine.</p>
     <div id="control-grid" class="control-grid"></div>
   </section>
@@ -63,7 +65,7 @@
   <section id="parity" class="split-grid">
     <article class="panel" aria-labelledby="parity-title"><div class="section-heading"><div><p class="eyebrow">Data contract</p><h2 id="parity-title">Command Center data parity</h2></div><span id="parity-pill" class="pill"></span></div><div id="parity-metrics" class="metric-grid"></div><div id="parity-domains" class="compact-list"></div></article>
     <article class="panel" aria-labelledby="history-parity-title"><div class="section-heading"><div><p class="eyebrow">Historical continuity</p><h2 id="history-parity-title">Legacy operational history</h2></div></div><div id="history-parity" class="compact-list"></div></article>
-    <article class="panel" aria-labelledby="private-data-title"><div class="section-heading"><div><p class="eyebrow">Owner-only boundary</p><h2 id="private-data-title">Private owner data</h2></div><span class="pill safe">Repository-safe</span></div><div id="private-owner-data" class="compact-list"></div></article>
+    <article class="panel" aria-labelledby="private-data-title"><div class="section-heading"><div><p class="eyebrow">Public application data</p><h2 id="private-data-title">Public review & application data</h2></div><span class="pill safe">Repository-safe</span></div><div id="private-owner-data" class="compact-list"></div></article>
   </section>
 
   <section id="operations" class="split-grid">
@@ -75,7 +77,8 @@
     <article class="panel" aria-labelledby="privacy-title"><div class="section-heading"><div><p class="eyebrow">Safety boundary</p><h2 id="privacy-title">Privacy & exposure</h2></div></div><div id="privacy" class="compact-list"></div></article>
   </section>
 </main>
-<footer><span>Private Command Center source · target Site identifier <strong>npccs</strong></span><span id="footer-meta">Durable snapshot loading…</span></footer>
+<footer><span>Public Command Center · target Site identifier <strong>npccs</strong></span><span id="footer-meta">Durable snapshot loading…</span></footer>
 <script src="cc.js" defer></script>
+<script src="explorer.js" defer></script>
 </body>
 </html>

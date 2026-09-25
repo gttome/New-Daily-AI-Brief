@@ -94,7 +94,7 @@ class ValidationRoutingTests(unittest.TestCase):
             )
             self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
             selection = json.loads(output.read_text(encoding="utf-8"))
-            self.assertEqual(selection["development_suites"], ["command-center"])
+            self.assertEqual(selection["development_suites"], ["command-center", "command-center-runtime", "command-center-v2"])
             self.assertEqual(selection["integration_suites"], ["command-center-integration"])
             self.assertFalse(selection["full_system_validation_requested"])
 
