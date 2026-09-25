@@ -74,6 +74,15 @@ class ValidationRoutingTests(unittest.TestCase):
             ["python-comprehensive", "reader-comprehensive", "command-center-comprehensive"],
         )
 
+    def test_reader_preview_is_change_impact_gated(self):
+        text = (ROOT / ".github" / "workflows" / "deploy-iteration32-test.yml").read_text(encoding="utf-8")
+        self.assertIn("Determine reader-preview change scope", text)
+        self.assertIn("select_validation.py", text)
+        self.assertIn("needs: scope", text)
+        self.assertIn("needs.scope.outputs.should_run == 'true'", text)
+        self.assertIn('"reader-runtime"', text)
+        self.assertIn('"reader-history"', text)
+
     def test_selector_cli_emits_bounded_scope(self):
         with tempfile.TemporaryDirectory() as td:
             changed = Path(td) / "changed-files.txt"
