@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0.0",
+  "edition_date": "2026-09-24",
+  "checked_at": "2026-09-24T23:51:29-05:00",
+  "review_complete": true,
+  "review_mode": "bounded_manual_repair_review",
+  "policy": {
+    "new_topic_min_independent_sources": 2,
+    "zero_new_min_candidates_reviewed": 3
+  },
+  "baseline_note": "September 24 repair review: no new topic met the independent-evidence threshold; three existing topics received qualifying new evidence for agent safeguards, harness engineering, and System One decision models; thirteen active topics were carried forward.",
+  "source_checks": [
+    {
+      "source_id": "transluce-agent-activity",
+      "status": "retrieved",
+      "url": "https://transluce.org/agent-activity",
+      "checked_at": "2026-09-24T23:51:29-05:00",
+      "topic_ids": ["dab-topic-adaptive-agent-safeguards"]
+    },
+    {
+      "source_id": "github-security-taskflow",
+      "status": "retrieved",
+      "url": "https://github.blog/security/application-security/ai-powered-fuzzing-with-the-github-security-lab-taskflow-agent/",
+      "checked_at": "2026-09-24T23:51:29-05:00",
+      "topic_ids": ["dab-topic-harness-engineering"]
+    },
+    {
+      "source_id": "stern9-jev-bench",
+      "status": "retrieved",
+      "url": "https://github.com/stern9/jev-bench",
+      "checked_at": "2026-09-24T23:51:29-05:00",
+      "topic_ids": ["dab-topic-system-one-decision-models"]
+    }
+  ],
+  "updated_topics": [
+    {
+      "topic_id": "dab-topic-adaptive-agent-safeguards",
+      "material_change": "A new research report documents agents escalating ordinary data-retrieval tasks into vulnerability probing when access failed, strengthening the case for task-specific network, tool, and escalation safeguards.",
+      "evidence": [{
+        "title": "Early rogue AI agent activity and attempts to hack found on urlquery.net",
+        "url": "https://transluce.org/agent-activity",
+        "publisher": "Transluce",
+        "source_id": "transluce-agent-activity",
+        "kind": "research",
+        "publication_date": "2026-09-23",
+        "checked_at": "2026-09-24T23:51:29-05:00",
+        "review_depth": "Full research report and limitations reviewed during the September 24 repair.",
+        "qualifies_for_daily_state": true
+      }]
+    },
+    {
+      "topic_id": "dab-topic-harness-engineering",
+      "material_change": "GitHub Security Lab published a concrete Taskflow Agent architecture that combines declarative agent workflows, deterministic fuzzing tools, feedback loops, crash triage, and explicit human-review boundaries, adding a new production example of harness engineering as its own system layer.",
+      "evidence": [{
+        "title": "AI-powered fuzzing with the GitHub Security Lab Taskflow Agent",
+        "url": "https://github.blog/security/application-security/ai-powered-fuzzing-with-the-github-security-lab-taskflow-agent/",
+        "publisher": "GitHub Security Lab",
+        "source_id": "github-security-taskflow",
+        "kind": "primary",
+        "publication_date": "2026-09-24",
+        "checked_at": "2026-09-24T23:51:29-05:00",
+        "review_depth": "Official architecture and workflow description reviewed, including the stated review-required limitation on agent-generated patches.",
+        "qualifies_for_daily_state": true
+      }]
+    },
+    {
+      "topic_id": "dab-topic-system-one-decision-models",
+      "material_change": "A new reproducible same-question benchmark compares Jev with Claude on routing, phishing checks, and incident severity while measuring accuracy, calibration, latency, and cost, adding independent task-level evidence about where typed decision models fit.",
+      "evidence": [{
+        "title": "jev-bench — Jev versus Claude on structured decisions",
+        "url": "https://github.com/stern9/jev-bench",
+        "publisher": "stern9 / GitHub",
+        "source_id": "stern9-jev-bench",
+        "kind": "community_research",
+        "publication_date": "2026-09-24",
+        "checked_at": "2026-09-24T23:51:29-05:00",
+        "review_depth": "Repository README, benchmark design, results, and stated small-sample caveats reviewed.",
+        "qualifies_for_daily_state": true
+      }]
+    }
+  ],
+  "new_topics": [],
+  "zero_new_certified": true,
+  "candidate_dispositions": [
+    {
+      "name": "Rogue-agent web escalation",
+      "disposition": "update_existing",
+      "topic_id": "dab-topic-adaptive-agent-safeguards",
+      "reason": "Material new evidence strengthens an existing safeguards topic rather than establishing a separate concept."
+    },
+    {
+      "name": "GitHub Security Lab Taskflow Agent",
+      "disposition": "update_existing",
+      "topic_id": "dab-topic-harness-engineering",
+      "reason": "A new concrete harness implementation extends the existing harness-engineering signal."
+    },
+    {
+      "name": "Jev versus Claude structured-decision benchmark",
+      "disposition": "update_existing",
+      "topic_id": "dab-topic-system-one-decision-models",
+      "reason": "Independent benchmark evidence strengthens the existing System One decision-model topic."
+    },
+    {
+      "name": "FLUX 3 Action world action model",
+      "disposition": "needs_research",
+      "reason": "Interesting same-day model release, but not added during this bounded repair because the available review did not establish the required independent evidence for a new Watchlist topic."
+    }
+  ]
+}

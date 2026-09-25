@@ -280,6 +280,34 @@ jobs:
             --state-root ".state/manual" \
             --editorial-only
 
+      - name: Resolve prior reader-bound Watchlist baseline
+        if: steps.mode.outputs.mode == 'live_editorial' && steps.checkpoint.outputs.stage != 'build'
+        run: |
+          PYTHONPATH=src python scripts/fetch_live_watchlist_baseline.py \
+            --edition-date "${{ steps.event.outputs.edition_date }}" \
+            --fallback legacy_snapshot/_data/watchlist.json \
+            --output ".runtime-inputs/${{ steps.event.outputs.edition_date }}/watchlist-baseline.json"
+
+      - name: Discover current Watchlist sources
+        if: steps.mode.outputs.mode == 'live_editorial' && steps.checkpoint.outputs.stage != 'build'
+        shell: bash
+        run: |
+          set -euo pipefail
+          pushd .live-discovery-adapter >/dev/null
+          export DAB_DISCOVERY_FRESH=1
+          node _tools/discover-watchlist.mjs --full-sweep
+          popd >/dev/null
+
+      - name: Qualify current Watchlist evidence
+        if: steps.mode.outputs.mode == 'live_editorial' && steps.checkpoint.outputs.stage != 'build'
+        run: |
+          PYTHONPATH=src python scripts/prepare_live_watchlist_review.py \
+            --edition-date "${{ steps.event.outputs.edition_date }}" \
+            --baseline-json ".runtime-inputs/${{ steps.event.outputs.edition_date }}/watchlist-baseline.json" \
+            --discovery-json .live-discovery-adapter/_data/watchlist-discoveries.json \
+            --source-registry-json .live-discovery-adapter/_data/watchlist-sources.json \
+            --output ".runtime-inputs/${{ steps.event.outputs.edition_date }}/watchlist-review.json"
+
       - name: Discover and verify live videos and podcasts
         if: steps.mode.outputs.mode == 'live_editorial' && steps.checkpoint.outputs.stage != 'build'
         shell: bash
@@ -306,7 +334,9 @@ jobs:
             --input-root ".runtime-inputs/${{ steps.event.outputs.edition_date }}" \
             --state-root ".state/manual" \
             --media-json ".runtime-inputs/${{ steps.event.outputs.edition_date }}/live-media.json" \
-            --legacy-root legacy_snapshot
+            --legacy-root legacy_snapshot \
+            --watchlist-baseline-json ".runtime-inputs/${{ steps.event.outputs.edition_date }}/watchlist-baseline.json" \
+            --watchlist-review-json ".runtime-inputs/${{ steps.event.outputs.edition_date }}/watchlist-review.json"
 
       - name: Lock canonical Building stage
         if: steps.mode.outputs.mode == 'live_editorial' && steps.checkpoint.outputs.stage != 'build'
@@ -342,7 +372,7 @@ jobs:
           set -euo pipefail
           rm -rf .runtime-source .publication-stage .runtime-site
           cp -a legacy_snapshot .runtime-source
-          python scripts/build_live_edition.py \
+          PYTHONPATH=src python scripts/build_live_edition.py \
             --edition-date "${{ steps.event.outputs.edition_date }}" \
             --input-root ".runtime-inputs/${{ steps.event.outputs.edition_date }}" \
             --state-root ".state/manual" \
@@ -373,10 +403,11 @@ jobs:
             --site-url https://ndaib.gtome.chatgpt.site \
             --greenfield-sha "$GITHUB_SHA" \
             --live-edition-date "${{ steps.event.outputs.edition_date }}"
-          python scripts/validate_live_reader_candidate.py \
+          PYTHONPATH=src python scripts/validate_live_reader_candidate.py \
             --site-root .runtime-site \
             --edition-json ".runtime-source/_data/editions/${{ steps.event.outputs.edition_date }}.json" \
             --edition-date "${{ steps.event.outputs.edition_date }}" \
+            --canonical-watchlist-json ".state/manual/${{ steps.event.outputs.edition_date }}__production/watchlist.json" \
             --target-url https://ndaib.gtome.chatgpt.site
 
       - name: Manual run summary

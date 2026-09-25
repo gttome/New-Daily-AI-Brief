@@ -1,0 +1,212 @@
+name: Repair September 24 Watchlist
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "evidence/watchlist/2026-09-24-review.json"
+      - "src/new_daily_ai_brief/watchlist_live.py"
+      - "scripts/repair_locked_watchlist.py"
+      - "scripts/prepare_watchlist_repair_inputs.py"
+      - ".github/workflows/repair-sep24-watchlist.yml"
+
+permissions:
+  contents: read
+  actions: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: repair-sep24-watchlist
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    outputs:
+      repaired_watchlist_digest: ${{ steps.receipt.outputs.digest }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
+      - name: Install bounded reader dependencies
+        run: gem install jekyll jekyll-theme-cayman webrick --no-document
+
+      - name: Download successful September 24 canonical artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: canonical-run-2026-09-24
+          repository: gttome/New-Daily-AI-Brief
+          run-id: 36051784007
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: .repair-artifact
+
+      - name: Verify preserved September 24 checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .repair-artifact/.state/manual/2026-09-24__production/edition.json
+          test -f .repair-artifact/.state/manual/2026-09-24__production/media.json
+          test -f .repair-artifact/.state/manual/2026-09-24__production/watchlist.json
+          test -f .repair-artifact/.runtime-inputs/2026-09-24/live-media.json
+          test -f .repair-artifact/.runtime-inputs/2026-09-24/editorial/source-catalog.json
+          test -f approved-images/2026-09-24/approved-image-manifest.json
+
+      - name: Prepare corrected Watchlist inputs only
+        run: |
+          PYTHONPATH=src python scripts/prepare_watchlist_repair_inputs.py \
+            --edition-date 2026-09-24 \
+            --baseline-json legacy_snapshot/_data/watchlist.json \
+            --review-json evidence/watchlist/2026-09-24-review.json \
+            --build-root .repair-artifact/.runtime-inputs/2026-09-24/build
+
+      - name: Repair only the locked canonical Watchlist
+        run: |
+          PYTHONPATH=src python scripts/repair_locked_watchlist.py \
+            --edition-date 2026-09-24 \
+            --state-root .repair-artifact/.state/manual \
+            --build-root .repair-artifact/.runtime-inputs/2026-09-24/build \
+            --receipt .repair-artifact/watchlist-repair-receipt.json
+
+      - name: Capture repaired Watchlist identity
+        id: receipt
+        shell: bash
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          p=json.load(open(".repair-artifact/watchlist-repair-receipt.json",encoding="utf-8"))
+          print("digest="+p["repaired_watchlist_digest"])
+          assert p["counts"] == {"new_today": 0, "updated_today": 3, "carried_forward": 13}, p
+          assert p["stories_images_videos_podcasts_redone"] is False
+          PY
+
+      - name: Reassemble only affected live reader output
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .repair-runtime-source .repair-publication-stage .repair-runtime-site .repair-preview-site
+          cp -a legacy_snapshot .repair-runtime-source
+          python scripts/patch_publication_adapter.py --adapter-root .repair-runtime-source
+          PYTHONPATH=src python scripts/build_live_edition.py \
+            --edition-date 2026-09-24 \
+            --input-root .repair-artifact/.runtime-inputs/2026-09-24 \
+            --state-root .repair-artifact/.state/manual \
+            --runtime-root .repair-runtime-source \
+            --approved-image-manifest approved-images/2026-09-24/approved-image-manifest.json \
+            --approved-image-root .
+          observed="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          node .repair-runtime-source/_generator/cli.mjs generate \
+            --root .repair-runtime-source \
+            --edition .repair-runtime-source/_data/editions/2026-09-24.json \
+            --out .repair-publication-stage \
+            --baseline-sha "$GITHUB_SHA" \
+            --observed-at "$observed" \
+            --run-id greenfield-watchlist-repair-2026-09-24 \
+            --image-review _records/image-quality/2026-09-24-greenfield-handoff.json
+          cp -a .repair-publication-stage/. .repair-runtime-source/
+
+      - name: Build and validate Site-ready repaired reader
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/build_reader_bundle.py \
+            --legacy-root .repair-runtime-source \
+            --destination .repair-runtime-site \
+            --config migration/ndaib-jekyll.yml \
+            --site-url https://ndaib.gtome.chatgpt.site \
+            --greenfield-sha "$GITHUB_SHA" \
+            --live-edition-date 2026-09-24
+          PYTHONPATH=src python scripts/validate_live_reader_candidate.py \
+            --site-root .repair-runtime-site \
+            --edition-json .repair-runtime-source/_data/editions/2026-09-24.json \
+            --edition-date 2026-09-24 \
+            --canonical-watchlist-json .repair-artifact/.state/manual/2026-09-24__production/watchlist.json \
+            --target-url https://ndaib.gtome.chatgpt.site
+
+      - name: Build and validate engineering preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/build_reader_bundle.py \
+            --legacy-root .repair-runtime-source \
+            --destination .repair-preview-site \
+            --config migration/github-pages-preview.yml \
+            --site-url https://gttome.github.io/New-Daily-AI-Brief \
+            --base-path New-Daily-AI-Brief \
+            --greenfield-sha "$GITHUB_SHA" \
+            --live-edition-date 2026-09-24
+          PYTHONPATH=src python scripts/validate_live_reader_candidate.py \
+            --site-root .repair-preview-site \
+            --edition-json .repair-runtime-source/_data/editions/2026-09-24.json \
+            --edition-date 2026-09-24 \
+            --canonical-watchlist-json .repair-artifact/.state/manual/2026-09-24__production/watchlist.json \
+            --target-url https://gttome.github.io/New-Daily-AI-Brief
+
+      - name: Upload repaired publication package
+        uses: actions/upload-artifact@v4
+        with:
+          name: ndaib-sep24-watchlist-repair-${{ github.sha }}
+          path: |
+            .repair-artifact/watchlist-repair-receipt.json
+            .repair-artifact/.state/manual/2026-09-24__production/watchlist.json
+            .repair-runtime-source/_data/watchlist.json
+            .repair-runtime-source/data/watchlist.json
+            .repair-runtime-site
+            .repair-runtime-site.runtime
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload repaired preview
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .repair-preview-site
+
+  deploy-preview:
+    needs: repair
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy repaired September 24 preview
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Verify live repaired Watchlist
+        shell: bash
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          base="${PAGE_URL%/}/"
+          json="$(curl --fail --silent --show-error --location --retry 12 --retry-all-errors --retry-delay 5 "${base}data/watchlist.json")"
+          python - "$json" <<'PY'
+          import json,sys
+          p=json.loads(sys.argv[1])
+          assert p["edition_date"]=="2026-09-24", p
+          assert p["counts"]=={"new_today":0,"updated_today":3,"carried_forward":13}, p
+          assert p["canonical_watchlist_digest"].startswith("sha256:"), p
+          PY
+          html="$(curl --fail --silent --show-error --location --retry 12 --retry-all-errors --retry-delay 5 "${base}watchlist/")"
+          grep -q 'data-watchlist-contract="greenfield-watchlist-v1"' <<<"$html"

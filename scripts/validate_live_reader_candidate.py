@@ -6,6 +6,8 @@ import json
 import re
 from pathlib import Path
 
+from new_daily_ai_brief.watchlist_live import validate_public_watchlist
+
 FORBIDDEN_READER_TEXT = (
     "GREENFIELD TEST",
     "PRE-CUTOVER",
@@ -37,6 +39,7 @@ def main() -> int:
     ap.add_argument("--edition-json", required=True)
     ap.add_argument("--edition-date", required=True)
     ap.add_argument("--target-url", default="https://ndaib.gtome.chatgpt.site")
+    ap.add_argument("--canonical-watchlist-json", required=True)
     args = ap.parse_args()
 
     root = Path(args.site_root)
@@ -78,6 +81,22 @@ def main() -> int:
         fail("live edition media sections are incomplete")
     if "Add a comment" not in dated and "comments.js" not in dated:
         fail("live edition comment control is not wired")
+
+    watchlist_path = root / "data" / "watchlist.json"
+    if not watchlist_path.exists():
+        fail("current reader Watchlist data is missing")
+    watchlist = json.loads(read(watchlist_path))
+    canonical_watchlist = json.loads(Path(args.canonical_watchlist_json).read_text(encoding="utf-8"))
+    try:
+        counts = validate_public_watchlist(watchlist, canonical_watchlist, date)
+    except ValueError as exc:
+        fail(str(exc))
+    watchlist_page = read(root / "watchlist/index.html")
+    if 'data-watchlist-contract="greenfield-watchlist-v1"' not in watchlist_page:
+        fail("current Watchlist route is not using the greenfield-owned presentation contract")
+    summary_token = f'{counts["new_today"]}-new-{counts["updated_today"]}-updated-{counts["carried_forward"]}-carried'
+    if f'data-watchlist-summary="{summary_token}"' not in home:
+        fail("homepage Watchlist summary is not bound to the canonical Watchlist counts")
 
     for story in edition["stories"]:
         route = root / story["permanent_url"].strip("/") / "index.html"
@@ -135,6 +154,8 @@ def main() -> int:
         "video_count": 2,
         "podcast_count": 2,
         "historical_cutoff": "2026-09-23",
+        "watchlist_counts": counts,
+        "watchlist_digest": canonical_watchlist.get("content_digest"),
         "target_url": args.target_url,
         "critical_defects": 0,
         "high_defects": 0,

@@ -8,6 +8,8 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
+from new_daily_ai_brief.watchlist_live import prepare_watchlist_inputs
+
 AGENTS = "agents_non_technical_people"
 APPLIED = "applied_genai_knowledge_workers"
 TECHNICAL = "technical_ai_engineering"
@@ -100,60 +102,13 @@ def prepare_media(media: dict[str, Any], out: Path) -> dict[str, Any]:
     return {"videos": videos, "podcasts": podcasts, "catalog_items": items}
 
 
-def prepare_watchlist(edition_date: str, editorial: dict[str, Any], legacy_root: Path, out: Path) -> dict[str, Any]:
-    source = load(legacy_root / "_data" / "watchlist.json")
-    candidates = editorial.get("candidates") or []
-    story_terms = set().union(*(words(story_text(x)) for x in candidates)) if candidates else set()
-    topics = []
-    updated_ids: list[str] = []
-    new_ids: list[str] = []
-
-    for topic in source.get("topics", []):
-        first_raw = str(topic.get("first_detected") or topic.get("first_seen") or edition_date)
-        changed_raw = str(topic.get("updated_at") or topic.get("last_changed") or first_raw)
-        first_seen = first_raw[:10]
-        last_changed = changed_raw[:10]
-        topic_terms = words(" ".join(str(topic.get(k, "")) for k in ("name", "summary", "why_now", "practical_value")))
-        overlap = sorted(story_terms & topic_terms)
-        strong_overlap = len(overlap) >= 2 or any(
-            term in overlap for term in ("skills", "agentic", "observability", "evaluation", "governance", "context", "inference", "model")
-        )
-        if strong_overlap and last_changed < edition_date:
-            last_changed = edition_date
-            updated_ids.append(topic["topic_id"])
-        if first_seen == edition_date:
-            new_ids.append(topic["topic_id"])
-        topics.append({
-            "topic_id": topic["topic_id"],
-            "title": topic.get("name") or topic["topic_id"],
-            "summary": topic.get("summary") or topic.get("why_now") or "Carried forward from the verified Emerging AI Watchlist.",
-            "first_seen": first_seen,
-            "last_changed": last_changed,
-            "active": topic.get("status") not in {"retired", "inactive"},
-            "live_overlap_terms": overlap[:12],
-        })
-
-    if not topics:
-        raise SystemExit("legacy Watchlist contains no topics to carry forward")
-    dump(out / "watchlist-registry.json", {
-        "schema_version": "1.0.0",
-        "sources": [{
-            "source_id": "verified-watchlist-carry-forward",
-            "priority": 10,
-            "topic_ids": [x["topic_id"] for x in topics],
-        }],
-    })
-    dump(out / "watchlist-catalog.json", {"schema_version": "1.0.0", "topics": topics})
-    return {
-        "source_edition_date": source.get("edition_date"),
-        "topic_count": len(topics),
-        "new_today": new_ids,
-        "updated_today": updated_ids,
-        "carried_forward": [x["topic_id"] for x in topics if x["topic_id"] not in set(new_ids + updated_ids)],
-        "method": "verified_prior_watchlist_plus_conservative_story_overlap_updates",
-        "new_topic_creation": "disabled_without_independent_multi-source_threshold_evidence",
-    }
-
+def prepare_watchlist(edition_date: str, baseline_path: Path, review_path: Path, out: Path) -> dict[str, Any]:
+    prior = load(baseline_path)
+    review = load(review_path)
+    registry, catalog, manifest = prepare_watchlist_inputs(edition_date, prior, review)
+    dump(out / "watchlist-registry.json", registry)
+    dump(out / "watchlist-catalog.json", catalog)
+    return manifest
 
 def bridge_rule(candidate: dict[str, Any], index: int) -> dict[str, Any] | None:
     text = story_text(candidate).lower()
@@ -281,6 +236,8 @@ def main() -> int:
     ap.add_argument("--state-root", required=True)
     ap.add_argument("--media-json", required=True)
     ap.add_argument("--legacy-root", default="legacy_snapshot")
+    ap.add_argument("--watchlist-baseline-json", default="")
+    ap.add_argument("--watchlist-review-json", default="")
     args = ap.parse_args()
 
     edition_date = args.edition_date
@@ -305,7 +262,9 @@ def main() -> int:
     build = root / "build"
 
     media_result = prepare_media(media, build)
-    watchlist_result = prepare_watchlist(edition_date, selected_editorial, Path(args.legacy_root), build)
+    baseline_path = Path(args.watchlist_baseline_json) if args.watchlist_baseline_json else Path(args.legacy_root) / "_data" / "watchlist.json"
+    review_path = Path(args.watchlist_review_json) if args.watchlist_review_json else root / "watchlist-review.json"
+    watchlist_result = prepare_watchlist(edition_date, baseline_path, review_path, build)
     bridge_result = prepare_bridges(selected_editorial, build)
     image_request = prepare_image_request(edition_date, selected_editorial, root)
 
