@@ -29,17 +29,17 @@ class Iteration32AccessTests(unittest.TestCase):
             self.assertIn('name="viewport"', (SITE/name).read_text())
         self.assertRegex(css, r"@media\(max-width:720px\)")
 
-    def test_command_center_is_full_private_source_and_safe(self):
+    def test_command_center_public_operations_and_reader_isolation_are_safe(self):
         page=(SITE/"command-center"/"index.html").read_text()
         cc=(SITE/"command-center"/"cc.js").read_text()
         state=__import__("json").loads((SITE/"command-center"/"state.json").read_text())
-        self.assertIn("PRIVATE OPERATIONS", page)
+        self.assertIn("PUBLIC OPERATIONS", page)
         self.assertIn("noindex,nofollow,noarchive", page)
         self.assertNotIn("crypto.subtle.decrypt", cc)
         self.assertNotIn("AES-GCM", cc)
         self.assertNotIn("location.hash", cc)
         self.assertIn("state.json", cc)
-        self.assertEqual(state["privacy"]["surface"], "private-owner-only")
+        self.assertEqual(state["privacy"]["surface"], "public-command-center")
         self.assertFalse(state["privacy"]["public_reader_exposure"])
         self.assertFalse(state["command_center_site"]["public_pages_deployment_allowed"])
         self.assertFalse(state["schedules"]["creation_permitted"])
