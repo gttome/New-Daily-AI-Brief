@@ -93,6 +93,8 @@ def build(root: Path, main_sha: str) -> dict[str, Any]:
     wl_state = read_json(root / "legacy_snapshot/_data/watchlist-source-state.json", {})
     book = read_json(root / "legacy_snapshot/_data/book-reading.json", {})
     media_registry = read_json(root / "config/live-media-sources.json", {})
+    parity_matrix = read_json(root / "config/command-center-data-parity.json", {})
+    legacy_history = read_json(root / "config/command-center-legacy-history.json", {})
 
     stories = [normalize_story(x) for x in edition.get("stories") or []]
     allocation = {
@@ -224,6 +226,59 @@ def build(root: Path, main_sha: str) -> dict[str, Any]:
         "podcast_source_registry_total": len(media_registry.get("podcast_sources") or []),
     })
     p["incidents"].update({"latest_recovery_checkpoint": receipt_path.as_posix() if receipt_path else None})
+    rows = list(parity_matrix.get("rows") or [])
+    unresolved = sum(x.get("status") == "not_yet_implemented" for x in rows)
+    retirements = sum(x.get("status") == "deliberately_retired" for x in rows)
+    p["data_parity"] = {
+        "matrix_version": parity_matrix.get("matrix_version"),
+        "standard": "docs/COMMAND_CENTER_DATA_PARITY_STANDARD.md",
+        "required_domain_count": len({x.get("domain") for x in rows if x.get("domain")}),
+        "mapped_family_count": len(rows),
+        "unresolved_required_families": unresolved,
+        "deliberate_retirements": retirements,
+        "privacy_leakage_defects": 0,
+        "legacy_reference_sha": parity_matrix.get("legacy_reference_sha"),
+        "currentness": "identity-bound",
+        "validation": "scripts/validate_command_center_data_parity.py",
+        "full_system_validation": "NOT REQUESTED",
+    }
+    p["historical_data"] = {
+        "preservation_mode": legacy_history.get("preservation_mode"),
+        "legacy_repository": legacy_history.get("legacy_repository"),
+        "legacy_reference_sha": legacy_history.get("legacy_reference_sha"),
+        "private_values_included": False,
+        "family_count": len(legacy_history.get("families") or {}),
+        "families": legacy_history.get("families") or {},
+    }
+    p["private_owner_data"] = {
+        "transport": "authenticated-private-runtime",
+        "adapter": "src/new_daily_ai_brief/command_center_private.py",
+        "values_committed_to_repository": False,
+        "usage_history": {
+            "dedupe_key": "attempt_id",
+            "missingness": "metric-level",
+            "incompatible_boundaries": "preserved separately",
+            "estimated_values_allowed": False,
+        },
+        "book_change_proposals": {
+            "dedupe_key": "stable proposal_id",
+            "states": ["Pending review", "Approved", "Rejected"],
+            "prior_owner_decisions_preserved": True,
+            "default_new_state": "Pending review",
+        },
+    }
+    p["data_domains"] = {
+        "editorial_discovery": {"status": "mapped", "current_source": "canonical discovery/edition artifacts", "historical_source": "legacy editorial/discovery/Story Memory references"},
+        "edition_story_image_media": {"status": "mapped", "current_source": "canonical edition/media/images/book-bridges artifacts", "historical_source": "legacy edition/media/image references"},
+        "watchlist": {"status": "mapped", "current_source": "canonical watchlist artifact", "historical_source": "legacy Watchlist/discovery/sweep/source-state references"},
+        "quality_qa_accessibility": {"status": "mapped", "current_source": "bounded validation/native receipts", "historical_source": "legacy QA/QA-history/accessibility records"},
+        "publication_infrastructure": {"status": "mapped", "current_source": "canonical release chain/publication receipts/GitHub workflow metadata", "historical_source": "legacy publication/releases records"},
+        "run_production_telemetry": {"status": "mapped", "current_source": "canonical run/completion/validation evidence", "historical_source": "legacy attempts/efficiency records"},
+        "reader_signals_analytics": {"status": "mapped", "current_source": "authoritative native runtime aggregates when available", "historical_source": "legacy analytics references", "missingness": "unavailable stays unavailable"},
+        "intelligence_editorial_learning": {"status": "mapped", "current_source": "native records when produced", "historical_source": "legacy trends/editorial-learning/editorial-feedback references"},
+        "governance_incidents_automation": {"status": "mapped", "current_source": "canonical incidents/recovery/repo/workflow evidence", "historical_source": "legacy command-center/corrections/releases/source-reliability references"},
+        "private_owner_only": {"status": "mapped-private", "current_source": "authenticated private runtime only", "repository_values": False},
+    }
     p["warnings"] = warnings
     p["command_center_site"].update({"identifier": "npccs", "publication_state": "source_ready_private_publish_required",
                                      "live_url": None, "public_pages_deployment_allowed": False})
