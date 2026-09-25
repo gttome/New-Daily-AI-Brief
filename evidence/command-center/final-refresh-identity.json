@@ -1,0 +1,95 @@
+{
+  "identity": {
+    "selected_edition": "2026-09-24",
+    "published_edition": "2026-09-24",
+    "source_sha": "ffae7b31e3cd7f86428ab4811245cabe0eed7a9c",
+    "repository_sha": null,
+    "status": "edition_match",
+    "reason": null,
+    "repository_advanced": false,
+    "canonical_workflow_run": "36051784007",
+    "canonical_source_sha": "4a0faf7bc3637bab7d27ee95bfa0dc542e0f958c",
+    "artifact_digest": "sha256:24463a8356510dc5036376ff05b3c113d79701cc6b8c03f20edf277c8dcc4a2e",
+    "publication_item_count_agreement": true,
+    "publication_content_agreement": true
+  },
+  "persistence": {
+    "id": "cc-snapshot:2026-09-24:ddc56f98454ea52c66f530563d923723044605e3494303ca3e1d77becef7e9fb",
+    "read_back": true
+  },
+  "errors": [
+    "ci",
+    "manual",
+    "parity",
+    "branch",
+    "dataParity"
+  ],
+  "source_errors": {
+    "ci": "Source HTTP 403",
+    "manual": "Source HTTP 403",
+    "parity": "Source HTTP 403",
+    "branch": "Source HTTP 403",
+    "dataParity": "Source HTTP 403"
+  },
+  "latest_attempted_run": null,
+  "reader_health": [
+    {
+      "url": "https://ndaib.gtome.chatgpt.site/",
+      "status": 200,
+      "available": true,
+      "content_type": "text/html",
+      "latency_ms": 402,
+      "checked_at": "2026-09-25T04:57:06.370Z"
+    },
+    {
+      "url": "https://ndaib.gtome.chatgpt.site/briefs/2026-09-24/",
+      "status": 200,
+      "available": true,
+      "content_type": "text/html",
+      "latency_ms": 653,
+      "checked_at": "2026-09-25T04:57:06.621Z"
+    },
+    {
+      "url": "https://ndaib.gtome.chatgpt.site/briefs-archive/",
+      "status": 200,
+      "available": true,
+      "content_type": "text/html",
+      "latency_ms": 1713,
+      "checked_at": "2026-09-25T04:57:07.681Z"
+    },
+    {
+      "url": "https://ndaib.gtome.chatgpt.site/feed.json",
+      "status": 200,
+      "available": true,
+      "content_type": "application/json",
+      "latency_ms": 907,
+      "checked_at": "2026-09-25T04:57:06.875Z"
+    },
+    {
+      "url": "https://ndaib.gtome.chatgpt.site/feed.xml",
+      "status": 200,
+      "available": true,
+      "content_type": "text/xml",
+      "latency_ms": 753,
+      "checked_at": "2026-09-25T04:57:06.721Z"
+    },
+    {
+      "url": "https://ndaib.gtome.chatgpt.site/daily-feed.xml",
+      "status": 200,
+      "available": true,
+      "content_type": "text/xml",
+      "latency_ms": 641,
+      "checked_at": "2026-09-25T04:57:06.609Z"
+    },
+    {
+      "url": "https://ndaib.gtome.chatgpt.site/watchlist/",
+      "status": 200,
+      "available": true,
+      "content_type": "text/html",
+      "latency_ms": 435,
+      "checked_at": "2026-09-25T04:57:06.403Z"
+    }
+  ],
+  "anonymous": true,
+  "http_status": 200
+}

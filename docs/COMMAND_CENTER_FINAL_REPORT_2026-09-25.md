@@ -7,10 +7,10 @@
 - Initial implementation commit: `5b094f02bd65dad28819a58b5d16824ce6bb6fe0`. Follow-up verification changes are recorded in the commit containing this report; the delivered report records the final exact SHA.
 - No PR or merge was used; authorized changes were fast-forwarded to main.
 - Prior npccs version: **5**, source `3a20629262b8e581c11aeab818f3bce7ae7b18f3`.
-- New npccs version: **9**, source `8071779c62404fbfc6ab094a407724c17aa600f4`.
-- New version ID: `appgprj_6ab08a3a6c808191bfeea0371244ee57~appgver_cef54b7ed5ac81919e6ff8bb9f34159f`.
-- Deployment: `appgdep_6ab5fd1bc7b08191bf8093caa7fa4466`, succeeded at `2026-09-25T04:48:34.900514+00:00`.
-- Archive SHA-256: `9185d40f4671e340a45e59f9b1e5e37ab6600d2833871bfe2920987663187224`.
+- New npccs version: **10**, source `04ef52bdc64cbf2e9475c015441ed0759f7fdffa`.
+- New version ID: `appgprj_6ab08a3a6c808191bfeea0371244ee57~appgver_909f7c8b3c588191b7edcbfe43cfd696`.
+- Deployment: `appgdep_6ab5fef9ea1081919cd332abc1c04450`, succeeded at `2026-09-25T04:56:32.578315+00:00`.
+- Archive SHA-256: `976c3addbaa8475ee905b597faa47894dee219af30e6952bbd1215a3d445131f`.
 - Public anonymous access: **PASS**. Native access mode public, revision 2. Anonymous HTML/assets/read APIs and an actual persisted public review were verified without cookies, bearer tokens or owner identity.
 
 ## Source reconciliation
@@ -166,3 +166,8 @@ Opening GitHub launch pages does not pre-authorize production actions or guarant
 - Re-deploy a previously saved native version; preserve D1 tables and append-only revision history. Do not drop storage to roll back UI code.
 - An emergency rollback to v5 must restore private access because that implementation predates the public safety model. Rolling back code does not undo public disclosure already made.
 - Correct reviews by a new explicit revision. Preserve migration receipts and source input digests; never overwrite historical decisions to conceal a correction.
+
+
+## Final provenance correction
+
+Version 10 derives the canonical run ID from the actual selected artifact URL when source records omit an explicit run field. The real-import regression test asserts run `36051784007`; all 20 tests pass. Public GitHub metadata may be rate-limited independently; the API reports each source failure rather than asserting a current SHA or CI result. The separately authenticated GitHub CI check remains valid evidence. Version 9 remains a rollback point at source `8071779c62404fbfc6ab094a407724c17aa600f4`.

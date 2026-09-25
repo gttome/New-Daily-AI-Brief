@@ -20,11 +20,11 @@
     "seed:cdf80a460eab2312f6fc93e8e274f97979ae23576ea0d2994626d19f312dfa72"
   ],
   "remaining": [
-    "13 partial functions itemized in final report; do not claim full parity",
-    "Final GitHub follow-up commit/CI verification"
+    "13 partial functions detailed in final report",
+    "Positive real Applied evidence and production-browser acceptance limits"
   ],
-  "checkpoint_at": "2026-09-25T04:51:57.689531+00:00",
-  "current_sha": "5b094f02bd65dad28819a58b5d16824ce6bb6fe0",
+  "checkpoint_at": "2026-09-25T04:57:00.463141+00:00",
+  "current_sha": "bba056345ff682897983f8b83b057974ac40fc58",
   "implementation": "Public runtime, D1 review/snapshot storage, immutable historical records, v2 migration, evidence explorer and live read adapters",
   "prepared_records": 2974,
   "migrations_completed": "Live D1:117 core records; ID/digest read-back117; seed replay idempotent",
@@ -47,7 +47,7 @@
     "site/command-center/test/public-runtime.mjs",
     "site/command-center/worker.mjs"
   ],
-  "sites_version": 9,
-  "sites_source": "8071779c62404fbfc6ab094a407724c17aa600f4",
+  "sites_version": 10,
+  "sites_source": "04ef52bdc64cbf2e9475c015441ed0759f7fdffa",
   "public": true
 }
