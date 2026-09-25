@@ -16,8 +16,66 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  scope:
     if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.scope.outputs.should_run }}
+    steps:
+      - name: Resolve source for scope
+        id: meta
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
+            echo "source_sha=${{ github.event.workflow_run.head_sha }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "source_sha=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.meta.outputs.source_sha }}
+          fetch-depth: 2
+          submodules: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Determine reader-preview change scope
+        id: scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          SOURCE="${{ steps.meta.outputs.source_sha }}"
+          PARENT="$(git rev-parse "$SOURCE^1")"
+          git diff --name-only "$PARENT" "$SOURCE" > changed-files.txt
+          python scripts/select_validation.py             --changed-file-list changed-files.txt             --output preview-validation-selection.json
+
+          SHOULD_RUN="$(python - <<'PY'
+          import json
+          selection=json.load(open("preview-validation-selection.json", encoding="utf-8"))
+          relevant={
+              "reader-runtime",
+              "reader-history",
+              "manual-publication",
+              "approved-images",
+              "publication-adapter",
+          }
+          print("true" if relevant.intersection(selection["direct_components"]) else "false")
+          PY
+          )"
+          echo "should_run=$SHOULD_RUN" >> "$GITHUB_OUTPUT"
+          echo "Reader preview required: $SHOULD_RUN"
+
+  build:
+    needs: scope
+    if: needs.scope.outputs.should_run == 'true'
     runs-on: ubuntu-latest
     outputs:
       source_sha: ${{ steps.meta.outputs.source_sha }}
